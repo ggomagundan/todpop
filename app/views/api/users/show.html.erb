@@ -1,0 +1,12 @@
+<% title "Api/User" %>
+
+<p>
+  <strong>Name:</strong>
+  <%= @user.name %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_api_user_path(@user) %> |
+  <%= link_to "Destroy", [:api, @user], :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", api_users_path %>
+</p>
