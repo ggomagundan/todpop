@@ -11,11 +11,42 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130823031500) do
+ActiveRecord::Schema.define(version: 20130823073726) do
 
   create_table "addresses", force: true do |t|
     t.string   "depth1"
     t.string   "depth2"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "advertise_logs", force: true do |t|
+    t.integer  "advertisement_id"
+    t.integer  "user_id"
+    t.integer  "view_time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "advertisements", force: true do |t|
+    t.integer  "kind"
+    t.string   "content1"
+    t.string   "content2"
+    t.string   "type"
+    t.integer  "count"
+    t.integer  "remain"
+    t.string   "local"
+    t.string   "interest"
+    t.integer  "sexual"
+    t.integer  "facebook"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "app_introduce_videos", force: true do |t|
+    t.string   "url"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

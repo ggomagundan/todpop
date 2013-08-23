@@ -21,7 +21,17 @@ Todpop::Application.routes.draw do
     
     end
 
-    get 'test', :action => 'test'
+    resources :advertises do
+
+      get 'get_ad', :on => :collection
+      get 'set_log', :on => :collection
+
+    end
+
+    get 'get_intro_movie'
+  
+
+  get 'test', :action => 'test'
   
   }
   

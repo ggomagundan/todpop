@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  ad_no: 1
+  mem_id: 1
+  time: 1
+
+two:
+  ad_no: 1
+  mem_id: 1
+  time: 1
