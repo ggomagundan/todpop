@@ -13,7 +13,11 @@ Todpop::Application.routes.draw do
       get 'check_email_exist', :on => :collection
       get 'check_recommend_exist', :on => :collection
       get 'check_nickname_exist', :on => :collection
+      
+      get 'address_list', :on => :collection
     end
+
+    get 'test', :action => 'test'
   
   }
   

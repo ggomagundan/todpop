@@ -16,6 +16,9 @@ class Api::UsersController < Api::ApplicationController
     @status = true
     @msg = ""
 
+    #inter = 1,2,3,4
+    #@value.split(",").map { |s| s.to_i }
+
     if !params[:email].present? && !params[:facebook].present?
       @status = false
       @msg = "not exist 이메"
@@ -114,6 +117,25 @@ class Api::UsersController < Api::ApplicationController
 
   end
 
+  def check_nickname_exist
+    @status = true
+    @msg = ""
+
+    if params[:nickname].present?
+      @status = true
+      @msg = ""
+      @result = true
+      if User.where(:nickname => params[:nickname]).present?
+        @result = false
+      end
+    else
+      @status = false
+      @msg = "not exist nickname prameter"
+    end
+  end
+
+  
+
 
   def check_mobile_exist
     @status = true
@@ -187,40 +209,11 @@ class Api::UsersController < Api::ApplicationController
     end
   end
 
-  def new
-  end
-
-  def create
-    @user = User.new(params[:user])
-    if @user.save
-      redirect_to [:api, @user], :notice => "Successfully created user."
-    else
-      render :action => 'new'
-    end
-  end
-
-  def edit
-    @user = User.find(params[:id])
-  end
-
-  def update
-    @user = User.find(params[:id])
-    if @user.update_attributes(params[:user])
-      redirect_to [:api, @user], :notice  => "Successfully updated user."
-    else
-      render :action => 'edit'
-    end
-  end
-
-  def destroy
-    @user = User.find(params[:id])
-    @user.destroy
-    redirect_to api_users_url, :notice => "Successfully destroyed user."
-  end
+  
 
   private
   def user_params
-    params.permit(:email, :facebook, :nickname, :recommend, :sex, :birth, :address, :mobile  )
+    params.permit(:email, :facebook, :nickname, :recommend, :sex, :birth, :address, :mobile, :interest )
   end
 
 end
