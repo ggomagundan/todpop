@@ -229,6 +229,26 @@ class Api::UsersController < Api::ApplicationController
     end
   end
 
+  def resign_up_info
+    @status = true
+    @msg = ""
+    
+    if !params[:mobile].present?
+      @status = false
+      @msg = "not exist mobile parameter"
+    else
+      @user = User.find_by_mobile(params[:mobile])   
+      if !@user.present?
+        @status = false
+        @msg = "not exist any users"
+      end
+    end
+  
+  end
+
+
+
+
   private
   def user_params
     params.permit(:email, :facebook, :nickname, :recommend, :sex, :birth, :address, :mobile, :interest )

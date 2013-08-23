@@ -8,6 +8,8 @@ Todpop::Application.routes.draw do
     resources :users do
       post 'sign_up', :on => :collection
       post 'sign_in', :on => :collection
+      get 'resign_up_info', :on => :collection
+
       get 'check_mobile_exist', :on => :collection
       get 'check_facebook_exist', :on => :collection
       get 'check_email_exist', :on => :collection
@@ -15,6 +17,8 @@ Todpop::Application.routes.draw do
       get 'check_nickname_exist', :on => :collection
       
       get 'address_list', :on => :collection
+
+    
     end
 
     get 'test', :action => 'test'
