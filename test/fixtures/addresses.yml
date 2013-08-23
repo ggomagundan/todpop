@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  depth1: MyString
+  depth2: MyString
+
+two:
+  depth1: MyString
+  depth2: MyString

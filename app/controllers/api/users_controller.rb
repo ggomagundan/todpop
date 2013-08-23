@@ -210,6 +210,24 @@ class Api::UsersController < Api::ApplicationController
   end
 
   
+  def address_list
+    @status = true
+    @msg = ""
+    if !params[:depth].present? || params[:depth] == "1"
+      @addr = Address.all.pluck(:depth1).uniq
+    elsif params[:depth].present? && params[:depth] == "2" 
+      if params[:s].present?
+        @addr = Address.where(:depth1 => params[:s])
+      else
+        @status = false
+        @msg = "not exist s parmeter"
+      end
+
+    else
+      @status = false
+      @msg = "not exist any parameter"
+    end
+  end
 
   private
   def user_params
