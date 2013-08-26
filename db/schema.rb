@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130823073726) do
+ActiveRecord::Schema.define(version: 20130826022509) do
 
   create_table "addresses", force: true do |t|
     t.string   "depth1"
@@ -66,6 +66,20 @@ ActiveRecord::Schema.define(version: 20130823073726) do
     t.integer  "level_test"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "words", force: true do |t|
+    t.string   "name",                   null: false
+    t.string   "mean",                   null: false
+    t.text     "example_en"
+    t.text     "example_ko"
+    t.string   "phonetics"
+    t.integer  "picture",    default: 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "level"
+    t.integer  "stage"
+    t.integer  "word_index"
   end
 
 end

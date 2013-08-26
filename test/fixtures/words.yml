@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  mean: MyString
+  example_en: MyText
+  example_ko: MyText
+  phonetics: MyString
+  picture: 1
+
+two:
+  name: MyString
+  mean: MyString
+  example_en: MyText
+  example_ko: MyText
+  phonetics: MyString
+  picture: 1
