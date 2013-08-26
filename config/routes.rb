@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 Todpop::Application.routes.draw do
   
+  resources :studies
   resources :users
 
   namespace(:api){ 
@@ -25,6 +26,14 @@ Todpop::Application.routes.draw do
 
       get 'get_ad', :on => :collection
       get 'set_log', :on => :collection
+
+    end
+  
+    resources :studies do
+      
+      get 'get_level_test_words', :on => :collection
+      get 'get_level_words', :on => :collection
+      get 'get_word_info', :on => :collection
 
     end
 

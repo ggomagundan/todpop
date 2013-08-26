@@ -1,0 +1,13 @@
+<% title "Api/Studies" %>
+
+<table>
+  <tr>
+    <th>Name</th>
+  </tr>
+  <% for study in @studies %>
+    <tr>
+      <td><%= study.name %></td>
+    </tr>
+  <% end %>
+</table>
+
