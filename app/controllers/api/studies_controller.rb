@@ -19,13 +19,20 @@ class Api::StudiesController < ApplicationController
     if @status == true
       if params[:stage] =='1'
         @level = 20
-        @c_word = Word.where(:level =>20, :stage => 1).order("RAND()").first
-        @wrong_word =  Word.where(:level => 20, :stage=> 1).where.not(:id=> @c_word.id).pluck(:mean).last(3)
+        @c_word = Level.where(:level =>20, :stage => 1).order("RAND()").first
+        @wrong_word = []
+        Level.where(:level => 20, :stage=> 1).where.not(:id=> @c_word.id).first(3).each do |w|
+          @wrong_word.push(w.word.mean) 
+        end
       else
-
         @level = level_word(params[:level], params[:ox])
-        @c_word = Word.where(:level => @level, :stage => @stage).order("RAND()").first
-        @wrong_word =  Word.where(:level => @level, :stage=> @stage).where.not(:id=> @c_word.id).pluck(:mean).last(3)
+        @c_word = Level.where(:level => @level, :stage => params[:stage]).order("RAND()").first
+        binding.pry
+        @wrong_word = []
+        Level.where(:level => @level, :stage=> params[:stage]).where.not(:id=> @c_word.id).first(3).each do |w|
+          @wrong_word.push(w.word.mean) 
+        end
+
 
       end
     end
@@ -82,8 +89,8 @@ class Api::StudiesController < ApplicationController
 
     if cur_level < 1 
       cur_level = 1
-    elsif cur_level > 180
-      cur_level = 180
+    elsif cur_level > 24 
+      cur_level = 24
     end
     return cur_level
   end
