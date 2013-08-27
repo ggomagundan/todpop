@@ -24,7 +24,6 @@ class Api::StudiesController < ApplicationController
       else
 
         @level = level_word(params[:level], params[:ox])
-        @stage = 1
         @c_word = Word.where(:level => @level, :stage => @stage).order("RAND()").first
         @wrong_word =  Word.where(:level => @level, :stage=> @stage).where.not(:id=> @c_word.id).pluck(:mean).last(3)
 
@@ -43,7 +42,7 @@ class Api::StudiesController < ApplicationController
       @msg = "not exist stage or level params"
     end
 
-    @word = Word.where(:stage => params[:stage],:level => params[:level])
+    @word = Level.where(:stage => params[:stage],:level => params[:level])
 
     if !@word.present?
       @status = false

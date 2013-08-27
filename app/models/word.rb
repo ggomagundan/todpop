@@ -1,5 +1,6 @@
 class Word < ActiveRecord::Base
 
+  has_many :level
 
   def ko_sentence
      self.example_ko

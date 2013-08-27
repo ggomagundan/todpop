@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130826022509) do
+ActiveRecord::Schema.define(version: 20130827105018) do
 
   create_table "addresses", force: true do |t|
     t.string   "depth1"
@@ -51,6 +51,15 @@ ActiveRecord::Schema.define(version: 20130826022509) do
     t.datetime "updated_at"
   end
 
+  create_table "levels", force: true do |t|
+    t.integer  "level",      null: false
+    t.integer  "stage",      null: false
+    t.integer  "index",      null: false
+    t.integer  "word_id",    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", force: true do |t|
     t.string   "email"
     t.string   "facebook"
@@ -77,9 +86,6 @@ ActiveRecord::Schema.define(version: 20130826022509) do
     t.integer  "picture",    default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "level"
-    t.integer  "stage"
-    t.integer  "word_index"
   end
 
 end
