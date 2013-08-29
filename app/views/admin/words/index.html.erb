@@ -1,0 +1,21 @@
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Mean</th>
+    <th>ko_exam</th>
+    <th>en_exam</th>
+    <th>is_picture</th>
+  </tr>
+  <% for word in @words %>
+    <tr>
+      <td><%= word.name %></td>
+      <td><%= word.mean %></td>
+      <td><%= word.example_ko %></td>
+      <td><%= word.example_en %></td>
+      <td><%= word.picture %></td>
+      <td><%= link_to "Edit", edit_admin_word_path(word), :class => 'btn btn-warning' %></td>
+      <td><%= link_to "Destroy", [:admin, word], :data => { confirm: 'Text' }, :method => :delete, :class=>'btn btn-danger' %></td>
+    </tr>
+  <% end %>
+</table>
+

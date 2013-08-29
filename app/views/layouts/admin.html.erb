@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Todpop</title>
+  <%= stylesheet_link_tag "admin/application", "admin/#{controller_name}", :media => "all" %>
+  <%= javascript_include_tag "admin/application", "admin/#{controller_name}" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <% flash.each do |name, msg| %>
+        <div class="alert">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+         <%= content_tag :span, msg, :id => "flash_#{name}" %>
+        </div>
+      <% end %>
+      
+      <%= yield %>
+    </div>
+  </div>
+</body>
+</html>

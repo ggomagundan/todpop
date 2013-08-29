@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130827105018) do
+ActiveRecord::Schema.define(version: 20130828050052) do
 
   create_table "addresses", force: true do |t|
     t.string   "depth1"
@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 20130827105018) do
     t.integer  "picture",    default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "image"
   end
 
 end

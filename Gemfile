@@ -59,5 +59,7 @@ end
 # Use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '~> 3.0.0'
 
+
+
 # Use debugger
 # gem 'debugger', group: [:development, :test]

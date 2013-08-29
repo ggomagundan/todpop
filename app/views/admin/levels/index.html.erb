@@ -1,0 +1,16 @@
+
+<table>
+  <tr>
+    <th>Name</th>
+  </tr>
+  <% for level in @levels %>
+    <tr>
+      <td><%= level.level %></td>
+      <td><%= link_to "Show", [:admin, level] %></td>
+      <td><%= link_to "Edit", edit_admin_level_path(level) %></td>
+      <td><%= link_to "Destroy", [:admin, level], :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Admin/Level", new_admin_level_path %></p>

@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 Todpop::Application.routes.draw do
-  
+   
+  namespace(:admin){ resources :levels }
   resources :studies
   resources :users
 
@@ -45,8 +46,11 @@ Todpop::Application.routes.draw do
   }
   
   namespace(:admin){ 
-    
+    root :to => "users#index"
+
     resources :users 
+    resources :words
+ 
   
   }
   # The priority is based upon order of creation: first created -> highest priority.

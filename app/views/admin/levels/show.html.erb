@@ -1,0 +1,12 @@
+<% title "Admin/Level" %>
+
+<p>
+  <strong>Name:</strong>
+  <%= @level.name %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_admin_level_path(@level) %> |
+  <%= link_to "Destroy", [:admin, @level], :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", admin_levels_path %>
+</p>

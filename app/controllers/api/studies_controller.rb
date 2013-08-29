@@ -8,28 +8,27 @@ class Api::StudiesController < ApplicationController
     @status = true
     @msg = ""
 
-    if !params[:stage].present? 
+    if !params[:step].present? 
       @status = false
       @msg = "not exist stage parameter"
-    elsif params[:stage] !='1' && (!params[:level].present? || !params[:ox].present?)
+    elsif params[:step] !='1' && (!params[:level].present? || !params[:ox].present?)
       @status = false
       @msg = "not exist level or ox parameter"
     end
 
     if @status == true
-      if params[:stage] =='1'
+      if params[:step] =='1'
         @level = 20
-        @c_word = Level.where(:level =>20, :stage => 1).order("RAND()").first
+        @c_word = Level.where(:level =>20).order("RAND()").first
         @wrong_word = []
-        Level.where(:level => 20, :stage=> 1).where.not(:id=> @c_word.id).first(3).each do |w|
+        Level.where(:level => 20).where.not(:id=> @c_word.id).first(3).each do |w|
           @wrong_word.push(w.word.mean) 
         end
       else
         @level = level_word(params[:level], params[:ox])
-        @c_word = Level.where(:level => @level, :stage => params[:stage]).order("RAND()").first
-        binding.pry
+        @c_word = Level.where(:level => @level).order("RAND()").first
         @wrong_word = []
-        Level.where(:level => @level, :stage=> params[:stage]).where.not(:id=> @c_word.id).first(3).each do |w|
+        Level.where(:level => @level).where.not(:id=> @c_word.id).first(3).each do |w|
           @wrong_word.push(w.word.mean) 
         end
 

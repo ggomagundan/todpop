@@ -1,0 +1,12 @@
+<% title "Admin/Word" %>
+
+<p>
+  <strong>Name:</strong>
+  <%= @word.name %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_admin_word_path(@word) %> |
+  <%= link_to "Destroy", [:admin, @word], :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", admin_words_path %>
+</p>
