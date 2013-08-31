@@ -1,4 +1,4 @@
-class Api::AdvertisesController < Api::ApplicationController
+class Api::AdvertisesController < ApplicationController#< Api::ApplicationController
 
   def get_ad
  

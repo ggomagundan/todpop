@@ -1,0 +1,35 @@
+# SQLite version 3.x
+#   gem install sqlite3
+#
+#   Ensure the SQLite 3 gem is defined in your Gemfile
+#   gem 'sqlite3'
+development:
+  adapter: mysql2
+  encoding: utf8
+  database: salty_development
+  pool: 5
+  username: 'root'
+  password: '13245'
+  socket: /tmp/mysql.sock
+
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+production:
+  adapter: mysql2
+  encoding: utf8
+  database: salty_production
+  pool: 5
+  username: 'root'
+  password: '13245'
+  socket: /tmp/mysql.sock
+
+test:
+  adapter: mysql2
+  encoding: utf8
+  database: salty_test
+  pool: 5
+  username: 'root'
+  password: '13245'
+  socket: /tmp/mysql.sock
+

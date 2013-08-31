@@ -44,6 +44,7 @@ GEM
       json (>= 1.7)
     celluloid (0.14.1)
       timers (>= 1.0.0)
+    certified (0.1.1)
     chronic (0.9.1)
     coderay (1.0.9)
     coffee-rails (4.0.0)
@@ -206,6 +207,7 @@ DEPENDENCIES
   bootstrap-sass (~> 2.3.1.0)
   capistrano
   carrierwave
+  certified
   coffee-rails (~> 4.0.0)
   dalli (~> 2.6.3)
   exception_notification (~> 2.6.1)
