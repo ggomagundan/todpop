@@ -22,7 +22,7 @@ production:
   pool: 5
   username: 'root'
   password: 'xhemvkq4321'
-  socket: /tmp/mysql.sock
+  socket: /var/run/mysqld/mysqld.sock
 
 test:
   adapter: mysql2
