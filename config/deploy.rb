@@ -31,7 +31,8 @@ namespace :deploy do
     %w[start stop restart].each do |command|
       desc "#{command} unicorn server"
       task command, roles: :app, except: {no_release: true} do
-        run "/etc/init.d/unicorn_#{application} #{command}"
+       # run "/etc/init.d/unicorn_#{application} #{command}"
+        run "cd #{deploy_to} ; bundle exec unicorn -c config/unicorn.rb -D"
       end
     end
 
