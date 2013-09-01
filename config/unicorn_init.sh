@@ -21,10 +21,11 @@ sig () {
     }
 
     run () {
-if [ "$(id -un)" = "$AS_USER" ]; then
-eval $1
-else
-    su -c "$1" - $AS_USER
+
+      if [ "$(id -un)" = "$AS_USER" ]; then
+        eval $1
+      else
+        su -c "$1" - $AS_USER
       fi
     }
 
@@ -34,44 +35,48 @@ else
             run "$CMD"
               ;;
             stop)
-                sig QUIT && exit 0
+              sig QUIT && exit 0
+                echo >&2 "Not running"
+                  ;;
+              force-stop)
+                sig TERM && exit 0
                   echo >&2 "Not running"
                     ;;
-                  force-stop)
-                      sig TERM && exit 0
-                        echo >&2 "Not running"
-                          ;;
-                        restart|reload)
-                            sig HUP && echo reloaded OK && exit 0
-                              echo >&2 "Couldn't reload, starting '$CMD' instead"
-                                run "$CMD"
-                                  ;;
-                                upgrade)
-                                    if sig USR2 && sleep 2 && sig 0 && oldsig QUIT
-                                        then
-                                              n=$TIMEOUT
-                                                  while test -s $OLD_PIN && test $n -ge 0
-                                                        do
-                                                                printf '.' && sleep 1 && n=$(( $n - 1 ))
-                                                                    done
-                                                                        echo
+                restart|reload)
+                  sig HUP && echo reloaded OK && exit 0
+                    echo >&2 "Couldn't reload, starting '$CMD' instead"
 
-                                                                            if test $n -lt 0 && test -s $OLD_PIN
-                                                                                  then
-                                                                                          echo >&2 "$OLD_PIN still exists after $TIMEOUT seconds"
-                                                                                                exit 1
-                                                                                                    fi
-                                                                                                        exit 0
-                                                                                                          fi
-                                                                                                            echo >&2 "Couldn't upgrade, starting '$CMD' instead"
-                                                                                                              run "$CMD"
-                                                                                                                ;;
-                                                                                                              reopen-logs)
-                                                                                                                  sig USR1
-                                                                                                                    ;;
-                                                                                                                  *)
-                                                                                                                      echo >&2 "Usage: $0 <start|stop|restart|upgrade|force-stop|reopen-logs>"
-                                                                                                                        exit 1
-                                                                                                                          ;;
-                                                                                                                      esac
+                    run "$CMD"
 
+                    ;;
+
+                  upgrade)
+
+                    if sig USR2 && sleep 2 && sig 0 && oldsig QUIT
+
+                    then
+
+                      n=$TIMEOUT
+                      while test -s $OLD_PIN && test $n -ge 0
+                      do
+                        printf '.' && sleep 1 && n=$(( $n - 1 ))
+                      done
+                      echo
+                      if test $n -lt 0 && test -s $OLD_PIN
+                      then
+                        echo >&2 "$OLD_PIN still exists after $TIMEOUT seconds"
+                        exit 1
+                      fi
+                      exit 0
+                    fi
+                    echo >&2 "Couldn't upgrade, starting '$CMD' instead"
+                    run "$CMD"
+                    ;;
+                  reopen-logs)
+                    sig USR1
+                    ;;
+                  *)
+                    echo >&2 "Usage: $0 <start|stop|restart|upgrade|force-stop|reopen-logs>"
+                    exit 1
+                    ;;
+                esac
