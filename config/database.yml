@@ -21,7 +21,7 @@ production:
   database: salty_production
   pool: 5
   username: 'root'
-  password: '13245'
+  password: 'xhemvkq4321'
   socket: /tmp/mysql.sock
 
 test:

@@ -1,11 +1,16 @@
 require "bundler/capistrano"
 
-set :application, "todpop_web"
-set :repository,  "git@todpop.co.kr/projects/salty.git"
+set :application, "blog"
+set :repository,  "git@198.211.117.25:projects/salty.git"
+#set :repository,  "/home/git/projects/salty.git"
+#set :local_repository, "todpop.co.kr:/home/git/projects/repo.git"
+#set :repository,  "git://198.211.117.25/projects/salty.git"
 set :user, "root"
-set :password, "xhemvq4321"
+set :password, "xhemvkq4321"
 set :deploy_to, "/var/www/blog"
-
+set :scm, "git"
+set :branch, "master"
+set :deploy_via, :remote_cache
 # set :scm, :git # You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 
@@ -16,7 +21,8 @@ server "198.211.117.25", :app, :web, :db, :primary => true
 
 # if you're still using the script/reaper helper you will need
 # these http://github.com/rails/irs_process_scripts
-
+ssh_options[:forward_agent] = true
+default_run_options[:pty] = true
 
 after "deploy", "deploy:cleanup" # keep only the last 5 releases
 
@@ -32,7 +38,7 @@ namespace :deploy do
       sudo "ln -nfs #{current_path}/config/nginx.conf /etc/nginx/sites-enabled/#{application}"
       sudo "ln -nfs #{current_path}/config/unicorn_init.sh /etc/init.d/unicorn_#{application}"
       run "mkdir -p #{shared_path}/config"
-      put File.read("config/database.example.yml"), "#{shared_path}/config/database.yml"
+      put File.read("config/database.yml.sample"), "#{shared_path}/config/database.yml"
       puts "Now edit the config files in #{shared_path}."
     end
     after "deploy:setup", "deploy:setup_config"
