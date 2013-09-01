@@ -1,6 +1,6 @@
 require "bundler/capistrano"
 
-set :application, "blog"
+set :application, "todpop"
 #set :repository,  "git@198.211.117.25:projects/salty.git"
 #set :repository, "git@github.com:ggomagundan/todpop.git"
 set :repository, "https://github.com/ggomagundan/todpop.git"
