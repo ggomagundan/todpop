@@ -20,7 +20,7 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
 gem 'mysql2'
 gem 'pry'
-#gem 'nokogiri'
+gem 'nokogiri'
 gem 'carrierwave'
 gem "kaminari"
 gem "hirb"
