@@ -17,10 +17,12 @@ class ImageUploader < CarrierWave::Uploader::Base
   end
 
    def filename
-    if model.class.to_s.underscore == 'word'
-      "#{model.name}.#{model.image.file.extension}"
-    else
-      "images.#{model.image.file.extension}"
+    if model.image.file.present?
+      if model.class.to_s.underscore == 'word'
+        "#{model.name}.#{model.image.file.extension}"
+      else
+        "images.#{model.image.file.extension}"
+      end
     end
 
    end
