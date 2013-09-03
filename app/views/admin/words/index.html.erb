@@ -1,4 +1,4 @@
-<table>
+<table class="table table-hover">
   <tr>
     <th>Name</th>
     <th>Mean</th>
@@ -12,7 +12,7 @@
       <td><%= word.mean %></td>
       <td><%= word.example_ko %></td>
       <td><%= word.example_en %></td>
-      <td><%= word.picture %></td>
+      <td><%= 'O' if word.picture == 1 %></td>
       <td><%= link_to "Edit", edit_admin_word_path(word), :class => 'btn btn-warning' %></td>
       <td><%= link_to "Destroy", [:admin, word], :data => { confirm: 'Text' }, :method => :delete, :class=>'btn btn-danger' %></td>
     </tr>

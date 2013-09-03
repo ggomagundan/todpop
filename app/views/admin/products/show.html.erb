@@ -1,0 +1,12 @@
+<% title "Admin/Product" %>
+
+<p>
+  <strong>Name:</strong>
+  <%= @product.name %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_admin_product_path(@product) %> |
+  <%= link_to "Destroy", [:admin, @product], :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", admin_products_path %>
+</p>

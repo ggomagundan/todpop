@@ -1,6 +1,9 @@
 # -*- encoding : utf-8 -*-
 Todpop::Application.routes.draw do
    
+  resources :mains
+
+  namespace(:admin){ resources :products }
   namespace(:admin){ resources :levels }
   resources :studies
   resources :users
@@ -37,7 +40,11 @@ Todpop::Application.routes.draw do
       get 'get_word_info', :on => :collection
 
     end
-
+    
+    resources :products do
+      get 'get_product_info', :on => :collection
+    end
+    
     get 'get_intro_movie'
   
 
@@ -57,7 +64,7 @@ Todpop::Application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-   root 'users#index'
+   root 'main#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
