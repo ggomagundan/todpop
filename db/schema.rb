@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130828050052) do
+ActiveRecord::Schema.define(version: 20130903022652) do
 
   create_table "addresses", force: true do |t|
     t.string   "depth1"
@@ -56,6 +56,16 @@ ActiveRecord::Schema.define(version: 20130828050052) do
     t.integer  "stage",      null: false
     t.integer  "index",      null: false
     t.integer  "word_id",    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "products", force: true do |t|
+    t.string   "name"
+    t.string   "title"
+    t.string   "content"
+    t.integer  "rank"
+    t.string   "image"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
