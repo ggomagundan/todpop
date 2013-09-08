@@ -258,10 +258,10 @@ class Api::UsersController < ApplicationController
     if @status == true
       @user_info = []
       (1..10).each do |i|
-        @rank = {:rank => i, :name => "name#{i}", :score => (11-i)*100, :image => "http://www"}
+        @rank = {:rank => i, :name => "name#{i}", :score => (11-i)*100, :image => "http://www.1stwebdesigner.com/wp-content/uploads/2009/07/free-twitter-icons/designreviver-free-twitter-social-icon.jpg"}
         @user_info.push(@rank)
       end
-      @mine = {:rank => 30, :name => "xxxx", :score => 20, :image => "http://www"}
+      @mine = {:rank => 30, :name => "xxxx", :score => 20, :image => "http://www.1stwebdesigner.com/wp-content/uploads/2009/07/free-twitter-icons/designreviver-free-twitter-social-icon.jpg"}
     end
 
   end
