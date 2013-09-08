@@ -246,8 +246,26 @@ class Api::UsersController < ApplicationController
   
   end
 
+  def get_users_score
+    @status = true
+    @msg = ""
 
+    if !params[:category].present? || !params[:nickname].present?
+      @status = false
+      @msg = "not exist category or email parameter"
+    end
 
+    if @status == true
+      @user_info = []
+      (1..10).each do |i|
+        @rank = {:rank => i, :name => "name#{i}", :score => (11-i)*100, :image => "http://www"}
+        @user_info.push(@rank)
+      end
+      @mine = {:rank => 30, :name => "xxxx", :score => 20, :image => "http://www"}
+    end
+
+  end
+  
 
   private
   def user_params

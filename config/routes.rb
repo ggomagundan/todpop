@@ -23,12 +23,16 @@ Todpop::Application.routes.draw do
       
       get 'address_list', :on => :collection
 
+      get 'get_users_score', :on => :collection
     
     end
 
     resources :advertises do
 
       get 'get_ad', :on => :collection
+      get 'get_image_ads', :on => :collection
+      get 'get_coupon_ads', :on => :collection
+      get 'get_coupon', :on => :collection
       get 'set_log', :on => :collection
 
     end
