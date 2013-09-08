@@ -14,11 +14,8 @@
 /public/assets
 /db/*.sqlite3
 /config/database.yml
-/current/tmp/*
-/current/log/*
 /public/upload/*
 /public/system/*
-/coverage/
 /spec/tmp/*
 **.orig
 dump.rdb
