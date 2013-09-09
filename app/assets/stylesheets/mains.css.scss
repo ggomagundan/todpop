@@ -1,3 +1,125 @@
 // Place all the styles related to the mains controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#main-header {
+background: linear-gradient(to bottom, #E95756 0%, #E95756 100%) repeat scroll 0 0 transparent;
+}
+.container {
+margin: 0 auto;
+position: relative;
+text-align: left;
+width: 960px;
+}
+
+#top-area {
+padding: 50px 0 70px;
+}
+#logo {
+float: left;
+padding-left: 44px;
+}
+
+a {
+color: #FFA300;
+text-decoration: none;
+}
+
+#top-menu {
+float: right;
+margin-top: 3px;
+}
+ol, ul {
+list-style: none outside none;
+}
+#top-menu li {
+display: inline-block;
+}
+.nav li {
+position: relative;
+}
+#top-menu a, a.mobile_nav {
+color: #FFFFFF;
+display: block;
+font-size: 14px;
+padding: 9px 13px;
+text-decoration: none;
+text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
+}
+#page-name {
+margin-top: -40px;
+text-align: center;
+}
+#page-name .section-title h1, #page-name .section-title .section-subtitle, .main_post_info {
+color: #FFFFFF;
+text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+}
+
+.section-title h2, #page-name h1 {
+font-size: 72px;
+font-weight: 800;
+letter-spacing: -4px;
+padding-bottom: 15px;
+}
+#breadcrumbs {
+background: none repeat scroll 0 0 #59625C;
+border-bottom: 1px solid #515B55;
+border-top: 1px solid #515953;
+box-shadow: 0 1px 0 #67716A inset;
+color: #F5F5F5;
+font-weight: 900;
+text-shadow: 1px 0 0 #3E4D43;
+height:60px;
+margin-top:10px;
+margin-bottom:10px;
+}
+#breadcrumbs a, #breadcrumbs span.raquo {
+background: none repeat scroll 0 0 #636B66;
+color: #F5F5F5;
+display: inline-block;
+font-weight: normal;
+margin-right: -4px;
+padding: 23px 0 24px 17px;
+}
+#breadcrumbs_box:before {
+background: url("images/breadcrumbs_left.png") no-repeat scroll 0 0 transparent;
+content: "";
+height: 61px;
+left: -32px;
+position: absolute;
+top: 0;
+width: 32px;
+}
+#breadcrumbs_box:after {
+background: url("main/breadcrumbs_right.png") no-repeat scroll 0 0 transparent;
+content: "";
+height: 61px;
+position: absolute;
+right: -31px;
+top: 0;
+width: 31px;
+}
+ul.nav > li.current-menu-item > a, a.mobile_nav {
+background: none repeat scroll 0 0 #E95756;
+border: 1px solid #B74425;
+border-radius: 10px 10px 10px 10px;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) inset;
+font-weight: 800;
+}
+ul.nav li ul, .et_mobile_menu {
+background: none repeat scroll 0 0 #D15D3F;
+border: 1px solid #B74425;
+border-radius: 10px 10px 10px 10px;
+box-shadow: 0 0 7px rgba(0, 0, 0, 0.1) inset, 1px 3px 3px rgba(0, 0, 0, 0.1);
+padding: 15px 30px;
+width: 178px;
+}
+#breadcrumbs span.raquo.last {
+background: url("main/breadcrumbs_separator.png") no-repeat scroll 0 0 transparent;
+margin-right: 9px !important;
+}
+#breadcrumbs span.raquo {
+background: url("main/breadcrumbs_separator_first.png") no-repeat scroll 0 0 transparent;
+padding: 23px 16px 24px;
+position: relative;
+text-indent: -9999px;
+top: -1px;
+}
