@@ -8,7 +8,7 @@ set :repository, "https://github.com/ggomagundan/todpop.git"
 #set :repository,  "git://198.211.117.25/projects/salty.git"
 set :user, "root"
 set :password, "xhemvkq4321"
-set :deploy_to, "/var/www/todpop/webs"
+set :deploy_to, "/var/www/todpop/web"
 set :scm, "git"
 set :branch, "master"
 set :deploy_via, :remote_cache
