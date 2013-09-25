@@ -1,6 +1,6 @@
 class Admin::WordsController < Admin::ApplicationController
   def index
-    @words = Word.all
+    @words = Word.page(params[:page]).per(10)
   end
 
   def new
