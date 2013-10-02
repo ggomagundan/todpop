@@ -1,6 +1,10 @@
 
 <%= render 'form' %>
-
+<div class="word_images">
+<% @response.each do |img| %>
+  <%= image_tag img, :alt => "img", :class=> "word_img" %>
+<% end %>
+</div>
 <p>
   <%= link_to "Show", [:admin, @word] %> |
   <%= link_to "View All", admin_words_path %>

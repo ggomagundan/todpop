@@ -18,6 +18,11 @@ class Admin::WordsController < Admin::ApplicationController
 
   def edit
     @word = Word.find(params[:id])
+    
+    @url = "http://todpop.herokuapp.com/picture/index.json?word=#{@word.name}"
+
+    @response = JSON.parse(open("http://todpop.herokuapp.com/picture/index.json?word=#{@word.name}").read)
+
   end
 
   def update
