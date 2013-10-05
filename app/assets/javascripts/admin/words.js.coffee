@@ -14,7 +14,7 @@ $ ->
       success: (data, textStatus, jqXHR) ->
         
         for json in data.photos.photo
-          pic_url =  "http://farm"+json.farm+".staticflickr.com/"+json.server+"/"+json.id+"_"+json.secret+"_q.jpg"
+          pic_url =  "http://farm"+json.farm+".staticflickr.com/"+json.server+"/"+json.id+"_"+json.secret+".jpg"
           $(".word_images").append("<img src='"+pic_url+"' alt='pic' class='word_img' />")
 
         $("#more-image").data('page',page)

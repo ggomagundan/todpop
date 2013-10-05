@@ -18,7 +18,7 @@
       <td><%= word.example_en %></td>
       <td><%= 'O' if word.picture == 1 %></td>
       <td><%= link_to "Edit", edit_admin_word_path(word), :class => 'btn btn-warning' %></td>
-      <td><%= link_to "Destroy", [:admin, word], :data => { confirm: 'Text' }, :method => :delete, :class=>'btn btn-danger' %></td>
+      <td><% link_to "Destroy", [:admin, word], :data => { confirm: 'Text' }, :method => :delete, :class=>'btn btn-danger' %></td>
     </tr>
   <% end %>
 </table>
