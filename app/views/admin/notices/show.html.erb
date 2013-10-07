@@ -1,0 +1,15 @@
+
+<p>
+  <strong>title:</strong>
+  <%= @notice.title %>
+</p>
+
+<p>
+  <strong>content:</strong>
+  <%= @notice.content %>
+</p>
+<p>
+  <%= link_to "Edit", edit_admin_notice_path(@notice) %> |
+  <%= link_to "Destroy", [:admin, @notice], :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", admin_notices_path %>
+</p>
