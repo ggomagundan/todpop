@@ -1,7 +1,8 @@
 # -*- encoding : utf-8 -*-
 Todpop::Application.routes.draw do
    
-  resources :notices
+  namespace(:admin){ resources :notices }
+  #resources :notices
 
   resources :mains
 
@@ -26,6 +27,15 @@ Todpop::Application.routes.draw do
       get 'address_list', :on => :collection
 
       get 'get_users_score', :on => :collection
+
+      get 'get_users_point_list', :on => :collection
+      get 'get_users_attendance', :on => :member
+      get 'set_users_attendance', :on => :member
+      
+      delete 'delete_user', :on => :member
+      
+      get 'change_password', :on => :member
+      get 'setting_facebook_password', :on => :member
     
     end
 
@@ -44,6 +54,8 @@ Todpop::Application.routes.draw do
       get 'get_level_test_words', :on => :collection
       get 'get_level_words', :on => :collection
       get 'get_word_info', :on => :collection
+      get 'get_current_level', :on => :collection
+      get 'set_current_level', :on => :collection
 
     end
     
@@ -51,6 +63,9 @@ Todpop::Application.routes.draw do
       get 'get_product_info', :on => :collection
     end
     
+    resources :notices do
+      get 'get_notices', :on => :collection
+    end
     get 'get_intro_movie'
   
 
