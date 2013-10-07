@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131006155031) do
+ActiveRecord::Schema.define(version: 20131007152338) do
 
   create_table "addresses", force: true do |t|
     t.string   "depth1"
@@ -96,18 +96,19 @@ ActiveRecord::Schema.define(version: 20131006155031) do
   create_table "users", force: true do |t|
     t.string   "email"
     t.string   "facebook"
-    t.string   "password_digest", null: false
-    t.string   "nickname",        null: false
+    t.string   "password_digest",             null: false
+    t.string   "nickname",                    null: false
     t.string   "recommend"
     t.integer  "sex"
     t.date     "birth"
     t.string   "address"
-    t.string   "mobile",          null: false
+    t.string   "mobile",                      null: false
     t.datetime "date"
     t.datetime "late_connection"
     t.integer  "level_test"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "point",           default: 0
   end
 
   create_table "words", force: true do |t|
