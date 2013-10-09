@@ -28,7 +28,7 @@ Todpop::Application.routes.draw do
 
       get 'get_users_score', :on => :collection
 
-      get 'get_users_point_list', :on => :collection
+      get 'get_users_point_list', :on => :member
       get 'get_users_attendance', :on => :member
       get 'set_users_attendance', :on => :member
       
@@ -54,8 +54,6 @@ Todpop::Application.routes.draw do
       get 'get_level_test_words', :on => :collection
       get 'get_level_words', :on => :collection
       get 'get_word_info', :on => :collection
-      get 'get_current_level', :on => :collection
-      get 'set_current_level', :on => :collection
 
     end
     

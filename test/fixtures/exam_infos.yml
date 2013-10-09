@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  time: 1
+  one_star: 1
+  two_star: 1
+  max_money: 1
+
+two:
+  time: 1
+  one_star: 1
+  two_star: 1
+  max_money: 1

@@ -9,4 +9,9 @@ class ApiController < ApplicationController
     @msg = ""
     @url = AppIntroduceVideo.last.url
   end
+
+
+
+
+
 end

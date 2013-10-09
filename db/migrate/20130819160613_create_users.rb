@@ -12,7 +12,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :mobile, :unique => true, :null => false
       t.datetime :date
       t.datetime :late_connection
-      t.integer :level_test
+      t.integer :level_test, :default => 0
 
       t.timestamps
     end

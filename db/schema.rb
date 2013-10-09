@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131007162646) do
+ActiveRecord::Schema.define(version: 20131009162653) do
 
   create_table "addresses", force: true do |t|
     t.string   "depth1"
@@ -58,6 +58,15 @@ ActiveRecord::Schema.define(version: 20131007162646) do
     t.datetime "updated_at"
   end
 
+  create_table "exam_infos", force: true do |t|
+    t.integer  "time"
+    t.integer  "one_star"
+    t.integer  "two_star"
+    t.integer  "max_money"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "levels", force: true do |t|
     t.integer  "level",      null: false
     t.integer  "stage",      null: false
@@ -69,14 +78,14 @@ ActiveRecord::Schema.define(version: 20131007162646) do
 
   create_table "notices", force: true do |t|
     t.string   "title"
-    t.string   "content"
+    t.text     "content"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "points", force: true do |t|
     t.string   "name"
-    t.integer  "type"
+    t.integer  "point_type"
     t.integer  "point"
     t.integer  "user_id"
     t.datetime "created_at"

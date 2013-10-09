@@ -4,6 +4,6 @@ json.msg @msg
 
 if @status == true
   json.data do |json|
-    json.user @user
+    json.result @result 
   end
 end

@@ -265,7 +265,76 @@ class Api::UsersController < ApplicationController
     end
 
   end
-  
+
+
+  def get_users_point_list
+    @status = true
+    @msg = ''
+    
+      @user = User.find(params[:id])
+      if !@user.present?
+        @status = false
+        @msg = "not exist this user"
+      else
+        @point = Point.where(:user_id => @user.id).reverse
+      end
+
+  end
+
+
+  def delete_user
+    @status = true
+    @msg = ""
+
+    @user = User.find(params[:id])
+    if !params[:nickname].present? || !params[:mobile].present?
+      @status = false
+      @msg = "not exist nickname or mobile parameter"
+    elsif @user.nickname != params[:nickname]
+      @status = false
+      @msg = "discorrect nickname "
+    elsif @user.mobile != params[:mobile]
+      @status = false
+      @msg = "discorrect mobile number "
+    else
+      if @user.destroy
+        @result = true
+      else
+        @status = false
+        @msg = "not success user delete. please retry"  
+      end
+    end
+  end 
+
+
+  def change_password
+    @status = true
+    @msg = ""
+
+    @user = User.find(params[:id])
+    if !params[:nickname].present? || !params[:mobile].present?
+      @status = false
+      @msg = "not exist nickname or mobile parameter"
+    elsif @user.nickname != params[:nickname]
+      @status = false
+      @msg = "discorrect nickname "
+    elsif @user.mobile != params[:mobile]
+      @status = false
+      @msg = "disrrcorrect mobile number "
+    elsif @user.authenticate(params[:current_password]).present?
+      @status = false
+      @msg = "discorrect current password"
+    else
+      @user.password = params[:password]
+      @user.password_confirmation = params[:password] 
+      if @user.save
+        @result = true
+      else
+        @status = false
+        @msg = "not success user update. please retry"  
+      end
+    end
+  end 
 
   private
   def user_params
