@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131009162653) do
+ActiveRecord::Schema.define(version: 20131009170946) do
 
   create_table "addresses", force: true do |t|
     t.string   "depth1"
@@ -32,15 +32,29 @@ ActiveRecord::Schema.define(version: 20131009162653) do
     t.integer  "kind"
     t.string   "content1"
     t.string   "content2"
-    t.string   "type"
     t.integer  "count"
     t.integer  "remain"
     t.string   "local"
-    t.string   "interest"
+    t.integer  "interest"
     t.integer  "sexual"
     t.integer  "facebook"
     t.datetime "start_time"
     t.datetime "end_time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "app_infos", force: true do |t|
+    t.string   "time"
+    t.string   "one_star"
+    t.string   "two_star"
+    t.string   "max_money"
+    t.string   "android_version"
+    t.string   "ios_version"
+    t.string   "app_server"
+    t.integer  "popup_style"
+    t.string   "popup_image"
+    t.text     "popup_text"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -98,6 +112,15 @@ ActiveRecord::Schema.define(version: 20131009162653) do
     t.string   "content"
     t.integer  "rank"
     t.string   "image"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "user_records", force: true do |t|
+    t.integer  "record_type"
+    t.integer  "level"
+    t.integer  "stage"
+    t.integer  "record_point"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

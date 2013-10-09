@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  record_type: 1
+  level: 1
+  stage: 1
+  record_point: 1
+
+two:
+  record_type: 1
+  level: 1
+  stage: 1
+  record_point: 1

@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 Todpop::Application.routes.draw do
    
+  namespace(:admin){ resources :app_infos }
   namespace(:admin){ resources :notices }
   #resources :notices
 
@@ -66,6 +67,9 @@ Todpop::Application.routes.draw do
     end
     get 'get_intro_movie'
   
+    resources :app_infos do
+      get 'get_fast_pivot_time', :on => :collection
+    end
 
   get 'test', :action => 'test'
   

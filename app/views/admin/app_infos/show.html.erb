@@ -1,0 +1,12 @@
+<% title "Admin/App Info" %>
+
+<p>
+  <strong>Name:</strong>
+  <%= @app_info.name %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_admin_app_info_path(@app_info) %> |
+  <%= link_to "Destroy", [:admin, @app_info], :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", admin_app_infos_path %>
+</p>

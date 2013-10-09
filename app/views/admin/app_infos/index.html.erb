@@ -1,0 +1,17 @@
+<% title "Admin/App Infos" %>
+
+<table>
+  <tr>
+    <th>Name</th>
+  </tr>
+  <% for app_info in @app_infos %>
+    <tr>
+      <td><%= app_info.name %></td>
+      <td><%= link_to "Show", [:admin, app_info] %></td>
+      <td><%= link_to "Edit", edit_admin_app_info_path(app_info) %></td>
+      <td><%= link_to "Destroy", [:admin, app_info], :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Admin/App Info", new_admin_app_info_path %></p>

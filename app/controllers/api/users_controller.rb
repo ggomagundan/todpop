@@ -287,7 +287,10 @@ class Api::UsersController < ApplicationController
     @msg = ""
 
     @user = User.find(params[:id])
-    if !params[:nickname].present? || !params[:mobile].present?
+    if !@user.present?
+      @status = false
+      @msg = "not exist user"
+    elsif !params[:nickname].present? || !params[:mobile].present?
       @status = false
       @msg = "not exist nickname or mobile parameter"
     elsif @user.nickname != params[:nickname]
@@ -312,7 +315,10 @@ class Api::UsersController < ApplicationController
     @msg = ""
 
     @user = User.find(params[:id])
-    if !params[:nickname].present? || !params[:mobile].present?
+    if !@user.present?
+      @status = false
+      @msg = "not exist user"
+    elsif !params[:nickname].present? || !params[:mobile].present?
       @status = false
       @msg = "not exist nickname or mobile parameter"
     elsif @user.nickname != params[:nickname]
@@ -336,6 +342,36 @@ class Api::UsersController < ApplicationController
     end
   end 
 
+  def setting_facebook_password
+    @status = true
+    @msg = ""
+
+    @user = User.find(params[:id])
+    if !@user.present?
+      @status = false
+      @msg = "not exist user"
+    elsif !params[:nickname].present? || !params[:mobile].present?
+      @status = false
+      @msg = "not exist nickname or mobile parameter"
+    elsif @user.nickname != params[:nickname]
+      @status = false
+      @msg = "discorrect nickname "
+    elsif @user.mobile != params[:mobile]
+      @status = false
+      @msg = "disrrcorrect mobile number "
+    else
+      @pass = SecureRandom.random_number(10000)
+      @user.password = @pass
+      @user.password_confirmation = @pass
+      if @user.save
+        #require mail to using @user.password_digest 
+        @result = true
+      else
+        @status = false
+        @msg = "not success user update. please retry"  
+      end
+    end
+  end 
   private
   def user_params
     params.permit(:email, :facebook, :nickname, :recommend, :sex, :birth, :address, :mobile, :interest )

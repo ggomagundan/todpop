@@ -4,11 +4,10 @@ class CreateAdvertisements < ActiveRecord::Migration
       t.integer :kind
       t.string :content1
       t.string :content2
-      t.string :type, :default => ""
       t.integer :count
       t.integer :remain
       t.string :local, :default => ""
-      t.string :interest, :default => ""
+      t.integer :interest, :default => 0
       t.integer :sexual, :default => 0
       t.integer :facebook, :defulat => 0
       t.datetime :start_time
