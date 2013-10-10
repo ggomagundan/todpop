@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Api::StudiesController < ApplicationController
   def index
     @studies = Study.all

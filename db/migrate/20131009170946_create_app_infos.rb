@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateAppInfos < ActiveRecord::Migration
   def self.up
     create_table :app_infos do |t|

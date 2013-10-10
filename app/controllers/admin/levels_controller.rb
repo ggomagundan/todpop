@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Admin::LevelsController < Admin::ApplicationController
   def index
     @levels = Level.all

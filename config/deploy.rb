@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require "bundler/capistrano"
 
 set :application, "todpop"
@@ -6,16 +7,16 @@ set :application, "todpop"
 set :repository, "https://github.com/ggomagundan/todpop.git"
 #set :repository,  "/home/git/projects/salty.git"
 #set :repository,  "git://198.211.117.25/projects/salty.git"
-set :user, "root"
+set :user, "deployer"
 set :password, "xhemvkq4321"
-set :deploy_to, "/var/www/todpop/web"
+set :deploy_to, ""
 set :scm, "git"
 set :branch, "master"
 set :deploy_via, :remote_cache
 # set :scm, :git # You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 
-server "198.211.117.25", :app, :web, :db, :primary => true
+server "14.63.160.137", :app, :web, :db, :primary => true
 
 # if you want to clean up old releases on each deploy uncomment this:
 # after "deploy:restart", "deploy:cleanup"

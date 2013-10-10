@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateExamInfos < ActiveRecord::Migration
   def change
     create_table :exam_infos do |t|

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Api::NoticesController < ApplicationController
   def index
     @notices = Notice.all

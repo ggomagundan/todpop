@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class MainsController < ApplicationController
   before_action :set_main, only: [:show, :edit, :update, :destroy]
 

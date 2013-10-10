@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Api::AdvertisesController < ApplicationController#< Api::ApplicationController
 
   def get_ad

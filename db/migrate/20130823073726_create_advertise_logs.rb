@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateAdvertiseLogs < ActiveRecord::Migration
   def change
     create_table :advertise_logs do |t|

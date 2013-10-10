@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Admin::WordsController < Admin::ApplicationController
   def index
     @words = Word.page(params[:page]).per(10)

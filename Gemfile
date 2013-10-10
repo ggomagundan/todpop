@@ -10,6 +10,9 @@ gem 'coffee-rails', '~> 4.0.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
+gem 'magic_encoding'
+gem 'hirb-unicode'
+
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
@@ -24,7 +27,7 @@ gem 'nokogiri'
 gem 'carrierwave'
 gem "kaminari"
 gem "hirb"
-gem 'bootstrap-sass', '~> 2.3.1.0'
+gem 'bootstrap-sass'#, '~> 2.3.1.0'
 gem 'font-awesome-sass-rails'
 gem "sidekiq"
 gem 'sinatra', require: false

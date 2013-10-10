@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Admin::AppInfosController < ApplicationController
   def index
     @app_infos = AppInfo.all

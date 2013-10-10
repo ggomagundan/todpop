@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Advertisement < ActiveRecord::Base
 
   has_many :advertise_logs

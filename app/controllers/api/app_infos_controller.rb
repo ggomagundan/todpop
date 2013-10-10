@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Api::AppInfosController < ApplicationController
 
   def get_fast_pivot_time

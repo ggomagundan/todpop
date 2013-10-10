@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateUserStages < ActiveRecord::Migration
   def change
     create_table :user_stages do |t|
