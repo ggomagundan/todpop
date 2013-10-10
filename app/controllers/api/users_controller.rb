@@ -217,7 +217,7 @@ class Api::UsersController < ApplicationController
       @addr = Address.all.pluck(:depth1).uniq
     elsif params[:depth].present? && params[:depth] == "2" 
       if params[:s].present?
-        @addr = Address.where(:depth1 => params[:s])
+        @addr = Address.where(:depth1 => params[:s]).pluck(:depth1, :depth2).uniq
       else
         @status = false
         @msg = "not exist s parmeter"
