@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-root = "/var/www/todpop/web/current"
+root = "/todpop/todpop_app/current"
 working_directory root
 pid "#{root}/tmp/pids/unicorn.pid"
 stderr_path "#{root}/log/unicorn_error.log"
