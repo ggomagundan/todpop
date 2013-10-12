@@ -5,12 +5,13 @@
   <div class="control-group" style='margin-top:5px;'></div>
 
   <div class="control-fixed">
-  	name <%= f.text_field :name, :readonly => true, :style => 'width:120px;' %><br/>
-    mean <%= f.text_field :mean, :style => 'width:120px;' %><br/>
+  	name <%= f.text_field :name, :readonly => true, :style => 'width:150px;'  %><br/>
+    mean <%= f.text_field :mean , :style => 'width:150px;' %><br/>
     Img <%= f.file_field :image %><br/>
     <%= image_tag f.object.image_url(:thumb) if f.object.image.present? %>
   	img-url<br/><%= f.text_field :remote_image_url , :style => 'width:150px;' %> <br/>
     <p><%= f.submit %></p>
+    <p><%= link_to "DELETE", "/admin/words/#{@word.id}/delete" %></p>
   </div>
   
   <%= f.hidden_field :phonetics %>
@@ -29,6 +30,6 @@
 <div class='btn btn-danger' id = 'more-image' data-page=1 data-word=<%=@word.name%>>more</div>
 <input type='text' id='add_query' style='margin:10px;'/>
 <p>
-  <%#= link_to "Show", [:admin, @word] %> |
+  <%#= link_to "Show", [:admin, @word] %>
   <%= link_to "View All", admin_words_path %>
 </p>

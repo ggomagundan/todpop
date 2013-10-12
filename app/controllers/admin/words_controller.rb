@@ -38,10 +38,15 @@ class Admin::WordsController < Admin::ApplicationController
     end
   end
 
+  def delete
+    @word = Word.find(params[:id])
+    @word.update_attributes(:picture => 0, :image => '')
+    redirect_to admin_words_path
+  end
+  
   def destroy
     @word = Word.find(params[:id])
-    @word.destroy
-    redirect_to admin_words_path, :notice => "Successfully destroyed word."
+    
   end
 
   private

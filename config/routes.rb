@@ -80,9 +80,10 @@ Todpop::Application.routes.draw do
 
     resources :users 
     resources :words
- 
+    get '/words/:id/delete', to: 'words#delete'
   
   }
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
