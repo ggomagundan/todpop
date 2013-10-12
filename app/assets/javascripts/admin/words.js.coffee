@@ -20,7 +20,7 @@ ready = ->
         
         for json in data.photos.photo
           pic_url =  "http://farm"+json.farm+".staticflickr.com/"+json.server+"/"+json.id+"_"+json.secret+".jpg"
-          $(".word_images").append("<img src='"+pic_url+"' alt='pic' class='word_img' style='width:200px;margin:10px;'/>")
+          $(".word_images").append("<img src='"+pic_url+"' alt='pic' class='word_img' style='width:200px;margin:10px;cursor:pointer;'/>")
 
         $("#more-image").data('page',page)
 
