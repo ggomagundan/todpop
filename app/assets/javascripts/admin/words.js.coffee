@@ -8,7 +8,7 @@ ready = ->
 
   $("#more-image").click ->
     page =  parseInt($('#more-image').data('page'), 10)+1
-    word = $('#add_query').val() == '' ? $('#more-image').data('word') : $('#add_query').val()
+    word = if $('#add_query').val() == '' then $('#more-image').data('word') else $('#add_query').val()
     $("#more-image").data('page',page)
     url = "http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=eee21c9d5b1d8c48de656e8b15140d31&tags="+word+"&per_page=20&page="+page+"&format=json&nojsoncallback=1"
     $.ajax url,
