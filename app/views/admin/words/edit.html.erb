@@ -11,14 +11,14 @@
     <%= image_tag f.object.image_url(:thumb) if f.object.image.present? %>
   	img-url<br/><%= f.text_field :remote_image_url , :style => 'width:150px;' %> <br/>
     <p><%= f.submit %></p>
-    <p><%= link_to "DELETE", "/admin/words/#{@word.id}/delete" %></p>
+    <p><%#= link_to "DELETE", "/admin/words/#{@word.id}/delete" %></p>
   </div>
   
-  <%= f.hidden_field :phonetics %>
+  <%#= f.hidden_field :phonetics %>
           
-  <%= f.hidden_field :example_ko %>
+  <%#= f.hidden_field :example_ko %>
   
-  <%= f.hidden_field :example_en %> 
+  <%#= f.hidden_field :example_en %> 
            
   </div>
   
