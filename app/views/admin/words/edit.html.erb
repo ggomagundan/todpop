@@ -8,8 +8,9 @@
   	name <%= f.text_field :name, :readonly => true, :style => 'width:150px;'  %><br/>
     mean <%= f.text_field :mean , :style => 'width:150px;' %><br/>
     Img <%= f.file_field :image %><br/>
-    <%= image_tag f.object.image_url(:thumb) if f.object.image.present? %>
-  	img-url<br/><%= f.text_field :remote_image_url , :style => 'width:150px;' %> <br/>
+    <%#= image_tag f.object.image_url(:thumb) if f.object.image.present? %>
+    img-url<br/><%= f.text_field :remote_image_url , :style => 'width:150px;' %> <br/>
+    <%= image_tag f.object.image_url if f.object.image.present? %> 
     <p><%= f.submit %></p>
     <p><%#= link_to "DELETE", "/admin/words/#{@word.id}/delete" %></p>
   </div>

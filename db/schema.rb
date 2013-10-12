@@ -1,4 +1,4 @@
-# -*- encoding : utf-8 -*-
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -34,9 +34,9 @@ ActiveRecord::Schema.define(version: 20131009170946) do
     t.string   "content2"
     t.integer  "count"
     t.integer  "remain"
-    t.string   "local"
-    t.integer  "interest"
-    t.integer  "sexual"
+    t.string   "local",      default: ""
+    t.integer  "interest",   default: 0
+    t.integer  "sexual",     default: 0
     t.integer  "facebook"
     t.datetime "start_time"
     t.datetime "end_time"
@@ -146,7 +146,7 @@ ActiveRecord::Schema.define(version: 20131009170946) do
     t.string   "mobile",                      null: false
     t.datetime "date"
     t.datetime "late_connection"
-    t.integer  "level_test"
+    t.integer  "level_test",      default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "point",           default: 0

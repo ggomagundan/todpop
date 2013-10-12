@@ -23,9 +23,9 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
 gem 'mysql2'
 gem 'pry'
-gem 'nokogiri'
+#gem 'nokogiri'
 gem 'carrierwave'
-gem "rmagick"
+#gem "rmagick"
 gem "kaminari"
 gem "hirb"
 gem 'bootstrap-sass'#, '~> 2.3.1.0'
