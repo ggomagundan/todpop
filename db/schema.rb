@@ -34,9 +34,9 @@ ActiveRecord::Schema.define(version: 20131013132435) do
     t.string   "content2"
     t.integer  "count"
     t.integer  "remain"
-    t.string   "local"
-    t.integer  "interest"
-    t.integer  "sexual"
+    t.string   "local",      default: ""
+    t.integer  "interest",   default: 0
+    t.integer  "sexual",     default: 0
     t.integer  "facebook"
     t.datetime "start_time"
     t.datetime "end_time"
@@ -156,7 +156,7 @@ ActiveRecord::Schema.define(version: 20131013132435) do
     t.string   "mobile",                      null: false
     t.datetime "date"
     t.datetime "late_connection"
-    t.integer  "level_test"
+    t.integer  "level_test",      default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "point",           default: 0
