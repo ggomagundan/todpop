@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 class Admin::WordsController < Admin::ApplicationController
   def index
+    @page = params[:page] ? params[:page] : 1
     @words = Word.page(params[:page]).per(10)
   end
 
@@ -19,7 +20,7 @@ class Admin::WordsController < Admin::ApplicationController
 
   def edit
     @word = Word.find(params[:id])
-    
+    @page = params[:before_page]
   #  @url = "http://todpop.herokuapp.com/picture/index.json?word=#{@word.name}"
 
    # @response = JSON.parse(open("http://todpop.herokuapp.com/picture/index.json?word=#{@word.name}").read)
@@ -32,17 +33,17 @@ class Admin::WordsController < Admin::ApplicationController
       if @word.image.present?
         @word.update_attributes(:picture => 1)
       end
-      redirect_to admin_words_path
+      redirect_to admin_words_path(:page => params[:before_page])
     else
       render :action => 'edit'
     end
   end
 
-#  def delete
-#    @word = Word.find(params[:id])
- #   @word.update_attributes(:picture => 0, :image => '')
- #   redirect_to admin_words_path
- # end
+  def delete
+    @word = Word.find(params[:id])
+    @word.update_attributes(:picture => 0, :image => '')
+    redirect_to admin_words_path(:page => params[:before_page])
+  end
   
   def destroy
     @word = Word.find(params[:id])

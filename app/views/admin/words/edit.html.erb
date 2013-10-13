@@ -1,34 +1,42 @@
-<%= render 'form' %>
-<!--
+<!-- <%= render 'form' %> more easier to work -->
+
 <%= form_for [:admin, @word] do |f| %>
   <%#= f.error_messages %>
   <div class="control-group" style='margin-top:5px;'></div>
 
   <div class="control-fixed">
-  	name <%= f.text_field :name, :readonly => true, :style => 'width:150px;'  %><br/>
+  	name <%= f.text_field :name, :readonly => true, :style => 'width:150px;' %><br/>
     mean <%= f.text_field :mean , :style => 'width:150px;' %><br/>
     Img <%= f.file_field :image %><br/>
-    <%#= image_tag f.object.image_url(:thumb) if f.object.image.present? %>
     img-url<br/><%= f.text_field :remote_image_url , :style => 'width:150px;' %> <br/>
-    <%= image_tag f.object.image_url if f.object.image.present? %> 
     <p><%= f.submit %></p>
-    <p><%#= link_to "DELETE", "/admin/words/#{@word.id}/delete" %></p>
+    <p><%= link_to "DELETE", "/admin/words/#{@word.id}/delete?before_page=#{@page}" %></p>
+    <%= f.hidden_field :phonetics %>
+          
+    <%= f.hidden_field :example_ko %>
+    
+    <%= f.hidden_field :example_en %> 
+    <input type='hidden' name='before_page' value='<%=@page%>'/>
   </div>
   
-  <%#= f.hidden_field :phonetics %>
-          
-  <%#= f.hidden_field :example_ko %>
   
-  <%#= f.hidden_field :example_en %> 
-           
+  
+  <div class="control-group" style="border: solid 4px gray; padding: 14px 0;">
+    저장된 이미지 
+    <% if f.object.picture != 0 %>
+      <%=image_tag f.object.image_url(:thumb) %>
+    <% else %>
+      없음 
+    <% end %> 
   </div>
 <% end %>
-  -->
+
 
 <div class="word_images">
   <%#= image_tag img, :alt => "img", :class=> "word_img" %>
 </div>
 <div class='btn btn-danger' id = 'more-image' data-page=1 data-word=<%=@word.name%>>more</div>
+<input type='hidden' name='before_query' value='<%=@word.name%>'/>
 <input type='text' id='add_query' style='margin:10px;'/>
 <p>
   <%#= link_to "Show", [:admin, @word] %>

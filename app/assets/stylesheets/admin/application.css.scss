@@ -21,6 +21,13 @@ body{
 
 .control-fixed {
 	position:fixed;
+  text-align:left;
 	left:0;
 	top:20%;
+}
+
+#container {
+  margin:0 auto;
+  text-align:center;
+  width:900px;
 }
