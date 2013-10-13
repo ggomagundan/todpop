@@ -131,7 +131,7 @@ class Api::StudiesController < ApplicationController
     def send_word_result
       @status = true
       @msg = ""
-      logger.info "1111111111111"
+      
       if !params[:level].present? || !params[:stage].present?
         @status = false
         @msg = "not exist level or stage parameter"   
@@ -148,7 +148,6 @@ class Api::StudiesController < ApplicationController
         @status = false
         @msg = "not exist category parameter"   
       end
-      logger.info "2222222222222"
   if @status == true
       stage = params[:stage].to_i
       level = params[:level].to_i
@@ -162,8 +161,8 @@ class Api::StudiesController < ApplicationController
     
       chaining = 0
       chain_point =0
-      logger.info "3333333333333333333"
-      record = UserRecord.where(:stage => stage, :level => level, :id => user_id).first
+
+      record = UserRecord.where(:stage => stage, :level => level, :user_id => user_id).first
      (1..result.length).each do |i|
        if result[i] == "2"
          fast = fast+1
@@ -173,17 +172,16 @@ class Api::StudiesController < ApplicationController
          ircorrect = ircorrect + 1
        end
 
-        if result[i] != "0" 
-          chaining = chaining+1
-          if i == exam_count
-            chain_point = chain_point + chaining * (chaining - 1) / 2 * 0.25
-          end
-        else
-          chain_point = chain_point + chaining * (chaining - 1) / 2 * 0.25
+       if result[i] != "0" 
+         chaining = chaining+1
+         if i == exam_count
+           chain_point = chain_point + chaining * (chaining - 1) / 2 * 0.25
+         end
+      else
+        chain_point = chain_point + chaining * (chaining - 1) / 2 * 0.25
 
-        end
+       end
      end 
-      logger.info "44443"
     
       if stage >= 1 && stage < 10
         @score = (fast  + middle)  * 100 / exam_count
@@ -199,7 +197,7 @@ class Api::StudiesController < ApplicationController
 
         @rank_point = result / count * 20
         
-      logger.info "555555"
+      
       else 
         @status = false
         @msg = "stage must 1~10"
@@ -213,7 +211,7 @@ class Api::StudiesController < ApplicationController
         else 
             @medal = 0
         end
-logger.info "666666"
+
          if record.present? && record.record_point.present?
            @rank_point = @rank_point / 2
            
@@ -231,7 +229,7 @@ logger.info "666666"
              @reward  = 0
            end
          end
-logger.info "77777777"
+
 
          if record.present?
            if record.record_type < @medal
@@ -240,33 +238,25 @@ logger.info "77777777"
            if record.record_point < @score
              record.update_attributes(:record_point => @score)
            end
-           logger.info "aaaaaaa"
+           
          else
-            logger.info "abbbbbb"
            UserRecord.create(:level => level, :stage => stage, :user_id => user_id, :record_type => @medal, :record_point => @score)
          end
-        logger.info "cccccc"
+
          user_stage = UserStage.where(:user_id => user_id, :category => category).first
-         logger.info "ddddd"
          if !user_stage.present?
-           logger.info "ceeee"
            UserStage.create(:user_id => user_id, :category => category, :level => level, :stage => stage)
-           logger.info "fffff"
         else
-          logger.info "gggg"
+          
           if user_stage.level == level  && user_stage.stage < stage
-            logger.info "hhhh"
            user_stage.update_attributes(:stage => stage)
-           logger.info "iiii"
           end 
            if  stage == 10 && @medal > 0 && level == user_stage.level
-            logger.info "hjjjjj"
              user_stage.update_attributes(:level => user_stage.level+1)
-             logger.info "ckkk"
            end
-          logger.info "clllll"
+
          end
-logger.info "88888888"
+
           if record.present? &&  @medal < record.record_type
             @medal = record.record_type
           end
