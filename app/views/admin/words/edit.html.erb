@@ -24,6 +24,7 @@
   <div class="control-group" style="border: solid 4px gray; padding: 14px 0;">
     저장된 이미지 
     <% if f.object.picture != 0 %>
+      <%#=image_tag f.object.image_url(:thumb) %>
       <%=image_tag f.object.image_url(:thumb) %>
     <% else %>
       없음 
