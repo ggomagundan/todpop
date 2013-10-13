@@ -9,8 +9,8 @@ development:
   database: salty_development
   pool: 5
   username: 'root'
-  password: '13245'
-  socket: /tmp/mysql.sock
+  password: '!Xhemvkq*()'
+  socket: /tmp/mysqld.sock
   #socket: /var/run/mysqld/mysqld.sock
 
 
@@ -31,6 +31,6 @@ test:
   database: salty_test
   pool: 5
   username: 'root'
-  password: '13245'
-  socket: /tmp/mysql.sock
+  password: '!Xhemvkq*()'
+  socket: /tmp/mysqld.sock
 
