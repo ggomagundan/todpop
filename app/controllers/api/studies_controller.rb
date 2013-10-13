@@ -240,23 +240,31 @@ logger.info "77777777"
            if record.record_point < @score
              record.update_attributes(:record_point => @score)
            end
-           
+           logger.info "aaaaaaa"
          else
+            logger.info "abbbbbb"
            UserRecord.create(:level => level, :stage => stage, :user_id => user_id, :record_type => @medal, :record_point => @score)
          end
-
+        logger.info "cccccc"
          user_stage = UserStage.where(:user_id => user_id, :category => category).first
+         logger.info "ddddd"
          if !user_stage.present?
+           logger.info "ceeee"
            UserStage.create(:user_id => user_id, :category => category, :level => level, :stage => stage)
+           logger.info "fffff"
         else
-          
+          logger.info "gggg"
           if user_stage.level == level  && user_stage.stage < stage
+            logger.info "hhhh"
            user_stage.update_attributes(:stage => stage)
+           logger.info "iiii"
           end 
            if  stage == 10 && @medal > 0 && level == user_stage.level
+            logger.info "hjjjjj"
              user_stage.update_attributes(:level => user_stage.level+1)
+             logger.info "ckkk"
            end
-
+          logger.info "clllll"
          end
 logger.info "88888888"
           if record.present? &&  @medal < record.record_type
