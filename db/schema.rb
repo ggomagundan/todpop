@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131009170946) do
+ActiveRecord::Schema.define(version: 20131013132435) do
 
   create_table "addresses", force: true do |t|
     t.string   "depth1"
@@ -34,9 +34,9 @@ ActiveRecord::Schema.define(version: 20131009170946) do
     t.string   "content2"
     t.integer  "count"
     t.integer  "remain"
-    t.string   "local",      default: ""
-    t.integer  "interest",   default: 0
-    t.integer  "sexual",     default: 0
+    t.string   "local"
+    t.integer  "interest"
+    t.integer  "sexual"
     t.integer  "facebook"
     t.datetime "start_time"
     t.datetime "end_time"
@@ -116,6 +116,15 @@ ActiveRecord::Schema.define(version: 20131009170946) do
     t.datetime "updated_at"
   end
 
+  create_table "rewards", force: true do |t|
+    t.integer  "user_id"
+    t.string   "title"
+    t.string   "sub_title"
+    t.integer  "reward_point"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "user_records", force: true do |t|
     t.integer  "record_type"
     t.integer  "level"
@@ -123,6 +132,7 @@ ActiveRecord::Schema.define(version: 20131009170946) do
     t.integer  "record_point"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "user_stages", force: true do |t|
@@ -146,7 +156,7 @@ ActiveRecord::Schema.define(version: 20131009170946) do
     t.string   "mobile",                      null: false
     t.datetime "date"
     t.datetime "late_connection"
-    t.integer  "level_test",      default: 0
+    t.integer  "level_test"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "point",           default: 0

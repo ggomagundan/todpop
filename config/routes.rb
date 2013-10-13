@@ -55,6 +55,7 @@ Todpop::Application.routes.draw do
       get 'get_level_test_words', :on => :collection
       get 'get_level_words', :on => :collection
       get 'get_word_info', :on => :collection
+      get 'send_word_result', :on => :collection
 
     end
     
