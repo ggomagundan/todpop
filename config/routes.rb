@@ -56,6 +56,7 @@ Todpop::Application.routes.draw do
       get 'get_level_words', :on => :collection
       get 'get_word_info', :on => :collection
       get 'send_word_result', :on => :collection
+      get 'get_possible_stage', :on => :collection
 
     end
     
