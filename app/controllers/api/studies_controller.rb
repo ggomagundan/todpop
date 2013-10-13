@@ -162,7 +162,7 @@ class Api::StudiesController < ApplicationController
       chaining = 0
       chain_point =0
 
-      record = UserRecord.where(:stage => stage, :level => level, :user_id => user_id).first
+      record = UserRecord.where(:stage => stage, :level => level, :id => user_id).first
      (1..result.length).each do |i|
        if result[i] == "2"
          fast = fast+1
