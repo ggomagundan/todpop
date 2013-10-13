@@ -224,7 +224,7 @@ if @status == true
 
        end
 
-        if @medal < record.record_type
+        if record.present? &&  @medal < record.record_type
           @medal = record.record_type
         end
     end
