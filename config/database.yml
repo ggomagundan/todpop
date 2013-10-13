@@ -9,9 +9,9 @@ development:
   database: salty_development
   pool: 5
   username: 'root'
-  password: 'qwerty'
-  #socket: /tmp/mysql.sock
-  socket: /var/run/mysqld/mysqld.sock
+  password: '13245'
+  socket: /tmp/mysql.sock
+  #socket: /var/run/mysqld/mysqld.sock
 
 
 # Warning: The database defined as "test" will be erased and
