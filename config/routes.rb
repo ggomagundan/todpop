@@ -80,7 +80,7 @@ Todpop::Application.routes.draw do
 
     resources :users 
     resources :words
-#    get '/words/:id/delete', to: 'words#delete'
+    get '/words/:id/delete', to: 'words#delete'
   
   }
 
