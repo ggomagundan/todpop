@@ -14,7 +14,7 @@
 /public/assets
 /db/*.sqlite3
 /config/database.yml
-/public/uploads/*
+#/public/uploads/*
 /public/system/*
 /spec/tmp/*
 **.orig
