@@ -131,7 +131,7 @@ class Api::StudiesController < ApplicationController
     def send_word_result
       @status = true
       @msg = ""
-      Rails.logger.info "1111111111111"
+      logger.info "1111111111111"
       if !params[:level].present? || !params[:stage].present?
         @status = false
         @msg = "not exist level or stage parameter"   
@@ -148,7 +148,7 @@ class Api::StudiesController < ApplicationController
         @status = false
         @msg = "not exist category parameter"   
       end
-      Rails.logger.info "2222222222222"
+      logger.info "2222222222222"
   if @status == true
       stage = params[:stage].to_i
       level = params[:level].to_i
@@ -183,7 +183,7 @@ class Api::StudiesController < ApplicationController
 
         end
      end 
-      Rails.logger.info "44443"
+      logger.info "44443"
     
       if stage >= 1 && stage < 10
         @score = (fast  + middle)  * 100 / exam_count
@@ -199,7 +199,7 @@ class Api::StudiesController < ApplicationController
 
         @rank_point = result / count * 20
         
-      Rails.logger.info "555555"
+      logger.info "555555"
       else 
         @status = false
         @msg = "stage must 1~10"
@@ -213,7 +213,7 @@ class Api::StudiesController < ApplicationController
         else 
             @medal = 0
         end
-Rails.logger.info "666666"
+logger.info "666666"
          if record.present? && record.record_point.present?
            @rank_point = @rank_point / 2
            
@@ -231,7 +231,7 @@ Rails.logger.info "666666"
              @reward  = 0
            end
          end
-Rails.logger.info "77777777"
+logger.info "77777777"
 
          if record.present?
            if record.record_type < @medal
@@ -258,7 +258,7 @@ Rails.logger.info "77777777"
            end
 
          end
-Rails.logger.fatal "88888888"
+logger.info "88888888"
           if record.present? &&  @medal < record.record_type
             @medal = record.record_type
           end
