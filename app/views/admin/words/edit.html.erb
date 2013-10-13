@@ -25,7 +25,7 @@
     저장된 이미지 
     <% if f.object.picture != 0 %>
       <%#=image_tag f.object.image_url(:thumb) %>
-      <%=image_tag f.object.image_url(:thumb) %>
+      <%=image_tag f.object.image_url %>
     <% else %>
       없음 
     <% end %> 
