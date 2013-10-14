@@ -28,7 +28,7 @@ default_run_options[:pty] = true
 
 
 #after "deploy", "deploy:cleanup" # keep only the last 5 releases
-after "deploy", "image:symbolin_link"
+after "deploy", "image:symbolic_link"
 
 namespace :deploy do
     %w[start stop restart].each do |command|
