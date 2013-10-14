@@ -108,12 +108,19 @@ class Api::StudiesController < ApplicationController
       elsif !params[:category].present?
         @status = false
         @msg = "not exist category parameter"  
+      elsif !params[:is_new].present?
+        @status = false
+        @msg = "not exist isnew  parameter"  
+
       end
 
-      if UserRecord.where('user_id = ? and created_at >= ?', params[:user_id], Date.today.to_time).count > 3
-        @possible = false
-      else
-        @possible = true
+      if @status == true
+        if params[:is_new].to_i > 0 &&  UserRecord.where('user_id = ? and created_at >= ?', params[:user_id], Date.today.to_time).count > AppInfo.last.day_limit
+          @possible = false
+          @msg = "limit over joy studying"
+        else
+          @possible = true
+        end
       end
 
 
