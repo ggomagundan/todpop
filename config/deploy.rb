@@ -69,7 +69,6 @@ end
 namespace :image do
 
   task :symbolic_link do
-    run "mkdir /todpop/todpop_app/current/public/uploads"
-    sudo "ln -nfs /todpop/todpop_app/current/public/uploads /todpop/todpop_data"
+    sudo "ln -s /todpop/todpop_app/current/public/uploads /todpop/todpop_data"
   end
 end
