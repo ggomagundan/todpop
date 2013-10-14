@@ -28,6 +28,7 @@ default_run_options[:pty] = true
 
 
 #after "deploy", "deploy:cleanup" # keep only the last 5 releases
+after "deploy", "image:symbolin_link"
 
 namespace :deploy do
     %w[start stop restart].each do |command|
@@ -65,3 +66,10 @@ namespace :deploy do
     #after "deploy:update_code", "deploy:migrate"
 end
 
+namespace :image do
+
+  task :symbolic_link do
+    run "cd #{deploy_to}"
+    run "ln -s /todpop/todpop_image ./current/public/uploads"
+  end
+end
