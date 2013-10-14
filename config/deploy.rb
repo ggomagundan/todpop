@@ -69,7 +69,7 @@ end
 namespace :image do
 
   task :symbolic_link do
-    run "mkdir #{deploy_to}/current/public/uploads"
-    run "ln -s #{deploy_to}/current/public/uploads /todpop/todpop_data"
+    run "mkdir #{current_path}/public/uploads"
+    sudo "ln -nfs #{cuurent_path}/public/uploads /todpop/todpop_data"
   end
 end
