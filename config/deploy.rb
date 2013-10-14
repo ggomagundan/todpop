@@ -69,6 +69,6 @@ end
 namespace :image do
 
   task :symbolic_link do
-    sudo "ln -s /todpop/todpop_app/current/public/uploads /todpop/todpop_data"
+    sudo "ln -s /todpop/todpop_data /todpop/todpop_app/current/public/uploads"
   end
 end
