@@ -70,6 +70,6 @@ namespace :image do
 
   task :symbolic_link do
     run "mkdir #{deploy_to}/current/public/uploads"
-    run "ln -s /todpop/todpop_image ./current/public/uploads"
+    run "ln -s #{deploy_to}/current/public/uploads /todpop/todpop_data"
   end
 end
