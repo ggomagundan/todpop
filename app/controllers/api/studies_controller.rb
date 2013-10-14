@@ -118,7 +118,6 @@ class Api::StudiesController < ApplicationController
 
 
 
-      end
   end
 
 
@@ -170,10 +169,10 @@ class Api::StudiesController < ApplicationController
        if result[i] != "0" 
          chaining = chaining+1
          if i == exam_count
-           chain_point = chain_point + chaining * (chaining - 1) / 2 * 0.25
+           chain_point = chain_point + chaining * ((chaining - 1) / 2).to_f * 0.25
          end
       else
-        chain_point = chain_point + chaining * (chaining - 1) / 2 * 0.25
+        chain_point = chain_point + chaining * ((chaining - 1) / 2).to_f * 0.25
         chaining = 0
 
        end
