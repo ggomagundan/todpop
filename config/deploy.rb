@@ -26,7 +26,9 @@ server "14.63.160.137", :app, :web, :db, :primary => true
 ssh_options[:forward_agent] = true
 default_run_options[:pty] = true
 
+
 #after "deploy", "deploy:cleanup" # keep only the last 5 releases
+after "deploy", "image:symbolic_link"
 
 namespace :deploy do
     %w[start stop restart].each do |command|
@@ -64,3 +66,10 @@ namespace :deploy do
     #after "deploy:update_code", "deploy:migrate"
 end
 
+namespace :image do
+
+  task :symbolic_link do
+    run "cd #{deploy_to}"
+    run "ln -s /todpop/todpop_image ./current/public/uploads"
+  end
+end

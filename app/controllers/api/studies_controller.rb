@@ -113,22 +113,23 @@ class Api::StudiesController < ApplicationController
       elsif !params[:category].present?
         @status = false
         @msg = "not exist category parameter"  
-      end
-      info = UserStage.where(:user_id => params[:user_id], :category => params[:category]).first
-      if !info.present?
+      elsif !params[:is_new].present?
         @status = false
-        @msg = "not exist user"  
-      else
-        if params[:level].to_i < info.level
-          @possible = true
-        elsif params[:level].to_i == info.level && params[:stage].to_i <= info.stage
-          @possible = true
-        else
-          @possible = false
-        end 
-
+        @msg = "not exist isnew  parameter"  
 
       end
+
+      if @status == true
+        if params[:is_new].to_i > 0 &&  UserRecord.where('user_id = ? and created_at >= ?', params[:user_id], Date.today.to_time).count > AppInfo.last.day_limit
+          @possible = false
+          @msg = "limit over joy studying"
+        else
+          @possible = true
+        end
+      end
+
+
+
   end
 
 
@@ -180,10 +181,11 @@ class Api::StudiesController < ApplicationController
        if result[i] != "0" 
          chaining = chaining+1
          if i == exam_count
-           chain_point = chain_point + chaining * (chaining - 1) / 2 * 0.25
+           chain_point = chain_point + chaining * ((chaining - 1) / 2).to_f * 0.25
          end
       else
-        chain_point = chain_point + chaining * (chaining - 1) / 2 * 0.25
+        chain_point = chain_point + chaining * ((chaining - 1) / 2).to_f * 0.25
+        chaining = 0
 
        end
      end 

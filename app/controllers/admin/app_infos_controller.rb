@@ -27,8 +27,9 @@ class Admin::AppInfosController < ApplicationController
 
   def update
     @app_info = AppInfo.find(params[:id])
-    if @app_info.update_attributes(params[:app_info])
-      redirect_to [:admin, @app_info], :notice  => "Successfully updated app info."
+    if @app_info.update_attributes(app_info_params)
+      render :action => 'edit'
+      #redirect_to [:admin, @app_info], :notice  => "Successfully updated app info."
     else
       render :action => 'edit'
     end
@@ -44,7 +45,7 @@ class Admin::AppInfosController < ApplicationController
 
  
   def app_info_params
-    params.require(:app_info).permit(:time, :one_star, :two_star, :max_money, :android_version, :ios_version,  :app_server, :popup_style, :popup_image, :popup_text)
+    params.require(:app_info).permit(:time, :one_star, :two_star, :max_money, :android_version, :ios_version,  :app_server, :popup_style, :popup_image, :popup_text, :day_limit)
   end
 
 end
