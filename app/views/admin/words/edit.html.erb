@@ -10,7 +10,7 @@
     Img <%= f.file_field :image %><br/>
     img-url<br/><%= f.text_field :remote_image_url , :style => 'width:150px;' %> <br/>
     <p><%= f.submit %></p>
-    <p><%= link_to "DELETE", "/admin/words/#{@word.id}/delete?before_page=#{@page}" %></p>
+    <p><input type="button" onclick="location.href='/admin/words/<%=@word.id%>/delete?before_page=<%=@page%>'" value='Delete Image'/></p>
     <%= f.hidden_field :phonetics %>
           
     <%= f.hidden_field :example_ko %>
@@ -25,7 +25,7 @@
     저장된 이미지 
     <% if f.object.picture != 0 %>
       <%#=image_tag f.object.image_url(:thumb) %>
-      <%=image_tag f.object.image_url %>
+      (real size) <%=image_tag f.object.image_url %>
     <% else %>
       없음 
     <% end %> 
@@ -33,9 +33,10 @@
 <% end %>
 
 
-<div class="word_images">
+<div class="word_images" style='background-color:#f1f1f1;'>
   <%#= image_tag img, :alt => "img", :class=> "word_img" %>
 </div>
+<div class="loading">Loading...</div>
 <div class='btn btn-danger' id = 'more-image' data-page=1 data-word=<%=@word.name%>>more</div>
 <input type='hidden' name='before_query' value='<%=@word.name%>'/>
 <input type='text' id='add_query' style='margin:10px;'/>

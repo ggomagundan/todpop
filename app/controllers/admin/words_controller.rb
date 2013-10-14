@@ -50,6 +50,25 @@ class Admin::WordsController < Admin::ApplicationController
     
   end
 
+  def get_img_url
+    @status = true
+    @msg = ''
+    query = params[:word]
+    start = params[:start]
+    @data_url = []
+    url = "https://www.google.co.kr/search?q=#{query}&newwindow=1&as_st=y&hl=ko&tbs=sur:fc&biw=1051&bih=573&sei=QAdcUujIPOWXiQecuICwAg&tbm=isch&ijn=1&ei=QAdcUujIPOWXiQecuICwAg&start=#{start}&csl=1"
+    doc = Nokogiri::HTML(open(url))
+    html = doc.xpath("//div[contains(@class,'rg_di')]")
+    @length = html.length
+
+    for tmp in html
+      img_url = CGI::parse(URI::parse(tmp.children.first.attributes['href'].value).query)
+      show_src = tmp.children.first.children.first.attributes['src'].value
+      tmp_data = {'show' => show_src, 'real_url' => img_url['imgurl'][0]}
+      @data_url.push(tmp_data)
+    end
+  end
+
   private
   def word_params
     params.require(:word).permit(:mean, :example_en, :example_ko, :phonetics, :picture, :image, :remote_image_url )

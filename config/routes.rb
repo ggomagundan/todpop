@@ -83,7 +83,7 @@ Todpop::Application.routes.draw do
     resources :users 
     resources :words
     get '/words/:id/delete', to: 'words#delete'
-  
+    get '/words/:word/get_img_url/:start', to: 'words#get_img_url'
   }
 
   # The priority is based upon order of creation: first created -> highest priority.
