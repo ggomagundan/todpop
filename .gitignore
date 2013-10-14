@@ -13,7 +13,7 @@
 /tmp/*
 /public/assets
 /db/*.sqlite3
-/config/database.yml
+/config/database*
 /public/upload*
 /public/system/*
 /spec/tmp/*

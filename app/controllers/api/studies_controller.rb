@@ -109,18 +109,13 @@ class Api::StudiesController < ApplicationController
         @status = false
         @msg = "not exist category parameter"  
       end
-      info = UserStage.where(:user_id => params[:user_id], :category => params[:category]).first
-      if !info.present?
-        @status = false
-        @msg = "not exist user"  
+
+      if UserRecord.where('user_id = ? and created_at >= ?', params[:user_id], Date.today.to_time).count > 3
+        @possible = false
       else
-        if params[:level].to_i < info.level
-          @possible = true
-        elsif params[:level].to_i == info.level && params[:stage].to_i <= info.stage
-          @possible = true
-        else
-          @possible = false
-        end 
+        @possible = true
+      end
+
 
 
       end
@@ -179,6 +174,7 @@ class Api::StudiesController < ApplicationController
          end
       else
         chain_point = chain_point + chaining * (chaining - 1) / 2 * 0.25
+        chaining = 0
 
        end
      end 
