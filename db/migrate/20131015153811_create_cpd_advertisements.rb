@@ -1,7 +1,7 @@
 class CreateCpdAdvertisements < ActiveRecord::Migration
   def change
     create_table :cpd_advertisements do |t|
-      t.integer :kind
+      t.integer :kind, :default =>1
       t.integer :count
       t.integer :remain
       t.datetime :start_time

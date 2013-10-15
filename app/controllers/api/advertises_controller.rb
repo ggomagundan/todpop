@@ -9,9 +9,9 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
     @status = true
     @msg = ""
 
-    if !params[:kind].present? || !params[:nickname].present? 
+    if !params[:nickname].present? 
       @status = false
-      @msg = "not exist kind or nickname parameter"
+      @msg = "not exist nickname parameter"
     else
       @user = User.find_by_nickname(params[:nickname])
 

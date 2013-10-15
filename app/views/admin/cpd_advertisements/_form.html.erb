@@ -14,7 +14,9 @@
     <label class="control-label">kind</label>
     <div class="controls">
       <label>
-        <%= f.radio_button :kind, 1, :checked=>  :kind ==1 || :kind == nil  %> 이미지
+        <%= f.radio_button :kind, 1, :checked=>  :kind ==1  %> 이미지
+      </label>
+      <label>
         <%= f.radio_button :kind, 2, :checked => :kind ==2  %> 쿠폰
       </label>
     </div>
@@ -46,6 +48,26 @@
     <div class="controls">
       <label><%= f.file_field :back_image %></label>
     <%= image_tag f.object.back_image_url if f.object.back_image.present? %>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">priority</label>
+    <div class="controls">
+      <label>
+        <%= f.radio_button :priority, 1, :checked=>  :priority ==1  %>1 
+      </label>
+      <label>
+        <%= f.radio_button :priority, 2, :checked=>  :priority ==2  %>2 
+      </label>
+      <label>
+        <%= f.radio_button :priority, 3, :checked=>  :priority ==3  %>3 
+      </label>
+      <label>
+        <%= f.radio_button :priority, 4, :checked=>  :priority ==4  %>4 
+      </label>
+      <label>
+        <%= f.radio_button :priority, 5, :checked=>  :priority ==5  %>5 
+      </label>
     </div>
   </div>
   <div class="control-group">
