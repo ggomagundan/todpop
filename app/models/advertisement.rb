@@ -5,13 +5,18 @@ class Advertisement < ActiveRecord::Base
 
 
   AD_TYPE={
-     :CPL => 0,
      :CPD => 1,
      :CPDM => 2,
      :CPI => 3,
-     :CPA => 4
+     :CPA => 4,
+     :CPL => 5
    }
-   
+
+
+  after_create do |ad|
+    ad.update_attributes(:remain => ad.count)          
+  end
+
   def ad_type
    return Advertisement::AD_TYPE.key(self.kind)
   end

@@ -1,0 +1,19 @@
+
+<table>
+  <tr>
+    <th>종류</th>
+    <th>시간</th>
+    <th>남은개수</th>
+  </tr>
+  <% for advertisement in @advertisements %>
+    <tr>
+      <td><%= advertisement.kind %></td>
+      <td><%= advertisement.start_time%> ~ <%= advertisement.end_time %></td>
+      <td><%= advertisement.remain %></td>
+      <td><%= link_to "Edit", edit_admin_advertisement_path(advertisement) %></td>
+      <td><%#= link_to "Destroy", [:admin, advertisement], :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New  CPD Advertisement", new_admin_advertisement_path, :params => {:kind => 1} %></p>

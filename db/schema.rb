@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131014130019) do
+ActiveRecord::Schema.define(version: 20131014163513) do
 
   create_table "addresses", force: true do |t|
     t.string   "depth1"
@@ -30,8 +30,6 @@ ActiveRecord::Schema.define(version: 20131014130019) do
 
   create_table "advertisements", force: true do |t|
     t.integer  "kind"
-    t.string   "content1"
-    t.string   "content2"
     t.integer  "count"
     t.integer  "remain"
     t.string   "local"
@@ -42,6 +40,7 @@ ActiveRecord::Schema.define(version: 20131014130019) do
     t.datetime "end_time"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "ads_num"
   end
 
   create_table "app_infos", force: true do |t|
@@ -69,6 +68,16 @@ ActiveRecord::Schema.define(version: 20131014130019) do
   create_table "attendances", force: true do |t|
     t.integer  "user"
     t.datetime "attendance_day"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "cpd_ads", force: true do |t|
+    t.integer  "cpd_kind"
+    t.string   "front_image"
+    t.string   "back_image"
+    t.integer  "coupon_id"
+    t.integer  "priority"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

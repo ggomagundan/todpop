@@ -1,0 +1,11 @@
+
+<p>
+  <strong>Name:</strong>
+  <%= @advertisement.name %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_admin_advertisement_path(@advertisement) %> |
+  <%= link_to "Destroy", [:admin, @advertisement], :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", admin_advertisements_path %>
+</p>

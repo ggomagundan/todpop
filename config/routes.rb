@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 Todpop::Application.routes.draw do
    
+  namespace(:admin){ resources :advertisements }
   namespace(:admin){ resources :app_infos }
   namespace(:admin){ resources :notices }
   #resources :notices

@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  cpd_kind: 1
+  front_image: MyString
+  back_image: MyString
+  coupon_id: 1
+  priority: 1
+
+two:
+  cpd_kind: 1
+  front_image: MyString
+  back_image: MyString
+  coupon_id: 1
+  priority: 1
