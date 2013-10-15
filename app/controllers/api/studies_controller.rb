@@ -26,7 +26,7 @@ class Api::StudiesController < ApplicationController
           @wrong_word.push(w.word.mean) 
         end
       else
-        @level = level_word(params[:level], params[:ox])
+        @level = level_word(params[:level], params[:step], params[:ox])
         @c_word = Level.where(:level => @level).order("RAND()").first
         @wrong_word = []
         Level.where(:level => @level).where.not(:id=> @c_word.id).first(3).each do |w|
@@ -74,24 +74,29 @@ class Api::StudiesController < ApplicationController
       @status = false
       @msg = "not exist #{params[:word]} word infomation"
     end
-
-    
   end
 
-
-  def level_word(cur_level, correct)
+  def level_word(cur_level, step, correct)
     cur_level = cur_level.to_i
-    if correct == 'o' || correct ==1
-      cur_level = cur_level+12
-    else
-      cur_level = cur_level-12
+    step = step.to_i
+
+    d_level = 22-step
+    if d_level > 12
+      d_level = 12
     end
 
-    if cur_level < 1 
-      cur_level = 1
-    elsif cur_level > 24 
-      cur_level = 24
+    if correct == 'o' || correct ==1
+      cur_level = cur_level + d_level
+    else
+      cur_level = cur_level - d_level
     end
+
+    if cur_level < 1
+      cur_level = 1
+    elsif cur_level > 150
+      cur_level = 150
+    end
+
     return cur_level
   end
 
