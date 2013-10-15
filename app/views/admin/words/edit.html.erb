@@ -10,13 +10,14 @@
     Img <%= f.file_field :image %><br/>
     img-url<br/><%= f.text_field :remote_image_url , :style => 'width:150px;' %> <br/>
     <p><%= f.submit %></p>
-    <p><input type="button" onclick="location.href='/admin/words/<%=@word.id%>/delete?before_page=<%=@page%>'" value='Delete Image'/></p>
+    <p><input type="button" onclick="location.href='/admin/words/<%=@word.id%>/delete?before_page=<%=@page%>&is_align=<%=@isalign%>'" value='Delete Image'/></p>
     <%= f.hidden_field :phonetics %>
           
     <%= f.hidden_field :example_ko %>
     
     <%= f.hidden_field :example_en %> 
-    <input type='hidden' name='before_page' value='<%=@page%>'/>
+    <input type='hidden' name='before_page' value='<%=@page%>' />
+    <input type='hidden' name='before_align' value='<%=@isalign%>'/>
   </div>
   
   

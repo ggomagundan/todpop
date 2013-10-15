@@ -1,3 +1,6 @@
+<div class='noset' <% if @align == '1' %>style='color:red;'<% end %> data-status="<%=@align =='1' ? 1 : 0 %>">
+  안한거 앞으로 끌고<%=@align =='1' ? "왔지롱 (click!!)" : "오기 (click!!)" %>
+</div>
 <table class="table table-hover">
   <tr>
     <th>ID</th>
@@ -17,7 +20,7 @@
       <td><%= word.example_ko %></td>
       <td><%= word.example_en %></td>
       <td><%= 'O' if word.picture == 1 %></td>
-      <td><%= link_to "Edit", edit_admin_word_path(word, :before_page => @page), :class => 'btn btn-warning' %></td>
+      <td><%= link_to "Edit", edit_admin_word_path(word, :before_page => @page, :is_align => @align), :class => 'btn btn-warning' %></td>
       <td><% link_to "Destroy", [:admin, word], :data => { confirm: 'Text' }, :method => :delete, :class=>'btn btn-danger' %></td>
     </tr>
   <% end %>

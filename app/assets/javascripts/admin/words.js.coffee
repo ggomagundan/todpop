@@ -1,9 +1,14 @@
 window.data = {}
 
 ready = ->
+  $(".noset").click ->
+    if $(this).data('status') == 1
+      location.href = '/admin/words'
+    else
+      location.href = '/admin/words?align=1'
+
   $(".word_img").click ->
     $("#word_remote_image_url").val($(this).data('url'))
-
   $("#more-image").click ->
     $('.loading').show();
     page =  parseInt($('#more-image').data('page'), 10)
@@ -28,11 +33,14 @@ ready = ->
           $("#more-image").data('page',page)
         else
           alert('no result for search')
-        $('.loading').hide();
+        $('.loading').hide()
         $(".word_img").click ->
           $("#word_remote_image_url").val($(this).data('url'))
 
   $("#more-image").trigger('click')
+  $("#add_query").keyup (e) ->
+    if e.which == 13
+      $("#more-image").trigger('click')
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
