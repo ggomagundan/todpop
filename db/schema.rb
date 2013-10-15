@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131014163513) do
+ActiveRecord::Schema.define(version: 20131015171936) do
 
   create_table "addresses", force: true do |t|
     t.string   "depth1"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 20131014163513) do
     t.integer  "view_time"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "ad_type"
   end
 
   create_table "advertisements", force: true do |t|
@@ -80,6 +81,20 @@ ActiveRecord::Schema.define(version: 20131014163513) do
     t.integer  "priority"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "cpd_advertisements", force: true do |t|
+    t.integer  "kind"
+    t.integer  "count"
+    t.integer  "remain"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.string   "front_image"
+    t.string   "back_image"
+    t.integer  "coupon_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "priority",    default: 4
   end
 
   create_table "exam_infos", force: true do |t|

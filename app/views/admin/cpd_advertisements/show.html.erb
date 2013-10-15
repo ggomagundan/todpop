@@ -1,0 +1,43 @@
+
+<p>
+  <strong>Kind:</strong>
+  <%= @cpd_advertisement.kind %>
+</p>
+
+<p>
+  <strong>Count:</strong>
+  <%= @cpd_advertisement.count %>
+</p>
+
+<p>
+  <strong>Remain:</strong>
+  <%= @cpd_advertisement.remain %>
+</p>
+
+<p>
+  <strong>Start time:</strong>
+  <%= @cpd_advertisement.start_time %>
+</p>
+
+<p>
+  <strong>End time:</strong>
+  <%= @cpd_advertisement.end_time %>
+</p>
+
+<p>
+  <strong>Front image:</strong>
+  <%= @cpd_advertisement.front_image %>
+</p>
+
+<p>
+  <strong>Back image:</strong>
+  <%= @cpd_advertisement.back_image %>
+</p>
+
+<p>
+  <strong>Coupon:</strong>
+  <%= @cpd_advertisement.coupon_id %>
+</p>
+
+<%= link_to 'Edit', edit_cpd_advertisement_path(@cpd_advertisement) %> |
+<%= link_to 'Back', cpd_advertisements_path %>

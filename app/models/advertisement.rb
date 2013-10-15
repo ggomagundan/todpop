@@ -3,6 +3,9 @@ class Advertisement < ActiveRecord::Base
 
   has_many :advertise_logs
 
+  has_one :cpd_ad
+
+  accepts_nested_attributes_for :cpd_ad
 
   AD_TYPE={
      :CPD => 1,

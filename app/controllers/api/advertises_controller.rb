@@ -2,11 +2,14 @@
 class Api::AdvertisesController < ApplicationController#< Api::ApplicationController
 
   def get_ad
+  end
+
+  def get_cpd_ad
  
     @status = true
     @msg = ""
 
-    if !params[:kind].present? || !params[:nickname].present?
+    if !params[:kind].present? || !params[:nickname].present? 
       @status = false
       @msg = "not exist kind or nickname parameter"
     else
@@ -16,9 +19,89 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
         @status = false
         @msg = "not exist user"
       else
-        @ad_no = 1
-        @content1 = "http://i.imgur.com/bmpyrJZ.jpg"
-        @content2 = "http://i.imgur.com/bmpyrJZ.jpg"
+
+        @ad_log = AdvertiseLog.where('user_id = ? and ad_type = ? and created_at >= ?',@user.id, params[:kind], Date.today.to_time).pluck(:advertisement_id).uniq
+
+        if @ad_log.length == 0
+          @ad_list = CpdAdvertisement.where(:priority => 1)
+          @ad_list_2 = CpdAdvertisement.where(:priority => 2 )
+          @ad_list_3 = CpdAdvertisement.where(:priority => 3 )
+          @ad_list_4 = CpdAdvertisement.where(:priority => 4)
+          @ad_list_5 = CpdAdvertisement.where(:priority => 5)
+        else
+          @ad_list = CpdAdvertisement.where('priority = 1 and id not in (?)',@ad_log)
+          @ad_list_2 = CpdAdvertisement.where('priority = 2 and id not in (?)',@ad_log)
+          @ad_list_3 = CpdAdvertisement.where('priority = 3 and id not in (?)',@ad_log)
+          @ad_list_4 = CpdAdvertisement.where('priority = 4 and id not in (?)',@ad_log)
+          @ad_list_5 = CpdAdvertisement.where('priority = 5')
+        end
+
+        if(@ad_list.length != 0)
+          r = 0
+          r_id = 0     
+          @ad_list.each do |ad|
+            day = ad.end_time.to_date - Date.today
+            if (ad.remain /  day).to_f > r
+              r = (ad.remain /  day).to_f
+              r_id = ad.id
+            end
+          end
+       
+        elsif(@ad_list_2.length != 0)
+          r = 999990
+          r_id = 0     
+          @ad_list_2.each do |ad|
+            day = ad.end_time.to_date - Date.today
+            if day < r
+              r = day
+              r_id = ad.id
+            end
+          end
+        elsif(@ad_list_3.length != 0)
+          r = 0
+          r_id = 0     
+          @ad_list_3.each do |ad|
+            day = ad.end_time.to_date - Date.today
+            if (ad.remain /  day).to_f > r
+              r = (ad.remain /  day).to_f
+              r_id = ad.id
+            end
+         end
+        elsif(@ad_list_4.length != 0)
+          r = 0
+          r_id = 0     
+          @ad_list_4.each do |ad|
+            day = ad.end_time.to_date - Date.today
+            if (ad.remain /  day).to_f > r
+              r = (ad.remain /  day).to_f
+              r_id = ad.id
+            end
+          end
+        else
+          r = 0
+          r_id = 0     
+          @ad_list_5.each do |ad|
+            day = ad.end_time.to_date - Date.today
+            if (ad.remain /  day).to_f > r
+              r = (ad.remain /  day).to_f
+              r_id = ad.id
+            end
+          end
+
+        end
+
+        if r_id == 0
+          @status = false
+          @msg = "not exit ads"
+        else 
+          ad = CpdAdvertisement.find(r_id)
+          @ad_type = ad.kind
+          @content1 = ad.front_image_url
+          @content2 = ad.back_image_url
+          @coupon = ad.coupon_id
+          AdvertiseLog.create(:user_id => @user.id, :advertisement_id => ad.id, :ad_type => params[:kind])
+        end
+
       
       end
 
@@ -151,4 +234,6 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
  
   end
 
+
+ 
 end

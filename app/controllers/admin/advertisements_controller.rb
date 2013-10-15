@@ -25,7 +25,7 @@ class Admin::AdvertisementsController < ApplicationController
    @advertisement = Advertisement.find(params[:id])
 
     if @advertisement.kind == 1
-      @cpd = CpdAd.find(@advertisement.ads_num)
+      @cpd_ad = CpdAd.find(@advertisement.ads_num)
     elsif @advertisement.kind == 2
      @cpd = CpdAd.find(@advertisement.ads_num)
     elsif @advertisement.kind == 3

@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  kind: 1
+  count: 1
+  remain: 1
+  start_time: 2013-10-16 00:38:11
+  end_time: 2013-10-16 00:38:11
+  front_image: MyString
+  back_image: MyString
+  coupon_id: 1
+
+two:
+  kind: 1
+  count: 1
+  remain: 1
+  start_time: 2013-10-16 00:38:11
+  end_time: 2013-10-16 00:38:11
+  front_image: MyString
+  back_image: MyString
+  coupon_id: 1

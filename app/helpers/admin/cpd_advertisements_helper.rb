@@ -1,0 +1,2 @@
+module Admin::CpdAdvertisementsHelper
+end
