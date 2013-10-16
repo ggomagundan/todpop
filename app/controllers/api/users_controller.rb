@@ -154,7 +154,7 @@ class Api::UsersController < ApplicationController
       @user = User.find_by_mobile(params[:mobile])
       if !@user.present?
         @status = false
-        @msg = "존재하지 않는 번호"
+        @msg = "not exist mobile"
       end
     end
     
