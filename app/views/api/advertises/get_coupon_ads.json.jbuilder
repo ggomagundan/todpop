@@ -12,7 +12,7 @@ if @status == true
     json.back_original_price @original_price
     json.back_discount_price @discount_price
     json.back_desc @desc
-    json.bacj_subdesc @subdesc
+    json.back_subdesc @subdesc
     json.coupon_id @coupon_id
   end
 end
