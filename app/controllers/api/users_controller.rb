@@ -98,7 +98,10 @@ class Api::UsersController < ApplicationController
       
       if params[:email].present?
         @user = User.find_by_email(params[:email])
-        if @user.present? && !@user.authenticate(params[:password]).present?
+        if !@user.present?
+          @msg = "wrong email or password"
+          @status= false
+        elsif !@user.authenticate(params[:password]).present?
           @msg = "wrong email or password"
           @status= false
         end
