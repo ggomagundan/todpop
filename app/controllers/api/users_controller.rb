@@ -21,7 +21,7 @@ class Api::UsersController < ApplicationController
 
     if !params[:email].present? && !params[:facebook].present?
       @status = false
-      @msg = "not exist 이메"
+      @msg = "not exist email or facebook"
     elsif !params[:nickname].present?
       @status = false
       @msg = "not exist nickname"
@@ -46,10 +46,15 @@ class Api::UsersController < ApplicationController
       else
      
         # new Join
-        @user = User.new(user_params) 
-       
-        @user.password = params[:password]
-        @user.password_confirmation = params[:password] 
+        @user = User.new(user_params)
+
+        if params[:email].present? 
+          @user.password = params[:password]
+          @user.password_confirmation = params[:password] 
+        elsif params[:facebook].present?
+          @user.password = "dummypassword"
+          @user.password_confirmation = "dummypassword" 
+        end
       
       end
 
