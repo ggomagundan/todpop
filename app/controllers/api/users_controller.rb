@@ -269,9 +269,9 @@ class Api::UsersController < ApplicationController
     @status = true
     @msg = ""
 
-    if !params[:category].present? || !params[:nickname].present?
+    if !params[:category].present? || !params[:period].present? || !params[:nickname].present?
       @status = false
-      @msg = "not exist category or email parameter"
+      @msg = "not exist category or period or email parameter"
     end
 
     if @status == true
