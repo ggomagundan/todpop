@@ -89,31 +89,32 @@ class Api::UsersController < ApplicationController
     @status = true
     @msg = ""
 
-    if (!params[:email].present? && !params[:facebook].present?) || !params[:password].present? 
+    if (!params[:email].present? || !params[:password].present?) && !params[:facebook].present? 
       @status = false
-      @msg = "not exist email or password parameter"
+      @msg = "not exist email/password or facebook parameter"
     end
 
     if @status == true
       
       if params[:email].present?
         @user = User.find_by_email(params[:email])
+        if @user.present? && !@user.authenticate(params[:password]).present?
+          @msg = "wrong email or password"
+          @status= false
+        end
       elsif params[:facebook].present?
         @user = User.find_by_facebook(params[:facebook])
+        if !@user.present?
+          @msg = "not exist user"
+          @status = false
+        end
       end
       
-      if !@user.present?
-        @msg = "존재하지 않는 사용자입니다."
-        @status = false
-      elsif @user.present? && !@user.authenticate(params[:password]).present?
-        @msg = "비밀번호가 틀렸습니다."
-        @status= false
-      else 
+      if @status == true
         @user.update_attributes(:late_connection => Time.now)
       end
 
     end
-    
 
   end
 
