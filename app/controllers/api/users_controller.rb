@@ -121,6 +121,7 @@ class Api::UsersController < ApplicationController
 
   end
 
+
   def check_nickname_exist
     @status = true
     @msg = ""
@@ -173,8 +174,8 @@ class Api::UsersController < ApplicationController
     if @status == true
       @result = true
       if !User.where(:nickname => params[:recommend]).present?
-        @status = false
-        @msg = "존재하지 않는 닉네임"
+        @result = false
+        @msg = "not exist nickname"
       end
     end
   end
