@@ -19,21 +19,30 @@ class Api::UsersController < ApplicationController
     #inter = 1,2,3,4
     #@value.split(",").map { |s| s.to_i }
 
-    if !params[:email].present? && !params[:facebook].present?
-      @status = false
-      @msg = "not exist email or facebook"
-    elsif !params[:nickname].present?
-      @status = false
-      @msg = "not exist nickname"
-    elsif User.where(:nickname => params[:nickname]).present?
-      @status = false
-      @msg = "nickname duplicate"
-    elsif !params[:mobile].present?
-      @status = false
-      @msg = "not exist mobile"
-    elsif User.where(:mobile => params[:mobile]).present?
-      @status = false
-      @msg = "mobile duplicate"
+
+    if params[:mem_no].present?
+      if !params[:email].present? && !params[:facebook].present?
+        @status = false
+        @msg = "not exist email or facebook"
+      end
+
+    else
+      if !params[:email].present? && !params[:facebook].present?
+        @status = false
+        @msg = "not exist email or facebook"
+      elsif !params[:nickname].present?
+        @status = false
+        @msg = "not exist nickname"
+      elsif User.where(:nickname => params[:nickname]).present?
+        @status = false
+        @msg = "nickname duplicate"
+      elsif !params[:mobile].present?
+        @status = false
+        @msg = "not exist mobile"
+      elsif User.where(:mobile => params[:mobile]).present?
+        @status = false
+        @msg = "mobile duplicate"
+      end
     end
 
     if @status == true
