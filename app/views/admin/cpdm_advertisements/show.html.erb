@@ -1,0 +1,36 @@
+<% title "Admin/Cpdm Advertisement" %>
+
+<p>
+  <strong>Kind:</strong>
+  <%= @cpdm_advertisement.kind %>
+</p>
+<p>
+  <strong>Start Time:</strong>
+  <%= @cpdm_advertisement.start_time %>
+</p>
+<p>
+  <strong>End Time:</strong>
+  <%= @cpdm_advertisement.end_time %>
+</p>
+<p>
+  <strong>Count:</strong>
+  <%= @cpdm_advertisement.count %>
+</p>
+<p>
+  <strong>Remain:</strong>
+  <%= @cpdm_advertisement.remain %>
+</p>
+<p>
+  <strong>Priority:</strong>
+  <%= @cpdm_advertisement.priority %>
+</p>
+<p>
+  <strong>Url:</strong>
+  <%= @cpdm_advertisement.url %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_admin_cpdm_advertisement_path(@cpdm_advertisement) %> |
+  <%= link_to "Destroy", [:admin, @cpdm_advertisement], :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", admin_cpdm_advertisements_path %>
+</p>

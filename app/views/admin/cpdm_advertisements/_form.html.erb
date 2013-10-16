@@ -1,0 +1,66 @@
+<%= form_for [:admin, @cpdm_advertisement] do |f| %>
+  <% if @cpdm_advertisement.errors.any? %>
+  <%= f.error_messages %>
+<% end %>
+  <!--<div class="control-group">
+    <label class="control-label">kind</label>
+    <div class="controls">
+      <label>
+        <%#= f.radio_button :kind, 1, :checked=>  :kind ==1  %> 동영상
+      </label>
+    </div>
+  </div>
+-->  
+  <div class="control-group">
+    <label class="control-label">name</label>
+    <div class="controls">
+      <label><%= f.text_field :ad_name %></label>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">count</label>
+    <div class="controls">
+      <label><%= f.text_field :count %></label>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">Time</label>
+    <div class="controls">
+      <label>
+        <%= f.text_field :start_time, :class => "calendar" %> ~
+        <%= f.text_field :end_time, :class=> "calendar" %>
+      </label>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">url</label>
+    <div class="controls">
+      <label><%= f.text_field :url %></label>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">priority</label>
+    <div class="controls">
+      <label>
+        <%= f.radio_button :priority, 1, :checked=>  f.object.priority ==1  %>1 
+      </label>
+      <label>
+        <%= f.radio_button :priority, 2, :checked=>  f.object.priority ==2  %>2 
+      </label>
+      <label>
+        <%= f.radio_button :priority, 3, :checked=>  f.object.priority ==3  %>3 
+      </label>
+      <label>
+        <%= f.radio_button :priority, 4, :checked=>  f.object.priority ==4 || f.object.priority == nil  %>4 
+      </label>
+      <label>
+        <%= f.radio_button :priority, 5, :checked=>  f.object.priority ==5  %>5 
+      </label>
+    </div>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+
+
+<% end %>

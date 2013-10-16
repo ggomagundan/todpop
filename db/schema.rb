@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131015171936) do
+ActiveRecord::Schema.define(version: 20131016172454) do
 
   create_table "addresses", force: true do |t|
     t.string   "depth1"
@@ -95,6 +95,20 @@ ActiveRecord::Schema.define(version: 20131015171936) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "priority",    default: 4
+    t.string   "ad_name"
+  end
+
+  create_table "cpdm_advertisements", force: true do |t|
+    t.integer  "kind"
+    t.date     "start_time"
+    t.date     "end_time"
+    t.integer  "count"
+    t.integer  "remain"
+    t.integer  "priority"
+    t.string   "url"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "ad_name"
   end
 
   create_table "exam_infos", force: true do |t|

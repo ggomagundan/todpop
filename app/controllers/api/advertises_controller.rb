@@ -41,8 +41,8 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           r_id = 0     
           @ad_list.each do |ad|
             day = ad.end_time.to_date - Date.today
-            if (ad.remain /  day).to_f > r
-              r = (ad.remain /  day).to_f
+            if (ad.remain /  day.to_f) > r
+              r = (ad.remain /  day.to_f)
               r_id = ad.id
             end
           end
@@ -62,8 +62,8 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           r_id = 0     
           @ad_list_3.each do |ad|
             day = ad.end_time.to_date - Date.today
-            if (ad.remain /  day).to_f > r
-              r = (ad.remain /  day).to_f
+            if (ad.remain /  day.to_f) > r
+              r = (ad.remain /  day.to_f)
               r_id = ad.id
             end
          end
@@ -72,8 +72,8 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           r_id = 0     
           @ad_list_4.each do |ad|
             day = ad.end_time.to_date - Date.today
-            if (ad.remain /  day).to_f > r
-              r = (ad.remain /  day).to_f
+            if (ad.remain /  day.to_f) > r
+              r = (ad.remain /  day.to_f)
               r_id = ad.id
             end
           end
@@ -82,8 +82,8 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           r_id = 0     
           @ad_list_5.each do |ad|
             day = ad.end_time.to_date - Date.today
-            if (ad.remain /  day).to_f > r
-              r = (ad.remain /  day).to_f
+            if (ad.remain /  day.to_f) > r
+              r = (ad.remain /  day.to_f)
               r_id = ad.id
             end
           end
@@ -109,6 +109,112 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
  
   end
  
+  def get_cpdm_ad
+ 
+    @status = true
+    @msg = ""
+
+    if !params[:nickname].present? 
+      @status = false
+      @msg = "not exist nickname parameter"
+    else
+      @user = User.find_by_nickname(params[:nickname])
+
+      if !@user.present?
+        @status = false
+        @msg = "not exist user"
+      else
+
+        @ad_log = AdvertiseLog.where('user_id = ? and ad_type = ? and created_at >= ?',@user.id, 2, Date.today.to_time).pluck(:advertisement_id).uniq
+
+        binding.pry
+        if @ad_log.length == 0
+          @ad_list = CpdmAdvertisement.where(:priority => 1)
+          @ad_list_2 = CpdmAdvertisement.where(:priority => 2 )
+          @ad_list_3 = CpdmAdvertisement.where(:priority => 3 )
+          @ad_list_4 = CpdmAdvertisement.where(:priority => 4)
+          @ad_list_5 = CpdmAdvertisement.where(:priority => 5)
+        else
+          @ad_list = CpdmAdvertisement.where('priority = 1 and id not in (?)',@ad_log)
+          @ad_list_2 = CpdmAdvertisement.where('priority = 2 and id not in (?)',@ad_log)
+          @ad_list_3 = CpdmAdvertisement.where('priority = 3 and id not in (?)',@ad_log)
+          @ad_list_4 = CpdmAdvertisement.where('priority = 4 and id not in (?)',@ad_log)
+          @ad_list_5 = CpdmAdvertisement.where('priority = 5')
+        end
+
+        if(@ad_list.length != 0)
+          r = 0
+          r_id = 0     
+          @ad_list.each do |ad|
+            day = ad.end_time - Date.today
+            if (ad.remain /  day.to_f) > r
+              r = (ad.remain /  day.to_f)
+              r_id = ad.id
+            end
+          end
+       
+        elsif(@ad_list_2.length != 0)
+          r = 999990
+          r_id = 0     
+          @ad_list_2.each do |ad|
+            day = ad.end_time - Date.today
+            if day < r
+              r = day
+              r_id = ad.id
+            end
+          end
+        elsif(@ad_list_3.length != 0)
+          r = 0
+          r_id = 0     
+          @ad_list_3.each do |ad|
+            day = ad.end_time - Date.today
+            if (ad.remain /  day.to_f) > r
+              r = (ad.remain /  day.to_f)
+              r_id = ad.id
+            end
+         end
+        elsif(@ad_list_4.length != 0)
+          r = 0
+          r_id = 0     
+          @ad_list_4.each do |ad|
+            day = ad.end_time - Date.today
+            if (ad.remain /  day.to_f)> r
+              r = (ad.remain /  day.to_f)
+              r_id = ad.id
+            end
+            binding.pry
+          end
+        else
+          r = 0
+          r_id = 0     
+          @ad_list_5.each do |ad|
+            day = ad.end_time - Date.today
+            if (ad.remain /  day.to_f) > r
+              r = (ad.remain /  day.to_f)
+              r_id = ad.id
+            end
+          end
+
+        end
+
+        if r_id == 0
+          @status = false
+          @msg = "not exit ads"
+        else 
+          ad = CpdmAdvertisement.find(r_id)
+          @ad_id = ad.id
+          @ad_type = ad.kind
+          @url  = ad.url
+          AdvertiseLog.create(:user_id => @user.id, :advertisement_id => ad.id, :ad_type =>2 )
+        end
+
+      
+      end
+
+    end
+ 
+  end
+
   def set_log
 
       @status = true
