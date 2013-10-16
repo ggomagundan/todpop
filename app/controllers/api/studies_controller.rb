@@ -22,14 +22,14 @@ class Api::StudiesController < ApplicationController
         @level = 20
         @c_word = Level.where(:level =>20).order("RAND()").first
         @wrong_word = []
-        Level.where(:level => 20).where.not(:id=> @c_word.id).first(3).each do |w|
+        Level.where(:level => 20).where.not(:id=> @c_word.id).order("RAND()").first(3).each do |w|
           @wrong_word.push(w.word.mean) 
         end
       else
         @level = level_word(params[:level], params[:step], params[:ox])
         @c_word = Level.where(:level => @level).order("RAND()").first
         @wrong_word = []
-        Level.where(:level => @level).where.not(:id=> @c_word.id).first(3).each do |w|
+        Level.where(:level => @level).where.not(:id=> @c_word.id).order("RAND()").first(3).each do |w|
           @wrong_word.push(w.word.mean) 
         end
 
@@ -169,7 +169,7 @@ class Api::StudiesController < ApplicationController
       chain_point =0
 
       record = UserRecord.where(:stage => stage, :level => level, :user_id => user_id).first
-     (1..result.length).each do |i|
+     (0..result.length-1).each do |i|
        if result[i] == "2"
          fast = fast+1
        elsif result[i] == "1"
