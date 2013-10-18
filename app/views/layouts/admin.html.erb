@@ -1,8 +1,8 @@
  <!DOCTYPE html>
  <html>
  <head>
- <%= stylesheet_link_tag "admin/application", "admin/#{ controller_name}", :media => "all" %>
- <%= javascript_include_tag "admin/application", "admin/#{ controller_name}" %>
+ <%= stylesheet_link_tag "admin/application", "admin/#{controller_name}", :media => "all" %>
+ <%= javascript_include_tag "admin/application", "admin/#{controller_name}" %>
  <%= csrf_meta_tags %>
  </head>
  <body>
