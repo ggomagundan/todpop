@@ -49,7 +49,9 @@
   <div class="control-group">
     <label class="control-label">popup_style</label>
     <div class="controls">
-      <label><%= f.text_field :popup_style%></label>
+      <label><%= f.radio_button :popup_style, 0, :checked => f.object.popup_style  == 0  %>None</label>
+      <label><%= f.radio_button :popup_style, 1, :checked => f.object.popup_style  == 1 %>Image</label>
+      <label><%= f.radio_button :popup_style , 2, :checked => f.object.popup_style  == 2 %>Text</label>
     </div>
   </div>
   <div class="control-group">

@@ -13,7 +13,7 @@ class Admin::UsersController < Admin::ApplicationController
   end
 
   def create
-    @user = User.new(params[:user])
+    @user = User.new(user_params)
     if @user.save
       redirect_to [:admin, @user], :notice => "Successfully created user."
     else
@@ -27,8 +27,8 @@ class Admin::UsersController < Admin::ApplicationController
 
   def update
     @user = User.find(params[:id])
-    if @user.update_attributes(params[:user])
-      redirect_to [:admin, @user], :notice  => "Successfully updated user."
+    if @user.update_attributes(user_params)
+      redirect_to admin_users_path, :notice  => "Successfully updated user."
     else
       render :action => 'edit'
     end
@@ -38,5 +38,10 @@ class Admin::UsersController < Admin::ApplicationController
     @user = User.find(params[:id])
     @user.destroy
     redirect_to admin_users_url, :notice => "Successfully destroyed user."
+  end
+
+  private 
+  def user_params
+    params.require(:user).permit( :email, :facebook, :password, :password_confirmation , :password_digest, :nickname, :recommend , :sex , :birth , :address , :mobile ,  :late_connection , :level_test, :interest, :is_admin )
   end
 end

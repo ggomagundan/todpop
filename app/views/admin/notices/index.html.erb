@@ -10,7 +10,7 @@
     <tr>
       <td><%= notice.title %></td>
       <td><%= notice.content %></td>
-      <td><%= link_to "Edit", edit_admin_notice_path(notice) %></td>
+      <td><%= link_to "Edit", edit_admin_notice_path(notice) , :class=>"btn btn-warning"%></td>
       <td><%#= link_to "Destroy", [:admin, notice], :confirm => 'Are you sure?', :method => :delete %></td>
     </tr>
   <% end %>

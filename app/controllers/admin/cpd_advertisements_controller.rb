@@ -1,4 +1,4 @@
-class Admin::CpdAdvertisementsController < ApplicationController
+class Admin::CpdAdvertisementsController < Admin::ApplicationController
   def index
     @cpd_advertisements = CpdAdvertisement.all
   end

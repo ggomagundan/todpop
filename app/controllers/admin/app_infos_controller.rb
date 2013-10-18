@@ -1,7 +1,8 @@
 # -*- encoding : utf-8 -*-
-class Admin::AppInfosController < ApplicationController
+class Admin::AppInfosController < Admin::ApplicationController
   def index
-    @app_infos = AppInfo.all
+    @id = AppInfo.last.id
+    redirect_to edit_admin_app_info_path(@id)
   end
 
   def show
@@ -13,7 +14,7 @@ class Admin::AppInfosController < ApplicationController
   end
 
   def create
-    @app_info = AppInfo.new(params[:app_info])
+    @app_info = AppsdInfo.new(params[:app_info])
     if @app_info.save
       redirect_to [:admin, @app_info], :notice => "Successfully created app info."
     else

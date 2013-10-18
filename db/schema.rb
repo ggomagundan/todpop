@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131018152603) do
+ActiveRecord::Schema.define(version: 20131018175019) do
 
   create_table "addresses", force: true do |t|
     t.string   "depth1"
@@ -214,6 +214,7 @@ ActiveRecord::Schema.define(version: 20131018152603) do
     t.integer  "point",           default: 0
     t.integer  "attendance_time", default: 0
     t.integer  "interest"
+    t.integer  "is_admin",        default: 0
   end
 
   create_table "words", force: true do |t|
