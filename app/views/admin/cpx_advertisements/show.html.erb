@@ -1,0 +1,40 @@
+<% title "Admin/Cpx Advertisement" %>
+
+<p>
+  <strong>Kind:</strong>
+  <%= @cpx_advertisement.kind %>
+</p>
+<p>
+  <strong>Start Time:</strong>
+  <%= @cpx_advertisement.start_time %>
+</p>
+<p>
+  <strong>End Time:</strong>
+  <%= @cpx_advertisement.end_time %>
+</p>
+<p>
+  <strong>Count:</strong>
+  <%= @cpx_advertisement.count %>
+</p>
+<p>
+  <strong>Remain:</strong>
+  <%= @cpx_advertisement.remain %>
+</p>
+<p>
+  <strong>Priority:</strong>
+  <%= @cpx_advertisement.priority %>
+</p>
+<p>
+  <strong>Url:</strong>
+  <%= @cpx_advertisement.url %>
+</p>
+<p>
+  <strong>Name:</strong>
+  <%= @cpx_advertisement.name %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_admin_cpx_advertisement_path(@cpx_advertisement) %> |
+  <%= link_to "Destroy", [:admin, @cpx_advertisement], :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", admin_cpx_advertisements_path %>
+</p>
