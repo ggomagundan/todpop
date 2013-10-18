@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-class Admin::NoticesController < ApplicationController
+class Admin::NoticesController < Admin::ApplicationController
   def index
     @notices = Notice.all
   end

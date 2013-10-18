@@ -1,18 +1,15 @@
-<h1>Listing users</h1>
 
-<table>
+<table class="table table-hover">
   <thead>
     <tr>
       <th>Email</th>
       <th>Facebook</th>
-      <th>Password</th>
       <th>Nickname</th>
       <th>Recommend</th>
       <th>Sex</th>
       <th>Birth</th>
       <th>Address</th>
       <th>Mobile</th>
-      <th>Date</th>
       <th>Late connection</th>
       <th>Level test</th>
       <th></th>
@@ -26,19 +23,16 @@
       <tr>
         <td><%= user.email %></td>
         <td><%= user.facebook %></td>
-        <td><%= user.password %></td>
         <td><%= user.nickname %></td>
         <td><%= user.recommend %></td>
-        <td><%= user.sex %></td>
+        <td><%= "M" if user.sex ==1 %><%= "F" if user.sex ==2%></td>
         <td><%= user.birth %></td>
         <td><%= user.address %></td>
         <td><%= user.mobile %></td>
-        <td><%= user.date %></td>
         <td><%= user.late_connection %></td>
-        <td><%= user.level_test %></td>
-        <td><%= link_to 'Show', user %></td>
-        <td><%= link_to 'Edit', edit_user_path(user), :class=>'btn btn-danger' %></td>
-        <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= 'O' if user.level_test == 1 %></td>
+        <td><%= link_to 'Edit', edit_admin_user_path(user), :class=>'btn btn-warning' %></td>
+        <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }, :class=>"btn btn-danger" %></td>
       </tr>
     <% end %>
   </tbody>

@@ -1,0 +1,64 @@
+<!-- navbar -->
+
+<%= link_to image_tag("admin/logo.png"), admin_root_path, :class => "header_logo" %>
+<div class="divider_vertical"></div>
+<ul class="navbar">
+
+  <li class="dropdown">
+    <a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="/page.html">
+      USER
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+      <li><%= link_to "User Management", admin_users_path%></li>
+    </ul>
+  </li>
+
+  <li class="dropdown">
+    <a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="/page.html">
+     WORD 
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+      <li><%= link_to "Words Management",admin_words_path%></li> 
+    </ul>
+  </li>
+
+  <li class="dropdown">
+    <a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="/page.html">
+     ADS 
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+      <li><%= link_to "CPD Management", admin_cpd_advertisements_path %></li>
+      <li><%= link_to "CPDM Management", admin_cpdm_advertisements_path %></li>
+      <li><%= link_to "CPX Management", admin_cpx_advertisements_path %></li>
+    </ul>
+  </li>
+
+  <li class="dropdown">
+    <a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="/page.html">
+     APP INFO 
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+      <li><%= link_to "Notice", admin_notices_path %></li>
+      <li><%= link_to "App Info", admin_app_infos_path %></li>
+    </ul>
+  </li>
+
+  <li class="dropdown">
+    <a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="/page.html">
+     LOGS 
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+      <li><%#= link_to "유저 관리", admin_users_path %></li>
+    </ul>
+  </li>
+
+  </li>
+
+</ul>
+
+<!-- end navbar -->

@@ -20,7 +20,7 @@
       <td><%= cpx_advertisement.remain %></td>
       <td><%= cpx_advertisement.priority %></td>
       <td><%= cpx_advertisement.url %></td>
-      <td><%= link_to "Edit", edit_admin_cpx_advertisement_path(cpx_advertisement) %></td>
+      <td><%= link_to "Edit", edit_admin_cpx_advertisement_path(cpx_advertisement), :class => "btn btn-warning" %></td>
       <td><%#= link_to "Destroy", [:admin, cpx_advertisement], :confirm => 'Are you sure?', :method => :delete %></td>
     </tr>
   <% end %>

@@ -1,8 +1,96 @@
 <%= form_for [:admin, @user] do |f| %>
-  <%= f.error_messages %>
-  <p>
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </p>
-  <p><%= f.submit %></p>
+ <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+      <% @user.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="control-group">
+    <label class="control-label">Email</label>
+    <div class="controls">
+      <label><%= f.text_field :email %></label>
+      <label><%= f.text_field :facebook %></label>
+    </div>
+  </div>
+ <div class="control-group">
+    <label class="control-label">PassWord</label>
+    <div class="controls">
+      <label><%= f.password_field :password %></label>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label">NickName</label>
+    <div class="controls">
+      <label><%= f.text_field :nickname %></label>
+    </div>
+  </div>
+ 
+  <div class="control-group">
+    <label class="control-label">Recommender</label>
+    <div class="controls">
+      <label><%= f.text_field :recommend %></label>
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label">Sex</label>
+    <div class="controls">
+      <label><%= f.radio_button :sex, 1, :checked => f.object.sex  == 1 || f.object.sex == nil  %>Man</label>
+      <label><%= f.radio_button :sex, 2, :checked => f.object.sex  == 2 %>Woman</label>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label">BirthDay</label>
+    <div class="controls">
+      <label><%= f.text_field :birth, :class=>"calendar"%></label>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label">Address</label>
+    <div class="controls">
+      <label><%= f.text_field :address %></label>
+    </div>
+  </div>
+
+
+  <div class="control-group">
+    <label class="control-label">Mobile</label>
+    <div class="controls">
+      <label><%= f.text_field :mobile %></label>
+    </div>
+  </div>
+
+ <!-- <div class="control-group">
+    <label class="control-label">Mobile</label>
+    <div class="controls">
+      <label><%#= f.text_field :mobile %></label>
+    </div>
+  </div>
+-->
+  <div class="control-group">
+    <label class="control-label">LastConnection:</label>
+    <div class="controls">
+      <label><%= f.text_field :late_connection %></label>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">LevelTest</label>
+    <div class="controls">
+      <label><%= f.check_box :level_test %></label>
+    </div>
+  </div>
+  
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+
 <% end %>

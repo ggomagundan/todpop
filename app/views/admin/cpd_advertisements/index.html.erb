@@ -21,9 +21,9 @@
         <td><%= cpd_advertisement.kind %></td>
         <td><%= cpd_advertisement.count %></td>
         <td><%= cpd_advertisement.remain %></td>
-        <td><%= cpd_advertisement.start_time %> ~ <%= cpd_advertisement.end_time %></td>
+        <td><%= cpd_advertisement.start_time.to_date %> ~ <%= cpd_advertisement.end_time.to_date %></td>
         <td><%= cpd_advertisement.priority %></td>
-        <td><%= link_to 'Edit', edit_admin_cpd_advertisement_path(cpd_advertisement) %></td>
+        <td><%= link_to 'Edit', edit_admin_cpd_advertisement_path(cpd_advertisement), :class=>"btn btn-warning" %></td>
       </tr>
     <% end %>
   </tbody>

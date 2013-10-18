@@ -17,7 +17,7 @@
       <td><%= cpdm_advertisement.remain %></td>
       <td><%= cpdm_advertisement.priority %></td>
       <td><%= cpdm_advertisement.url %></td>
-      <td><%= link_to "Edit", edit_admin_cpdm_advertisement_path(cpdm_advertisement) %>
+      <td><%= link_to "Edit", edit_admin_cpdm_advertisement_path(cpdm_advertisement), :class=>"btn btn-warning" %>
       <%#= link_to "Destroy", [:admin, cpdm_advertisement], :confirm => 'Are you sure?', :method => :delete %></td>
     </tr>
   <% end %>
