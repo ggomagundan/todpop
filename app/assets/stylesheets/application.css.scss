@@ -12,3 +12,38 @@
  *= require_tree .
  */
  //= require bootstrap
+
+.submit {
+	margin-top:20px;
+}
+
+.change_pw_box {
+	background-image:url('/uploads/images/password_bg.png');
+	background-repeat:no-repeat;
+	background-position:center center;
+	background-size:cover;
+	width:475px;
+	height:322px;
+	margin: 100px auto;
+	padding: 20px;
+	text-align:center;
+}
+
+.change_pw_box table td .text {
+	margin:1px auto;
+	
+}
+
+.change_pw_box table {
+	width:400px;
+	text-align:left;
+	margin:102px auto 0;
+}
+.change_pw_box table td {
+	padding:15px 0;
+}
+
+.change_pw_box table td.right {
+	width:120px;
+}
+

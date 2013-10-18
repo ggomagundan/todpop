@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class Api::UsersController < ApplicationController
   skip_before_filter :verify_authenticity_token
- 
+
   def index
     @users = User.all
   end
@@ -366,6 +366,7 @@ class Api::UsersController < ApplicationController
     @msg = ""
 
     @user = User.find(params[:id])
+    
     if !@user.present?
       @status = false
       @msg = "not exist user"
@@ -383,17 +384,45 @@ class Api::UsersController < ApplicationController
       @user.password = @pass
       @user.password_confirmation = @pass
       if @user.save
-        #require mail to using @user.password_digest 
-        @result = true
+        if UserMailer.change_pw_facebook(@user).deliver
+          @status = true
+          @msg = "success"
+        else
+          @status = false
+          @msg = "failed to send email"
+        end
       else
         @status = false
         @msg = "not success user update. please retry"  
       end
     end
-  end 
-  private
-  def user_params
-    params.permit(:email, :facebook, :nickname, :recommend, :sex, :birth, :address, :mobile, :interest )
   end
+
+  def facebook_change_pw
+    @user = User.find(params[:id])
+    
+    if request.post?
+      if !params[:user][:password].present? || !params[:user][:password_confirmation]
+        render :file => "#{Rails.root}/public/500"
+      else
+        @user.password = params[:user][:password]
+        @user.password_confirmation = params[:user][:password]
+        if @user.save
+          @status = true
+        else
+          @status = false
+        end
+      end
+    else 
+      if !@user.present? || @user.password_digest != params[:tmp]
+        render :file => "#{Rails.root}/public/404"
+      end
+    end
+  end
+
+  private
+    def user_params
+      params.permit(:email, :facebook, :nickname, :recommend, :sex, :birth, :address, :mobile, :interest)
+    end
 
 end

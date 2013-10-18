@@ -42,7 +42,8 @@ Todpop::Application.routes.draw do
       
       get 'change_password', :on => :member
       get 'setting_facebook_password', :on => :member
-    
+      get 'facebook_change_pw', :on => :member
+      post 'facebook_change_pw', :on => :member
     end
 
     resources :advertises do

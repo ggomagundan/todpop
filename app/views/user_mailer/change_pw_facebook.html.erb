@@ -1,0 +1,65 @@
+<table style="background: rgb(255, 255, 255); margin: 0px; padding: 0px; width: 100% !important;" border="0" cellSpacing="0" cellPadding="8">
+	<tbody>
+		<tr>
+			<td vAlign="top">
+				<table border="0" cellSpacing="0" cellPadding="0" align="center">
+					<tbody>
+						<tr>
+							<td style="font-size: 0px;" bgColor="e95655" height="1" align="center">
+								<img src="http://todpop.co.kr/uploads/images/todpop.jpg" alt="width:100%;max-h">
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<table style="border-radius: 0px 0px 4px 4px; border-right-color: rgb(233, 86, 85); border-bottom-color: rgb(233, 86, 85); border-left-color: rgb(233, 86, 85); border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;" border="0" cellSpacing="0" cellPadding="0" align="center">
+									<tbody>
+										<tr>
+											<td height="36" colSpan="3"></td></tr><tr><td width="36"></td><td style="color: rgb(68, 68, 68); font-family: Open Sans,Lucida Grande,Segoe UI,Arial,Verdana,Lucida Sans Unicode,Tahoma,Sans Serif; font-size: 14px; border-collapse: collapse;" vAlign="top" width="454" align="left">
+											    안녕하세요. <%=@user.nickname%>님 <br><br>
+												짭짤한 영어 입니다.<br> 
+												회원님의 짭짤한 영어 계정 비밀번호를 설정하려 합니다.<br><br>
+
+												아래 링크를 누르시면 계정 비밀번호 설정 페이지로 이동합니다.<br>
+												<%=link_to '비밀번호 설정', facebook_change_pw_api_user_url(@user, :tmp => @user.password_digest)%><br><br>
+												TODPOP 드림
+											</td>
+											<td width="36">
+											</td>
+										</tr>
+										<tr>
+											<td height="36" colSpan="3">
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<table border="0" cellSpacing="0" cellPadding="0" align="center">
+					<tbody>
+						<tr>
+							<td height="10">
+							</td>
+						</tr>
+						<tr>
+							<td style="padding: 0px; border-collapse: collapse;">
+								<table border="0" cellSpacing="0" cellPadding="0" align="center">
+									<tbody>
+										<tr style="color: rgb(233, 86, 85); font-family: Open Sans,Lucida Grande,Segoe UI,Arial,Verdana,Lucida Sans Unicode,Tahoma,Sans Serif; font-size: 11px;" vAlign="top">
+											<td width="400" align="left">
+											</td>
+											<td width="128" align="right">
+												¨Ï 2013 Todpop
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+	</tbody>
+</table>
