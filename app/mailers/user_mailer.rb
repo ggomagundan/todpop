@@ -8,6 +8,6 @@ class UserMailer < ActionMailer::Base
   #
   def change_pw_facebook(user)
     @user = user
-    mail to: user.email, subject: "[짭짤한영어] 비밀번호 설정 이메일입니다."
+    mail to: user.facebook, subject: "[짭짤한영어] 비밀번호 설정 이메일입니다."
   end
 end
