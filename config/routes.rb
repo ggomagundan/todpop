@@ -1,9 +1,9 @@
 # -*- encoding : utf-8 -*-
 Todpop::Application.routes.draw do
    
+  namespace(:admin){ resources :cpx_advertisements }
   namespace(:admin){ resources :cpdm_advertisements }
   namespace(:admin){ resources :cpd_advertisements }
-  resources :cpd_advertisements
 
   namespace(:admin){ resources :advertisements }
   namespace(:admin){ resources :app_infos }
@@ -55,6 +55,7 @@ Todpop::Application.routes.draw do
       get 'set_log', :on => :collection
       get 'get_cpd_ad', :on => :collection
       get 'get_cpdm_ad', :on => :collection
+      get 'get_cpx_ad', :on => :collection
 
     end
   
