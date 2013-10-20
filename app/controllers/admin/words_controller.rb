@@ -3,7 +3,16 @@ class Admin::WordsController < Admin::ApplicationController
   def index
     @page = params[:page] ? params[:page] : 1
     @align = params[:align] == '1' ? '1' : '0'
-    @words = params[:align] != '1' ? Word.page(params[:page]).per(20) : Word.order('picture ASC, image ASC, id ASC').page(params[:page]).per(20) 
+    if params[:search].present?
+      q = "%#{params[:search]}%"
+      @words = Word.where("name LIKE ? OR mean LIKE ?", q, q).page(params[:page]).per(10)
+    else
+      @words = !params[:align].present? || params[:align] ==0 ? Word.page(params[:page]).per(10) : 
+        (params[:align] == '1' ? Word.where(:picture => 0).page(params[:page]).per(10) : Word.where(:confirm => 1).page(params[:page]).per(10) )
+    end
+    @picture_cnt = Word.where(:picture =>0).count
+    @word_cnt = Word.count
+    @confirm_cnt = Word.where(:confirm => 1).count
   end
 
   def new
@@ -23,6 +32,8 @@ class Admin::WordsController < Admin::ApplicationController
     @word = Word.find(params[:id])
     @page = params[:before_page]
     @isalign = params[:is_align]
+    @picture_cnt = Word.where(:picture =>0).count
+    @word_cnt = Word.count
   #  @url = "http://todpop.herokuapp.com/picture/index.json?word=#{@word.name}"
 
    # @response = JSON.parse(open("http://todpop.herokuapp.com/picture/index.json?word=#{@word.name}").read)
@@ -47,6 +58,23 @@ class Admin::WordsController < Admin::ApplicationController
     redirect_to admin_words_path(:page => params[:before_page], :align => params[:is_align])
   end
   
+  def confirm
+    @word = Word.where('picture = ? and confirm = ?', 1, 0).order("RAND()").first
+    if request.get?
+      @confirm = true
+      @picture_cnt = Word.where(:picture => 1).count
+      @confirm_cnt = Word.where(:confirm => 1).count
+      render :action => 'edit'
+    else
+      @word.confirm = 1
+      if @word.update_attributes(word_params)
+        redirect_to admin_words_dummy_confirm_path
+      else
+        render :file => "#{Rails.root}/public/500"
+      end
+    end
+  end
+
   def destroy
     @word = Word.find(params[:id])
     

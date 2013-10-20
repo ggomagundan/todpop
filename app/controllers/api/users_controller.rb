@@ -403,7 +403,7 @@ class Api::UsersController < ApplicationController
     
     if request.post?
       if !params[:user][:password].present? || !params[:user][:password_confirmation]
-        render :file => "#{Rails.root}/public/500"
+        render :file => "#{Rails.root}/public/404"
       else
         @user.password = params[:user][:password]
         @user.password_confirmation = params[:user][:password]

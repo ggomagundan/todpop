@@ -1,5 +1,12 @@
-<div class='noset' <% if @align == '1' %>style='color:red;'<% end %> data-status="<%=@align =='1' ? 1 : 0 %>">
-  안한거 앞으로 끌고<%=@align =='1' ? "왔지롱 (click!!)" : "오기 (click!!)" %>
+<div class='noset'>
+  전체 단어 수 : <b><%=@word_cnt%>개</b> ☆ 
+  현재 이미지 없는거 : <b style='color:red;'><%=@picture_cnt%>개</b> ☆ 
+  검토완료 : <b style='color:red;'><%=@confirm_cnt%>개</b>/<%=@picture_cnt%>개<br/><br/>
+  <b>Click !! <span id='origin' class='pointer'>원래대로</span> ■ 
+  <span id='noimage' class='pointer'>안한거 앞으로 끌고 오기</span> ■ 
+  <span id='confirm' class='pointer'>검토하기 GoGo~</span> ■
+  <span id='confirm_finished' class='pointer'>검토 완료된 거</span> ■ 
+  <input type='text' name='search' class='search'> <input type='button' id='search_word' value='Search' class='btn' style='margin-bottom:9px;'></b>
 </div>
 <table class="table table-hover">
   <tr>

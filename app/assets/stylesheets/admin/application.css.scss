@@ -24,8 +24,8 @@
 .control-fixed {
 	position:fixed;
   text-align:left;
-	left:0;
-	top:20%;
+	left:20px;
+	top:8%;
 }
 
 #container {
@@ -35,19 +35,21 @@
 }
 
 .loading {
-  font-style:bold;
+  font-weight:bold;
   text-align:center;
   font-size:13pt;
-  dispaly:none;
+  display:none;
 }
 
 .noset {
-  margin: 20px;
-  width:300px;
+  margin: 10px 5px;
   text-align: left;
-  font-weight: bold;
-  font-size: 14pt;
-  cursor: pointer;
+  font-size: 12pt;
+  cursor:default;
+}
+
+.pointer {
+  cursor:pointer;
 }
 body {
   padding: 0px;
