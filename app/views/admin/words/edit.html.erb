@@ -7,9 +7,9 @@
 
     <div class="control-fixed">
       총 검토 단어 수 : <%=@picture_cnt%>개중 <b style='color:red'><%=@confirm_cnt%>개</b><br/><br/>
-      <%= f.submit :value => '최종저장' %> 
-      <input type='button' onclick="location.href='/admin/words/dummy/confirm'" value='Next'/> 
-      <input type='button' onclick="location.href='/admin/words'" value='목록으로'/><br/><br/>
+      <%= f.submit :value => '최종저장', :class => 'btn-success' %> 
+      <input type='button' onclick="location.href='/admin/words/dummy/confirm'" class='btn-primary' value='Pass'/> 
+      <input type='button' onclick="location.href='/admin/words'" value='목록으로' class='btn-warning'/><br/><br/>
       name <%= f.text_field :name, :readonly => true %><br/>
       mean <%= f.text_field :mean %><br/>
       example_ko<br/>
@@ -39,8 +39,8 @@
 
     <div class="control-fixed">
       현재 이미지 없는거 : <b style='color:red;'><%=@picture_cnt%>개</b><br/><br/>
-      <%= f.submit %> 
-      <input type="button" onclick="location.href='/admin/words/<%=@word.id%>/delete?before_page=<%=@page%>&is_align=<%=@isalign%>'" value='Delete Image'/> 
+      <%= f.submit :class => 'btn-primary' %> 
+      <input type="button" onclick="location.href='/admin/words/<%=@word.id%>/delete?before_page=<%=@page%>&is_align=<%=@isalign%>'" value='Delete Image' class='btn-warning'/> 
       <br/><br/>
       name <%= f.text_field :name, :readonly => true %><br/>
       mean <%= f.text_field :mean %><br/>

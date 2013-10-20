@@ -7,7 +7,7 @@ class Admin::WordsController < Admin::ApplicationController
       q = "%#{params[:search]}%"
       @words = Word.where("name LIKE ? OR mean LIKE ?", q, q).page(params[:page]).per(10)
     else
-      @words = !params[:align].present? || params[:align] ==0 ? Word.page(params[:page]).per(10) : 
+      @words = !params[:align].present? || params[:align] == '0' ? Word.page(params[:page]).per(10) : 
         (params[:align] == '1' ? Word.where(:picture => 0).page(params[:page]).per(10) : Word.where(:confirm => 1).page(params[:page]).per(10) )
     end
     @picture_cnt = Word.where(:picture =>0).count
