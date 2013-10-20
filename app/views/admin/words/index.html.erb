@@ -1,7 +1,7 @@
 <div class='noset'>
   전체 단어 수 : <b><%=@word_cnt%>개</b> ☆ 
   현재 이미지 없는거 : <b style='color:red;'><%=@picture_cnt%>개</b> ☆ 
-  검토완료 : <b style='color:red;'><%=@confirm_cnt%>개</b>/<%=@picture_cnt%>개<br/><br/>
+  검토완료 : <b style='color:red;'><%=@confirm_cnt%>개</b>/<%=@word_cnt.to_i-@picture_cnt.to_i%>개<br/><br/>
   <b>Click !! <span id='origin' class='pointer'>원래대로</span> ■ 
   <span id='noimage' class='pointer'>안한거 앞으로 끌고 오기</span> ■ 
   <span id='confirm' class='pointer'>검토하기 GoGo~</span> ■
