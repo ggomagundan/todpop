@@ -46,7 +46,7 @@ ready = ->
         $(".word_img").click ->
           $("#word_remote_image_url").val($(this).data('url'))
   
-  if $('input[name=confirm]').val() == '0'
+  
     $("#more-image").trigger('click')
 
   $("#about_image").css('left',$('.control-fixed').width()+15)
