@@ -93,7 +93,9 @@ Todpop::Application.routes.draw do
     resources :words
     get '/words/:id/delete' => 'words#delete'
     get '/words/:word/get_img_url/:start' => 'words#get_img_url'
-    match '/words/dummy/confirm' => 'words#confirm' , :via => [:get,:post,:patch]
+    get '/words/dummy/confirm' => 'words#confirm' 
+    post '/words/dummy/:id/confirm' => 'words#confirm'
+    patch '/words/dummy/:id/confirm' => 'words#confirm'
   }
 
   # The priority is based upon order of creation: first created -> highest priority.

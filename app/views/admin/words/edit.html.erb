@@ -1,6 +1,6 @@
 <!-- <%#= render 'form' %> more easier to work -->
 <% if @confirm.present? %>
-  <%= form_for [:admin, @word], url:{action: 'confirm'} do |f| %>
+  <%= form_for [:admin, @word], url:{id: "#{@word.id}", action: 'confirm'} do |f| %>
     <input type='hidden' name='confirm' value='1'/>
     <div class="control-group" style='margin-top:5px;'>
     </div>
@@ -13,7 +13,7 @@
       name <%= f.text_field :name, :readonly => true, :style => 'width:140px' %> 
       phonetics <%= f.text_field :phonetics, :readonly => true, :style => 'width:86px' %><br/>
       mean <%= f.text_field :mean, :style => 'width:309px'%> 
-      <br/>
+      <br/>   
       example_ko<br/>
       <%= f.text_area :example_ko, :style => 'width:350px' %><br/>
       example_en<br/>

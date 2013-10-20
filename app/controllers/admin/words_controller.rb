@@ -59,14 +59,15 @@ class Admin::WordsController < Admin::ApplicationController
   end
   
   def confirm
-    @word = Word.where('picture = ? and confirm = ?', 1, 0).order("RAND()").first
     if request.get?
       @confirm = true
+      @word = Word.where('picture = ? and confirm = ?', 1, 0).order("RAND()").first
       @picture_cnt = Word.where(:picture => 1).count
       @confirm_cnt = Word.where(:confirm => 1).count
       render :action => 'edit'
     else
-      @word.confirm = 1
+      @word = Word.find(params[:id])
+      @word.update_attributes(:confirm => 1)
       if @word.update_attributes(word_params)
         redirect_to admin_words_dummy_confirm_path
       else
