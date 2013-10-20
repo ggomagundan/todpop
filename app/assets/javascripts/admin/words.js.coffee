@@ -47,7 +47,7 @@ ready = ->
           $("#word_remote_image_url").val($(this).data('url'))
   
   
-    $("#more-image").trigger('click')
+  $("#more-image").trigger('click')
 
   $("#about_image").css('left',$('.control-fixed').width()+15)
 
