@@ -42,13 +42,14 @@
       <%= f.submit :class => 'btn-primary' %> 
       <input type="button" onclick="location.href='/admin/words/<%=@word.id%>/delete?before_page=<%=@page%>&is_align=<%=@isalign%>'" value='Delete Image' class='btn-warning'/> 
       <br/><br/>
-      name <%= f.text_field :name, :readonly => true %><br/>
-      mean <%= f.text_field :mean %><br/>
+      name <%= f.text_field :name, :readonly => true, :style => 'width:140px' %> 
+      phonetics <%= f.text_field :phonetics, :readonly => true, :style => 'width:86px' %><br/>
+      mean <%= f.text_field :mean, :style => 'width:309px'%> 
+      <br/>
       example_ko<br/>
-      <%= f.text_field :example_ko, :style => 'width:350px' %><br/>
+      <%= f.text_area :example_ko, :style => 'width:350px' %><br/>
       example_en<br/>
-      <%= f.text_field :example_en, :style => 'width:350px' %><br/>
-      phonetics <%= f.text_field :phonetics, :readonly => true %><br/>
+      <%= f.text_area :example_en, :style => 'width:350px' %><br/>
       current_image(실제크기실제비율아님)<br/>
       <% if f.object.picture != 0 %>
         <%#=image_tag f.object.image_url(:thumb) %>

@@ -46,7 +46,10 @@ ready = ->
         $(".word_img").click ->
           $("#word_remote_image_url").val($(this).data('url'))
   
-  
+  $('textarea').keydown (e) ->
+    if e.which == 13
+      return false
+
   $("#more-image").trigger('click')
 
   $("#about_image").css('left',$('.control-fixed').width()+15)
