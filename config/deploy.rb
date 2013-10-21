@@ -1,6 +1,8 @@
 # -*- encoding : utf-8 -*-
 require "bundler/capistrano"
+require "whenever/capistrano"
 
+set :whenever_command, "bundle exec whenever"
 set :application, "todpop"
 #set :repository,  "git@198.211.117.25:projects/salty.git"
 #set :repository, "git@github.com:ggomagundan/todpop.git"

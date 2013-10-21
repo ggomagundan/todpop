@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 Todpop::Application.routes.draw do
    
+  namespace(:admin){ resources :app_introduce_videos }
   namespace(:admin){ resources :cpx_advertisements }
   namespace(:admin){ resources :cpdm_advertisements }
   namespace(:admin){ resources :cpd_advertisements }
