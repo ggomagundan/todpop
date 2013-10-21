@@ -1,5 +1,16 @@
 window.data = {}
 
+isIndexCheckBox = ->
+  flag = 0
+  $('input[id=confirm_]').each ->
+      if $(this).is(":checked")
+        flag = 1
+        return
+  if flag == 0 
+    return false
+  else
+    return true
+
 ready = ->
   $("#origin").click ->
     location.href='/admin/words'
@@ -9,7 +20,9 @@ ready = ->
     location.href='/admin/words/dummy/confirm'
   $('#confirm_finished').click ->
     location.href='/admin/words?align=2'
-
+  $('#confirm_yet').click ->
+    location.href='/admin/words?align=3'
+    
   $('#search_word').click ->
     if !$('input[name=search]').val()
       alert('input search field!')
@@ -60,6 +73,28 @@ ready = ->
   $('input[name=search]').keyup (e) ->
     if e.which == 13
       $("#search_word").trigger('click')
+
+  $('#all').click ->
+    if $(this).is(":checked")
+      $('input[id=confirm_]').each ->
+        $(this).prop('checked',true)
+    else
+      $('input[id=confirm_]').each ->
+        $(this).prop('checked',false)
+
+  $('#confirm_btn').click ->
+    if isIndexCheckBox()
+      $('input[name=cancel]').val('0')
+      $('#confirm_form').submit()
+    else
+      alert('선택된 체크박스가 없습니다')
+  
+  $('#cancel_btn').click ->
+    if isIndexCheckBox()
+      $('input[name=cancel]').val('1')
+      $('#confirm_form').submit()
+    else
+      alert('선택된 체크박스가 없습니다')
 
 $(document).ready(ready)
 $(document).on('page:load', ready)

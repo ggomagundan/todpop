@@ -7,8 +7,19 @@ class Admin::WordsController < Admin::ApplicationController
       q = "%#{params[:search]}%"
       @words = Word.where("name LIKE ? OR mean LIKE ?", q, q).page(params[:page]).per(10)
     else
-      @words = !params[:align].present? || params[:align] == '0' ? Word.page(params[:page]).per(10) : 
-        (params[:align] == '1' ? Word.where(:picture => 0).page(params[:page]).per(10) : Word.where(:confirm => 1).page(params[:page]).per(10) )
+      if !params[:align].present? || params[:align] == '0'
+        @words = Word.page(params[:page]).per(10)
+        @align = '0'
+      elsif params[:align] == '1'
+        @words = Word.where(:picture => 0).page(params[:page]).per(10)
+        @align = '1'
+      elsif params[:align] == '2'
+        @words = Word.where(:confirm => 1).page(params[:page]).per(10)
+        @align = '2'
+      else
+        @words = Word.where(:confirm => 0).page(params[:page]).per(10)
+        @align = '3'
+      end
     end
     @picture_cnt = Word.where(:picture =>0).count
     @word_cnt = Word.count
@@ -65,7 +76,7 @@ class Admin::WordsController < Admin::ApplicationController
       @picture_cnt = Word.where(:picture => 1).count
       @confirm_cnt = Word.where(:confirm => 1).count
       render :action => 'edit'
-    else
+    elsif request.patch?
       @word = Word.find(params[:id])
       @word.update_attributes(:confirm => 1)
       if @word.update_attributes(word_params)
@@ -73,6 +84,21 @@ class Admin::WordsController < Admin::ApplicationController
       else
         render :file => "#{Rails.root}/public/500"
       end
+    else 
+      if params[:cancel] == '1'
+        for wid in params[:confirm]
+          word = Word.find(wid)
+          word.confirm = 0
+          word.save
+        end
+      else 
+        for wid in params[:confirm]
+          word = Word.find(wid)
+          word.confirm = 1
+          word.save
+        end
+      end
+      redirect_to admin_words_path(:page => params[:before_page], :align => params[:is_align])
     end
   end
 

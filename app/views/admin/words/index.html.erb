@@ -4,34 +4,48 @@
   검토완료 : <b style='color:red;'><%=@confirm_cnt%>개</b>/<%=@word_cnt.to_i-@picture_cnt.to_i%>개<br/><br/>
   <b>Click !! <span id='origin' class='pointer'>원래대로</span> ■ 
   <span id='noimage' class='pointer'>안한거 앞으로 끌고 오기</span> ■ 
-  <span id='confirm' class='pointer'>검토하기 GoGo~</span> ■
-  <span id='confirm_finished' class='pointer'>검토 완료된 거</span> ■ 
-  <input type='text' name='search' class='search'> <input type='button' id='search_word' value='Search' class='btn-inverse' style='margin-bottom:9px;'></b>
+  <span id='confirm' class='pointer'>검토하기 GoGo~</span> ■ 
+  <span id='confirm_finished' class='pointer'>검토 완료된거</span> ■ 
+  <span id='confirm_yet' class='pointer'>검토 완료안된거</span> ■ 
+  <input type='text' name='search' class='search' style='width:110px;'> <input type='button' id='search_word' value='Search' class='btn-inverse' style='margin-bottom:9px;'></b>
 </div>
-<table class="table table-hover">
-  <tr>
-    <th>ID</th>
-    <th>Name</th>
-    <th>Mean</th>
-    <th>phonetics</th>
-    <th>ko_exam</th>
-    <th>en_exam</th>
-    <th style='width:100px;'>is_picture</th>
-    <th></th>
-    <th></th>
-  </tr>
-  <% for word in @words %>
+<%= form_tag(admin_words_dummy_confirm_path(:before_page => @page, :is_align => @align), method: "post", id: "confirm_form") %>
+  <table class="table table-hover">
     <tr>
-      <td><%= word.id %></td>
-      <td><%= word.name %></td>
-      <td><%= word.mean %></td>
-      <td><%= word.phonetics %></td>
-      <td><%= word.example_ko %></td>
-      <td><%= word.example_en %></td>
-      <td><%= image_tag word.image_url, :style => 'width:100px;height:74px;' if word.picture == 1 %></td>
-      <td><%= link_to "Edit", edit_admin_word_path(word, :before_page => @page, :is_align => @align), :class => 'btn btn-warning' %></td>
-      <td><% link_to "Destroy", [:admin, word], :data => { confirm: 'Text' }, :method => :delete, :class=>'btn btn-danger' %></td>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Mean</th>
+      <th>phonetics</th>
+      <th>ko_exam</th>
+      <th>en_exam</th>
+      <th style='width:100px;'>is_picture</th>
+      <th></th>
+      <th style='width:65px;'>검토 <%= check_box_tag 'all' %></th>
     </tr>
-  <% end %>
-</table>
-<%= paginate(@words) %>
+    <% for word in @words %>
+      <tr>
+        <td><%= word.id %></td>
+        <td><%= word.name %></td>
+        <td><%= word.mean %></td>
+        <td><%= word.phonetics %></td>
+        <td><%= word.example_ko %></td>
+        <td><%= word.example_en %></td>
+        <td><%= image_tag word.image_url, :style => 'width:100px;height:74px;' if word.picture == 1 %></td>
+        <td><%= link_to "Edit", edit_admin_word_path(word, :before_page => @page, :is_align => @align), :class => 'btn btn-warning' %></td>
+        <td style='text-align:center;'>
+          <% if word.confirm == 1 %>
+            O <%= check_box_tag "confirm[]", "#{word.id}" %>
+          <% else %>
+            X <%= check_box_tag "confirm[]", "#{word.id}" %>
+          <% end %> 
+        </td>
+      </tr>
+    <% end %>
+    <%#= link_to "Destroy", [:admin, word], :data => { confirm: 'Text' }, :method => :delete, :class=>'btn btn-danger' %>
+  </table>
+  <div style='text-align:right'>
+    <input type='hidden' name='cancel'/>
+    선택한것들을 <input type='button' id='confirm_btn' value="confirm"/> <input type='button' id='cancel_btn' value="cancel confirm"/>
+    <%= paginate(@words) %>
+  </div>
+  

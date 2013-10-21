@@ -93,8 +93,8 @@ Todpop::Application.routes.draw do
     resources :words
     get '/words/:id/delete' => 'words#delete'
     get '/words/:word/get_img_url/:start' => 'words#get_img_url'
-    get '/words/dummy/confirm' => 'words#confirm' 
-    post '/words/dummy/:id/confirm' => 'words#confirm'
+    get '/words/dummy/confirm' => 'words#confirm'
+    post '/words/dummy/confirm' => 'words#confirm'
     patch '/words/dummy/:id/confirm' => 'words#confirm'
   }
 
