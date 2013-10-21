@@ -18,3 +18,16 @@
 # end
 
 # Learn more: http://github.com/javan/whenever
+
+
+every 1.day, :at => '00:01am' do
+  rake "ads:cpd_priorities", :output => "log/change_ads_priority.log", :environment => ENV['RAILS_ENV']
+end
+
+every 1.day, :at => '00:03am' do
+  rake "ads:cpdm_priorities", :output => "log/change_ads_priority.log", :environment => ENV['RAILS_ENV']
+end
+
+every 1.day, :at => '00:05am' do
+  rake "ads:cpx_priorities", :output => "log/change_ads_priority.log", :environment => ENV['RAILS_ENV']
+end
