@@ -479,6 +479,29 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
  
   end
 
+  def set_cpd_log
+    @status = true
+    @msg = ""
+
+    if !params[:ad_id].present? || !params[:ad_type].present? || !params[:user_id].present? || !params[:action].present?
+      @status = false
+      @msg = "lacking in parameters"
+    else
+      adLog = AdvertiseCpdLog.new
+      adLog.ad_id = params[:ad_id]
+      adLog.ad_type = params[:ad_type]
+      adLog.user_id = params[:user_id]
+      adLog.action = params[:action]
+      if adLog.save
+        @msg = "success"
+        @result = true
+      else
+        @msg = "failed to save"
+        @result = false
+        @status = false
+      end
+    end
+  end
 
  
 end

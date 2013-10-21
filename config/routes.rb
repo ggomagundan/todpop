@@ -57,7 +57,8 @@ Todpop::Application.routes.draw do
       get 'get_cpd_ad', :on => :collection
       get 'get_cpdm_ad', :on => :collection
       get 'get_cpx_ad', :on => :collection
-
+      get 'set_cpd_log', :on => :collection
+      
     end
   
     resources :studies do

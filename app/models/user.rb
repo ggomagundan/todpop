@@ -6,5 +6,6 @@ class User < ActiveRecord::Base
   has_many :advertise_logs
   has_many :points
   has_many :attendances
+  has_many :advertise_cpd_logs
 
 end
