@@ -15,8 +15,6 @@ Todpop::Application.routes.draw do
 
   namespace(:admin){ resources :products }
   namespace(:admin){ resources :levels }
-  resources :studies
-  resources :users
 
   namespace(:api){ 
   
@@ -83,7 +81,6 @@ Todpop::Application.routes.draw do
       get 'get_fast_pivot_time', :on => :collection
     end
 
-  get 'test', :action => 'test'
   
   }
   
