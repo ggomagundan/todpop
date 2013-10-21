@@ -9,18 +9,18 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
     @status = true
     @msg = ""
 
-    if !params[:nickname].present? 
+    if !params[:user_id].present? 
       @status = false
-      @msg = "not exist nickname parameter"
+      @msg = "not exist params"
     else
-      @user = User.find_by_nickname(params[:nickname])
+      @user = User.find(params[:user_id])
 
       if !@user.present?
         @status = false
         @msg = "not exist user"
       else
 
-        @ad_log = AdvertiseLog.where('user_id = ? and ad_type = ? and created_at >= ?',@user.id, params[:kind], Date.today.to_time).pluck(:advertisement_id).uniq
+        @ad_log = AdvertiseLog.where('user_id = ? and created_at >= ?',@user.id, Date.today.to_time).pluck(:advertisement_id).uniq
 
         if @ad_log.length == 0
           @ad_list = CpdAdvertisement.where(:priority => 1)
