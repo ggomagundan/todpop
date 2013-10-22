@@ -53,12 +53,12 @@ Todpop::Application.routes.draw do
       get 'get_image_ads', :on => :collection
       get 'get_coupon_ads', :on => :collection
       get 'get_coupon', :on => :collection
-      get 'set_log', :on => :collection
       get 'get_cpd_ad', :on => :collection
       get 'get_cpdm_ad', :on => :collection
       get 'get_cpx_ad', :on => :collection
       get 'set_cpd_log', :on => :collection
       get 'get_coupons', :on => :collection
+      get 'set_cpdm_log', :on => :collection
     end
   
     resources :studies do

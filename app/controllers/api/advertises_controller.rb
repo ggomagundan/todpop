@@ -20,7 +20,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
         @msg = "not exist user"
       else
 
-        @ad_log = AdvertiseLog.where('user_id = ? and created_at >= ?',@user.id, Date.today.to_time).pluck(:advertisement_id).uniq
+        @ad_log = AdvertiseCpdLog.where('user_id = ? and created_at >= ?',@user.id, Date.today.to_time).pluck(:ad_id).uniq
 
         if @ad_log.length == 0
           @ad_list = CpdAdvertisement.where(:priority => 1)
@@ -100,10 +100,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           @content1 = ad.front_image_url
           @content2 = ad.back_image_url
           @coupon = ad.coupon_id
-          AdvertiseLog.create(:user_id => @user.id, :advertisement_id => ad.id, :ad_type => ad.ad_type)
         end
-
-      
       end
 
     end
@@ -115,18 +112,18 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
     @status = true
     @msg = ""
 
-    if !params[:nickname].present? 
+    if !params[:user_id].present? 
       @status = false
-      @msg = "not exist nickname parameter"
+      @msg = "not exist params"
     else
-      @user = User.find_by_nickname(params[:nickname])
+      @user = User.find(params[:user_id])
 
       if !@user.present?
         @status = false
         @msg = "not exist user"
       else
 
-        @ad_log = AdvertiseLog.where('user_id = ? and ad_type = ? and created_at >= ?',@user.id, 2, Date.today.to_time).pluck(:advertisement_id).uniq
+        @ad_log = AdvertiseCpdmLog.where('user_id = ? and created_at >= ?',@user.id, Date.today.to_time).pluck(:ad_id).uniq
 
         if @ad_log.length == 0
           @ad_list = CpdmAdvertisement.where(:priority => 1)
@@ -203,9 +200,9 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
         else 
           ad = CpdmAdvertisement.find(r_id)
           @ad_id = ad.id
-          @ad_type = ad.kind
+          @ad_type = ad.ad_type
           @url  = ad.url
-          AdvertiseLog.create(:user_id => @user.id, :advertisement_id => ad.id, :ad_type =>2 )
+          @length = ad.length
         end
 
       
@@ -525,6 +522,30 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
         @msg = "failed to save"
       end
     end
+  end
+
+  def set_cpdm_log
+    @status = true
+    @msg = ""
+    if !params[:ad_id].present? || !params[:ad_type].present? || !params[:user_id].present? || !params[:view_time].present?
+      @status = false
+      @msg = "lacking in params"
+    else
+      adLog = AdvertiseCpdmLog.new
+      adLog.ad_id = params[:ad_id]
+      adLog.ad_type = params[:ad_type]
+      adLog.user_id = params[:user_id]
+      adLog.view_time = params[:view_time]
+      if adLog.save
+        @msg = "success"
+        @result = true
+      else
+        @msg = "failed to save"
+        @result = false
+        @status = false
+      end
+    end
+
   end
  
 end

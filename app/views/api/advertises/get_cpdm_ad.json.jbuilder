@@ -6,5 +6,6 @@ if @status == true
     json.id @ad_id
     json.type  @ad_type
     json.url @url
+    json.length @length
   end
 end

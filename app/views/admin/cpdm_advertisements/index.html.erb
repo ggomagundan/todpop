@@ -2,21 +2,23 @@
 <table class="table table-hover">
   <tr>
     <th>Name</th>
-    <th>Time</th>
+    <th>Date</th>
     <th>Count</th>
     <th>Remain</th>
     <th>Priority</th>
     <th>Url</th>
+    <th>Length</th>
   </tr>
   <% for cpdm_advertisement in @cpdm_advertisements %>
     <tr>
       <td><%= cpdm_advertisement.ad_name %></td>
-      <td><%= cpdm_advertisement.start_time %> ~ 
-      <%= cpdm_advertisement.end_time %></td>
+      <td><%= cpdm_advertisement.start_date %> ~ 
+      <%= cpdm_advertisement.end_date %></td>
       <td><%= cpdm_advertisement.count %></td>
       <td><%= cpdm_advertisement.remain %></td>
       <td><%= cpdm_advertisement.priority %></td>
       <td><%= cpdm_advertisement.url %></td>
+      <td><%= cpdm_advertisement.length %></td>
       <td><%= link_to "Edit", edit_admin_cpdm_advertisement_path(cpdm_advertisement), :class=>"btn btn-warning" %>
       <%#= link_to "Destroy", [:admin, cpdm_advertisement], :confirm => 'Are you sure?', :method => :delete %></td>
     </tr>

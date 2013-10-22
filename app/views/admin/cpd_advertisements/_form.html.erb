@@ -17,7 +17,7 @@
     </div>
   </div>
   <div class="control-group">
-    <label class="control-label">kind</label>
+    <label class="control-label">ad_type</label>
     <div class="controls">
       <label>
         <%= f.radio_button :ad_type, 101, :checked=>f.object.ad_type ==101 || f.object.ad_type == nil  %> 이미지
@@ -34,7 +34,7 @@
     </div>
   </div>
   <div class="control-group">
-    <label class="control-label">Time</label>
+    <label class="control-label">Date</label>
     <div class="controls">
       <label>
         <%= f.text_field :start_date, :class => "calendar" %> ~
