@@ -577,7 +577,22 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
         @status = false
       end
     end
+  end
 
+  def get_cps_questions
+    @status = true
+    @msg = ""
+    if !params[:ad_id].present?
+      @status = false
+      @msg = "lacking in params"
+    else
+      @questions = SurveyContent.find(params[:ad_id])
+      for q in @questions
+        q.q_image = q.q_image_url
+      end
+      @status = true
+      @msg = "success"
+    end
   end
  
 end

@@ -1,6 +1,7 @@
 class CpxAdvertisement < ActiveRecord::Base
 
   has_many :advertise_cpx_logs
+  has_many :survey_contents
   AD_TYPE={
      :CPI => 301,
      :CPL => 302,
@@ -17,7 +18,7 @@ class CpxAdvertisement < ActiveRecord::Base
   end
 
   def kind
-   return CpxAdvertisement::KIND.key(self.ad_type)
+   return CpxAdvertisement::AD_TYPE.key(self.ad_type)
   end
 
 
