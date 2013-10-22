@@ -13,10 +13,8 @@ class CpdAdvertisement < ActiveRecord::Base
     ad.update_attributes(:remain => ad.count)          
   end
 
-  def ad_type
+  def kind
    return CpdAdvertisement::AD_TYPE.key(self.ad_type)
   end
 
-
-  
 end

@@ -486,7 +486,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
 
     if !params[:ad_id].present? || !params[:ad_type].present? || !params[:user_id].present? || !params[:action].present?
       @status = false
-      @msg = "lacking in parameters"
+      @msg = "lacking in params"
     else
       adLog = AdvertiseCpdLog.new
       adLog.ad_id = params[:ad_id]
@@ -504,5 +504,27 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
     end
   end
 
+  def get_coupons
+    @status = true
+    @msg = ""
+
+    if !params[:user_id].present? || !params[:coupon_id].present?
+      @status = false
+      @msg = "lacking in params"
+    else
+      new_coupon = MyCoupon.new
+      new_coupon.user_id = params[:user_id]
+      new_coupon.coupon_id = params[:coupon_id]
+      new_coupon.coupon_type = 0  # 0 - free, 1 - not free
+      if new_coupon.save
+        @result = true
+        @msg = "success"
+      else
+        @status = false
+        @result = false
+        @msg = "failed to save"
+      end
+    end
+  end
  
 end
