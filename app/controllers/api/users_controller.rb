@@ -420,6 +420,27 @@ class Api::UsersController < ApplicationController
     end
   end
 
+  def is_set_facebook_password
+    @user = User.find(params[:id])
+
+    @status = true
+    @msg = ""
+
+    if !@user.present?
+      @status = false
+      @msg = "not exist user"
+    end
+
+    if @status == true
+      if @user.is_set_facebook_password == 1
+        @set_password = true
+      else
+        @set_password = false
+      end
+    end
+
+  end
+
   private
     def user_params
       params.permit(:email, :facebook, :nickname, :recommend, :sex, :birth, :address, :mobile, :interest)

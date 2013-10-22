@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 Todpop::Application.routes.draw do
    
+  namespace(:admin){ resources :cacao_ments }
   namespace(:admin){ resources :app_introduce_videos }
   namespace(:admin){ resources :cpx_advertisements }
   namespace(:admin){ resources :cpdm_advertisements }
@@ -43,6 +44,8 @@ Todpop::Application.routes.draw do
       get 'setting_facebook_password', :on => :member
       get 'facebook_change_pw', :on => :member
       post 'facebook_change_pw', :on => :member
+
+      get 'is_set_facebook_password', :on => :member
     end
 
     resources :advertises do
@@ -79,6 +82,7 @@ Todpop::Application.routes.draw do
   
     resources :app_infos do
       get 'get_fast_pivot_time', :on => :collection
+      get 'get_cacao_msg', :on => :collection
     end
 
   
