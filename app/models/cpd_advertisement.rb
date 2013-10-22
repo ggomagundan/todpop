@@ -1,8 +1,10 @@
 class CpdAdvertisement < ActiveRecord::Base
   
-  KIND={
-     :IMAGE => 1,
-     :COUPON => 2
+  has_many :advertise_cpd_logs
+
+  AD_TYPE={
+     :IMAGE => 101,
+     :COUPON => 102
   }
   mount_uploader :front_image, ImageUploader
   mount_uploader :back_image, ImageUploader
@@ -12,7 +14,7 @@ class CpdAdvertisement < ActiveRecord::Base
   end
 
   def ad_type
-   return CpdAdvertisement::KIND.key(self.kind)
+   return CpdAdvertisement::AD_TYPE.key(self.ad_type)
   end
 
 

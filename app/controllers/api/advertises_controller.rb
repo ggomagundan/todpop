@@ -95,11 +95,12 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           @msg = "not exit ads"
         else 
           ad = CpdAdvertisement.find(r_id)
-          @ad_type = ad.kind
+          @ad_id = ad.id
+          @ad_type = ad.ad_type
           @content1 = ad.front_image_url
           @content2 = ad.back_image_url
           @coupon = ad.coupon_id
-          AdvertiseLog.create(:user_id => @user.id, :advertisement_id => ad.id, :ad_type => params[:kind])
+          AdvertiseLog.create(:user_id => @user.id, :advertisement_id => ad.id, :ad_type => ad.ad_type)
         end
 
       
