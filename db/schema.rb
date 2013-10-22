@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131019200510) do
+ActiveRecord::Schema.define(version: 20131022165208) do
 
   create_table "addresses", force: true do |t|
     t.string   "depth1"
@@ -58,6 +58,12 @@ ActiveRecord::Schema.define(version: 20131019200510) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "day_limit"
+    t.string   "android_package"
+    t.string   "ios_package"
+    t.string   "android_package_name"
+    t.string   "ios_package_name"
+    t.string   "market_url"
+    t.string   "appstore_url"
   end
 
   create_table "app_introduce_videos", force: true do |t|
@@ -69,6 +75,12 @@ ActiveRecord::Schema.define(version: 20131019200510) do
   create_table "attendances", force: true do |t|
     t.integer  "user"
     t.datetime "attendance_day"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "cacao_ments", force: true do |t|
+    t.string   "ment"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -199,22 +211,23 @@ ActiveRecord::Schema.define(version: 20131019200510) do
   create_table "users", force: true do |t|
     t.string   "email"
     t.string   "facebook"
-    t.string   "password_digest",             null: false
-    t.string   "nickname",                    null: false
+    t.string   "password_digest",                      null: false
+    t.string   "nickname",                             null: false
     t.string   "recommend"
     t.integer  "sex"
     t.date     "birth"
     t.string   "address"
-    t.string   "mobile",                      null: false
+    t.string   "mobile",                               null: false
     t.datetime "date"
     t.datetime "late_connection"
     t.integer  "level_test"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "point",           default: 0
-    t.integer  "attendance_time", default: 0
+    t.integer  "point",                    default: 0
+    t.integer  "attendance_time",          default: 0
     t.integer  "interest"
-    t.integer  "is_admin",        default: 0
+    t.integer  "is_admin",                 default: 0
+    t.integer  "is_set_facebook_password", default: 0
   end
 
   create_table "words", force: true do |t|

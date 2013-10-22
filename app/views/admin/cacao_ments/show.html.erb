@@ -1,0 +1,12 @@
+<% title "Admin/Cacao Ment" %>
+
+<p>
+  <strong>Name:</strong>
+  <%= @cacao_ment.name %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_admin_cacao_ment_path(@cacao_ment) %> |
+  <%= link_to "Destroy", [:admin, @cacao_ment], :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", admin_cacao_ments_path %>
+</p>

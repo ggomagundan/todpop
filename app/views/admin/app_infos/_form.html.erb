@@ -72,6 +72,30 @@
       <label><%= f.text_field :day_limit %></label>
     </div>
   </div>
+  <div class="control-group">
+    <label class="control-label">android_package</label>
+    <div class="controls">
+      <label><%= f.text_field :android_package_name %></label>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">ios_package</label>
+    <div class="controls">
+      <label><%= f.text_field :ios_package_name %></label>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">android_market_url</label>
+    <div class="controls">
+      <label><%= f.text_field :market_url %></label>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">ios_appstore_url</label>
+    <div class="controls">
+      <label><%= f.text_field :appstore_url %></label>
+    </div>
+  </div>
   <p><%= f.submit %></p>
  
 <% end %>

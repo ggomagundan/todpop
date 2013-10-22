@@ -1,0 +1,16 @@
+
+<table class="table table-hover">
+  <tr>
+    <th>ment</th>
+    <th></th>
+  </tr>
+  <% for cacao_ment in @cacao_ments %>
+    <tr>
+      <td><%= cacao_ment.ment %></td>
+      <td><%= link_to "Edit", edit_admin_cacao_ment_path(cacao_ment), :class => "btn btn-warning" %>
+      <%= link_to "Destroy", [:admin, cacao_ment], :confirm => 'Are you sure?', :method => :delete, :class=>"btn btn-danger" %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Admin/Cacao Ment", new_admin_cacao_ment_path %></p>

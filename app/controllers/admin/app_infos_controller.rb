@@ -46,7 +46,7 @@ class Admin::AppInfosController < Admin::ApplicationController
 
  
   def app_info_params
-    params.require(:app_info).permit(:time, :one_star, :two_star, :max_money, :android_version, :ios_version,  :app_server, :popup_style, :popup_image, :popup_text, :day_limit)
+    params.require(:app_info).permit(:time, :one_star, :two_star, :max_money, :android_version, :ios_version,  :app_server, :popup_style, :popup_image, :popup_text, :day_limit, :android_package_name, :ios_package_name, :market_url, :appstore_url )
   end
 
 end
