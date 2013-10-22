@@ -3,10 +3,10 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Kind</th>
+      <th>Ad_Type</th>
       <th>Count</th>
       <th>Remain</th>
-      <th>Time</th>
+      <th>Date</th>
       <th>Priority</th>
       <th></th>
       <th></th>
@@ -18,10 +18,10 @@
     <% @cpd_advertisements.each do |cpd_advertisement| %>
       <tr>
         <td><%= cpd_advertisement.ad_name %></td>
-        <td><%= cpd_advertisement.kind %></td>
+        <td><%= cpd_advertisement.ad_type %></td>
         <td><%= cpd_advertisement.count %></td>
         <td><%= cpd_advertisement.remain %></td>
-        <td><%= cpd_advertisement.start_time.to_date %> ~ <%= cpd_advertisement.end_time.to_date %></td>
+        <td><%= cpd_advertisement.start_date.to_date %> ~ <%= cpd_advertisement.end_date.to_date %></td>
         <td><%= cpd_advertisement.priority %></td>
         <td><%= link_to 'Edit', edit_admin_cpd_advertisement_path(cpd_advertisement), :class=>"btn btn-warning" %></td>
       </tr>

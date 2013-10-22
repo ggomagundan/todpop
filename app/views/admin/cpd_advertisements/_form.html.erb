@@ -17,13 +17,13 @@
     </div>
   </div>
   <div class="control-group">
-    <label class="control-label">kind</label>
+    <label class="control-label">ad_type</label>
     <div class="controls">
       <label>
-        <%= f.radio_button :kind, 1, :checked=>f.object.kind ==1 || f.object.kind == nil  %> 이미지
+        <%= f.radio_button :ad_type, 101, :checked=>f.object.ad_type ==101 || f.object.ad_type == nil  %> 이미지
       </label>
       <label>
-        <%= f.radio_button :kind, 2, :checked =>f.object.kind ==2  %> 쿠폰
+        <%= f.radio_button :ad_type, 102, :checked =>f.object.ad_type ==102  %> 쿠폰
       </label>
     </div>
   </div>
@@ -34,11 +34,17 @@
     </div>
   </div>
   <div class="control-group">
-    <label class="control-label">Time</label>
+    <label class="control-label">remain</label>
+    <div class="controls">
+      <label><%= f.text_field :remain %></label>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">Date</label>
     <div class="controls">
       <label>
-        <%= f.text_field :start_time, :class => "calendar" %> ~
-        <%= f.text_field :end_time, :class=> "calendar" %>
+        <%= f.text_field :start_date, :class => "calendar" %> ~
+        <%= f.text_field :end_date, :class=> "calendar" %>
       </label>
     </div>
   </div>

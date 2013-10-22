@@ -41,6 +41,6 @@ class Admin::CpdAdvertisementsController < Admin::ApplicationController
   
   private
   def cpd_advertisement_params
-    params.require(:cpd_advertisement).permit(:kind, :count, :remain, :start_time, :end_time, :front_image, :back_image, :coupon_id, :priorityi, :ad_name)
+    params.require(:cpd_advertisement).permit(:ad_type, :count, :remain, :start_date, :end_date, :front_image, :back_image, :coupon_id, :priorityi, :ad_name)
   end
 end
