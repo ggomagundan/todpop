@@ -13,29 +13,29 @@
   <div class="control-group">
     <label class="control-label">name</label>
     <div class="controls">
-      <label><%= f.text_field :name %></label>
+      <label><%= f.text_field :ad_name %></label>
     </div>
   </div>
   <div class="control-group">
-    <label class="control-label">kind</label>
+    <label class="control-label">ad_type</label>
     <div class="controls">
       <label>
-        <%= f.radio_button :kind, 3, :checked=>f.object.kind ==3 || f.object.kind == nil  %> CPI
+        <%= f.radio_button :ad_type, 301, :checked=>f.object.ad_type ==301 || f.object.kind == nil  %> CPI
       </label>
       <label>
-        <%#= f.radio_button :kind, 4, :checked =>f.object.kind ==4  %> <!--CPL-->
+        <%= f.radio_button :ad_type, 302, :checked =>f.object.kind ==302 %> CPL
       </label>
       <label>
-        <%= f.radio_button :kind, 5, :checked=>f.object.kind ==5  %> CPA
+        <%= f.radio_button :ad_type, 303, :checked=>f.object.kind ==303 %> CPA
       </label>
       <label>
-        <%= f.radio_button :kind, 6, :checked=>f.object.kind ==6  %> CPE
+        <%= f.radio_button :ad_type, 304, :checked=>f.object.kind ==304  %> CPE
       </label>
       <label>
-        <%= f.radio_button :kind, 7, :checked=>f.object.kind ==7  %> CPS
+        <%= f.radio_button :ad_type, 305, :checked=>f.object.kind ==305  %> CPS
       </label>
       <label>
-        <%= f.radio_button :kind, 8, :checked=>f.object.kind ==8  %> CPC
+        <%= f.radio_button :ad_type, 306, :checked=>f.object.kind ==306  %> CPC
       </label>
     </div>
   </div>
@@ -46,12 +46,61 @@
     </div>
   </div>
   <div class="control-group">
-    <label class="control-label">Time</label>
+    <label class="control-label">remain</label>
+    <div class="controls">
+      <label><%= f.text_field :remain %></label>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">Date</label>
     <div class="controls">
       <label>
-        <%= f.text_field :start_time, :class => "calendar" %> ~
-        <%= f.text_field :end_time, :class=> "calendar", :readolny=>true %>
+        <%= f.text_field :start_date, :class => "calendar" %> ~
+        <%= f.text_field :end_date, :class=> "calendar", :readolny=>true %>
       </label>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">ad_image</label>
+    <div class="controls">
+      <label><%= f.file_field :ad_image %></label>
+    <%= image_tag f.object.ad_image_url if f.object.ad_image.present? %>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">ad_text</label>
+    <div class="controls">
+      <label><%= f.text_field :ad_text %></label>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">store_url</label>
+    <div class="controls">
+      <label><%= f.text_field :store_url %></label>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">package_name</label>
+    <div class="controls">
+      <label><%= f.text_field :package_name %></label>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">confirm_url</label>
+    <div class="controls">
+      <label><%= f.text_field :confirm_url %></label>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">reward</label>
+    <div class="controls">
+      <label><%= f.text_field :reward %></label>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">n_question</label>
+    <div class="controls">
+      <label><%= f.text_field :n_question %></label>
     </div>
   </div>
   <div class="control-group">
@@ -74,12 +123,7 @@
       </label>
     </div>
   </div>
-  <div class="control-group">
-    <label class="control-label">url</label>
-    <div class="controls">
-      <label><%= f.text_field :url %></label>
-    </div>
-  </div>
+  
   <div class="actions">
     <%= f.submit %>
   </div>

@@ -1,21 +1,23 @@
 class CpxAdvertisement < ActiveRecord::Base
 
- KIND={
-     :CPI  => 3,
-     :CPL => 4,
-     :CPA => 5,
-     :CPE => 6,
-     :CPS => 7,
-     :CPC => 8
+  has_many :advertise_cpx_logs
+  AD_TYPE={
+     :CPI => 301,
+     :CPL => 302,
+     :CPA => 303,
+     :CPE => 304,
+     :CPS => 305,
+     :CPC => 306
   }
+  mount_uploader :ad_image, ImageUploader
 
   after_create do |ad|
     ad.update_attributes(:remain => ad.count)          
-    ad.update_attributes(:end_time => ad.start_time + 90.days)
+    ad.update_attributes(:end_date => ad.start_time + 90.days)
   end
 
-  def ad_type
-   return CpxAdvertisement::KIND.key(self.kind)
+  def kind
+   return CpxAdvertisement::KIND.key(self.ad_type)
   end
 
 

@@ -100,6 +100,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           @content1 = ad.front_image_url
           @content2 = ad.back_image_url
           @coupon = ad.coupon_id
+          @msg = "success"
         end
       end
 
@@ -203,6 +204,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           @ad_type = ad.ad_type
           @url  = ad.url
           @length = ad.length
+          @msg = "success"
         end
 
       
@@ -217,18 +219,18 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
     @status = true
     @msg = ""
 
-    if !params[:nickname].present? 
+    if !params[:user_id].present? 
       @status = false
-      @msg = "not exist nickname parameter"
+      @msg = "not exist params"
     else
-      @user = User.find_by_nickname(params[:nickname])
+      @user = User.find(params[:user_id])
 
       if !@user.present?
         @status = false
         @msg = "not exist user"
       else
 
-        @ad_log = AdvertiseLog.where('user_id = ? and ad_type >= ? and created_at >= ?',@user.id,3, Date.today.to_time).pluck(:advertisement_id).uniq
+        @ad_log = AdvertiseCpxLog.where('user_id = ? and created_at >= ?',@user.id, Date.today.to_time).pluck(:ad_id).uniq
 
         if @ad_log.length == 0
           @ad_list = CpxAdvertisement.where(:priority => 1)
@@ -304,10 +306,16 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           @msg = "not exit ads"
         else 
           ad = CpxAdvertisement.find(r_id)
-          @ad_type = ad.kind
           @ad_id = ad.id
-          @url = ad.url
-          AdvertiseLog.create(:user_id => @user.id, :advertisement_id => ad.id, :ad_type => params[:kind])
+          @ad_type = ad.ad_type
+          @ad_image = ad.ad_image_url
+          @ad_text = ad.ad_text
+          @store_url = ad.store_url
+          @package_name = ad.package_name
+          @confirm_url = ad.confirm_url
+          @reward = ad.reward
+          @n_question = ad.n_question
+          @msg = "success"
         end
 
       
@@ -536,6 +544,30 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
       adLog.ad_type = params[:ad_type]
       adLog.user_id = params[:user_id]
       adLog.view_time = params[:view_time]
+      if adLog.save
+        @msg = "success"
+        @result = true
+      else
+        @msg = "failed to save"
+        @result = false
+        @status = false
+      end
+    end
+
+  end
+
+  def set_cpx_log
+    @status = true
+    @msg = ""
+    if !params[:ad_id].present? || !params[:ad_type].present? || !params[:user_id].present? || !params[:view_time].present?
+      @status = false
+      @msg = "lacking in params"
+    else
+      adLog = AdvertiseCpxLog.new
+      adLog.ad_id = params[:ad_id]
+      adLog.ad_type = params[:ad_type]
+      adLog.user_id = params[:user_id]
+      adLog.action = params[:action]
       if adLog.save
         @msg = "success"
         @result = true

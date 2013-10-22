@@ -8,5 +8,6 @@ class User < ActiveRecord::Base
   has_many :attendances
   has_many :advertise_cpd_logs
   has_many :advertise_cpdm_logs
+  has_many :advertise_cpx_logs
 
 end
