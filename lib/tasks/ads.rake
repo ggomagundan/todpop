@@ -4,7 +4,9 @@ require File.dirname(__FILE__) + '/../../config/environment.rb'
     task :cpd_priorities => :environment do
       CpdAdvertisement.all.each do |cpd|
         term_date = cpd.end_time.to_date - Date.today
-        if cpd.priority == 1
+        if cpd.remain <= 0
+            cpd.update_attributes(:priority => 99)
+        elsif cpd.priority == 1
         elsif cpd.priority == 5
         elsif term_date <= 0
             cpd.update_attributes(:priority => 2)
@@ -40,7 +42,9 @@ require File.dirname(__FILE__) + '/../../config/environment.rb'
     task :cpdm_priorities => :environment do
       CpdmAdvertisement.all.each do |cpdm|
         term_date = ad.end_time - Date.today
-        if cpdm.priority == 1
+        if cpdm.remain <= 0
+            cpdm.update_attributes(:priority => 99)
+        elsif cpdm.priority == 1
         elsif cpdm.priority == 5
         elsif term_date <= 0
             cpdm.update_attributes(:priority => 2)
@@ -78,7 +82,9 @@ require File.dirname(__FILE__) + '/../../config/environment.rb'
       ads = CpxAdvertisement.where('priority >= 2')
       
       ads.each do |cpx|
-        if cpx.end_time.to_date - Date.today.to_date <= 10 
+        if cpx.remain <= 0
+          cpx.update_attributes(:priority => 99)
+        elsif cpx.end_time.to_date - Date.today.to_date <= 10 
           cpx.update_attributes(:priority => 2)
         elsif Date.today.to_date - cpx.start_time.to_date <= 10
           cpx.update_attributes(:priority => 3)
