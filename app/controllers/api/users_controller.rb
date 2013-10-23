@@ -441,6 +441,48 @@ class Api::UsersController < ApplicationController
 
   end
 
+  def get_reward_list
+    @user = User.find(params[:id])
+
+    @status = true
+    @msg = ""
+
+    if !@user.present?
+      @status = false
+      @msg = "not exist user"
+    end
+
+
+    if params[:page].present?
+      @page = params[:page]
+    else
+      @page = 1
+    end
+
+    if @status == true
+      @list = Reward.where(:user_id => params[:id]).order('created_at desc').page(@page).per(10)
+    end
+
+    
+  end
+
+
+  def get_attendance_time
+    @user = User.find(params[:id])
+
+    @status = true
+    @msg = ""
+
+    if !@user.present?
+      @status = false
+      @msg = "not exist user"
+    end
+
+    if @status == true
+      @attendance_time = @user.attendance_time
+    end
+  end
+
   private
     def user_params
       params.permit(:email, :facebook, :nickname, :recommend, :sex, :birth, :address, :mobile, :interest)

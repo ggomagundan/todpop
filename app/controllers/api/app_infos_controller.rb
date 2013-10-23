@@ -24,4 +24,18 @@ class Api::AppInfosController < ApplicationController
     @status = true
     @msg =""
   end
+
+  def get_help
+
+    if params[:page].present?
+      @page = params[:page]
+    else
+      @page = 1
+    end
+
+    @helps = Help.order('id desc').page(@page).per(10)
+    @status = true
+    @msg = ""
+  end
+
 end

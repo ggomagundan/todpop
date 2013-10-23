@@ -271,6 +271,20 @@ class Api::StudiesController < ApplicationController
 
       end
 
+
+      if @reward > 0
+        Reward.create(:user_id => user_id, :reward_type => 1, :title => "문제", :reward_point => @reward)
+      end
+
+      @user = User.find(user_id)
+      @last_con = User.find(user_id).last_connection.to_date
+
+      if @last_con < Date.today && Date.today - last_con == 1
+        @user.update_attributes(:attendance_time => @user.attendance_time + 1)
+      else
+        @user.update_attributes(:attendance_time => 1)
+      end
+
       if record.present? &&  @medal < record.record_type
         @medal = record.record_type
       end

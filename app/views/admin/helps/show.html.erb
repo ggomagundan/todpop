@@ -1,0 +1,16 @@
+<% title "Admin/Help" %>
+
+<p>
+  <strong>Title:</strong>
+  <%= @help.title %>
+</p>
+<p>
+  <strong>Content:</strong>
+  <%= @help.content %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_admin_help_path(@help) %> |
+  <%= link_to "Destroy", [:admin, @help], :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", admin_helps_path %>
+</p>

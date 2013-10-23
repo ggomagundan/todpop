@@ -10,4 +10,11 @@ class User < ActiveRecord::Base
   has_many :advertise_cpdm_logs
   has_many :advertise_cpx_logs
 
+
+  after_create do |u|
+    u.update_attributes(:last_connection => DateTime.now, :attendance_time => 1)
+   
+  end
+
+
 end

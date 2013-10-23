@@ -40,8 +40,9 @@ class Admin::NoticesController < Admin::ApplicationController
     redirect_to admin_notices_url, :notice => "Successfully destroyed notice."
   end
 
-    def notice_params
-      params.require(:notice).permit(:title, :content)
-    end
+  private
+  def notice_params
+    params.require(:notice).permit(:title, :content)
+  end
 
 end

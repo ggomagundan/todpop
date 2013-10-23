@@ -5,7 +5,14 @@ class Api::NoticesController < ApplicationController
   end
 
   def get_notices
-    @notices = Notice.last(5).reverse
+
+    if params[:page].present?
+      @page = params[:page]
+    else
+      @page = 1
+    end
+
+    @notices = Notice.order('id desc').page(@page).per(10)
     @status = true
     @msg = ""
   end

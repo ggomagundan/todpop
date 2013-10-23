@@ -11,11 +11,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131022165208) do
+ActiveRecord::Schema.define(version: 20131023164942) do
 
   create_table "addresses", force: true do |t|
     t.string   "depth1"
     t.string   "depth2"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "advertise_cpd_logs", force: true do |t|
+    t.integer  "ad_id"
+    t.integer  "ad_type"
+    t.integer  "user_id"
+    t.integer  "action"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "advertise_cpdm_logs", force: true do |t|
+    t.integer  "ad_id"
+    t.integer  "ad_type",    default: 201
+    t.integer  "user_id"
+    t.integer  "view_time"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -27,6 +45,15 @@ ActiveRecord::Schema.define(version: 20131022165208) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "ad_type"
+  end
+
+  create_table "advertisement_cpx_logs", force: true do |t|
+    t.integer  "ad_id"
+    t.integer  "ad_type"
+    t.integer  "user_id"
+    t.integer  "action"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "advertisements", force: true do |t|
@@ -96,11 +123,11 @@ ActiveRecord::Schema.define(version: 20131022165208) do
   end
 
   create_table "cpd_advertisements", force: true do |t|
-    t.integer  "kind"
+    t.integer  "ad_type"
     t.integer  "count"
     t.integer  "remain"
-    t.datetime "start_time"
-    t.datetime "end_time"
+    t.datetime "start_date"
+    t.datetime "end_date"
     t.string   "front_image"
     t.string   "back_image"
     t.integer  "coupon_id"
@@ -111,9 +138,9 @@ ActiveRecord::Schema.define(version: 20131022165208) do
   end
 
   create_table "cpdm_advertisements", force: true do |t|
-    t.integer  "kind"
-    t.date     "start_time"
-    t.date     "end_time"
+    t.integer  "ad_type"
+    t.date     "start_date"
+    t.date     "end_date"
     t.integer  "count"
     t.integer  "remain"
     t.integer  "priority"
@@ -121,19 +148,26 @@ ActiveRecord::Schema.define(version: 20131022165208) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "ad_name"
+    t.integer  "length"
   end
 
   create_table "cpx_advertisements", force: true do |t|
-    t.integer  "kind"
-    t.date     "start_time"
-    t.date     "end_time"
+    t.integer  "ad_type"
+    t.date     "start_date"
+    t.date     "end_date"
     t.integer  "count"
     t.integer  "remain"
-    t.integer  "priority",   default: 5
-    t.string   "url"
-    t.string   "name"
+    t.integer  "priority",     default: 5
+    t.string   "ad_name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "ad_text"
+    t.string   "store_url"
+    t.string   "confirm_url"
+    t.string   "package_name"
+    t.string   "ad_image"
+    t.integer  "reward"
+    t.integer  "n_question"
   end
 
   create_table "exam_infos", force: true do |t|
@@ -145,11 +179,27 @@ ActiveRecord::Schema.define(version: 20131022165208) do
     t.datetime "updated_at"
   end
 
+  create_table "helps", force: true do |t|
+    t.string   "title"
+    t.text     "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "levels", force: true do |t|
     t.integer  "level",      null: false
     t.integer  "stage",      null: false
     t.integer  "index",      null: false
     t.integer  "word_id",    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "my_coupons", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "coupon_type"
+    t.integer  "coupon_id"
+    t.integer  "availability", default: 1
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -187,6 +237,23 @@ ActiveRecord::Schema.define(version: 20131022165208) do
     t.integer  "reward_point"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "reward_type"
+  end
+
+  create_table "survey_contents", force: true do |t|
+    t.integer  "ad_id"
+    t.integer  "q_no"
+    t.integer  "q_type"
+    t.string   "q_text"
+    t.string   "q_image"
+    t.integer  "n_answer"
+    t.string   "a1"
+    t.string   "a2"
+    t.string   "a3"
+    t.string   "a4"
+    t.string   "a5"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "user_records", force: true do |t|
@@ -219,7 +286,7 @@ ActiveRecord::Schema.define(version: 20131022165208) do
     t.string   "address"
     t.string   "mobile",                               null: false
     t.datetime "date"
-    t.datetime "late_connection"
+    t.datetime "last_connection"
     t.integer  "level_test"
     t.datetime "created_at"
     t.datetime "updated_at"
