@@ -13,7 +13,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
       @status = false
       @msg = "not exist params"
     else
-      @user = User.find(params[:user_id])
+      @user = User.find_by_id(params[:user_id])
 
       if !@user.present?
         @status = false
@@ -92,7 +92,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
 
         if r_id == 0
           @status = false
-          @msg = "not exit ads"
+          @msg = "not exist ads"
         else 
           ad = CpdAdvertisement.find(r_id)
           @ad_id = ad.id
@@ -117,7 +117,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
       @status = false
       @msg = "not exist params"
     else
-      @user = User.find(params[:user_id])
+      @user = User.find_by_id(params[:user_id])
 
       if !@user.present?
         @status = false
@@ -223,7 +223,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
       @status = false
       @msg = "not exist params"
     else
-      @user = User.find(params[:user_id])
+      @user = User.find_by_id(params[:user_id])
 
       if !@user.present?
         @status = false
@@ -490,7 +490,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
     @status = true
     @msg = ""
 
-    if !params[:ad_id].present? || !params[:ad_type].present? || !params[:user_id].present? || !params[:action].present?
+    if !params[:ad_id].present? || !params[:ad_type].present? || !params[:user_id].present? || !params[:act].present?
       @status = false
       @msg = "lacking in params"
     else
@@ -498,7 +498,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
       adLog.ad_id = params[:ad_id]
       adLog.ad_type = params[:ad_type]
       adLog.user_id = params[:user_id]
-      adLog.action = params[:action].to_i
+      adLog.act = params[:act]
       if adLog.save
         @msg = "success"
         @result = true
@@ -560,7 +560,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
   def set_cpx_log
     @status = true
     @msg = ""
-    if !params[:ad_id].present? || !params[:ad_type].present? || !params[:user_id].present? || !params[:view_time].present?
+    if !params[:ad_id].present? || !params[:ad_type].present? || !params[:user_id].present? || !params[:act].present?
       @status = false
       @msg = "lacking in params"
     else
@@ -568,7 +568,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
       adLog.ad_id = params[:ad_id]
       adLog.ad_type = params[:ad_type]
       adLog.user_id = params[:user_id]
-      adLog.action = params[:action]
+      adLog.act = params[:act]
       if adLog.save
         @msg = "success"
         @result = true
