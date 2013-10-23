@@ -20,11 +20,10 @@ Todpop::Application.configure do
   # For large-scale production use, consider using a caching reverse proxy like nginx, varnish or squid.
   # config.action_dispatch.rack_cache = true
 
-  config.middleware.use ExceptionNotifier,
-  sender_address: 'noreply@todpop.com',
-  exception_recipients: 'kai_park@todpop.co.kr',
-  ignore_exceptions: ExceptionNotifier.default_ignore_exceptions + [RuntimeError]
-  
+ config.middleware.use ExceptionNotifier,
+    :email_prefix => "[Exception] ",
+    :sender_address => %{"Exception Notifier" <noreply@todpop.co.kr>}, 
+    exception_recipients: %w{kai_park@todpop.co.kr,ddubool92@gmail.com}
 
 
   # Disable Rails's static asset server (Apache or nginx will already do this).
