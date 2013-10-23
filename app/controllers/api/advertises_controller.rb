@@ -24,8 +24,8 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
 
         if @ad_log.length == 0
           @ad_list = CpdAdvertisement.where(:priority => 1)
-          @ad_list_2 = CpdAdvertisement.where(:priority => 2 )
-          @ad_list_3 = CpdAdvertisement.where(:priority => 3 )
+          @ad_list_2 = CpdAdvertisement.where(:priority => 2)
+          @ad_list_3 = CpdAdvertisement.where(:priority => 3)
           @ad_list_4 = CpdAdvertisement.where(:priority => 4)
           @ad_list_5 = CpdAdvertisement.where(:priority => 5)
         else
@@ -229,8 +229,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
         @status = false
         @msg = "not exist user"
       else
-
-        @ad_log = AdvertiseCpxLog.where('user_id = ? and (action != 2 AND created_at >= ? AND created_at < ?) OR (action = 2 AND created_at >= ? AND created_at < ?)',
+        @ad_log = AdvertiseCpxLog.where('user_id = ? and (act != 2 AND created_at >= ? AND created_at < ?) OR (act = 2 AND created_at >= ? AND created_at < ?)',
               @user.id, 14.day.ago.to_time, Time.now, 45.day.ago.to_time, Time.now).pluck(:ad_id).uniq
 
         if @ad_log.length == 0
