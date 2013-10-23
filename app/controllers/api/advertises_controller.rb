@@ -197,7 +197,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
 
         if r_id == 0
           @status = false
-          @msg = "not exit ads"
+          @msg = "not exist ads"
         else 
           ad = CpdmAdvertisement.find(r_id)
           @ad_id = ad.id
@@ -304,7 +304,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
 
         if r_id == 0
           @status = false
-          @msg = "not exit ads"
+          @msg = "not exist ads"
         else 
           ad = CpxAdvertisement.find(r_id)
           @ad_id = ad.id
@@ -326,42 +326,6 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
     end
 
    end
-
-  def set_log
-
-      @status = true
-      @msg = ""
-
-    if !params[:no].present? || !params[:nickname].present?
-      @status = false
-      @msg = "not exist no or nickname parameter"
-    else
-      if !User.where(:nickname => params[:nickname]).present?
-        @status = false
-        @msg = "user not exist"
-      elsif !Advertisement.find(params[:no]).present?
-        @status = false
-        @msg = "advertise not exist"
-      else
-        @ad = AdvertiseLog.new
-        @ad.advertisement_id = params[:no]
-        @ad.user_id = User.find_by_nickname(params[:nickname]).id
-        if params[:time].present?
-          @ad.view_time = params[:time]
-        end
-        
-        if @ad.save
-          @result = true
-        else
-          @status = false
-          @msg = "save Error"
-        end
-
-      end      
-
-    end
-
-  end 
   
   def get_image_ads
  
