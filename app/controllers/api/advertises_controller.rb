@@ -327,40 +327,6 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
 
    end
 
-  def set_cpx_log
-
-      @status = true
-      @msg = ""
-
-    if !params[:no].present? || !params[:nickname].present? || !params[:type]
-      @status = false
-      @msg = "not exist no or nickname parameter"
-    else
-      if !User.where(:nickname => params[:nickname]).present?
-        @status = false
-        @msg = "user not exist"
-      elsif !Advertisement.find(params[:no]).present?
-        @status = false
-        @msg = "advertise not exist"
-      else
-        @ad = AdvertiseLog.new
-        @ad.advertisement_id = params[:no]
-        @ad.user_id = User.find_by_nickname(params[:nickname]).id
-        @ad.view_time = 1
-        
-        if @ad.save
-          @result = true
-        else
-          @status = false
-          @msg = "save Error"
-        end
-
-      end      
-
-    end
-
-  end 
-
   def set_log
 
       @status = true
