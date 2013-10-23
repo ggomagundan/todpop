@@ -498,7 +498,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
       adLog.ad_id = params[:ad_id]
       adLog.ad_type = params[:ad_type]
       adLog.user_id = params[:user_id]
-      adLog.action = params[:action]
+      adLog.action = params[:action].to_i
       if adLog.save
         @msg = "success"
         @result = true

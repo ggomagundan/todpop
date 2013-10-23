@@ -8,7 +8,7 @@
     <th>Count</th>
     <th>Remain</th>
     <th>Priority</th>
-    <th>Url</th>
+    <th>StoreUrl</th>
   </tr>
   <% for cpx_advertisement in @cpx_advertisements %>
     <tr>
@@ -19,7 +19,7 @@
       <td><%= cpx_advertisement.count %></td>
       <td><%= cpx_advertisement.remain %></td>
       <td><%= cpx_advertisement.priority %></td>
-      <td><%= cpx_advertisement.url %></td>
+      <td><%= cpx_advertisement.store_url %></td>
       <td><%= link_to "Edit", edit_admin_cpx_advertisement_path(cpx_advertisement), :class => "btn btn-warning" %></td>
       <td><%#= link_to "Destroy", [:admin, cpx_advertisement], :confirm => 'Are you sure?', :method => :delete %></td>
     </tr>
