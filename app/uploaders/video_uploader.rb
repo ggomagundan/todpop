@@ -1,5 +1,5 @@
-
 # encoding: utf-8
+require 'carrierwave/video'
 class VideoUploader < CarrierWave::Uploader::Base
 
   # Include RMagick or MiniMagick support:
