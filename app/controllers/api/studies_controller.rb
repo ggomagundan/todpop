@@ -318,7 +318,7 @@ class Api::StudiesController < ApplicationController
       @user.update_attributes(:last_connection => Time.now)
 
       if record.present? &&  @medal < record.n_medals_best
-        @medal = record.record_type
+        @medal = record.n_medals_best
       end
     end
   end
