@@ -479,6 +479,15 @@ class Api::UsersController < ApplicationController
     end
 
     if @status == true
+
+      # update consecutive attendace
+      last_attendance_date = @user.last_connection.to_date
+      date_gap = Date.today - last_attendance_date
+      if date_gap >= 2
+        @user.update_attiributes(:attendance_time => 0)
+      end
+
+      # data
       @attendance_time = @user.attendance_time
     end
   end
