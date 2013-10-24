@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  bank: MyString
+  account: MyString
+  sum: 1
+  comment: MyString
+
+two:
+  name: MyString
+  bank: MyString
+  account: MyString
+  sum: 1
+  comment: MyString
