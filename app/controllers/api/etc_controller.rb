@@ -126,8 +126,37 @@ class Api::EtcController < ApplicationController
       @product=[]
       (0..2).each do |i|
       @temp=Product.where(:category => params[:category], :period => params[:period], :rank => (i+1))
-      @product={:Id => @temp[0].id, :Image => @temp[0].image}
+      @temp_product={:Id => @temp[0].id, :Image => @temp[0].image}
+      @product.push(@temp_product)
+      end
+      @user_stat=UserStage.find_by_user_id(params[:id])
+      @level=@user_stat.level
+      @attendance=@user.attendance_time
+    end
+  end
+
+
+  def get_product_info
+    @status=true
+    @msg=""
+
+    if !params[:id].present?
+      @status=false
+      @msg="not exist id params"
+    else
+      product=Product.find_by_id(params[:id])
+
+      if !@product.present?
+        @status=false
+        @msg="not exist product"
+      else
+        @image = procduct.image
+        @content1 = product.content1
+        @content2 = product.content2
+        @content3 = product.content3
       end
     end
   end
+
+
 end
