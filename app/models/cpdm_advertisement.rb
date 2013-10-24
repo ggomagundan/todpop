@@ -4,8 +4,8 @@ class CpdmAdvertisement < ActiveRecord::Base
 	mount_uploader :video, VideoUploader
   after_create do |ad|
     ad.update_attributes(:remain => ad.count)
-    if ad.video.present?
-    	ad.url = ad.video_url
+    if ad.video.file.present?
+    	ad.update_attributes(:url => ad.video_url)
     end
   end
 end
