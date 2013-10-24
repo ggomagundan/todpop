@@ -189,11 +189,11 @@ class Api::StudiesController < ApplicationController
 
           if result[i] != "0" 
             chaining = chaining+1
-            if i == exam_count
-              chain_point = chain_point + chaining * ((chaining - 1).to_f / 2) * 0.25
+            if i == exam_count - 1
+              chain_point = chain_point + (chaining-1)*(0.25+0.025*(chaining.to_f - 2))
             end
           else
-            chain_point = chain_point + chaining * ((chaining - 1).to_f / 2) * 0.25
+            chain_point = chain_point + (chaining-1)*(0.25+0.025*(chaining.to_f - 2))
             chaining = 0
           end
         end 
@@ -302,6 +302,9 @@ class Api::StudiesController < ApplicationController
         Reward.create(:user_id => user_id, :reward_type => 1, :title => "문제", :reward_point => @reward)
       end
 
+      # rank_point log
+      # ????
+
 
       # consecutive attendance update ----------------------------------------------
       @user = User.find(user_id)
@@ -320,6 +323,11 @@ class Api::StudiesController < ApplicationController
       if record.present? &&  @medal < record.n_medals_best
         @medal = record.n_medals_best
       end
+
+      # user_test_history log
+      UserTestHistory.create(:user_id => user_id, :category => category, :level => level, :stage => stage, :n_medals => @medal, :score => @score, :reward => @reward, :rank_point => @rank_point)
+
+
     end
   end
 end
