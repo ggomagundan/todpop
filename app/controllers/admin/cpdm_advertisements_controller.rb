@@ -26,6 +26,11 @@ class Admin::CpdmAdvertisementsController < Admin::ApplicationController
 
   def update
     @cpdm_advertisement = CpdmAdvertisement.find(params[:id])
+    if params[:video].present?
+      params[:video].delete("@headers")
+      params[:video].delete("@tempfile")
+      params[:video].delete("@content_type")
+    end
     if @cpdm_advertisement.update_attributes(cpdm_advertisement_params)
       redirect_to admin_cpdm_advertisements_path, :notice  => "Successfully updated cpdm advertisement."
     else
@@ -43,6 +48,6 @@ class Admin::CpdmAdvertisementsController < Admin::ApplicationController
   private
  
   def cpdm_advertisement_params
-    params.require(:cpdm_advertisement).permit(:ad_type, :count, :remain, :start_date, :end_date, :url, :priority, :ad_name, :length)
+    params.require(:cpdm_advertisement).permit(:ad_type, :count, :remain, :start_date, :end_date, :url, :priority, :ad_name, :length, :video)
   end
 end

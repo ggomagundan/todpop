@@ -27,7 +27,7 @@ class Admin::CpxAdvertisementsController < Admin::ApplicationController
   def update
     @cpx_advertisement = CpxAdvertisement.find(params[:id])
     if @cpx_advertisement.update_attributes(cpx_params)
-      redirect_to admin_cpx_advertisement_path, :notice  => "Successfully updated cpx advertisement."
+      redirect_to admin_cpx_advertisements_path, :notice  => "Successfully updated cpx advertisement."
     else
       render :action => 'edit'
     end
