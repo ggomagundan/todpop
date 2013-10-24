@@ -26,7 +26,6 @@ gem 'pry'
 gem 'nokogiri'
 gem 'carrierwave'
 gem 'rmagick', :require => 'RMagick'
-gem 'carrierwave-video'
 gem "kaminari"
 gem "hirb"
 gem 'bootstrap-sass'#, '~> 2.3.1.0'

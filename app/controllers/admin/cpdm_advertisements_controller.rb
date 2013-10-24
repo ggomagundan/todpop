@@ -30,6 +30,7 @@ class Admin::CpdmAdvertisementsController < Admin::ApplicationController
       params[:video].delete("@headers")
       params[:video].delete("@tempfile")
       params[:video].delete("@content_type")
+      logger.debug "#{params[:video]}"
     end
     if @cpdm_advertisement.update_attributes(cpdm_advertisement_params)
       redirect_to admin_cpdm_advertisements_path, :notice  => "Successfully updated cpdm advertisement."
