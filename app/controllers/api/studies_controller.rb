@@ -225,12 +225,12 @@ class Api::StudiesController < ApplicationController
 
       record = UserRecordBest.where(:stage => stage, :level => level, :user_id => user_id).first
 
-      if record.present? && record.record_point.present?
+      if record.present? && record.score_best.present?
         @rank_point = @rank_point / 2
            
-        if @medal - record.record_type == 2
+        if @medal - record.n_medals_best == 2
           @reward = AppInfo.last.max_money.to_i
-        elsif @medal - record.record_type == 1
+        elsif @medal - record.n_medals_best == 1
           @reward = AppInfo.last.max_money.to_i  / 2
         else
           @reward = 0
@@ -251,7 +251,7 @@ class Api::StudiesController < ApplicationController
         if record.n_medals_best < @medal
           record.update_attributes(:n_medals_best => @medal)
         end
-        if record.record_point < @score
+        if record.score_best < @score
           record.update_attributes(:score_best => @score)
         end
            
@@ -305,10 +305,10 @@ class Api::StudiesController < ApplicationController
 
       # consecutive attendance update ----------------------------------------------
       @user = User.find(user_id)
-      @last_con = User.find(user_id).last_connection.to_date
+      last_con = User.find(user_id).last_connection.to_date
 
-      if @last_con == Date.today
-      elsif @last_con < Date.today && Date.today - last_con == 1
+      if last_con == Date.today
+      elsif last_con < Date.today && Date.today - last_con == 1
         @user.update_attributes(:attendance_time => @user.attendance_time + 1)
       else
         @user.update_attributes(:attendance_time => 1)
@@ -317,7 +317,7 @@ class Api::StudiesController < ApplicationController
       # today attendance check ----------------------------------------------------
       @user.update_attributes(:last_connection => Time.now)
 
-      if record.present? &&  @medal < record.record_type
+      if record.present? &&  @medal < record.n_medals_best
         @medal = record.record_type
       end
     end
