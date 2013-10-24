@@ -97,6 +97,8 @@ Todpop::Application.routes.draw do
       get 'refund_info', :on => :member
       post 'refund', :on => :member
       get 'purchase_list', :on => :member
+      get 'show_cpx_list', :on => :member
+      get 'my_home', :on => :member
     end
 
   

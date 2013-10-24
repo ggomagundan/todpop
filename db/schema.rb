@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131023164942) do
+ActiveRecord::Schema.define(version: 20131024205738) do
 
   create_table "addresses", force: true do |t|
     t.string   "depth1"
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20131023164942) do
     t.integer  "ad_id"
     t.integer  "ad_type"
     t.integer  "user_id"
-    t.integer  "action"
+    t.integer  "act"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -38,37 +38,13 @@ ActiveRecord::Schema.define(version: 20131023164942) do
     t.datetime "updated_at"
   end
 
-  create_table "advertise_logs", force: true do |t|
-    t.integer  "advertisement_id"
-    t.integer  "user_id"
-    t.integer  "view_time"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "ad_type"
-  end
-
-  create_table "advertisement_cpx_logs", force: true do |t|
+  create_table "advertise_cpx_logs", force: true do |t|
     t.integer  "ad_id"
     t.integer  "ad_type"
     t.integer  "user_id"
-    t.integer  "action"
+    t.integer  "act"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "advertisements", force: true do |t|
-    t.integer  "kind"
-    t.integer  "count"
-    t.integer  "remain"
-    t.string   "local"
-    t.integer  "interest"
-    t.integer  "sexual"
-    t.integer  "facebook"
-    t.datetime "start_time"
-    t.datetime "end_time"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "ads_num"
   end
 
   create_table "app_infos", force: true do |t|
@@ -85,8 +61,6 @@ ActiveRecord::Schema.define(version: 20131023164942) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "day_limit"
-    t.string   "android_package"
-    t.string   "ios_package"
     t.string   "android_package_name"
     t.string   "ios_package_name"
     t.string   "market_url"
@@ -112,17 +86,8 @@ ActiveRecord::Schema.define(version: 20131023164942) do
     t.datetime "updated_at"
   end
 
-  create_table "cpd_ads", force: true do |t|
-    t.integer  "cpd_kind"
-    t.string   "front_image"
-    t.string   "back_image"
-    t.integer  "coupon_id"
-    t.integer  "priority"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "cpd_advertisements", force: true do |t|
+    t.string   "ad_name"
     t.integer  "ad_type"
     t.integer  "count"
     t.integer  "remain"
@@ -134,40 +99,40 @@ ActiveRecord::Schema.define(version: 20131023164942) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "priority",    default: 4
-    t.string   "ad_name"
   end
 
   create_table "cpdm_advertisements", force: true do |t|
-    t.integer  "ad_type"
-    t.date     "start_date"
-    t.date     "end_date"
+    t.string   "ad_name"
+    t.integer  "ad_type",    default: 201
     t.integer  "count"
     t.integer  "remain"
-    t.integer  "priority"
+    t.date     "start_date"
+    t.date     "end_date"
     t.string   "url"
+    t.string   "length"
+    t.integer  "priority",   default: 4
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "ad_name"
-    t.integer  "length"
+    t.string   "video"
   end
 
   create_table "cpx_advertisements", force: true do |t|
+    t.string   "ad_name"
     t.integer  "ad_type"
-    t.date     "start_date"
-    t.date     "end_date"
     t.integer  "count"
     t.integer  "remain"
-    t.integer  "priority",     default: 5
-    t.string   "ad_name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.string   "ad_image"
     t.string   "ad_text"
     t.string   "store_url"
-    t.string   "confirm_url"
     t.string   "package_name"
-    t.string   "ad_image"
+    t.string   "confirm_url"
     t.integer  "reward"
     t.integer  "n_question"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "priority",     default: 5
   end
 
   create_table "exam_infos", force: true do |t|
@@ -228,6 +193,28 @@ ActiveRecord::Schema.define(version: 20131023164942) do
     t.string   "image"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "category"
+    t.integer  "period"
+  end
+
+  create_table "refund_infos", force: true do |t|
+    t.string   "name"
+    t.string   "bank"
+    t.string   "account"
+    t.integer  "sum"
+    t.string   "comment"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+  end
+
+  create_table "reward_sums", force: true do |t|
+    t.integer  "current"
+    t.integer  "0"
+    t.integer  "total"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "content",    default: "THIS IS NOTICE"
   end
 
   create_table "rewards", force: true do |t|
@@ -256,14 +243,14 @@ ActiveRecord::Schema.define(version: 20131023164942) do
     t.datetime "updated_at"
   end
 
-  create_table "user_records", force: true do |t|
-    t.integer  "record_type"
+  create_table "user_record_bests", force: true do |t|
+    t.integer  "user_id"
     t.integer  "level"
     t.integer  "stage"
-    t.integer  "record_point"
+    t.integer  "n_medals_best"
+    t.integer  "score_best"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id"
   end
 
   create_table "user_stages", force: true do |t|
@@ -271,6 +258,19 @@ ActiveRecord::Schema.define(version: 20131023164942) do
     t.integer  "category"
     t.integer  "stage"
     t.integer  "level"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "user_test_histories", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "category"
+    t.integer  "level"
+    t.integer  "stage"
+    t.integer  "n_medals"
+    t.integer  "score"
+    t.integer  "reward"
+    t.integer  "rank_point"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -287,7 +287,7 @@ ActiveRecord::Schema.define(version: 20131023164942) do
     t.string   "mobile",                               null: false
     t.datetime "date"
     t.datetime "last_connection"
-    t.integer  "level_test"
+    t.integer  "level_test",               default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "point",                    default: 0

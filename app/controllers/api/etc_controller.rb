@@ -126,8 +126,12 @@ class Api::EtcController < ApplicationController
       @product=[]
       (0..2).each do |i|
       @temp=Product.where(:category => params[:category], :period => params[:period], :rank => (i+1))
-      @product={:Id => @temp[0].id, :Image => @temp[0].image}
+      @temp_product={:Id => @temp[0].id, :Image => @temp[0].image}
+      @product.push(@temp_product)
       end
+      @user_stat=UserStage.find_by_user_id(params[:id])
+      @level=@user_stat.level
+      @attendance=@user.attendance_time
     end
   end
 
