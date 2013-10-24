@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 Todpop::Application.routes.draw do
    
+  get "etc/refund_info"
   namespace(:admin){ resources :helps }
   namespace(:admin){ resources :cacao_ments }
   namespace(:admin){ resources :app_introduce_videos }
@@ -91,6 +92,12 @@ Todpop::Application.routes.draw do
       get 'get_fast_pivot_time', :on => :collection
       get 'get_cacao_msg', :on => :collection
       get 'get_help', :on => :collection
+    end
+
+    resources :etc do
+      get 'refund_info', :on => :member
+      post 'refund', :on => :member
+      get 'purchase_list', :on => :member
     end
 
   
