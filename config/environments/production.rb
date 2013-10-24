@@ -1,4 +1,5 @@
 # -*- encoding : utf-8 -*-
+ENV['GEM_PATH'] += ":/todpop/shared/bundle/ruby/2.0.0/gems"
 Todpop::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
