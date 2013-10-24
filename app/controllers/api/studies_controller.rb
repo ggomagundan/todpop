@@ -33,6 +33,27 @@ class Api::StudiesController < ApplicationController
           @wrong_word.push(w.word.mean) 
         end
 
+        # end of level_test : thus highest_level_reached recording
+        if params[:step] == '21'
+          if @level <= 15
+            category = 1
+          elsif @level <= 60
+            category = 2
+          elsif @level <= 120
+            category = 3
+          elsif @level <= 180
+            category = 4
+          else
+            category = 4
+          end
+
+          user_stage = UserStage.where(:user_id => user_id).first
+          if !user_stage.present?
+            UserStage.create(:user_id => user_id, :category => category, :level => @level, :stage => 1)
+          else
+            user_stage.update_attributes(:category => category, :level => @level, :stage => 1)
+          end
+        end
 
       end
     end
@@ -287,14 +308,13 @@ class Api::StudiesController < ApplicationController
       if !user_stage.present?
         UserStage.create(:user_id => user_id, :category => next_category, :level => next_level, :stage => next_stage)
       else
-          
-        if user_stage.level == next_level  && user_stage.stage < next_stage
+        if  user_stage.category < next_category
+          user_stage.update_attributes(:category => next_category, :level => next_level, :stage => next_stage)
+        elsif  user_stage.level < next_level
+          user_stage.update_attributes(:level => next_level, :stage => next_stage)
+        elsif user_stage.level == next_level  && user_stage.stage < next_stage
           user_stage.update_attributes(:stage => next_stage)
         end 
-        if  user_stage.level < next_level
-          user_stage.update_attributes(:level => next_level, :stage => next_stage)
-        end
-
       end
 
       # reward log ----------------------------------------------------------------
