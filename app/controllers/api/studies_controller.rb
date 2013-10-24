@@ -137,7 +137,8 @@ class Api::StudiesController < ApplicationController
   def send_word_result
     @status = true
     @msg = ""
-      
+
+    # parameters check ------------------------------------------------      
     if !params[:level].present? || !params[:stage].present?
       @status = false
       @msg = "not exist level or stage parameter"   
@@ -155,6 +156,7 @@ class Api::StudiesController < ApplicationController
       @msg = "not exist category parameter"   
     end
 
+    # score & base rank_point calculation -----------------------------
     if @status == true
       stage = params[:stage].to_i
       level = params[:level].to_i
@@ -210,9 +212,9 @@ class Api::StudiesController < ApplicationController
       end 
     end
 
-
     if @status == true
         
+      # medal calc , rank_point & reward calc based on history -----------------------------
       if @score >= AppInfo.last.two_star.to_i
         @medal = 2
       elsif @score >= AppInfo.last.one_star.to_i
@@ -246,32 +248,56 @@ class Api::StudiesController < ApplicationController
 
 
       if record.present?
-        if record.record_type < @medal
-          record.update_attributes(:record_type => @medal)
+        if record.n_medals_best < @medal
+          record.update_attributes(:n_medals_best => @medal)
         end
         if record.record_point < @score
-          record.update_attributes(:record_point => @score)
+          record.update_attributes(:score_best => @score)
         end
            
       else
         UserRecordBest.create(:level => level, :stage => stage, :user_id => user_id, :n_medals_best => @medal, :score_best => @score)
       end
 
-      user_stage = UserStage.where(:user_id => user_id, :category => category).first
+      # highest level & stage record -------------------------------------------------
+      next_category = category
+      next_level = level
+      next_stage = stage
+      if @medal > 0
+        next_stage = next_stage + 1
+        if next_stage > 10
+          next_stage = 1
+          next_level = next_level + 1
+
+          if next_level == 16
+            next_category = 2
+          elsif next_level = 61
+            next_category = 3
+          elsif next_level = 121
+            next_category = 4
+          elsif next_level > 180
+            next_category = 4                 # Level limit
+            next_level = 180
+            next_stage = 10
+          end
+        end
+      end
+
+      user_stage = UserStage.where(:user_id => user_id).first
       if !user_stage.present?
-        UserStage.create(:user_id => user_id, :category => category, :level => level, :stage => stage)
+        UserStage.create(:user_id => user_id, :category => next_category, :level => next_level, :stage => next_stage)
       else
           
-        if user_stage.level == level  && user_stage.stage < stage
-          user_stage.update_attributes(:stage => stage)
+        if user_stage.level == next_level  && user_stage.stage < next_stage
+          user_stage.update_attributes(:stage => next_stage)
         end 
-        if  stage == 10 && @medal > 0 && level == user_stage.level
-          user_stage.update_attributes(:level => user_stage.level+1)
+        if  user_stage.level < next_level
+          user_stage.update_attributes(:level => next_level, :stage => next_stage)
         end
 
       end
 
-
+      # reward log ----------------------------------------------------------------
       if @reward > 0
         Reward.create(:user_id => user_id, :reward_type => 1, :title => "문제", :reward_point => @reward)
       end
