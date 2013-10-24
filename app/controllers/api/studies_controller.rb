@@ -120,7 +120,7 @@ class Api::StudiesController < ApplicationController
       end
 
       if @status == true
-        if params[:is_new].to_i > 0 &&  UserRecord.where('user_id = ? and created_at >= ?', params[:user_id], Date.today.to_time).count > AppInfo.last.day_limit
+        if params[:is_new].to_i > 0 &&  UserRecordBest.where('user_id = ? and created_at >= ?', params[:user_id], Date.today.to_time).count > AppInfo.last.day_limit
           @possible = false
           @msg = "limit over joy studying"
         else
@@ -221,7 +221,7 @@ class Api::StudiesController < ApplicationController
         @medal = 0
       end
 
-      record = UserRecord.where(:stage => stage, :level => level, :user_id => user_id).first
+      record = UserRecordBest.where(:stage => stage, :level => level, :user_id => user_id).first
 
       if record.present? && record.record_point.present?
         @rank_point = @rank_point / 2
@@ -254,7 +254,7 @@ class Api::StudiesController < ApplicationController
         end
            
       else
-        UserRecord.create(:level => level, :stage => stage, :user_id => user_id, :record_type => @medal, :record_point => @score)
+        UserRecordBest.create(:level => level, :stage => stage, :user_id => user_id, :n_medals_best => @medal, :score_best => @score)
       end
 
       user_stage = UserStage.where(:user_id => user_id, :category => category).first
