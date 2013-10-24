@@ -1,5 +1,6 @@
+require 'carrierwave/video'
+#require 'streamio-ffmpeg'
 # encoding: utf-8
-
 class VideoUploader < CarrierWave::Uploader::Base
 
   # Include RMagick or MiniMagick support:
