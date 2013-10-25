@@ -365,12 +365,12 @@ class Api::UsersController < ApplicationController
     @status = true
     @msg = ""
 
-    @user = User.find(params[:id])
+    @user = User.find_by_id(params[:id])
     
     if !@user.present?
       @status = false
       @msg = "not exist user"
-    elsif !params[:nickname].present? || !params[:mobile].present?
+    elsif !params[:nickname].present? || !params[:mFobile].present?
       @status = false
       @msg = "not exist nickname or mobile parameter"
     elsif @user.nickname != params[:nickname]
@@ -399,7 +399,7 @@ class Api::UsersController < ApplicationController
   end
 
   def facebook_change_pw
-    @user = User.find(params[:id])
+    @user = User.find_by_id(params[:id])
     
     if request.post?
       if !params[:user][:password].present? || !params[:user][:password_confirmation]
@@ -407,6 +407,7 @@ class Api::UsersController < ApplicationController
       else
         @user.password = params[:user][:password]
         @user.password_confirmation = params[:user][:password]
+        @user.is_set_facebook_password = 1
         if @user.save
           @status = true
         else
