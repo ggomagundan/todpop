@@ -41,6 +41,6 @@ class Admin::CpxAdvertisementsController < Admin::ApplicationController
 
   private
   def cpx_params
-    params.require(:cpx_advertisement).permit(:ad_name, :ad_type, :start_date, :end_date, :count, :remain, :ad_image, :ad_text, :store_url, :package_name, :confirm_url, :reward, :n_question, :priority)
+    params.require(:cpx_advertisement).permit(:ad_name, :ad_type, :start_date, :end_date, :contract, :remain, :ad_image, :ad_text, :target_url, :package_name, :confirm_url, :reward, :n_question, :priority)
   end
 end

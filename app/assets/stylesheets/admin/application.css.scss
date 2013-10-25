@@ -1,6 +1,8 @@
 @import "bootstrap";
 
-
+.container {
+  width:90%;
+}
 .control-group{
   width:80%;
   display:inline-block;
@@ -15,7 +17,6 @@
 }
 
 .controls{
-  width:400px;
   margin-left:20px;
   align:left;
   display:inline-block;

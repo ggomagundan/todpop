@@ -40,9 +40,9 @@
     </div>
   </div>
   <div class="control-group">
-    <label class="control-label">count</label>
+    <label class="control-label">contract</label>
     <div class="controls">
-      <label><%= f.text_field :count %></label>
+      <label><%= f.text_field :contract %></label>
     </div>
   </div>
   <div class="control-group">
@@ -54,10 +54,8 @@
   <div class="control-group">
     <label class="control-label">Date</label>
     <div class="controls">
-      <label>
-        <%= f.text_field :start_date, :class => "calendar" %> ~
-        <%= f.text_field :end_date, :class=> "calendar", :readolny=>true %>
-      </label>
+        <%= f.text_field :start_date, :value => "#{@cpx_advertisement.start_date}", :class => "calendar" %> ~
+        <%= f.text_field :end_date, :value => "#{@cpx_advertisement.end_date}", :class=> "calendar" %>
     </div>
   </div>
   <div class="control-group">
@@ -74,9 +72,9 @@
     </div>
   </div>
   <div class="control-group">
-    <label class="control-label">store_url</label>
+    <label class="control-label">target_url</label>
     <div class="controls">
-      <label><%= f.text_field :store_url %></label>
+      <label><%= f.text_field :target_url %></label>
     </div>
   </div>
   <div class="control-group">

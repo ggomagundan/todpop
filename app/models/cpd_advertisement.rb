@@ -10,7 +10,7 @@ class CpdAdvertisement < ActiveRecord::Base
   mount_uploader :back_image, ImageUploader
 
   after_create do |ad|
-    ad.update_attributes(:remain => ad.count)          
+    ad.update_attributes(:remain => ad.contract)          
   end
 
   def kind

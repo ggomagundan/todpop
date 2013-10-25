@@ -18,9 +18,9 @@
     </div>
   </div>
   <div class="control-group">
-    <label class="control-label">count</label>
+    <label class="control-label">contract</label>
     <div class="controls">
-      <label><%= f.text_field :count %></label>
+      <label><%= f.text_field :contract %></label>
     </div>
   </div>
   <div class="control-group">
@@ -32,10 +32,8 @@
   <div class="control-group">
     <label class="control-label">Date</label>
     <div class="controls">
-      <label>
-        <%= f.text_field :start_date, :class => "calendar" %> ~
-        <%= f.text_field :end_date, :class=> "calendar" %>
-      </label>
+        <%= f.text_field :start_date, :value => "#{@cpdm_advertisement.start_date}", :class => "calendar" %> ~
+        <%= f.text_field :end_date, :value => "#{@cpdm_advertisement.end_date}", :class=> "calendar" %>
     </div>
   </div>
   <div class="control-group">
@@ -48,7 +46,7 @@
     <label class="control-label">video file</label>
     <div class="controls">
       <label><%= f.file_field :video %></label>
-      <%= video_tag f.object.video_url if f.object.video.present? %>
+      <%= video_tag f.object.url if f.object.url? %>
     </div>
   </div>
   <div class="control-group">
