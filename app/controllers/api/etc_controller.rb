@@ -146,11 +146,11 @@ class Api::EtcController < ApplicationController
     else
       product=Product.find_by_id(params[:id])
 
-      if !@product.present?
+      if !product.present?
         @status=false
         @msg="not exist product"
       else
-        @image = procduct.image
+        @image = product.image
         @content1 = product.content1
         @content2 = product.content2
         @content3 = product.content3
