@@ -24,8 +24,10 @@ class Api::UsersController < ApplicationController
       if !params[:email].present? && !params[:facebook].present?
         @status = false
         @msg = "not exist email or facebook"
+      elsif params[:email].present? && !params[:password].present?
+        @status = false
+        @msg = "email exist but no password"
       end
-
     else
       if !params[:email].present? && !params[:facebook].present?
         @status = false
@@ -49,33 +51,42 @@ class Api::UsersController < ApplicationController
       
       if params[:mem_no].present?
         # cross Join
-        @user = User.find(params[:mem_no])
-        @user.update_attributes(user_params)
-
+        @user = User.find_by_id(params[:mem_no])
+        if @user.present?
+          @status = false
+          @msg = "not exist user_id"
+        else
+          if params[:email].present?
+            @user.password = params[:password]
+            @user.password_confirmation = params[:password]
+            @user.is_set_facebook_password = 1
+          end
+          @user.update_attributes(user_params)
+        end
       else
-     
         # new Join
         @user = User.new(user_params)
 
         if params[:email].present? 
           @user.password = params[:password]
           @user.password_confirmation = params[:password] 
+          @user.is_set_facebook_password = 1
         elsif params[:facebook].present?
           @user.password = "dummypassword"
-          @user.password_confirmation = "dummypassword" 
+          @user.password_confirmation = "dummypassword"
+          @user.is_set_facebook_password = 0
         end
-      
       end
 
-      if @user.save!
-        @msg = "complete"
-      else
-        @status = false
-        @msg = "join error"
+      if @status == true
+        if @user.save!
+          @msg = "complete"
+        else
+          @status = false
+          @msg = "join save error"
+        end
       end
-  
     end
-
   end
 
   def re_sign_up
