@@ -319,11 +319,16 @@ class Api::StudiesController < ApplicationController
 
       # reward log ----------------------------------------------------------------
       if @reward > 0
-        Reward.create(:user_id => user_id, :reward_type => 1, :title => "문제", :reward_point => @reward)
+        sub_title = "Level " + level.to_s + " - Stage " + stage.to_s
+        Reward.create(:user_id => user_id, :reward_type => 1000, :title => "학습 장학금", :sub_title => sub_title, :reward_point => @reward)
       end
 
       # rank_point log
-      # ????
+      if @rank_point > 0
+        point_type = 1000 + category
+        name = "학습 장학금" + " : Level " + level.to_s + " - Stage " + stage.to_s
+        Point.create(:user_id => user_id, :point_type => point_type, :name => name, :point => @rank_point)
+      end
 
 
       # consecutive attendance update ----------------------------------------------
@@ -340,9 +345,10 @@ class Api::StudiesController < ApplicationController
       # today attendance check ----------------------------------------------------
       @user.update_attributes(:last_connection => Time.now)
 
-      if record.present? &&  @medal < record.n_medals_best
-        @medal = record.n_medals_best
-      end
+      # Return only highest medal
+      #if record.present? &&  @medal < record.n_medals_best
+      #  @medal = record.n_medals_best
+      #end
 
       # user_test_history log
       UserTestHistory.create(:user_id => user_id, :category => category, :level => level, :stage => stage, :n_medals => @medal, :score => @score, :reward => @reward, :rank_point => @rank_point)
@@ -350,4 +356,14 @@ class Api::StudiesController < ApplicationController
 
     end
   end
+
+  #                      reward_type      point_type(rank_point)
+  #      --------------------------------------------------
+  #      Test       =   1000+category      1000+category
+  #      Attendace  =     2000                2000
+  #      Recommend  =     3000                3000
+  #        CPX      =   4000+CPX_code      4000+CPX_code
+  #
+  
+
 end
