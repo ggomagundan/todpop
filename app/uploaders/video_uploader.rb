@@ -17,7 +17,7 @@ class VideoUploader < CarrierWave::Uploader::Base
   end
 
   def filename
-    "video.#{model.video.file.extension}"
+    "#{model.video.file.original_filename}"
   end
   # Provide a default URL as a default if there hasn't been a file uploaded:
   # def default_url
