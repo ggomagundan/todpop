@@ -6,7 +6,10 @@ require 'rails/all'
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(:default, Rails.env)
-
+if ENV['RAILS_ENV'] == "production"
+    ENV['GEM_PATH'] = "/todpop/todpop_app/shared/bundle/ruby/2.0.0"
+    ENV['GEM_HOME'] = "/todpop/todpop_app/shared/bundle/ruby/2.0.0"
+end
 module Todpop
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
