@@ -99,6 +99,7 @@ Todpop::Application.routes.draw do
       get 'purchase_list', :on => :member
       get 'show_cpx_list', :on => :member
       get 'my_home', :on => :member
+      get 'get_product_info', :on => :collection
     end
 
   
