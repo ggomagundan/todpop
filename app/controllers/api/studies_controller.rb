@@ -292,9 +292,9 @@ class Api::StudiesController < ApplicationController
 
           if next_level == 16
             next_category = 2
-          elsif next_level = 61
+          elsif next_level == 61
             next_category = 3
-          elsif next_level = 121
+          elsif next_level == 121
             next_category = 4
           elsif next_level > 180
             next_category = 4                 # Level limit
