@@ -114,6 +114,7 @@ class Api::EtcController < ApplicationController
     @msg=""
     @category=params[:category].to_i
     @period=params[:period].to_i
+    @today=0
 
     @user=User.find_by_id(params[:id])
     if !@user.present?
@@ -132,6 +133,28 @@ class Api::EtcController < ApplicationController
       @user_stat=UserStage.find_by_user_id(params[:id])
       @level=@user_stat.level
       @attendance=@user.attendance_time
+      @reward=Reward.where('user_id = ? and created_at >= ? and created_at <= ?', params[:id], Time.now.at_beginning_of_week, Time.now.at_end_of_week).pluck(:reward_point) 
+      if @reward.count==0
+        @msg="Not exist reward"
+      else
+        (0..@reward.count-1).each do |i|
+          @today+=@reward[i]
+        end
+      end
+      @reward=RewardSum.where(:id => params[:id]).pluck(:current)
+      if !@reward.present?
+        @reward=0
+      end
+      @sum=RewardSum.where(:id => params[:id]).pluck(:total)
+      if !@sum.present?
+        @sum=0
+      end
     end
   end
+
+   def event_check
+     @status=true
+     @msg=""
+     
+   end
 end
