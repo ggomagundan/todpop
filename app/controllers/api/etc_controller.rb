@@ -152,14 +152,6 @@ class Api::EtcController < ApplicationController
     end
   end
 
-<<<<<<< HEAD
-   def event_check
-     @status=true
-     @msg=""
-     
-   end
-=======
-
   def get_product_info
     @status=true
     @msg=""
@@ -182,6 +174,4 @@ class Api::EtcController < ApplicationController
     end
   end
 
-
->>>>>>> 1e8b5882f4935b2e5cb111a970d750a662b20834
 end
