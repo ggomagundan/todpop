@@ -307,7 +307,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           @ad_type = ad.ad_type
           @ad_image = ad.ad_image_url
           @ad_text = ad.ad_text
-          @store_url = ad.target_url
+          @target_url = ad.target_url
           @package_name = ad.package_name
           @confirm_url = ad.confirm_url
           @reward = ad.reward
