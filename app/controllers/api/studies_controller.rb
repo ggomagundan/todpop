@@ -12,6 +12,9 @@ class Api::StudiesController < ApplicationController
     if !params[:step].present? 
       @status = false
       @msg = "not exist stage parameter"
+    elsif params[:step] =='21' && (!params[:user_id] || !params[:level].present? || !params[:ox].present?)
+      @status = false
+      @msg = "not exist user_id or level or ox parameter"
     elsif params[:step] !='1' && (!params[:level].present? || !params[:ox].present?)
       @status = false
       @msg = "not exist level or ox parameter"
@@ -34,26 +37,29 @@ class Api::StudiesController < ApplicationController
         end
 
         # end of level_test : thus highest_level_reached recording
-        #if params[:step] == '21'
-        #  if @level <= 15
-        #    category = 1
-        #  elsif @level <= 60
-        #    category = 2
-        #  elsif @level <= 120
-        #    category = 3
-        #  elsif @level <= 180
-        #    category = 4
-        #  else
-        #    category = 4
-        #  end
-        #
-        #  user_stage = UserStage.where(:user_id => user_id).first
-        #  if !user_stage.present?
-        #    UserStage.create(:user_id => user_id, :category => category, :level => @level, :stage => 1)
-        #  else
-        #    user_stage.update_attributes(:category => category, :level => @level, :stage => 1)
-        #  end
-        #end
+        if params[:step] == '21'
+          user_id = params[:user_id].to_i
+          category = params[:category].to_i
+          
+          if @level <= 15
+            category = 1
+          elsif @level <= 60
+            category = 2
+          elsif @level <= 120
+            category = 3
+          elsif @level <= 180
+            category = 4
+          else
+            category = 4
+          end
+        
+          user_stage = UserStage.where(:user_id => user_id).first
+          if !user_stage.present?
+            UserStage.create(:user_id => user_id, :category => category, :level => @level, :stage => 1)
+          else
+            user_stage.update_attributes(:category => category, :level => @level, :stage => 1)
+          end
+        end
 
       end
     end
