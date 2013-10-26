@@ -440,7 +440,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
       @status = false
       @msg = "lacking in params"
     else
-      @questions = SurveyContent.find(params[:ad_id])
+      @questions = SurveyContent.find_by_ad_id(params[:ad_id])
       for q in @questions
         q.q_image = q.q_image_url
       end
