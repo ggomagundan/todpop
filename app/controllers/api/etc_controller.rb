@@ -23,7 +23,7 @@ class Api::EtcController < ApplicationController
     @msg = ""
     @boolean=false
 
-    if !params[:id] || !params[:name].present? || !params[:bank] || !params[:account] || !params[:sum] || !params[:password]
+    if !params[:id] || !params[:name].present? || !params[:bank] || !params[:account] || !params[:amount] || !params[:password]
       @status=false
       @msg = "Please Input Data"
     else
@@ -38,7 +38,7 @@ class Api::EtcController < ApplicationController
       else
         @current = RewardSum.find(params[:id])
 
-        if !(@current.current >= params[:sum])
+        if !(@current.current >= params[:amount])
           @status=false
           @msg="Need more money"
         else
