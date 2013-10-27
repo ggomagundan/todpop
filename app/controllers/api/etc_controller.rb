@@ -31,20 +31,20 @@ class Api::EtcController < ApplicationController
 
   def refund
     @status = true
-    @msg = "requested"
-
- ##   if !params[:user_id].present? || !params[:name].present? || !params[:bank].present? || !params[:account].present? || !params[:amount].present? || !params[:password].present?
+    @msg = params[:user_id].to_s
+=begin
+    if !params[:user_id].present? || !params[:name].present? || !params[:bank].present? || !params[:account].present? || !params[:amount].present? || !params[:password].present?
       @status=false
       @msg = "not exist some of params"
- ##   else
+    else
       @user = User.find_by_id(params[:user_id])
 
       if !@user.present?
         @status=false
         @msg = "not exist user"
-     ## elsif !@user.authenticate(params[:password]).present?
-      ##  @status=false
-      ##  @msg="incorrect password"
+      elsif !@user.authenticate(params[:password]).present?
+        @status=false
+        @msg="incorrect password"
       else
 
         user_id = params[:user_id].to_i
@@ -85,10 +85,10 @@ class Api::EtcController < ApplicationController
           @user.update_attributes(:current_reward => @user.current_reward - amount)
 
         end
-   #   end
+      end
 
     end
-
+=end
   end
 
   def purchase_list
