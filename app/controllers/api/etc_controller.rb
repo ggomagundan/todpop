@@ -31,8 +31,8 @@ class Api::EtcController < ApplicationController
 
   def refund
     @status = true
-    @msg = params[:user_id].to_s
-=begin
+    @msg = "requested"
+
     if !params[:user_id].present? || !params[:name].present? || !params[:bank].present? || !params[:account].present? || !params[:amount].present? || !params[:password].present?
       @status=false
       @msg = "not exist some of params"
@@ -88,7 +88,6 @@ class Api::EtcController < ApplicationController
       end
 
     end
-=end
   end
 
   def purchase_list
