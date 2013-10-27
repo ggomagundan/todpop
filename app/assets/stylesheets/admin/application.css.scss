@@ -59,8 +59,20 @@
 
 .question {
   border:2px solid;
-  width:400px;
+  width:600px;
   margin-bottom:5px;
+}
+
+.question input{
+  width:350px;
+}
+
+.question select {
+  width:363px;
+}
+
+.question textarea{
+  width:350px;
 }
 
 body {
