@@ -65,7 +65,7 @@ Todpop::Application.routes.draw do
       get 'set_cpdm_log', :on => :collection
       get 'set_cpx_log', :on => :collection
       get 'get_cps_questions', :on => :collection
-      
+      get 'set_survey_result', :on => :collection
     end
   
     resources :studies do

@@ -313,17 +313,11 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           @reward = ad.reward
           @n_question = ad.n_question
           @msg = "success"
-        end
-
-      
+        end 
       end
-
-
     end
-
-   end
+  end
   
-
   def set_cpd_log
     @status = true
     @msg = ""
@@ -332,23 +326,24 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
       @status = false
       @msg = "lacking in params"
     else
-      adLog = AdvertiseCpdLog.new
-      adLog.ad_id = params[:ad_id]
-      adLog.ad_type = params[:ad_type]
-      adLog.user_id = params[:user_id]
-      adLog.act = params[:act]
-      if adLog.save
-        @msg = "success"
-        @result = true
-
-        adInfo = CpdAdvertisement.find_by_id(params[:ad_id])
-        adInfo.remain = adInfo.remain - 1
-        adInfo.save
-
-      else
-        @msg = "failed to save"
-        @result = false
+      if !(adInfo = CpdAdvertisement.find_by_id(params[:ad_id])).present? || !User.find_by_id(params[:user_id]).present?
         @status = false
+        @msg = "not exist cpd or user"
+      else
+        adLog = AdvertiseCpdLog.new
+        adLog.ad_id = params[:ad_id]
+        adLog.ad_type = params[:ad_type]
+        adLog.user_id = params[:user_id]
+        adLog.act = params[:act]
+        if adLog.save
+          @msg = "success"
+          @result = true
+          adInfo.update_attributes(:remain => adInfo.remain - 1)
+        else
+          @msg = "failed to save"
+          @result = false
+          @status = false
+        end
       end
     end
   end
@@ -361,17 +356,21 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
       @status = false
       @msg = "lacking in params"
     else
-      new_coupon = MyCoupon.new
-      new_coupon.user_id = params[:user_id]
-      new_coupon.coupon_id = params[:coupon_id]
-      new_coupon.coupon_type = 0  # 0 - free, 1 - not free
-      if new_coupon.save
-        @result = true
-        @msg = "success"
-      else
+      if !User.find_by_id(params[:user_id]).present?
         @status = false
-        @result = false
-        @msg = "failed to save"
+        @msg = "not exist user"
+      else
+        new_coupon = MyCoupon.new
+        new_coupon.user_id = params[:user_id]
+        new_coupon.coupon_id = params[:coupon_id]
+        new_coupon.coupon_type = 0  # 0 - free, 1 - not free
+        if new_coupon.save
+          @result = true
+          @msg = "success"
+        else
+          @status = false
+          @msg = "failed to save"
+        end
       end
     end
   end
@@ -383,21 +382,23 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
       @status = false
       @msg = "lacking in params"
     else
-      adLog = AdvertiseCpdmLog.new
-      adLog.ad_id = params[:ad_id]
-      adLog.ad_type = params[:ad_type]
-      adLog.user_id = params[:user_id]
-      adLog.view_time = params[:view_time]
-      if adLog.save
-        @msg = "success"
-        @result = true
-        adInfo = CpdmAdvertisement.find_by_id(params[:ad_id])
-        adInfo.remain = adInfo.remain - 1
-        adInfo.save
-      else
-        @msg = "failed to save"
-        @result = false
+      if !(adInfo = CpdmAdvertisement.find_by_id(params[:ad_id])).present? || !User.find_by_id(params[:user_id]).present?
         @status = false
+        @msg = "not exist cpx or user"
+      else
+        adLog = AdvertiseCpdmLog.new
+        adLog.ad_id = params[:ad_id]
+        adLog.ad_type = params[:ad_type]
+        adLog.user_id = params[:user_id]
+        adLog.view_time = params[:view_time]
+        if adLog.save
+          @msg = "success"
+          @result = true
+          adInfo.update_attributes(:remain => adInfo.remain-1)
+        else
+          @status = false
+          @msg = "failed to save"       
+        end
       end
     end
 
@@ -410,25 +411,25 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
       @status = false
       @msg = "lacking in params"
     else
-      adLog = AdvertiseCpxLog.new
-      adLog.ad_id = params[:ad_id]
-      adLog.ad_type = params[:ad_type]
-      adLog.user_id = params[:user_id]
-      adLog.act = params[:act]
-      if adLog.save
-        @msg = "success"
-        @result = true
-
-        if params[:act].to_i==2
-          adInfo = CpxAdvertisement.find_by_id(params[:ad_id])
-          adInfo.remain = adInfo.remain - 1
-          adInfo.save
-        end
-
-      else
-        @msg = "failed to save"
-        @result = false
+      if !(adInfo = CpxAdvertisement.find_by_id(params[:ad_id])).present? || !User.find_by_id(params[:user_id]).present?
         @status = false
+        @msg = "not exist cpx or user"
+      else
+        adLog = AdvertiseCpxLog.new
+        adLog.ad_id = params[:ad_id]
+        adLog.ad_type = params[:ad_type]
+        adLog.user_id = params[:user_id]
+        adLog.act = params[:act]
+        if adLog.save
+          @result = true
+          @msg = "success"
+          if params[:act].to_i==2
+            adInfo.update_attributes(:remain => adInfo.remain - 1)
+          end
+        else
+          @status = false
+          @msg = "failed to save"
+        end
       end
     end
   end
@@ -440,13 +441,63 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
       @status = false
       @msg = "lacking in params"
     else
-      @questions = SurveyContent.find_by_ad_id(params[:ad_id])
-      for q in @questions
-        q.q_image = q.q_image_url
+      questions = SurveyContent.where(:ad_id => params[:ad_id]).order("q_no ASC")
+      if questions.present?
+        @q_array = []
+        questions.each do |q|
+          tmp_hash = {}
+          tmp_hash[:q_no] = q.q_no
+          tmp_hash[:q_type] = q.q_type
+          tmp_hash[:q_text] = q.q_text
+          tmp_hash[:q_image] = q.q_image_url
+          tmp_hash[:n_answer] = q.n_answer
+          tmp_hash[:a1] = q.a1
+          tmp_hash[:a2] = q.a2
+          tmp_hash[:a3] = q.a3
+          tmp_hash[:a4] = q.a4
+          tmp_hash[:a5] = q.a5
+          @q_array.push(tmp_hash)
+        end
+        @msg = "success"
+      else 
+        @status = false
+        @msg = "not exist survey contents"
       end
-      @status = true
-      @msg = "success"
     end
   end
- 
+  
+  def set_survey_result
+    @status = true
+    @msg = ""
+    if !params[:ad_id].present? || !params[:user_id].present? || !params[:ans].present?
+      @status = false
+      @msg = "lacking in params"
+    else
+      cps = CpxAdvertisement.find_by_id(params[:ad_id])
+      if !cps.present? || !User.find_by_id(params[:user_id]).present?
+        @status = false
+        @msg = "not exist ad or user"
+      elsif cps.n_question != params[:ans].size
+        @status = false
+        @msg = "laking in the number of answers"
+      else
+        res = SurveyResult.new
+        res.ad_id = params[:ad_id]
+        res.user_id = params[:user_id]
+        res.answers = params[:answers].join("|")
+        if res.save
+          @msg = "success"
+        else
+          @status = false
+          @msg = "save failed"
+        end
+      end
+    end
+  end
+
+  private
+  def is_cps_check(ad_id)
+    cpx = CpxAdvertisement.find_by_id(ad_id)
+    return cpx.present? && cpx.kind == 'CPS' ? true : false
+  end
 end

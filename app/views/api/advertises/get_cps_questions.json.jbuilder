@@ -3,6 +3,6 @@ json.msg @msg
 
 if @status == true
   json.data do |json|
-    json.array! @questions
+    json.array! @q_array
   end
 end
