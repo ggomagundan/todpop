@@ -33,11 +33,11 @@ class Api::EtcController < ApplicationController
     @status = true
     @msg = "requested"
 
-    if !params[:id] || !params[:name].present? || !params[:bank] || !params[:account] || !params[:amount] || !params[:password]
+    if !params[:user_id] || !params[:name].present? || !params[:bank] || !params[:account] || !params[:amount] || !params[:password]
       @status=false
       @msg = "not exist some of params"
     else
-      @user = User.find_by_id(params[:id])
+      @user = User.find_by_id(params[:user_id])
 
       if !@user.present?
         @status=false
@@ -47,7 +47,7 @@ class Api::EtcController < ApplicationController
         @msg="incorrect password"
       else
 
-        user_id = params[:id].to_i
+        user_id = params[:user_id].to_i
         name = params[:name].to_s
         bank = params[:bank].to_s
         account = params[:account].to_s
