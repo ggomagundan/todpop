@@ -31,47 +31,59 @@ class Api::EtcController < ApplicationController
 
   def refund
     @status = true
-    @msg = ""
-    @boolean=false
+    @msg = "requested"
 
     if !params[:id] || !params[:name].present? || !params[:bank] || !params[:account] || !params[:amount] || !params[:password]
       @status=false
-      @msg = "Please Input Data"
+      @msg = "not exist some of params"
     else
       @user = User.find_by_id(params[:id])
 
       if !@user.present?
         @status=false
-        @msg = "Not Exist ID"
+        @msg = "not exist user"
       elsif !@user.authenticate(params[:password]).present?
         @status=false
-        @msg="Incorrect Password"
+        @msg="incorrect password"
       else
-        @current = RewardSum.find(params[:id])
 
-        if !(@current.current >= params[:amount])
+        user_id = params[:id].to_i
+        name = params[:name].to_s
+        bank = params[:bank].to_s
+        account = params[:account].to_s
+        amount = params[:amount].to_i
+        #password = params[:password].to_s
+        
+
+        @current_reward = @user.current_reward
+
+        if !(@current_reward >= amount)
           @status=false
-          @msg="Need more money"
+          @msg="need more money"
         else
-          @reward = Reward.new
-          @reward.user_id=params[:id]
-          @reward.title=params[:sum]+"원 환급"
-          @reward.sub_title="짭짤한 영어"
-          @reward.reward_point=params[:sum]
-          @reward.reward_type=401 ##TYPE REFUND => 401##
 
-          @refund = RefundInfo.new
-          @refund.user_id=params[:id]
-          @refund.name=params[:name]
-          @refund.bank=params[:bank]
-          @refund.account=params[:account]
-          @refund.sum=params[:sum]
-          @refund.comment="X"
-          @current.current = @current.current-params[:sum]
-         
-          @refund.save
+          # reward history write (all reward history)
+          @reward = Reward.new
+          @reward.user_id=user_id
+          @reward.reward_type=7000               # reward_tpye : REFUND = 7000
+          @reward.title="refund"
+          @reward.sub_title="request"
+          @reward.reward=(-1)*amount
           @reward.save
-          @boolean=true 
+
+          # reward info writing (refund only history)
+          @refund = RefundInfo.new
+          @refund.user_id=user_id
+          @refund.name=params=name
+          @refund.bank=bank
+          @refund.account=account
+          @refund.amount=amount
+          @refund.comment="request"
+          @refund.save
+         
+          # User.current_reward update
+          @user.update_attributes(:current_reward => @user.current_reward - amount)
+
         end
       end
 
