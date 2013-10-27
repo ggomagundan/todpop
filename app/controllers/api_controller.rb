@@ -8,11 +8,6 @@ class ApiController < ApplicationController
   def get_intro_movie
     @status = true
     @msg = ""
-    @url = AppIntroduceVideo.last.url
+    @url = AppIntroduceVideo.last.url_url
   end
-
-
-
-
-
 end

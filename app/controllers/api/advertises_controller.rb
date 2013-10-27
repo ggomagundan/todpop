@@ -484,7 +484,10 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
         res = SurveyResult.new
         res.ad_id = params[:ad_id]
         res.user_id = params[:user_id]
-        res.answers = params[:answers].join("|")
+        params[:ans].each_with_index do |a, i|
+          params[:ans][i] = " " if a == ""
+        end
+        res.answers = params[:ans].join("|")
         if res.save
           @msg = "success"
         else
@@ -495,9 +498,4 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
     end
   end
 
-  private
-  def is_cps_check(ad_id)
-    cpx = CpxAdvertisement.find_by_id(ad_id)
-    return cpx.present? && cpx.kind == 'CPS' ? true : false
-  end
 end

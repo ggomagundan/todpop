@@ -10,7 +10,8 @@ class Admin::AppIntroduceVideosController < Admin::ApplicationController
   def update
     @app_introduce_video = AppIntroduceVideo.find(params[:id])
     if @app_introduce_video.update_attributes(app_introduce_params)
-      redirect_to root_url, :notice  => "Successfully updated app introduce video."
+      @app_introduce_video.update_attributes(:url => @app_introduce_video.video_url)
+      render :action => 'edit', :notice  => "Successfully updated app introduce video."
     else
       render :action => 'edit'
     end
@@ -18,6 +19,6 @@ class Admin::AppIntroduceVideosController < Admin::ApplicationController
   
   private
   def app_introduce_params
-    params.require(:app_introduce_video).permit(:url)
+    params.require(:app_introduce_video).permit(:video, :url)
   end
 end
