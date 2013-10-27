@@ -1,85 +1,121 @@
-$(document).ready ->
-	$('.q_img_delete').unbind('click').click ->
-		console.log("data-status : "+$(this).attr('data-status'))
-		if $(this).attr('data-status') == '0'
-			console.log('00000000')
-			$(this).attr('data-status', '1')
-			$('input[data-did='+$(this).attr('data-did')+']').val('1')
-			$(this).html('DELETE (if click NOT DELETED)')
-			$(this).css('font-weight','bold')
-		else
-			console.log('111111111')
-			$(this).attr('data-status', '0')
-			$('input[data-did='+$(this).data('did')+']').val('0')
-			$(this).html('NOT DELETE (if click DELETED)')
-			$(this).css('font-weight','normal')
+gene_question_box = (start, end) ->
+  for i in [start...end]
+    $("#questions").append("
+      <div class='question'>
+        <table class='table'>
+          <tr>
+            <th>q_no</th>
+            <td>"+(i*1+1)+" <input type='hidden' name='q_no[]' value='"+(i*1+1)+"'/></td>
+          </tr>
+          <tr>
+            <th>q_type</th>
+            <td>
+              <select name='q_type[]'>
+                <option value='1'>NO IMAGE (CHOICE ANSWER)</option>
+                <option value='2'>IMAGE (CHOICE ANSWER)</option>
+                <option value='3'>NO IMAGE (SHORT ANSWER)</option>
+                <option value='4'>IMAGE (SHORT ANSWER)</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th>q_text</th>
+            <td><textarea name='q_text[]'></textarea></td>
+          </tr>
+          <tr>
+            <th>q_image</th>
+            <td><input type='file' name='q_image[]'/></td>
+          </tr>
+          <tr>
+            <th>n_answer</th>
+            <td>
+              <select name='n_answer[]'>
+                <option value='0'>0</option>
+                <option value='1'>1</option>
+                <option value='2'>2</option>
+                <option value='3'>3</option>
+                <option value='4'>4</option>
+                <option value='5'>5</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th>a1</th>
+            <td><textarea name='a1[]'></textarea></td>
+          </tr>
+          <tr>
+            <th>a2</th>
+            <td><textarea name='a2[]'></textarea></td>
+          </tr>
+          <tr>
+            <th>a3</th>
+            <td><textarea name='a3[]'></textarea></td>
+          </tr>
+          <tr>
+            <th>a4</th>
+            <td><textarea name='a4[]'></textarea></td>
+          </tr>
+          <tr>
+            <th>a5</th>
+            <td><textarea name='a5[]'></textarea></td>
+          </tr>
+        </table>
+      </div>
+    ")
 
-	$("#cpx_advertisement_n_question").change ->
-    $("#questions").html('')
-    if $(this).val() == '0'
-    	$("#questions").css('display','none')
+$(document).ready ->
+  $('.q_img_delete').unbind('click').click ->
+    if $(this).attr('data-status') == '0'
+      $(this).attr('data-status', '1')
+      $('input[data-did='+$(this).attr('data-did')+']').val('1')
+      $(this).html('DELETE (if click NOT DELETED)')
+      $(this).css('font-weight','bold')
     else
-    	$("#questions").css('display','block')
-	    for i in [1..$(this).val()]
-	      $("#questions").append("
-	          <div class='question'>
-	          	<table class='table'>
-	          		<tr>
-	          			<th>q_no</th>
-	          			<td>"+i+" <input type='hidden' name='q_no[]' value='"+i+"'/></td>
-	          		</tr>
-	          		<tr>
-	          			<th>q_type</th>
-	          			<td>
-	          				<select name='q_type[]'>
-	          					<option value='1'>NO IMAGE</option>
-	          					<option value='2'>IMAGE</option>
-	          					<option value='3'>NO IMAGE SINGLE</option>
-	          					<option value='4'>IMAGE SINGLE</option>
-	          				</select>
-	          			</td>
-	          		</tr>
-	          		<tr>
-	          			<th>q_text</th>
-	          			<td><input type='text' name='q_text[]'/></td>
-	          		</tr>
-	          		<tr>
-	          			<th>q_image</th>
-	          			<td><input type='file' name='q_image[]'/></td>
-	          		</tr>
-	          		<tr>
-	          			<th>n_answer</th>
-	          			<td>
-	          				<select name='n_answer[]'>
-	          					<option value='0'>0</option>
-	          					<option value='1'>1</option>
-	          					<option value='2'>2</option>
-	          					<option value='3'>3</option>
-	          					<option value='4'>4</option>
-	          					<option value='5'>5</option>
-	          				</select>
-	          			</td>
-	          		</tr>
-	          		<tr>
-	          			<th>a1</th>
-	          			<td><input type='text' name='a1[]'/></td>
-	          		</tr>
-	          		<tr>
-	          			<th>a2</th>
-	          			<td><input type='text' name='a2[]'/></td>
-	          		</tr>
-	          		<tr>
-	          			<th>a3</th>
-	          			<td><input type='text' name='a3[]'/></td>
-	          		</tr>
-	          		<tr>
-	          			<th>a4</th>
-	          			<td><input type='text' name='a4[]'/></td>
-	          		</tr>
-	          		<tr>
-	          			<th>a5</th>
-	          			<td><input type='text' name='a5[]'/></td>
-	          		</tr>
-	          	</table>
-	          </div>
-	      ")
+      $(this).attr('data-status', '0')
+      $('input[data-did='+$(this).data('did')+']').val('0')
+      $(this).html('NOT DELETE (if click DELETED)')
+      $(this).css('font-weight','normal')
+
+  $("#cpx_advertisement_n_question").change -> 
+    console.log('question_count : '+$("input[name=question_count]").val()+', select value : '+$(this).val())
+    if $(this).val() == '0'
+      $("#questions").html('')
+      $("#questions").css('display','none')
+    else
+      $("#questions").css('display','block')
+      if $("input[name=question_count]").val() == 0
+        $("#questions").append("
+            <div class='question'>
+              <table class='table'>
+                <tr>
+                  <th>q_no</th>
+                  <td>0 (설문 설명)</td>
+                </tr>
+                <tr>
+                  <th>q_type</th>
+                  <td>
+                    <select>
+                      <option value='0' selected='selected'>CPS SPECIFICATION</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <th>q_text</th>
+                  <td><textarea name='spec_text'/></textarea></td>
+                </tr>
+              </table>
+            </div>
+        ")
+        gene_question_box(1, $(this).val()*1)
+      else if $("input[name=question_count]").val()*1 < $(this).val()*1
+        console.log("select value big")
+        console.log($("input[name=question_count]").val()*1+1)
+        console.log($(this).val())
+        gene_question_box($("input[name=question_count]").val()*1, $(this).val()*1)
+      else
+        console.log("question value big")
+        console.log($("input[name=question_count]").val()*1-$(this).val()*1)
+        for i in [0...$("input[name=question_count]").val()*1-$(this).val()*1]
+          $(".question").last().remove()
+
+      $('input[name=question_count]').val($(this).val())

@@ -326,7 +326,7 @@ class Api::StudiesController < ApplicationController
       # reward log ----------------------------------------------------------------
       if @reward > 0
         sub_title = "Level " + level.to_s + " - Stage " + stage.to_s
-        Reward.create(:user_id => user_id, :reward_type => 1000, :title => "학습 장학금", :sub_title => sub_title, :reward_point => @reward)
+        Reward.create(:user_id => user_id, :reward_type => 1000, :title => "학습 장학금", :sub_title => sub_title, :reward => @reward)
       end
 
       # rank_point log

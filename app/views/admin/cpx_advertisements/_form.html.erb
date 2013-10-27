@@ -101,15 +101,43 @@
       <label><%= f.select :n_question, @n_question_arr %></label>
     </div>
   </div>
+
   <% if !@cpx_advertisement.n_question.present? || @cpx_advertisement.n_question == 0 %>
-    <div id='questions' style="display:none;">
+    <div id='questions' style="display:none;">      
+      꼭 제대로된 인풋값을 넣어주세요. 타입이 이미지면 이미지 첨부도 필수
     </div>
   <% else %>
-    <div id='questions'>
+    <input type='hidden' name='question_count' value='<%=@questions.size-1%>'/>
+    <div id='questions'>  
+      꼭 제대로된 인풋값을 넣어주세요. 타입이 이미지면 이미지 첨부도 필수
       <% idx = 1 %>
-      <% @questions.each do |q|%>
+      <% @questions.each_with_index do |q, i|%>
+        <% if i == 0 %>
+          <div class='question'>
+            <input type='hidden' name='spec_cid' value='<%="#{q.id}"%>'/>
+            <table class='table'>
+              <tr>
+                <th>q_no</th>
+                <td>0 (설문 설명)</td>
+              </tr>
+              <tr>
+                <th>q_type</th>
+                <td>
+                  <select>
+                    <option value='0' selected='selected'>CPS SPECIFICATION</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <th>q_text</th>
+                <td><textarea name='spec_text'><%="#{q.q_text}"%></textarea></td>
+              </tr>
+            </table>
+          </div>
+          <% next %>
+        <% end %>
+        <input type='hidden' name='cid[]' value='<%="#{q.id}"%>'/>
         <div class='question'>
-          <input type='hidden' name='cid[]' value='<%="#{q.id}"%>'/>
           <table class='table'>
             <tr>
               <th>q_no</th>
@@ -120,16 +148,16 @@
               <td>
                 <input type='hidden' name='origin_type[]' value='<%="#{q.q_type}"%>'/>
                 <select name='q_type[]'>
-                  <option value='1' <% if q.q_type == 1 %> selected="selected" <% end %> >NO IMAGE</option>
-                  <option value='2' <% if q.q_type == 2 %> selected="selected" <% end %> >IMAGE</option>
-                  <option value='3' <% if q.q_type == 3 %> selected="selected" <% end %> >NO IMAGE SINGLE</option>
-                  <option value='4' <% if q.q_type == 4 %> selected="selected" <% end %> >IMAGE SINGLE</option>
+                  <option value='1' <% if q.q_type == 1 %> selected="selected" <% end %> >NO IMAGE (CHOICE ANSWER)</option>
+                  <option value='2' <% if q.q_type == 2 %> selected="selected" <% end %> >IMAGE (CHOICE ANSWER)</option>
+                  <option value='3' <% if q.q_type == 3 %> selected="selected" <% end %> >NO IMAGE (SHORT ANSWER)</option>
+                  <option value='4' <% if q.q_type == 4 %> selected="selected" <% end %> >IMAGE SINGLE (SHORT ANSWER)</option>
                 </select>
               </td>
             </tr>
             <tr>
               <th>q_text</th>
-              <td><input type='text' name='q_text[]' value='<%="#{q.q_text}"%>'/></td>
+              <td><textarea name='q_text[]'><%="#{q.q_text}"%></textarea></td>
             </tr>
             <tr>
               <th>q_image</th>
@@ -161,23 +189,23 @@
             </tr>
             <tr>
               <th>a1</th>
-              <td><input type='text' name='a1[]' value='<%="#{q.a1}"%>'/></td>
+              <td><textarea name='a1[]'><%="#{q.a1}"%></textarea></td>
             </tr>
             <tr>
               <th>a2</th>
-              <td><input type='text' name='a2[]' value='<%="#{q.a2}"%>'/></td>
+              <td><textarea name='a2[]'><%="#{q.a2}"%></textarea></td>
             </tr>
             <tr>
               <th>a3</th>
-              <td><input type='text' name='a3[]' value='<%="#{q.a3}"%>'/></td>
+              <td><textarea name='a3[]'><%="#{q.a3}"%></textarea></td>
             </tr>
             <tr>
               <th>a4</th>
-              <td><input type='text' name='a4[]' value='<%="#{q.a4}"%>'/></td>
+              <td><textarea name='a4[]' ><%="#{q.a4}"%></textarea></td>
             </tr>
             <tr>
               <th>a5</th>
-              <td><input type='text' name='a5[]' value='<%="#{q.a5}"%>'/></td>
+              <td><textarea name='a5[]' ><%="#{q.a5}"%></textarea></td>
             </tr>
           </table>
         </div>
