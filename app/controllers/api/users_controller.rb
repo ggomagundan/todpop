@@ -413,7 +413,7 @@ class Api::UsersController < ApplicationController
     @user = User.find_by_id(params[:id])
     
     if request.post?
-      if !params[:user][:password].present? || !params[:user][:password_confirmation]
+      if !params[:user][:password].present?
         render :file => "#{Rails.root}/public/404"
       else
         @user.password = params[:user][:password]
