@@ -21,6 +21,13 @@ class Api::EtcController < ApplicationController
 
   end
 
+  def get_bank_list
+    @status = true
+    @msg = ""
+
+    @bank_list = BankList.all.pluck(:name).uniq
+ 
+  end
 
   def refund
     @status = true
