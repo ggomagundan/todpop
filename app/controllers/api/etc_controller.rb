@@ -3,16 +3,20 @@ class Api::EtcController < ApplicationController
     @status = true
     @msg = ""
 
-    @reward = RewardSum.find_by_id(params[:id])
+    @user = User.find_by_id(params[:id])
+    @ment = MentList.find_by_kind("refund")
 
-    if !@reward.present?
+    if !@user.present?
       @status = false
       @msg = "Not exist user"
+    elsif !@ment.present?
+      @status = false
+      @msg = "Not exist refund ment"
     end
 
     if @status == true
-      @current = @reward.current
-      @content = @reward.content
+      @current_reward = @user.current_reward
+      @content = @ment.content
     end
 
   end
@@ -171,6 +175,21 @@ class Api::EtcController < ApplicationController
         @content2 = product.content2
         @content3 = product.content3
       end
+    end
+  end
+
+
+  def event_check
+    @status=true
+    @msg=""
+
+    @user=User.find_by_id(params[:id])
+    if !@user.present?
+      @status=false
+      @msg="Not exist user"
+    elsif params[:act]=='3001'                       ##example act
+      @user=User.find_by_id(params[:value])        ##example value
+      @return=@user
     end
   end
 

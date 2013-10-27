@@ -504,6 +504,29 @@ class Api::UsersController < ApplicationController
     end
   end
 
+
+  def change_password
+    @status=true
+    @msg=""
+    @result=false
+
+    @user=User.find_by_id(params[:id])
+    if !@user.present?
+      @status=false
+      @msg="Not exist user"
+    elsif @user.mobile!=params[:mobile]
+      @status=false
+      @msg="Incorrect mobile number"
+    elsif @user.authenticate(params[:current_password]).present?
+      @status=false
+      @msg="Wrong password"
+    else
+      @user.password=params[:new_password]
+      @user.password_confirmation=params[:new_password]
+      @result=true
+    end
+  end
+
   private
     def user_params
       params.permit(:email, :facebook, :nickname, :recommend, :sex, :birth, :address, :mobile, :interest)
