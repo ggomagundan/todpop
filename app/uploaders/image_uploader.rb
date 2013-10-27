@@ -27,6 +27,10 @@ class ImageUploader < CarrierWave::Uploader::Base
           "images.#{model.image.file.extension}"
         end
       end
+    elsif model.class.to_s.underscore == "survey_content"
+      if model.q_image.file.present?
+        "#{model.q_image.file.original_filename}"
+      end
     else
       "images.jpg"
     end

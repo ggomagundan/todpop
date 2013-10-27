@@ -9,12 +9,50 @@ class Admin::CpxAdvertisementsController < Admin::ApplicationController
 
   def new
     @cpx_advertisement = CpxAdvertisement.new
+    @n_question_arr = []
+    @n_answer_arr = []
+    for i in 0..15
+      @n_question_arr.push([].push("#{i}",i))
+    end
+    for i in 0..5
+      @n_answer_arr.push([].push("#{i}",i))
+    end
   end
 
   def create
     @cpx_advertisement = CpxAdvertisement.new(cpx_params)
+
     if @cpx_advertisement.save
-      redirect_to admin_cpx_advertisements_path, :notice => "Successfully created cpx advertisement."
+      flag = true
+      if params[:cpx_advertisement][:n_question] != '0'
+        img_idx =0
+        params[:q_no].each_with_index do |q_no, i|
+          survey_content = SurveyContent.new
+          survey_content.ad_id = @cpx_advertisement.id
+          survey_content.q_no = params[:q_no][i]
+          survey_content.q_type = params[:q_type][i]
+          survey_content.q_text = params[:q_text][i]
+          if params[:q_type][i] == '2' || params[:q_type][i] == '4'
+            survey_content.q_image = params[:q_image][img_idx]
+            img_idx += 1
+          end
+          survey_content.n_answer = params[:n_answer][i]
+          survey_content.a1 = params[:a1][i]
+          survey_content.a2 = params[:a2][i]
+          survey_content.a3 = params[:a3][i]
+          survey_content.a4 = params[:a4][i]
+          survey_content.a5 = params[:a5][i]
+          if survey_content.save == false
+            flag = false
+            break;
+          end
+        end
+      end
+      if flag == false
+        render :action => 'new'
+      else
+        redirect_to admin_cpx_advertisements_path, :notice => "Successfully created cpx advertisement."
+      end
     else
       render :action => 'new'
     end
@@ -22,12 +60,56 @@ class Admin::CpxAdvertisementsController < Admin::ApplicationController
 
   def edit
     @cpx_advertisement = CpxAdvertisement.find(params[:id])
+    
+    @n_question_arr = []
+    @n_answer_arr = []
+    for i in 0..15
+      @n_question_arr.push([].push("#{i}",i))
+    end
+    for i in 0..5
+      @n_answer_arr.push([].push("#{i}",i))
+    end
+
+    if @cpx_advertisement.n_question != 0
+      @questions = SurveyContent.where(:ad_id => @cpx_advertisement.id).order("q_no ASC")
+    end
   end
 
   def update
     @cpx_advertisement = CpxAdvertisement.find(params[:id])
     if @cpx_advertisement.update_attributes(cpx_params)
-      redirect_to admin_cpx_advertisements_path, :notice  => "Successfully updated cpx advertisement."
+      if params[:n_question] != '0'
+        img_idx =0
+        params[:q_no].each_with_index do |q_no, i|
+          survey_content = SurveyContent.find(params[:cid][i])   
+          survey_content.update_attributes(
+            :q_no => params[:q_no][i],
+            :q_type => params[:q_type][i],
+            :q_text => params[:q_text][i],
+            :n_answer => params[:n_answer][i],
+            :a1 => params[:a1][i],
+            :a2 => params[:a2][i],
+            :a3 => params[:a3][i],
+            :a4 => params[:a4][i],
+            :a5 => params[:a5][i]
+          )
+          
+          if params[:q_type][i] == '2' || params[:q_type][i] == '4'
+            if params[:origin_type][i] == '1' || params[:origin_type][i] == '3'
+              survey_content.update_attributes(:q_image => params[:q_image][img_idx])
+              img_idx += 1
+            else
+              if params[:q_delete][i] == '1'
+                survey_content.update_attributes(:q_image => params[:q_image][img_idx])
+                img_idx += 1
+              end
+            end
+          else
+            survey_content.update_attributes(:q_image => nil)
+          end
+        end
+      end
+      redirect_to admin_cpx_advertisements_path, :notice => "Successfully updated cpx advertisement."
     else
       render :action => 'edit'
     end

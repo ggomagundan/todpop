@@ -23,19 +23,19 @@
         <%= f.radio_button :ad_type, 301, :checked=>f.object.ad_type ==301 || f.object.kind == nil  %> CPI
       </label>
       <label>
-        <%= f.radio_button :ad_type, 302, :checked =>f.object.kind ==302 %> CPL
+        <%= f.radio_button :ad_type, 302, :checked =>f.object.ad_type ==302 %> CPL
       </label>
       <label>
-        <%= f.radio_button :ad_type, 303, :checked=>f.object.kind ==303 %> CPA
+        <%= f.radio_button :ad_type, 303, :checked=>f.object.ad_type ==303 %> CPA
       </label>
       <label>
-        <%= f.radio_button :ad_type, 304, :checked=>f.object.kind ==304  %> CPE
+        <%= f.radio_button :ad_type, 304, :checked=>f.object.ad_type ==304  %> CPE
       </label>
       <label>
-        <%= f.radio_button :ad_type, 305, :checked=>f.object.kind ==305  %> CPS
+        <%= f.radio_button :ad_type, 305, :checked=>f.object.ad_type ==305  %> CPS
       </label>
       <label>
-        <%= f.radio_button :ad_type, 306, :checked=>f.object.kind ==306  %> CPC
+        <%= f.radio_button :ad_type, 306, :checked=>f.object.ad_type ==306  %> CPC
       </label>
     </div>
   </div>
@@ -98,9 +98,93 @@
   <div class="control-group">
     <label class="control-label">n_question</label>
     <div class="controls">
-      <label><%= f.text_field :n_question %></label>
+      <label><%= f.select :n_question, @n_question_arr %></label>
     </div>
   </div>
+  <% if !@cpx_advertisement.n_question.present? || @cpx_advertisement.n_question == 0 %>
+    <div id='questions' style="display:none;">
+    </div>
+  <% else %>
+    <div id='questions'>
+      <% idx = 1 %>
+      <% @questions.each do |q|%>
+        <div class='question'>
+          <input type='hidden' name='cid[]' value='<%="#{q.id}"%>'/>
+          <table class='table'>
+            <tr>
+              <th>q_no</th>
+              <td><%="#{q.q_no}"%><input type='hidden' name='q_no[]' value='<%="#{q.q_no}"%>'/></td>
+            </tr>
+            <tr>
+              <th>q_type</th>
+              <td>
+                <input type='hidden' name='origin_type[]' value='<%="#{q.q_type}"%>'/>
+                <select name='q_type[]'>
+                  <option value='1' <% if q.q_type == 1 %> selected="selected" <% end %> >NO IMAGE</option>
+                  <option value='2' <% if q.q_type == 2 %> selected="selected" <% end %> >IMAGE</option>
+                  <option value='3' <% if q.q_type == 3 %> selected="selected" <% end %> >NO IMAGE SINGLE</option>
+                  <option value='4' <% if q.q_type == 4 %> selected="selected" <% end %> >IMAGE SINGLE</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <th>q_text</th>
+              <td><input type='text' name='q_text[]' value='<%="#{q.q_text}"%>'/></td>
+            </tr>
+            <tr>
+              <th>q_image</th>
+              <td>
+                <input type='file' name='q_image[]'/>
+                <input type='hidden' name='q_delete[]' value='0' data-did='<%="#{q.id}"%>'/>
+                <% if q.q_image.present? %>
+                  <br/>
+                  <span style='font-size:12px;color:red;' class='pointer q_img_delete' data-status='0' data-did='<%="#{q.id}"%>'>
+                    MODE : "NOT DELETE" (if click DELETED)
+                  </span><br/>
+                  <span style='font-size:10px;'>(다른그림으로 바꿀 때는 <span style='font-weight:bold;font-size:11px;'>꼭</span> 위에 NOT DELETE를 클릭하여 DELETE로 바꿔주세요)</span><br/>
+                  <%= image_tag q.q_image_url %>
+                <% end %>
+              </td>
+            </tr>
+            <tr>
+              <th>n_answer</th>
+              <td>
+                <select name='n_answer[]'>
+                  <option value='0' <% if q.n_answer == 0 %> selected="selected" <% end %> >0</option>
+                  <option value='1' <% if q.n_answer == 1 %> selected="selected" <% end %> >1</option>
+                  <option value='2' <% if q.n_answer == 2 %> selected="selected" <% end %> >2</option>
+                  <option value='3' <% if q.n_answer == 3 %> selected="selected" <% end %> >3</option>
+                  <option value='4' <% if q.n_answer == 4 %> selected="selected" <% end %> >4</option>
+                  <option value='5' <% if q.n_answer == 5 %> selected="selected" <% end %> >5</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <th>a1</th>
+              <td><input type='text' name='a1[]' value='<%="#{q.a1}"%>'/></td>
+            </tr>
+            <tr>
+              <th>a2</th>
+              <td><input type='text' name='a2[]' value='<%="#{q.a2}"%>'/></td>
+            </tr>
+            <tr>
+              <th>a3</th>
+              <td><input type='text' name='a3[]' value='<%="#{q.a3}"%>'/></td>
+            </tr>
+            <tr>
+              <th>a4</th>
+              <td><input type='text' name='a4[]' value='<%="#{q.a4}"%>'/></td>
+            </tr>
+            <tr>
+              <th>a5</th>
+              <td><input type='text' name='a5[]' value='<%="#{q.a5}"%>'/></td>
+            </tr>
+          </table>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
   <div class="control-group">
     <label class="control-label">priority</label>
     <div class="controls">
