@@ -174,4 +174,19 @@ class Api::EtcController < ApplicationController
     end
   end
 
+
+  def event_check
+    @status=true
+    @msg=""
+
+    @user=User.find_by_id(params[:id])
+    if !@user.present?
+      @status=false
+      @msg="Not exist user"
+    elsif params[:act]=='3001'                       ##example act
+      @user=User.find_by_id(params[:value])        ##example value
+      @return=@user
+    end
+  end
+
 end
