@@ -33,7 +33,7 @@ class Api::EtcController < ApplicationController
     @status = true
     @msg = "requested"
 
-    if !params[:user_id] || !params[:name].present? || !params[:bank] || !params[:account] || !params[:amount] || !params[:password]
+    if !params[:user_id].present? || !params[:name].present? || !params[:bank].present? || !params[:account].present? || !params[:amount].present? || !params[:password].present?
       @status=false
       @msg = "not exist some of params"
     else
