@@ -49,6 +49,7 @@ Todpop::Application.routes.draw do
       get 'is_set_facebook_password', :on => :member
       get 'get_reward_list', :on => :member
       get 'get_attendance_time', :on => :member
+      post 'change_password', :on => :member
     end
 
     resources :advertises do
@@ -100,6 +101,7 @@ Todpop::Application.routes.draw do
       get 'show_cpx_list', :on => :member
       get 'my_home', :on => :member
       get 'get_product_info', :on => :collection
+      get 'event_check', :on => :member
     end
 
   
