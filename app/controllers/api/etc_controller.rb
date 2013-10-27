@@ -212,11 +212,4 @@ class Api::EtcController < ApplicationController
     end
   end
 
-  private
-  def refund
-    params.permit(:user_id, :password, :name, :bank, :account, :amount)
-  end
-
-
-
 end
