@@ -527,6 +527,34 @@ class Api::UsersController < ApplicationController
     end
   end
 
+
+  def delete_user
+    @status=true
+    @msg=""
+
+    @user=User.find_by_id(params[:id])
+    if !@user.present?
+      @status=false
+      @msg="Not exist user"
+    elsif params[:mobile]!=@user.mobile
+      @status=false
+      @msg="Incorrect mobile number"
+    elsif InactiveUser.new(:id => @user.id, :email => @user.email, :facebook => @user.facebook,
+                           :password_digest => @user.password_digest, :nickname => @user.nickname,
+                           :recommend => @user.recommend, :sex => @user.sex, :birth => @user.birth,
+                           :address => @user.address, :mobile => @user.mobile, :interest => @user.interest,
+                           :level_test => @user.level_test, :is_set_facebook_password => @user.is_set_facebook_password,
+                           :attendance_time => @user.attendance_time, :current_reward => @user.current_reward,
+                           :total_reward => @user.total_reward, :is_admin => @user.is_admin,
+                           :last_connection => @user.last_connection, :created_at => @user.created_at).save
+      @result=true
+      User.delete_all(:id => params[:id])
+    else
+      @status=false
+      @msg="delete error"
+    end
+  end
+
   private
     def user_params
       params.permit(:email, :facebook, :nickname, :recommend, :sex, :birth, :address, :mobile, :interest)
