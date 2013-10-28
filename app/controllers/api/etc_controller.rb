@@ -1,4 +1,5 @@
 class Api::EtcController < ApplicationController
+  skip_before_filter :verify_authenticity_token
   def refund_info
     @status = true
     @msg = ""
