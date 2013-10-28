@@ -129,24 +129,35 @@ class Api::EtcController < ApplicationController
     @status=true
     @msg=""
 
-    @user=User.find_by_id(params[:id])
-    if !@user.present?
+    user=User.find_by_id(params[:id])
+    if !user.present?
       @status=false
-      @msg="Not exist user"
+      @msg="not exist user"
     else
-      @cpx_list=[]
-      @cpx=AdvertiseCpxLog.where(:user_id => params[:id])
-      if @cpx.count==0
-        @msg="Not exist log"
+      my_cpx_ad_ids=AdvertiseCpxLog.where(:user_id => params[:id], :act =>1).pluck(:ad_id).uniq
+      if my_cpx_ad_ids.count==0
+        @msg="not exist log"
       else
-      (0..@cpx.count-1).each do |i|
-        @ad=CpxAdvertisement.find_by_id(@cpx[i].ad_id)
-        ##@data=@cpx[i].ad_id
-        @data={:type => @cpx[i].ad_type, :name => @ad.ad_name, :reward => @ad.reward, :state => @cpx[i].act}
-        @cpx_list.push(@data)
+        @cpx_list=[]
+        (0..my_cpx_ad_ids.count-1).each do |i|
+          ad_id=my_cpx_ad_ids[i]
+          my_cpx_recent=AdvertiseCpxLog.where('ad_id = ?',ad_id).order("created_at DESC").first
+          ad_info=CpxAdvertisement.find_by_id(ad_id)
+          if my_cpx_recent.act == 1
+            if ad_info.remain <= 0
+              act = 3
+            else
+              act = 1
+            end
+          else
+            act = 2
+          end
+
+          tmp_hash={:id => my_cpx_recent.id, :ad_id => ad_id, :ad_type => my_cpx_recent.ad_type, :act => act, :created_at => my_cpx_recent.created_at, :name => ad_info.ad_name, :image => ad_info.ad_image, :reward => ad_info.reward}
+          @cpx_list.push(tmp_hash)
+        end
       end
     end
-  end
   end
 
 
