@@ -100,11 +100,16 @@ class Api::EtcController < ApplicationController
     if !@user.present?
       @status=false
       @msg="not exist user_id"
-    elsif params[:cpupon_type]=="1" || params[:coupon_type]=="0"
-      @product=MyCoupon.where('user_id = ? and coupon_type = ?', params[:id] ,params[:category])
-    else
+    elsif !params[:coupon_type].present?
+      @status=false
+      @msg="not exist coupon_type params"
+    elsif params[:coupon_type]!="1" && params[:coupon_type]!="0"
       @status=false
       @msg="invalid coupon_type"
+    end
+
+    if @status = true
+      @product=MyCoupon.where('user_id = ? and coupon_type = ?', params[:id] ,params[:category])
     end
   end
 
