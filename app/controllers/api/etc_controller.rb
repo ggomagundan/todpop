@@ -193,7 +193,7 @@ class Api::EtcController < ApplicationController
     end
   end
 
-  def get_product_info
+  def get_prize_info
     @status=true
     @msg=""
 
@@ -201,16 +201,16 @@ class Api::EtcController < ApplicationController
       @status=false
       @msg="not exist id params"
     else
-      product=Product.find_by_id(params[:id])
+      prize=Prize.find_by_id(params[:id])
 
       if !product.present?
         @status=false
-        @msg="not exist product"
+        @msg="not exist prize"
       else
-        @image = product.image
-        @content1 = product.content1
-        @content2 = product.content2
-        @content3 = product.content3
+        @image = prize.image
+        @content1 = prize.content1
+        @content2 = prize.content2
+        @content3 = prize.content3
       end
     end
   end

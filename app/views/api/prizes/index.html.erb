@@ -1,0 +1,17 @@
+<% title "Api/Prizes" %>
+
+<table>
+  <tr>
+    <th>Name</th>
+  </tr>
+  <% for prize in @prizes %>
+    <tr>
+      <td><%= prize.name %></td>
+      <td><%= link_to "Show", [:api, prize] %></td>
+      <td><%= link_to "Edit", edit_api_prize_path(prize) %></td>
+      <td><%= link_to "Destroy", [:api, prize], :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Api/Prize", new_api_prize_path %></p>

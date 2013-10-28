@@ -81,8 +81,8 @@ Todpop::Application.routes.draw do
 
     end
     
-    resources :products do
-      get 'get_product_info', :on => :collection
+    resources :prizes do
+      get 'get_prize_info', :on => :collection
     end
     
     resources :notices do
