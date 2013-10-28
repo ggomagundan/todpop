@@ -494,9 +494,13 @@ class Api::UsersController < ApplicationController
 
       # update consecutive attendace
       last_attendance_date = @user.last_connection.to_date
-      date_gap = Date.today - last_attendance_date
-      if date_gap >= 2
-        @user.update_attributes(:attendance_time => 0)
+      if last_attendace_date.present?
+        date_gap = Date.today - last_attendance_date
+        if date_gap >= 2
+          @user.update_attributes(:attendance_time => 0)
+        end
+      else
+        @user.update_attributes(:attendance_time => 0)    # never took exam
       end
 
       # data
