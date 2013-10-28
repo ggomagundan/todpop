@@ -454,7 +454,7 @@ class Api::UsersController < ApplicationController
   end
 
   def get_reward_list
-    @user = User.find(params[:id])
+    @user = User.find_by_id(params[:id])
 
     @status = true
     @msg = ""
