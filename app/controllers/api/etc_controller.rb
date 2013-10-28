@@ -108,8 +108,19 @@ class Api::EtcController < ApplicationController
       @msg="invalid coupon_type"
     end
 
-    if @status = true
-      @product=MyCoupon.where('user_id = ? and coupon_type = ?', params[:id] ,params[:category])
+    if @status == true
+      @coupons=MyCoupon.where('user_id = ? and coupon_type = ?', params[:id] ,params[:coupon_type]).order("created_at DESC")
+      if @coupons.present?
+        @product=[]
+        @coupons.each do |p|
+          tmp_hash = {}
+          tmp_hash[:coupon_id] = p.coupon_id
+          tmp_hash[:availability] = p.availability
+          tmp_hash[:created_at] = p.created_at
+          @product.push(tmp_hash)
+        end
+      end
+
     end
   end
 
