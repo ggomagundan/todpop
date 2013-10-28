@@ -480,7 +480,7 @@ class Api::UsersController < ApplicationController
 
 
   def get_attendance_time
-    @user = User.find(params[:id])
+    @user = User.find_by_id(params[:id])
 
     @status = true
     @msg = ""
@@ -496,7 +496,7 @@ class Api::UsersController < ApplicationController
       last_attendance_date = @user.last_connection.to_date
       date_gap = Date.today - last_attendance_date
       if date_gap >= 2
-        @user.update_attiributes(:attendance_time => 0)
+        @user.update_attributes(:attendance_time => 0)
       end
 
       # data
