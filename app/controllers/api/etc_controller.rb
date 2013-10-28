@@ -92,19 +92,19 @@ class Api::EtcController < ApplicationController
     end
   end
 
-  def purchase_list
+  def get_purchase_list
     @status = true
     @msg = ""
 
     @user=User.find_by_id(params[:id])
     if !@user.present?
       @status=false
-      @msg="Not exist user_id"
-    elsif params[:category]=="1" || params[:category]=="0"
-      @purchase=MyCoupon.where('user_id = ? and coupon_type = ?', params[:id] ,params[:category])
+      @msg="not exist user_id"
+    elsif params[:cpupon_type]=="1" || params[:coupon_type]=="0"
+      @product=MyCoupon.where('user_id = ? and coupon_type = ?', params[:id] ,params[:category])
     else
       @status=false
-      @msg="Invalid category"
+      @msg="invalid coupon_type"
     end
   end
 

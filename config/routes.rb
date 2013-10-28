@@ -100,7 +100,7 @@ Todpop::Application.routes.draw do
       get 'refund_info', :on => :member
       get 'get_bank_list', :on => :collection
  post 'refund', :on => :collection
-      get 'purchase_list', :on => :member
+      get 'get_purchase_list', :on => :member
       get 'show_cpx_list', :on => :member
       get 'my_home', :on => :member
       get 'get_product_info', :on => :collection
