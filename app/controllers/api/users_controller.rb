@@ -344,7 +344,7 @@ class Api::UsersController < ApplicationController
 
   def change_password
     @status = true
-    @msg = ""
+    @msg = "success"
 
     @user = User.find(params[:id])
     if !@user.present?
@@ -353,20 +353,22 @@ class Api::UsersController < ApplicationController
     elsif !params[:nickname].present? || !params[:mobile].present?
       @status = false
       @msg = "not exist nickname or mobile parameter"
+    elsif !params[:current_password].present? || !params[:new_password].present?
+      @status = false
+      @msg = "not exist current_password or new_password"
     elsif @user.nickname != params[:nickname]
       @status = false
       @msg = "incorrect nickname "
     elsif @user.mobile != params[:mobile]
       @status = false
-      @msg = "incorrect mobile number "
-    elsif @user.authenticate(params[:current_password]).present?
+      @msg = "incorrect mobile number"
+    elsif !@user.authenticate(params[:current_password]).present?
       @status = false
       @msg = "incorrect current password"
     else
-      @user.password = params[:password]
-      @user.password_confirmation = params[:password] 
+      @user.password = params[:new_password]
+      @user.password_confirmation = params[:new_password] 
       if @user.save
-        @result = true
       else
         @status = false
         @msg = "not success user update. please retry"  
@@ -510,29 +512,6 @@ class Api::UsersController < ApplicationController
 
       # data
       @attendance_time = @user.attendance_time
-    end
-  end
-
-
-  def change_password
-    @status=true
-    @msg=""
-    @result=false
-
-    @user=User.find_by_id(params[:id])
-    if !@user.present?
-      @status=false
-      @msg="Not exist user"
-    elsif @user.mobile!=params[:mobile]
-      @status=false
-      @msg="Incorrect mobile number"
-    elsif @user.authenticate(params[:current_password]).present?
-      @status=false
-      @msg="Wrong password"
-    else
-      @user.password=params[:new_password]
-      @user.password_confirmation=params[:new_password]
-      @result=true
     end
   end
 
