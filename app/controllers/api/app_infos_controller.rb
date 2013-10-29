@@ -25,8 +25,24 @@ class Api::AppInfosController < ApplicationController
     @msg =""
   end
 
-  def get_help
 
+
+  def get_notices
+    if params[:page].present?
+      @page = params[:page]
+    else
+      @page = 1
+    end
+    @notices = Notice.order('id desc').page(@page).per(10)
+    @status = true
+    @msg = ""
+  end
+
+
+
+
+
+  def get_helps
     if params[:page].present?
       @page = params[:page]
     else

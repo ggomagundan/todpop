@@ -381,15 +381,18 @@ class Api::UsersController < ApplicationController
     if !@user.present?
       @status = false
       @msg = "not exist user"
-    elsif !params[:nickname].present? || !params[:mFobile].present?
+    elsif !params[:nickname].present? || !params[:mobile].present?
       @status = false
       @msg = "not exist nickname or mobile parameter"
     elsif @user.nickname != params[:nickname]
       @status = false
-      @msg = "discorrect nickname "
+      @msg = "incorrect nickname"
     elsif @user.mobile != params[:mobile]
       @status = false
-      @msg = "disrrcorrect mobile number "
+      @msg = "incorrect mobile number"
+    elsif !@user.facebook.present?
+      @status = false
+      @msg = "not facebook user"
     else
       @pass = SecureRandom.random_number(10000)
       @user.password = @pass
@@ -454,7 +457,7 @@ class Api::UsersController < ApplicationController
   end
 
   def get_reward_list
-    @user = User.find(params[:id])
+    @user = User.find_by_id(params[:id])
 
     @status = true
     @msg = ""
@@ -480,7 +483,7 @@ class Api::UsersController < ApplicationController
 
 
   def get_attendance_time
-    @user = User.find(params[:id])
+    @user = User.find_by_id(params[:id])
 
     @status = true
     @msg = ""
@@ -493,10 +496,14 @@ class Api::UsersController < ApplicationController
     if @status == true
 
       # update consecutive attendace
-      last_attendance_date = @user.last_connection.to_date
-      date_gap = Date.today - last_attendance_date
-      if date_gap >= 2
-        @user.update_attiributes(:attendance_time => 0)
+      last_attendance = @user.last_connection
+      if last_attendance.present?
+        date_gap = Date.today - last_attendance.to_date
+        if date_gap >= 2
+          @user.update_attributes(:attendance_time => 0)
+        end
+      else
+        @user.update_attributes(:attendance_time => 0)    # never took exam
       end
 
       # data

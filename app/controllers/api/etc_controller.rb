@@ -1,4 +1,5 @@
 class Api::EtcController < ApplicationController
+  skip_before_filter :verify_authenticity_token
   def refund_info
     @status = true
     @msg = ""
@@ -28,6 +29,8 @@ class Api::EtcController < ApplicationController
     @bank_list = BankList.all.pluck(:name).uniq
  
   end
+
+
 
   def refund
     @status = true
@@ -90,19 +93,35 @@ class Api::EtcController < ApplicationController
     end
   end
 
-  def purchase_list
+  def get_purchase_list
     @status = true
     @msg = ""
 
     @user=User.find_by_id(params[:id])
     if !@user.present?
       @status=false
-      @msg="Not exist user_id"
-    elsif params[:category]=="1" || params[:category]=="0"
-      @purchase=MyCoupon.where('user_id = ? and coupon_type = ?', params[:id] ,params[:category])
-    else
+      @msg="not exist user_id"
+    elsif !params[:coupon_type].present?
       @status=false
-      @msg="Invalid category"
+      @msg="not exist coupon_type params"
+    elsif params[:coupon_type]!="1" && params[:coupon_type]!="0"
+      @status=false
+      @msg="invalid coupon_type"
+    end
+
+    if @status == true
+      @coupons=MyCoupon.where('user_id = ? and coupon_type = ?', params[:id] ,params[:coupon_type]).order("created_at DESC")
+      if @coupons.present?
+        @product=[]
+        @coupons.each do |p|
+          tmp_hash = {}
+          tmp_hash[:coupon_id] = p.coupon_id
+          tmp_hash[:availability] = p.availability
+          tmp_hash[:created_at] = p.created_at
+          @product.push(tmp_hash)
+        end
+      end
+
     end
   end
 
@@ -110,24 +129,35 @@ class Api::EtcController < ApplicationController
     @status=true
     @msg=""
 
-    @user=User.find_by_id(params[:id])
-    if !@user.present?
+    user=User.find_by_id(params[:id])
+    if !user.present?
       @status=false
-      @msg="Not exist user"
+      @msg="not exist user"
     else
-      @cpx_list=[]
-      @cpx=AdvertiseCpxLog.where(:user_id => params[:id])
-      if @cpx.count==0
-        @msg="Not exist log"
+      my_cpx_ad_ids=AdvertiseCpxLog.where(:user_id => params[:id], :act =>1).pluck(:ad_id).uniq
+      if my_cpx_ad_ids.count==0
+        @msg="not exist log"
       else
-      (0..@cpx.count-1).each do |i|
-        @ad=CpxAdvertisement.find_by_id(@cpx[i].ad_id)
-        ##@data=@cpx[i].ad_id
-        @data={:type => @cpx[i].ad_type, :name => @ad.ad_name, :reward => @ad.reward, :state => @cpx[i].act}
-        @cpx_list.push(@data)
+        @cpx_list=[]
+        (0..my_cpx_ad_ids.count-1).each do |i|
+          ad_id=my_cpx_ad_ids[i]
+          my_cpx_recent=AdvertiseCpxLog.where('ad_id = ?',ad_id).order("created_at DESC").first
+          ad_info=CpxAdvertisement.find_by_id(ad_id)
+          if my_cpx_recent.act == 1
+            if ad_info.remain <= 0
+              act = 3
+            else
+              act = 1
+            end
+          else
+            act = 2
+          end
+          tmp_hash={:id => my_cpx_recent.id, :ad_id => ad_id, :ad_type => my_cpx_recent.ad_type, :act => act, :created_at => my_cpx_recent.created_at, :name => ad_info.ad_name, :image => ad_info.ad_image.url, :reward => ad_info.reward}
+          @cpx_list.push(tmp_hash)
+        end
       end
     end
-  end
+    @cpx_list.sort!{|a,b| b[:created_at] <=> a[:created_at]}
   end
 
 
@@ -174,7 +204,7 @@ class Api::EtcController < ApplicationController
     end
   end
 
-  def get_product_info
+  def get_prize_info
     @status=true
     @msg=""
 
@@ -182,16 +212,16 @@ class Api::EtcController < ApplicationController
       @status=false
       @msg="not exist id params"
     else
-      product=Product.find_by_id(params[:id])
+      prize=Prize.find_by_id(params[:id])
 
       if !product.present?
         @status=false
-        @msg="not exist product"
+        @msg="not exist prize"
       else
-        @image = product.image
-        @content1 = product.content1
-        @content2 = product.content2
-        @content3 = product.content3
+        @image = prize.image
+        @content1 = prize.content1
+        @content2 = prize.content2
+        @content3 = prize.content3
       end
     end
   end
