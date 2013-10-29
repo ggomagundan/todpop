@@ -103,6 +103,7 @@
   </div>
 
   <% if !@cpx_advertisement.n_question.present? || @cpx_advertisement.n_question == 0 %>
+    <input type='hidden' name='question_count' value='0'/>
     <div id='questions' style="display:none;">      
       꼭 제대로된 인풋값을 넣어주세요. 타입이 이미지면 이미지 첨부도 필수
     </div>
