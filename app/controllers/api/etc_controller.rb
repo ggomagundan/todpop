@@ -158,6 +158,7 @@ class Api::EtcController < ApplicationController
         end
       end
     end
+    @cpx_list.sort_by{|e| e[:created_at]}
   end
 
 
