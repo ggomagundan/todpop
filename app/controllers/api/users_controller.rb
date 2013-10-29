@@ -276,6 +276,8 @@ class Api::UsersController < ApplicationController
   
   end
 
+
+=begin
   def get_users_score
     @status = true
     @msg = ""
@@ -295,7 +297,7 @@ class Api::UsersController < ApplicationController
     end
 
   end
-
+=end
 
   def get_users_point_list
     @status = true
@@ -353,13 +355,13 @@ class Api::UsersController < ApplicationController
       @msg = "not exist nickname or mobile parameter"
     elsif @user.nickname != params[:nickname]
       @status = false
-      @msg = "discorrect nickname "
+      @msg = "incorrect nickname "
     elsif @user.mobile != params[:mobile]
       @status = false
-      @msg = "disrrcorrect mobile number "
+      @msg = "incorrect mobile number "
     elsif @user.authenticate(params[:current_password]).present?
       @status = false
-      @msg = "discorrect current password"
+      @msg = "incorrect current password"
     else
       @user.password = params[:password]
       @user.password_confirmation = params[:password] 
