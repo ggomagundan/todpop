@@ -91,7 +91,7 @@ Todpop::Application.routes.draw do
       get 'get_fast_pivot_time', :on => :collection
       get 'get_cacao_msg', :on => :collection
       get 'get_notices', :on => :collection
-      get 'get_help', :on => :collection
+      get 'get_helps', :on => :collection
     end
 
     resources :etc do

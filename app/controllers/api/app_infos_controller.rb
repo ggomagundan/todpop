@@ -42,7 +42,7 @@ class Api::AppInfosController < ApplicationController
 
 
 
-  def get_help
+  def get_helps
     if params[:page].present?
       @page = params[:page]
     else
