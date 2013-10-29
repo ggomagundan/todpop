@@ -105,6 +105,7 @@ Todpop::Application.routes.draw do
       get 'my_home', :on => :member
       get 'get_product_info', :on => :collection
       get 'event_check', :on => :member
+      get 'update_rank_point', :on => :collection
     end
 
   
