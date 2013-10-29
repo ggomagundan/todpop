@@ -41,7 +41,7 @@ Todpop::Application.routes.draw do
       
       delete 'delete_user', :on => :member
       
-      get 'change_password', :on => :member
+      post 'change_password', :on => :member
       get 'setting_facebook_password', :on => :member
       get 'facebook_change_pw', :on => :member
       post 'facebook_change_pw', :on => :member
@@ -50,7 +50,6 @@ Todpop::Application.routes.draw do
       get 'get_reward_list', :on => :member
       get 'get_attendance_time', :on => :member
 
-      post 'change_password', :on => :member
       get 'delete_user', :on => :member
     end
 
