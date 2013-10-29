@@ -85,21 +85,19 @@ Todpop::Application.routes.draw do
       get 'get_prize_info', :on => :collection
     end
     
-    resources :notices do
-      get 'get_notices', :on => :collection
-    end
     get 'get_intro_movie'
   
     resources :app_infos do
       get 'get_fast_pivot_time', :on => :collection
       get 'get_cacao_msg', :on => :collection
+      get 'get_notices', :on => :collection
       get 'get_help', :on => :collection
     end
 
     resources :etc do
       get 'refund_info', :on => :member
       get 'get_bank_list', :on => :collection
- post 'refund', :on => :collection
+      post 'refund', :on => :collection
       get 'get_purchase_list', :on => :member
       get 'show_cpx_list', :on => :member
       get 'my_home', :on => :member
