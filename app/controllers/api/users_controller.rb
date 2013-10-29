@@ -381,15 +381,18 @@ class Api::UsersController < ApplicationController
     if !@user.present?
       @status = false
       @msg = "not exist user"
-    elsif !params[:nickname].present? || !params[:mFobile].present?
+    elsif !params[:nickname].present? || !params[:mobile].present?
       @status = false
       @msg = "not exist nickname or mobile parameter"
     elsif @user.nickname != params[:nickname]
       @status = false
-      @msg = "discorrect nickname "
+      @msg = "incorrect nickname"
     elsif @user.mobile != params[:mobile]
       @status = false
-      @msg = "disrrcorrect mobile number "
+      @msg = "incorrect mobile number"
+    elsif !@user.facebook.present?
+      @status = false
+      @msg = "not facebook user"
     else
       @pass = SecureRandom.random_number(10000)
       @user.password = @pass
