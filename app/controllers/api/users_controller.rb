@@ -346,7 +346,7 @@ class Api::UsersController < ApplicationController
     @status = true
     @msg = "success"
 
-    @user = User.find(params[:id])
+    @user = User.find_by_id(params[:id])
     if !@user.present?
       @status = false
       @msg = "not exist user"
