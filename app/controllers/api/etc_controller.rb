@@ -178,7 +178,7 @@ class Api::EtcController < ApplicationController
     else
       @product=[]
       (0..2).each do |i|
-      @temp=Product.where(:category => params[:category], :period => params[:period], :rank => (i+1))
+      @temp=Prize.where(:category => params[:category], :period => params[:period], :rank => (i+1))
       @temp_product={:Id => @temp[0].id, :Image => @temp[0].image}
       @product.push(@temp_product)
       end
