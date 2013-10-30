@@ -266,7 +266,7 @@ class Api::EtcController < ApplicationController
     @user = User.find_by_id(params[:id])
     if !@user.present?
       @status = false
-      @msg = "Not exist user"
+      @msg = "not exist user"
     elsif params[:act]=='3001' && params[:value].present?          ##example act
       @msg = "this is act=3001 test"
       @value = params[:value]
@@ -291,7 +291,7 @@ class Api::EtcController < ApplicationController
       end
 
     else
-      @msg = "input proper act and value"
+      @msg = "enter proper act and value"
       @value = "99"
     end
   end
