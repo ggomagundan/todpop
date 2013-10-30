@@ -2,12 +2,12 @@ json.status @status
 json.msg @msg
 
 json.data do |json|
-  json.product @product   ##nickname:현재랭커 필요
+  json.product @product
   json.level @level
-  json.rank @rank   ##Not Yet
+  json.my_rank @my_rank
   json.attendance @attendance
-  json.point @point   ##Not Yet
-  json.remain @remain ##Not Yet
+  json.point @point
+  json.remain @remain
   json.today @today
   json.reward @reward
   json.sum @sum
