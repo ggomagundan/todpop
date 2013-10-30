@@ -259,6 +259,33 @@ class Api::EtcController < ApplicationController
   end
 
 
+  def get_coupon_free_info
+    @status=true
+    @msg=""
+
+    if !params[:id].present?
+      @status=false
+      @msg="not exist coupon_id params"
+    else
+      coupon=CouponFreeInfo.find_by_id(params[:id])
+
+      if !coupon.present?
+        @status=false
+        @msg="not exist coupon"
+      else
+        @name = coupon.name
+        @place = coupon.place
+        @valid_start = coupon.valid_start
+        @valid_end = coupon.valid_end
+        @bar_code = coupon.bar_code
+        @image = coupon.image
+        @information = coupon.information
+      end
+    end
+  end
+
+
+
   def event_check
     @status = true
     @msg = ""

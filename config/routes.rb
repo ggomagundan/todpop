@@ -101,6 +101,7 @@ Todpop::Application.routes.draw do
       get 'show_cpx_list', :on => :member
       get 'my_home', :on => :member
       get 'get_product_info', :on => :collection
+      get 'get_coupon_free_info', :on => :member
       get 'event_check', :on => :member
       get 'update_rank_point', :on => :collection
     end
