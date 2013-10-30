@@ -323,17 +323,23 @@ class Api::StudiesController < ApplicationController
         end 
       end
 
-      # reward log ----------------------------------------------------------------
+      # reward process ----------------------------------------------------------------
       if @reward > 0
-        sub_title = "Level " + level.to_s + " - Stage " + stage.to_s
-        Reward.create(:user_id => user_id, :reward_type => 1000, :title => "학습 장학금", :sub_title => sub_title, :reward => @reward)
+        @token_user_id = user_id
+        @token_reward_type = 1000 + catogory
+        @token_title = "학습 장학금"
+        @token_sub_title = "Level " + level.to_s + " - Stage " + stage.to_s
+        @token_reward = @reward
+        process_reward_general
       end
 
-      # rank_point log
+      # rank_point process
       if @rank_point > 0
-        point_type = 1000 + category
-        name = "학습 장학금" + " : Level " + level.to_s + " - Stage " + stage.to_s
-        Point.create(:user_id => user_id, :point_type => point_type, :name => name, :point => @rank_point)
+        @token_user_id = user_id
+        @token_point_type = 1000 + catogory
+        @token_name = "학습 장학금" + " : Level " + level.to_s + " - Stage " + stage.to_s
+        @token_point = @rank_point
+        process_point_general
       end
 
 
@@ -363,13 +369,5 @@ class Api::StudiesController < ApplicationController
     end
   end
 
-  #                      reward_type      point_type(rank_point)
-  #      --------------------------------------------------
-  #      Test       =   1000+category      1000+category
-  #      Attendace  =     2000                2000
-  #      Recommend  =     3000                3000
-  #        CPX      =   4000+CPX_code      4000+CPX_code
-  #
-  
 
 end
