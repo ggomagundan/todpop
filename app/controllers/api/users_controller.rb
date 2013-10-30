@@ -316,27 +316,45 @@ class Api::UsersController < ApplicationController
 
   def delete_user
     @status = true
-    @msg = ""
+    @msg = "success"
 
-    @user = User.find(params[:id])
+    @user = User.find_by_id(params[:id])
     if !@user.present?
       @status = false
       @msg = "not exist user"
-    elsif !params[:nickname].present? || !params[:mobile].present?
+    elsif !params[:mobile].present? || !params[:password].present?
       @status = false
-      @msg = "not exist nickname or mobile parameter"
-    elsif @user.nickname != params[:nickname]
-      @status = false
-      @msg = "discorrect nickname "
+      @msg = "not exist mobile or password parameter"
     elsif @user.mobile != params[:mobile]
       @status = false
-      @msg = "discorrect mobile number "
-    else
-      if @user.destroy
-        @result = true
+      @msg = "incorrect mobile"
+    elsif !@user.authenticate(params[:password]).present?
+      @status = false
+      @msg = "incorrent password"
+    end
+
+    if @status == true
+
+      # copy first (namually)
+      job_copy = InactiveUser.new(:id => @user.id, :email => @user.email, :facebook => @user.facebook,
+                           :nickname => @user.nickname, :recommend => @user.recommend, :sex => @user.sex,
+                           :birth => @user.birth, :address => @user.address, :mobile => @user.mobile,
+                           :interest => @user.interest, :level_test => @user.level_test,
+                           :is_set_facebook_password => @user.is_set_facebook_password,
+                           :attendance_time => @user.attendance_time, :current_reward => @user.current_reward,
+                           :total_reward => @user.total_reward, :is_admin => @user.is_admin,
+                           :last_connection => @user.last_connection).save
+                           # skipped : password_digest, created_at, updated_at
+
+      if job_copy
+        if @user.destroy
+        else
+          @status = false
+          @msg = "fail to delete user"  
+        end
       else
         @status = false
-        @msg = "not success user delete. please retry"  
+        @msg = "fail to delete user"  
       end
     end
   end 
@@ -515,33 +533,6 @@ class Api::UsersController < ApplicationController
     end
   end
 
-
-  def delete_user
-    @status=true
-    @msg=""
-
-    @user=User.find_by_id(params[:id])
-    if !@user.present?
-      @status=false
-      @msg="Not exist user"
-    elsif params[:mobile]!=@user.mobile
-      @status=false
-      @msg="Incorrect mobile number"
-    elsif InactiveUser.new(:id => @user.id, :email => @user.email, :facebook => @user.facebook,
-                           :password_digest => @user.password_digest, :nickname => @user.nickname,
-                           :recommend => @user.recommend, :sex => @user.sex, :birth => @user.birth,
-                           :address => @user.address, :mobile => @user.mobile, :interest => @user.interest,
-                           :level_test => @user.level_test, :is_set_facebook_password => @user.is_set_facebook_password,
-                           :attendance_time => @user.attendance_time, :current_reward => @user.current_reward,
-                           :total_reward => @user.total_reward, :is_admin => @user.is_admin,
-                           :last_connection => @user.last_connection, :created_at => @user.created_at).save
-      @result=true
-      User.delete_all(:id => params[:id])
-    else
-      @status=false
-      @msg="delete error"
-    end
-  end
 
   private
     def user_params

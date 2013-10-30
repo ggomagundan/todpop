@@ -39,7 +39,7 @@ Todpop::Application.routes.draw do
       get 'get_users_attendance', :on => :member
       get 'set_users_attendance', :on => :member
       
-      delete 'delete_user', :on => :member
+      post 'delete_user', :on => :member
       
       post 'change_password', :on => :member
       get 'setting_facebook_password', :on => :member
