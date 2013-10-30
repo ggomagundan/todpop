@@ -77,13 +77,12 @@ $(document).ready ->
       $(this).css('font-weight','normal')
 
   $("#cpx_advertisement_n_question").change -> 
-    console.log('question_count : '+$("input[name=question_count]").val()+', select value : '+$(this).val())
     if $(this).val() == '0'
       $("#questions").html('')
       $("#questions").css('display','none')
     else
       $("#questions").css('display','block')
-      if $("input[name=question_count]").val() == 0
+      if $("input[name=question_count]").val() == '0'
         $("#questions").append("
             <div class='question'>
               <table class='table'>
@@ -106,16 +105,11 @@ $(document).ready ->
               </table>
             </div>
         ")
-        gene_question_box(1, $(this).val()*1)
+        gene_question_box(0, $(this).val()*1)
       else if $("input[name=question_count]").val()*1 < $(this).val()*1
-        console.log("select value big")
-        console.log($("input[name=question_count]").val()*1+1)
-        console.log($(this).val())
         gene_question_box($("input[name=question_count]").val()*1, $(this).val()*1)
       else
-        console.log("question value big")
-        console.log($("input[name=question_count]").val()*1-$(this).val()*1)
         for i in [0...$("input[name=question_count]").val()*1-$(this).val()*1]
           $(".question").last().remove()
 
-      $('input[name=question_count]').val($(this).val())
+    $('input[name=question_count]').val($(this).val())
