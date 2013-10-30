@@ -108,7 +108,7 @@ class ApplicationController < ActionController::Base
       (1..4).each do |i|
         tmp = "w_list = RankingPoint.order(\"week_" + i.to_s + " DESC\").limit(20)"
         eval(tmp)
-        tmp = "type = week_" + i.to_s
+        tmp = "type = \"week_" + i.to_s + "\""
         eval(tmp)
         week_start = ranking_point.week_start
         week_end   = ranking_point.week_end
@@ -136,7 +136,7 @@ class ApplicationController < ActionController::Base
       (1..4).each do |i|
         tmp = "m_list = RankingPoint.order(\"mon_" + i.to_s + " DESC\").limit(20)"
         eval(tmp)
-        tmp = "type = month_" + i.to_s
+        tmp = "type = \"month_" + i.to_s + "\""
         eval(tmp)
         mon_start = ranking_point.mon_start
         mon_end   = ranking_point.mon_end
