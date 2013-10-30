@@ -69,7 +69,6 @@ class Admin::CpxAdvertisementsController < Admin::ApplicationController
 
   def edit
     @cpx_advertisement = CpxAdvertisement.find(params[:id])
-    
     @n_question_arr = []
     @n_answer_arr = []
     for i in 0..15
