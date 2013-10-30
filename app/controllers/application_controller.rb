@@ -115,6 +115,7 @@ class ApplicationController < ActionController::Base
 
         (1..w_list.size).each do |j|
           a = RankingHistory.new
+          a.type  = type
           a.start = week_start
           a.end   = week_end
           a.rank  = j
@@ -143,6 +144,7 @@ class ApplicationController < ActionController::Base
 
         (1..m_list.size).each do |j|
           a = RankingHistory.new
+          a.type  = type
           a.start = mon_start
           a.end   = mon_end
           a.rank  = j
