@@ -268,8 +268,28 @@ class Api::EtcController < ApplicationController
       @status = false
       @msg = "Not exist user"
     elsif params[:act]=='3001' && params[:value].present?          ##example act
-      @msg = "this is test"
+      @msg = "this is act=3001 test"
       @value = params[:value]
+
+      if params[:value]=="100"
+
+        # reward
+        @token_user_id = params[:id]
+        @token_reward_type = 9999
+        @token_title = "test title"
+        @token_sub_title = "test sub"
+        @token_reward = 9999
+        process_reward_general
+
+        # rank_point
+        @token_user_id = params[:id]
+        @token_point_type = 9999
+        @token_name = "test name"
+        @token_point = 9998
+        process_point_general
+
+      end
+
     else
       @msg = "input proper act and value"
       @value = "99"

@@ -41,8 +41,8 @@ class ApplicationController < ActionController::Base
 
     # add to User (current_reward, total_reward)
     user = User.find_by_id(@token_user_id)
-    current_reward = User.current_reward
-    total_reward = User.total_reward
+    current_reward = user.current_reward
+    total_reward = user.total_reward
     user.update_attributes(:current_reward => current_reward + @token_reward)
     user.update_attributes(:total_reward => total_reward + @token_reward)
 
@@ -70,128 +70,94 @@ class ApplicationController < ActionController::Base
     #######################################################
 
     # log to Point (all history)
-    Reward.create(:user_id => @token_user_id, :point_type => @token_point_type, :name => @token_name,
+    Point.create(:user_id => @token_user_id, :point_type => @token_point_type, :name => @token_name,
                     :point => @token_point)
 
     # add to RankingPoint (w_1 ~ w4 & mon + update)
     update_rank_point_table
 
+    if (@token_point_type > 1000) && (@token_point_type < 2000)           # from test
+      category_start = @token_point_type - 1000
+      category_end   = @token_point_type - 1000
+    else
+      category_start = 1
+      category_end   = 4
+    end
 
-
-    #user = User.find_by_id(@token_user_id)
-    #current_reward = User.current_reward
-    #total_reward = User.total_reward
-    #user.update_attributes(:current_reward => current_reward + @token_reward)
-    #user.update_attributes(:total_reward => total_reward + @token_reward)
-
+    user = RankingPoint.find_by_id(@token_user_id)
+    (category_start..category_end).each do |i|
+      tmp = "user.update_attributes(:week_" + i.to_s + " => user.week_" + i.to_s + " + @token_point, :mon_" + i.to_s + " => user.mon_" + i.to_s + " + @token_point)"
+      eval(tmp)
+    end
 
   end
 
 
 
-
-
-
-
-
-
-
-
   def update_rank_point_table
-    @status=true
-    @msg=""
 
-    @category=params[:category].to_i
-    @point=params[:point].to_i
+    ranking_point = RankingPoint.find_by_id(@token_user_id)
 
-    @date=RankingPoint.last
-    @history=RankingHistory.new
-
-    if !@date.present?
-      @msg="not exist ranking point list"
+    if !ranking_point.present?
       @status=false
-    elsif @date.week_start+7 == Date.today
-      (1..4).each do |i|
-        (1..20).each do |j|
-          a=RankingHistory.new
-          a.start=@date.week_start
-          a.end=@date.week_end
-          if i==1
-            a.type="Elementary_Week"
-            @w_list=RankingPoint.order("week_1 DESC").limit(20)
-            a.rank_point=@w_list[j-1].week_1
-          elsif i==2
-            a.type="Secondary_Week"
-            @w_list=RankingPoint.order("week_2 DESC").limit(20)
-            a.rank_point=@w_list[j-1].week_2
-          elsif i==3
-            a.type="SAT_Week"
-            @w_list=RankingPoint.order("week_3 DESC").limit(20)
-            a.rank_point=@w_list[j-1].week_3
-          elsif i==4
-            a.type="TOEIC_Week"
-            @w_list=RankingPoint.order("week_4 DESC").limit(20)
-            a.rank_point=@w_list[j-1].week_4
-          end
-          a.rank=j
-          a.rank_id=@w_list[j-1].id
-          a.save
-        end
-      end
-
-      @update_date=RankingPoint.all
-      @update_date.update_all(:week_start => Date.today.beginning_of_week, :week_end => Date.today.end_of_week,
-                             :week_1 => 0, :week_2 => 0, :week_3 => 0, :week_4 => 0)
-
-      if @date.mon_end < Date.today
-      (1..4).each do |i|
-        (1..20).each do |j|
-          a=RankingHistory.new
-          a.start=@date.mon_start
-          a.end=@date.mon_end
-          if i==1
-            a.type="Elementary_Month"
-            @m_list=RankingPoint.order("mon_1 DESC").limit(20)
-            a.rank_point=@m_list[j-1].mon_1
-          elsif i==2
-            a.type="Secondary_Month"
-            @m_list=RankingPoint.order("mon_2 DESC").limit(20)
-            a.rank_point=@m_list[j-1].mon_2
-          elsif i==3
-            a.type="SAT_Month"
-            @m_list=RankingPoint.order("mon_3 DESC").limit(20)
-            a.rank_point=@m_list[j-1].mon_3
-          elsif i==4
-            a.type="TOEIC_Month"
-            @m_list=RankingPoint.order("mon_4 DESC").limit(20)
-            a.rank_point=@mon_list[j-1].mon_4
-          end
-          a.rank=j
-          a.rank_id=@m_list[j-1].id
-          a.save
-        end
-      end
-        @update_mon=RankingPoint.all
-        @update_mon=update_all(:mon_start => Date.today.beginning_of_month, :mon_end => Date.today.end_of_month,
-                              :mon_1 => 0, :mon_2 => 0, :mon_3 => 0, :mon_4 => 0)
-      end
-    elsif !@user=RankingPoint.find_by_id(params[:user_id])
-      @status=false
-      @msg="not exist user"
-    else
-      if @category==1
-        @user.update_attributes(:week_1 => @user.week_1+@point, :mon_1 => @user.mon_1+@point)
-      elsif @category==2
-        @user.update_attributes(:week_2 => @user.week_2+@point, :mon_2 => @user.mon_2+@point)
-      elsif @category==3
-        @user.update_attributes(:week_3 => @user.week_3+@point, :mon_3 => @user.mon_3+@point)
-      elsif @category==4
-        @user.update_attributes(:week_4 => @user.week_4+@point, :mon_4 => @user.mon_4+@point)
-      else
-        @status=false
-        @msg="ircorrect categoty or not exist point params"
-      end
+      @msg="not exist ranking point table for the user"
     end
+
+    if (@status == true) && (ranking_point.week_end < Date.today)            # need to update week
+
+      (1..4).each do |i|
+        tmp = "w_list = RankingPoint.order(\"week_" + i.to_s + " DESC\").limit(20)"
+        eval(tmp)
+        tmp = "type = week_" + i.to_s
+        eval(tmp)
+        week_start = ranking_point.week_start
+        week_end   = ranking_point.week_end
+
+        (1..w_list.size).each do |j|
+          a = RankingHistory.new
+          a.start = week_start
+          a.end   = week_end
+          a.rank  = j
+          a.rank_id = w_list[j-1].id
+          tmp = "a.rank_point = w_list[j-1].week_" + i.to_s
+          eval(tmp)
+          a.save
+        end
+      end
+
+      update_rp_week = RankingPoint.all
+      update_rp_week.update_all(:week_start => Date.today.beginning_of_week, :week_end => Date.today.end_of_week,
+                                  :week_1 => 0, :week_2 => 0, :week_3 => 0, :week_4 => 0)
+    end
+
+
+    if (@status == true) && (ranking_point.mon_end < Date.today)             # need to update month
+
+      (1..4).each do |i|
+        tmp = "m_list = RankingPoint.order(\"mon_" + i.to_s + " DESC\").limit(20)"
+        eval(tmp)
+        tmp = "type = month_" + i.to_s
+        eval(tmp)
+        mon_start = ranking_point.mon_start
+        mon_end   = ranking_point.mon_end
+
+        (1..m_list.size).each do |j|
+          a = RankingHistory.new
+          a.start = mon_start
+          a.end   = mon_end
+          a.rank  = j
+          a.rank_id = m_list[j-1].id
+          tmp = "a.rank_point = m_list[j-1].mon_" + i.to_s
+          eval(tmp)
+          a.save
+        end
+      end
+
+      update_rp_month = RankingPoint.all
+      update_rp_month.update_all(:mon_start => Date.today.beginning_of_month, :mon_end => Date.today.end_of_month,
+                                   :mon_1 => 0, :mon_2 => 0, :mon_3 => 0, :mon_4 => 0)
+    end
+
   end
 
 
