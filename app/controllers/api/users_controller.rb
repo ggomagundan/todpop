@@ -82,6 +82,7 @@ class Api::UsersController < ApplicationController
       end
 
       if @status == true
+        RankingPoint.create
         if @user.save!
           @msg = "complete"
         else
