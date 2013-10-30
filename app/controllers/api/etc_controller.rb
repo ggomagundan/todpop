@@ -259,17 +259,75 @@ class Api::EtcController < ApplicationController
   end
 
 
+  def get_coupon_free_info
+    @status=true
+    @msg=""
+
+    if !params[:id].present?
+      @status=false
+      @msg="not exist coupon_id params"
+    else
+      coupon=CouponFreeInfo.find_by_id(params[:id])
+
+      if !coupon.present?
+        @status=false
+        @msg="not exist coupon"
+      else
+        @name = coupon.name
+        @place = coupon.place
+        @valid_start = coupon.valid_start
+        @valid_end = coupon.valid_end
+        @bar_code = coupon.bar_code
+        @image = coupon.image
+        @information = coupon.information
+      end
+    end
+  end
+
+
+
   def event_check
     @status=true
     @msg=""
 
     @user=User.find_by_id(params[:id])
     if !@user.present?
+<<<<<<< HEAD
       @status=false
       @msg="Not exist user"
     elsif params[:act]=='3001'                       ##example act
       @user=User.find_by_id(params[:value])        ##example value
       @return=@user
+=======
+      @status = false
+      @msg = "not exist user"
+    elsif params[:act]=='3001' && params[:value].present?          ##example act
+      @msg = "this is act=3001 test"
+      @value = params[:value]
+
+      if params[:value]=="100"
+
+        # reward
+        @token_user_id = params[:id]
+        @token_reward_type = 9999
+        @token_title = "test title"
+        @token_sub_title = "test sub"
+        @token_reward = 9999
+        process_reward_general
+
+        # rank_point
+        @token_user_id = params[:id]
+        @token_point_type = 9999
+        @token_name = "test name"
+        @token_point = 9998
+        process_point_general
+
+      end
+
+    else
+      @msg = "enter proper act and value"
+      @value = "99"
+>>>>>>> 326310ba1300029a70cf7b78fd39a3094be2ebbd
     end
   end
 

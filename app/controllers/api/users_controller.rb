@@ -76,6 +76,9 @@ class Api::UsersController < ApplicationController
           @user.password_confirmation = "dummypassword"
           @user.is_set_facebook_password = 0
         end
+
+        # Create User's Database
+        
       end
 
       if @status == true
