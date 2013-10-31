@@ -295,12 +295,35 @@ class Api::UsersController < ApplicationController
     end
 
     if @status == true
-      @user_info = []
-      (1..10).each do |i|
-        @rank = {:rank => i, :name => "name#{i}", :score => (11-i)*100, :image => "http://www.1stwebdesigner.com/wp-content/uploads/2009/07/free-twitter-icons/designreviver-free-twitter-social-icon.jpg"}
-        @user_info.push(@rank)
+
+      if params[:period] == "1"
+        period = "mon_"
+      else
+        period = "week_"
       end
-      @mine = {:rank => 30, :name => "xxxx", :score => 20, :image => "http://www.1stwebdesigner.com/wp-content/uploads/2009/07/free-twitter-icons/designreviver-free-twitter-social-icon.jpg"}
+      
+      tmp = "@list = RankingPoint.order(\"" + period + params[:category] + " DESC\")"
+      eval(tmp)
+
+      @user_info = []
+      (1..[10,@list.size].min).each do |i|
+        user = User.find_by_id(@list[i-1].id) 
+        name = user.nickname
+        tmp = "@user_point = @list[i-1]." + period + params[:category]
+        eval(tmp)
+        image = "http://www.1stwebdesigner.com/wp-content/uploads/2009/07/free-twitter-icons/designreviver-free-twitter-social-icon.jpg"
+
+        rank = {:rank => i, :name => name, :score => @user_point, :image => image}
+        @user_info.push(rank)
+      end
+
+      my_id = User.find_by_nickname(params[:nickname]).id
+      my_idx = @list.index{|l| l.id == my_id}
+      tmp = "@my_point = @list[my_idx]." + period + params[:category]
+      eval(tmp)
+      image = "http://www.1stwebdesigner.com/wp-content/uploads/2009/07/free-twitter-icons/designreviver-free-twitter-social-icon.jpg"
+
+      @mine = {:rank => my_idx+1, :name => params[:nickname], :score => @my_point, :image => image}
     end
 
   end
