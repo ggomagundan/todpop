@@ -82,9 +82,13 @@ class Api::UsersController < ApplicationController
       end
 
       if @status == true
-        RankingPoint.create
-        if @user.save!
+        if @user.save
           @msg = "complete"
+          if !params[:mem_no].present?
+            a = RankingPoint.new
+            a.id = @user.id
+            a.save
+          end
         else
           @status = false
           @msg = "join save error"
