@@ -345,11 +345,17 @@ class Api::StudiesController < ApplicationController
 
       # consecutive attendance update ----------------------------------------------
       @user = User.find(user_id)
-      last_con = User.find(user_id).last_connection.to_date
+      last_con = User.find(user_id).last_connection
 
-      if last_con == Date.today
-      elsif last_con < Date.today && Date.today - last_con == 1
-        @user.update_attributes(:attendance_time => @user.attendance_time + 1)
+      if last_con.present?
+        last_con_date = User.find(user_id).last_connection.to_date
+
+        if last_con_date == Date.today
+        elsif last_con_date < Date.today && Date.today - last_con_date == 1
+          @user.update_attributes(:attendance_time => @user.attendance_time + 1)
+        else
+          @user.update_attributes(:attendance_time => 1)
+        end
       else
         @user.update_attributes(:attendance_time => 1)
       end
