@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 Todpop::Application.routes.draw do
    
+  namespace(:admin){ resources :prizes }
   get "etc/refund_info"
   namespace(:admin){ resources :helps }
   namespace(:admin){ resources :cacao_ments }

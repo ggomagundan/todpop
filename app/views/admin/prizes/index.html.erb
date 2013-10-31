@@ -1,0 +1,25 @@
+
+<table class="table table-hover">
+  <tr>
+    <th>Index</th>
+    <th>Name</th>
+    <th>Category</th>
+    <th>Period</th>
+    <th>Rank</th>
+    <th>Date</th>
+  </tr>
+  <% for prize in @prizes %>
+    <tr>
+      <td><%= prize.id %></td>
+      <td><%= prize.name %></td>
+      <td><%= prize.category %></td>
+      <td><%= prize.period %></td>
+      <td><%= prize.rank %></td>
+      <td><%= prize.date_start %> - <%= prize.date_end %></td>
+      <td><%= link_to "Edit", edit_admin_prize_path(prize) %></td>
+      <td><%#= link_to "Destroy", [:admin, prize], :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Admin/Prize", new_admin_prize_path %></p>
