@@ -285,14 +285,13 @@ class Api::UsersController < ApplicationController
   end
 
 
-=begin
   def get_users_score
     @status = true
     @msg = ""
 
     if !params[:category].present? || !params[:period].present? || !params[:nickname].present?
       @status = false
-      @msg = "not exist category or period or email parameter"
+      @msg = "not exist category or period or nickname parameter"
     end
 
     if @status == true
@@ -305,7 +304,6 @@ class Api::UsersController < ApplicationController
     end
 
   end
-=end
 
   def get_users_point_list
     @status = true
