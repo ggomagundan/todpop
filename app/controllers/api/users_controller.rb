@@ -142,9 +142,9 @@ class Api::UsersController < ApplicationController
         end
       end
       
-      if @status == true
-        @user.update_attributes(:late_connection => Time.now)
-      end
+      #if @status == true
+      #  @user.update_attributes(:last_connection => Time.now)   # def of last_connection != login
+      #end
 
     end
 
