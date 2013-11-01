@@ -31,12 +31,12 @@ class ApplicationController < ActionController::Base
     # log : Reward
     # add : User.current_reward & User.total_reward
     #
-    # refund case : RefundInfo
+    # refund case : RefundRequest
     #
     #######################################################
 
     # log to Reward (all history)
-    Reward.create(:user_id => @token_user_id, :reward_type => @token_reward_type, :title => @token_title,
+    RewardLog.create(:user_id => @token_user_id, :reward_type => @token_reward_type, :title => @token_title,
                     :sub_title => @token_sub_title, :reward => @token_reward)
 
     # add to User (current_reward, total_reward)
@@ -46,9 +46,9 @@ class ApplicationController < ActionController::Base
     user.update_attributes(:current_reward => current_reward + @token_reward)
     user.update_attributes(:total_reward => total_reward + @token_reward)
 
-    # refund to RefundInfo (all refund history)
+    # refund to RefundRequest (all refund history)
     if @token_reward_type == 7000
-      RefundInfo.create(:user_id => @token_user_id, :name => @token_name, :bank => @token_bank,
+      RefundRequest.create(:user_id => @token_user_id, :name => @token_name, :bank => @token_bank,
                           :account => @token_account, :amount => @toekn_reward, :comment => @token_comment)
     end
 
@@ -70,7 +70,7 @@ class ApplicationController < ActionController::Base
     #######################################################
 
     # log to Point (all history)
-    Point.create(:user_id => @token_user_id, :point_type => @token_point_type, :name => @token_name,
+    PointLog.create(:user_id => @token_user_id, :point_type => @token_point_type, :name => @token_name,
                     :point => @token_point)
 
     # add to RankingPoint (w_1 ~ w4 & mon + update)
@@ -84,7 +84,7 @@ class ApplicationController < ActionController::Base
       category_end   = 4
     end
 
-    user = RankingPoint.find_by_id(@token_user_id)
+    user = RankingCurrent.find_by_id(@token_user_id)
     (category_start..category_end).each do |i|
       tmp = "user.update_attributes(:week_" + i.to_s + " => user.week_" + i.to_s + " + @token_point, :mon_" + i.to_s + " => user.mon_" + i.to_s + " + @token_point)"
       eval(tmp)
@@ -96,7 +96,7 @@ class ApplicationController < ActionController::Base
 
   def update_rank_point_table
 
-    ranking_point = RankingPoint.find_by_id(@token_user_id)
+    ranking_point = RankingCurrent.find_by_id(@token_user_id)
 
     if !ranking_point.present?
       @status=false
@@ -127,7 +127,7 @@ class ApplicationController < ActionController::Base
         end
       end
 
-      update_rp_week = RankingPoint.all
+      update_rp_week = RankingCurrent.all
       update_rp_week.update_all(:week_start => Date.today.beginning_of_week, :week_end => Date.today.end_of_week,
                                   :week_1 => 0, :week_2 => 0, :week_3 => 0, :week_4 => 0)
     end
@@ -157,7 +157,7 @@ class ApplicationController < ActionController::Base
         end
       end
 
-      update_rp_month = RankingPoint.all
+      update_rp_month = RankingCurrent.all
       update_rp_month.update_all(:mon_start => Date.today.beginning_of_month, :mon_end => Date.today.end_of_month,
                                    :mon_1 => 0, :mon_2 => 0, :mon_3 => 0, :mon_4 => 0)
     end

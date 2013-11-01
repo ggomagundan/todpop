@@ -85,7 +85,7 @@ class Api::UsersController < ApplicationController
         if @user.save
           @msg = "complete"
           if !params[:mem_no].present?
-            a = RankingPoint.new
+            a = RankingCurrent.new
             a.id = @user.id
             a.save
           end
@@ -147,7 +147,7 @@ class Api::UsersController < ApplicationController
       end
       
       #if @status == true
-      #  @user.update_attributes(:last_connection => Time.now)   # def of last_connection != login
+      #  @user.update_attributes(:last_test => Time.now)   # def of last_test != login 
       #end
 
     end
@@ -302,7 +302,7 @@ class Api::UsersController < ApplicationController
         period = "week_"
       end
       
-      tmp = "@list = RankingPoint.order(\"" + period + params[:category] + " DESC\")"
+      tmp = "@list = RankingCurrent.order(\"" + period + params[:category] + " DESC\")"
       eval(tmp)
 
       @user_info = []
@@ -370,9 +370,9 @@ class Api::UsersController < ApplicationController
                            :birth => @user.birth, :address => @user.address, :mobile => @user.mobile,
                            :interest => @user.interest, :level_test => @user.level_test,
                            :is_set_facebook_password => @user.is_set_facebook_password,
-                           :attendance_time => @user.attendance_time, :current_reward => @user.current_reward,
+                           :daily_test_count => @user.daily_test_count, :current_reward => @user.current_reward,
                            :total_reward => @user.total_reward, :is_admin => @user.is_admin,
-                           :last_connection => @user.last_connection).save
+                           :last_test => @user.last_test).save
                            # skipped : password_digest, created_at, updated_at
 
       if job_copy
@@ -526,7 +526,7 @@ class Api::UsersController < ApplicationController
     end
 
     if @status == true
-      @list = Reward.where(:user_id => params[:id]).order('created_at desc').page(@page).per(10)
+      @list = RewardLog.where(:user_id => params[:id]).order('created_at desc').page(@page).per(10)
     end
 
     
@@ -546,19 +546,19 @@ class Api::UsersController < ApplicationController
 
     if @status == true
 
-      # update consecutive attendace
-      last_attendance = @user.last_connection
-      if last_attendance.present?
-        date_gap = Date.today - last_attendance.to_date
+      # update daily_test_count
+      last_test = @user.last_test
+      if last_test.present?
+        date_gap = Date.today - last_test.to_date
         if date_gap >= 2
-          @user.update_attributes(:attendance_time => 0)
+          @user.update_attributes(:daily_test_count => 0)
         end
       else
-        @user.update_attributes(:attendance_time => 0)    # never took exam
+        @user.update_attributes(:daily_test_count => 0)    # never took exam
       end
 
       # data
-      @attendance_time = @user.attendance_time
+      @attendance_time = @user.daily_test_count
     end
   end
 

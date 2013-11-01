@@ -53,9 +53,9 @@ class Api::StudiesController < ApplicationController
             category = 4
           end
         
-          user_stage = UserStage.where(:user_id => user_id).first
+          user_stage = UserHighestLevel.where(:user_id => user_id).first
           if !user_stage.present?
-            UserStage.create(:user_id => user_id, :category => category, :level => @level, :stage => 1)
+            UserHighestLevel.create(:user_id => user_id, :category => category, :level => @level, :stage => 1)
           else
             user_stage.update_attributes(:category => category, :level => @level, :stage => 1)
           end
@@ -147,7 +147,7 @@ class Api::StudiesController < ApplicationController
       end
 
       if @status == true
-        if params[:is_new].to_i > 0 &&  UserRecordBest.where('user_id = ? and created_at >= ?', params[:user_id], Date.today.to_time).count > AppInfo.last.day_limit
+        if params[:is_new].to_i > 0 &&  UserStageBest.where('user_id = ? and created_at >= ?', params[:user_id], Date.today.to_time).count > AppInfo.last.day_limit
           @possible = false
           @msg = "limit over joy studying"
         else
@@ -250,7 +250,7 @@ class Api::StudiesController < ApplicationController
         @medal = 0
       end
 
-      record = UserRecordBest.where(:stage => stage, :level => level, :user_id => user_id).first
+      record = UserStageBest.where(:stage => stage, :level => level, :user_id => user_id).first
 
       if record.present? && record.score_best.present?
         @rank_point = @rank_point / 2
@@ -283,7 +283,7 @@ class Api::StudiesController < ApplicationController
         end
            
       else
-        UserRecordBest.create(:level => level, :stage => stage, :user_id => user_id, :n_medals_best => @medal, :score_best => @score)
+        UserStageBest.create(:level => level, :stage => stage, :user_id => user_id, :n_medals_best => @medal, :score_best => @score)
       end
 
       # highest level & stage record -------------------------------------------------
@@ -310,9 +310,9 @@ class Api::StudiesController < ApplicationController
         end
       end
 
-      user_stage = UserStage.where(:user_id => user_id).first
+      user_stage = UserHighestLevel.where(:user_id => user_id).first
       if !user_stage.present?
-        UserStage.create(:user_id => user_id, :category => next_category, :level => next_level, :stage => next_stage)
+        UserHighestLevel.create(:user_id => user_id, :category => next_category, :level => next_level, :stage => next_stage)
       else
         if  user_stage.category < next_category
           user_stage.update_attributes(:category => next_category, :level => next_level, :stage => next_stage)
@@ -343,25 +343,25 @@ class Api::StudiesController < ApplicationController
       end
 
 
-      # consecutive attendance update ----------------------------------------------
+      # consecutive taking a test update ----------------------------------------------
       @user = User.find(user_id)
-      last_con = User.find(user_id).last_connection
+      last_test = User.find(user_id).last_test
 
-      if last_con.present?
-        last_con_date = User.find(user_id).last_connection.to_date
+      if last_test.present?
+        last_test_date = User.find(user_id).last_test.to_date
 
-        if last_con_date == Date.today
-        elsif last_con_date < Date.today && Date.today - last_con_date == 1
-          @user.update_attributes(:attendance_time => @user.attendance_time + 1)
+        if last_test_date == Date.today
+        elsif last_test_date < Date.today && Date.today - last_test_date == 1
+          @user.update_attributes(:daily_test_count => @user.daily_test_count + 1)
         else
-          @user.update_attributes(:attendance_time => 1)
+          @user.update_attributes(:daily_test_count => 1)
         end
       else
-        @user.update_attributes(:attendance_time => 1)
+        @user.update_attributes(:daily_test_count => 1)
       end
 
-      # today attendance check ----------------------------------------------------
-      @user.update_attributes(:last_connection => Time.now)
+      # today taking a tes check ----------------------------------------------------
+      @user.update_attributes(:last_test => Time.now)
 
       # Return only highest medal
       #if record.present? &&  @medal < record.n_medals_best
