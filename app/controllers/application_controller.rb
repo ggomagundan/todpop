@@ -49,7 +49,7 @@ class ApplicationController < ActionController::Base
     # refund to RefundRequest (all refund history)
     if @token_reward_type == 7000
       RefundRequest.create(:user_id => @token_user_id, :name => @token_name, :bank => @token_bank,
-                          :account => @token_account, :amount => @toekn_reward, :comment => @token_comment)
+                          :account => @token_account, :amount => @token_reward, :comment => @token_comment)
     end
 
   end

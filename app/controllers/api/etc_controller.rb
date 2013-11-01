@@ -73,6 +73,7 @@ class Api::EtcController < ApplicationController
           @token_reward=(-1)*amount
 
           # Refund request history (refund only)
+          @token_name=name
           @token_bank=bank
           @token_account=account
           @token_comment="request"
