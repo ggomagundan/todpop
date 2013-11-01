@@ -296,7 +296,7 @@ class Api::UsersController < ApplicationController
 
     if @status == true
 
-      if params[:period] == "1"
+      if params[:period] == "2"
         period = "mon_"
       else
         period = "week_"

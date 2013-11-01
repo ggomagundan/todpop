@@ -178,7 +178,7 @@ class Api::EtcController < ApplicationController
     if @status == true
 
       category = params[:category].to_s
-      if params[:period] == "1"
+      if params[:period] == "2"
         period = "mon_"
       else
         period = "week_"
