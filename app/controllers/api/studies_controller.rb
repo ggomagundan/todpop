@@ -326,7 +326,7 @@ class Api::StudiesController < ApplicationController
       # reward process ----------------------------------------------------------------
       if @reward > 0
         @token_user_id = user_id
-        @token_reward_type = 1000 + catogory
+        @token_reward_type = 1000 + category
         @token_title = "학습 장학금"
         @token_sub_title = "Level " + level.to_s + " - Stage " + stage.to_s
         @token_reward = @reward
@@ -336,7 +336,7 @@ class Api::StudiesController < ApplicationController
       # rank_point process
       if @rank_point > 0
         @token_user_id = user_id
-        @token_point_type = 1000 + catogory
+        @token_point_type = 1000 + category
         @token_name = "학습 장학금" + " : Level " + level.to_s + " - Stage " + stage.to_s
         @token_point = @rank_point
         process_point_general
@@ -345,11 +345,17 @@ class Api::StudiesController < ApplicationController
 
       # consecutive attendance update ----------------------------------------------
       @user = User.find(user_id)
-      last_con = User.find(user_id).last_connection.to_date
+      last_con = User.find(user_id).last_connection
 
-      if last_con == Date.today
-      elsif last_con < Date.today && Date.today - last_con == 1
-        @user.update_attributes(:attendance_time => @user.attendance_time + 1)
+      if last_con.present?
+        last_con_date = User.find(user_id).last_connection.to_date
+
+        if last_con_date == Date.today
+        elsif last_con_date < Date.today && Date.today - last_con_date == 1
+          @user.update_attributes(:attendance_time => @user.attendance_time + 1)
+        else
+          @user.update_attributes(:attendance_time => 1)
+        end
       else
         @user.update_attributes(:attendance_time => 1)
       end
