@@ -337,7 +337,7 @@ class Api::UsersController < ApplicationController
         @status = false
         @msg = "not exist this user"
       else
-        @point = Point.where(:user_id => @user.id).reverse
+        @point = PointLog.where(:user_id => @user.id).reverse
       end
 
   end
