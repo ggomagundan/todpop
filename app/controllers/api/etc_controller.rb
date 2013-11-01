@@ -195,7 +195,7 @@ class Api::EtcController < ApplicationController
         else
           nickname = nil
         end
-        temp = Prize.where('category = ? and period = ? and rank = ? and date_start <= ? and date_end >= ?',category,period,i+1,Time.now,Time.now)
+        temp = Prize.where('category = ? and period = ? and rank = ? and date_start <= ? and date_end >= ?',category,params[:period],i+1,Time.now,Time.now)
         if temp.present?        
           tmp_hash = {:id => temp[0].id, :image => temp[0].image, :nickname => nickname}
           @prize.push(tmp_hash)
@@ -203,7 +203,7 @@ class Api::EtcController < ApplicationController
       end
 
       @my_level = UserHighestLevel.find_by_user_id(params[:id]).level
-      @my_rank = @ranker.index{|r| r.id == params[:id]}
+      @my_rank = @ranker.index{|r| r.id == params[:id].to_i} + 1
       @daily_test_count = user.daily_test_count
 
       my_point_all = RankingCurrent.find_by_id(params[:id])
