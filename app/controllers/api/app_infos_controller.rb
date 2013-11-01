@@ -33,7 +33,7 @@ class Api::AppInfosController < ApplicationController
     else
       @page = 1
     end
-    @notices = Notice.order('id desc').page(@page).per(10)
+    @notices = BoardNotice.order('id desc').page(@page).per(10)
     @status = true
     @msg = ""
   end
@@ -49,7 +49,7 @@ class Api::AppInfosController < ApplicationController
       @page = 1
     end
 
-    @helps = Help.order('id desc').page(@page).per(10)
+    @helps = BoardHelp.order('id desc').page(@page).per(10)
     @status = true
     @msg = ""
   end
