@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   after_create do |u|
     #u.update_attributes(:last_connection => DateTime.now, :attendance_time => 1)
                                     # assumption : login or connection = taking at least one exam
-    u.update_attributes(:attendance_time => 0)
+    u.update_attributes(:daily_test_count => 0)
    
   end
 

@@ -12,7 +12,7 @@ class Api::EtcController < ApplicationController
       @msg = "Not exist user"
     elsif !@ment.present?
       @status = false
-      @msg = "Not exist refund ment"
+      @msg = "not exist refund ment"
     end
 
     if @status == true
@@ -157,15 +157,22 @@ class Api::EtcController < ApplicationController
     @status = true
     @msg = ""
  
-    category = params[:category].to_i
-    period = params[:period].to_i
     user=User.find_by_id(params[:id])
     if !user.present?
       @status=false
       @msg="not exist user"
-    elsif !(category>0 && category<5) || !(period==1 || period==2)
+    elsif !params[:category].present? || !params[:period].present?
       @status=false
-      @msg="category or period error"
+      @msg="not exist category or period params"
+    end
+
+    if @status == true
+      category = params[:category].to_i
+      period = params[:period].to_i
+      if !(category>0 && category<5) || !(period==1 || period==2)
+        @status=false
+        @msg="category or period error"
+      end
     end
 
     if @status == true
@@ -182,10 +189,16 @@ class Api::EtcController < ApplicationController
 
       @prize=[]
       (0..2).each do |i|
-        nickname = User.find_by_id(@ranker[i].id).nickname
+        if @ranker[i].present?
+          nickname = User.find_by_id(@ranker[i].id).nickname
+        else
+          nickname = nil
+        end
         temp = Prize.where('category = ? and period = ? and rank = ? and date_start <= ? and date_end >= ?',category,period,i+1,Time.now,Time.now)
-        tmp_hash = {:id => temp[0].id, :image => temp[0].image, :nickname => nickname}
-        @prize.push(tmp_hash)
+        if temp.present?        
+          tmp_hash = {:id => temp[0].id, :image => temp[0].image, :nickname => nickname}
+          @prize.push(tmp_hash)
+        end
       end
 
       @my_level = UserHighestLevel.find_by_user_id(params[:id]).level
@@ -199,9 +212,9 @@ class Api::EtcController < ApplicationController
       tmp = "@remain_to1st = @ranker[0]." + period + category + ' - @my_point'
       eval(tmp)
 
-      @reward_today = RewardLog.where('user_id = ? and created_at >= ? and created_at < ? and reward > ?', user.id, Date.today.to_time, Date.tomorrow.to_time,0).sum
-      @reward_current = user.reward
-      @reward_total = RewardLog.where('user_id = ? and reward > ?', user.id, 0).sum
+      @reward_today = RewardLog.where('user_id = ? and created_at >= ? and created_at < ? and reward > ?', user.id, Date.today.to_time, Date.tomorrow.to_time, 0).pluck(:reward).sum
+      @reward_current = user.current_reward
+      @reward_total = user.total_reward
 
     end
   end
@@ -262,21 +275,8 @@ class Api::EtcController < ApplicationController
 
     @user=User.find_by_id(params[:id])
     if !@user.present?
-<<<<<<< HEAD
-#<<<<<<< HEAD
       @status=false
-      @msg="Not exist user"
-    elsif params[:act]=='3001'                       ##example act
-      @user=User.find_by_id(params[:value])        ##example value
-      @return=@user
-#=======
-      @status = false
-      @msg = "not exist user"
-=======
-      @status=false
-      @msg="Not exist user"
-
->>>>>>> 1866dea4b00e14085ab63793ef1bfe0be6c38f75
+      @msg="not exist user"
     elsif params[:act]=='3001' && params[:value].present?          ##example act
       @msg = "this is act=3001 test"
       @value = params[:value]
@@ -303,10 +303,6 @@ class Api::EtcController < ApplicationController
     else
       @msg = "enter proper act and value"
       @value = "99"
-<<<<<<< HEAD
-#>>>>>>> 326310ba1300029a70cf7b78fd39a3094be2ebbd
-=======
->>>>>>> 1866dea4b00e14085ab63793ef1bfe0be6c38f75
     end
   end
 

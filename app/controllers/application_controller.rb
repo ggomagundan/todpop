@@ -106,7 +106,7 @@ class ApplicationController < ActionController::Base
     if (@status == true) && (ranking_point.week_end < Date.today)            # need to update week
 
       (1..4).each do |i|
-        tmp = "@w_list = RankingPoint.order(\"week_" + i.to_s + " DESC\").limit(20)"
+        tmp = "@w_list = RankingCurrent.order(\"week_" + i.to_s + " DESC\").limit(20)"
         eval(tmp)
         tmp = "@data_type = \"week_" + i.to_s + "\""
         eval(tmp)
@@ -119,10 +119,10 @@ class ApplicationController < ActionController::Base
           a.start = week_start
           a.end   = week_end
           a.rank  = j
-          a.rank_id = @w_list[j-1].id
+          a.user_id = @w_list[j-1].id
           tmp = "@tmp2 = @w_list[j-1].week_" + i.to_s
           eval(tmp)
-          a.rank_point = @tmp2
+          a.point = @tmp2
           a.save
         end
       end
@@ -136,7 +136,7 @@ class ApplicationController < ActionController::Base
     if (@status == true) && (ranking_point.mon_end < Date.today)             # need to update month
 
       (1..4).each do |i|
-        tmp = "@m_list = RankingPoint.order(\"mon_" + i.to_s + " DESC\").limit(20)"
+        tmp = "@m_list = RankingCurrent.order(\"mon_" + i.to_s + " DESC\").limit(20)"
         eval(tmp)
         tmp = "@data_type = \"month_" + i.to_s + "\""
         eval(tmp)
@@ -149,10 +149,10 @@ class ApplicationController < ActionController::Base
           a.start = mon_start
           a.end   = mon_end
           a.rank  = j
-          a.rank_id = @m_list[j-1].id
+          a.user_id = @m_list[j-1].id
           tmp = "@tmp2 = @m_list[j-1].mon_" + i.to_s
           eval(tmp)
-          a.rank_point = @tmp2
+          a.point = @tmp2
           a.save
         end
       end

@@ -487,10 +487,10 @@ class Api::UsersController < ApplicationController
   end
 
   def is_set_facebook_password
-    @user = User.find(params[:id])
-
     @status = true
     @msg = ""
+
+    @user = User.find_by_id(params[:id])
 
     if !@user.present?
       @status = false
