@@ -23,16 +23,16 @@ class Api::StudiesController < ApplicationController
     if @status == true
       if params[:step] =='1'
         @level = 20
-        @c_word = Level.where(:level =>20).order("RAND()").first
+        @c_word = WordLevel.where(:level =>20).order("RAND()").first
         @wrong_word = []
-        Level.where(:level => 20).where.not(:id=> @c_word.id).order("RAND()").first(3).each do |w|
+        WordLevel.where(:level => 20).where.not(:id=> @c_word.id).order("RAND()").first(3).each do |w|
           @wrong_word.push(w.word.mean) 
         end
       else
         @level = level_word(params[:level], params[:step], params[:ox])
-        @c_word = Level.where(:level => @level).order("RAND()").first
+        @c_word = WordLevel.where(:level => @level).order("RAND()").first
         @wrong_word = []
-        Level.where(:level => @level).where.not(:id=> @c_word.id).order("RAND()").first(3).each do |w|
+        WordLevel.where(:level => @level).where.not(:id=> @c_word.id).order("RAND()").first(3).each do |w|
           @wrong_word.push(w.word.mean) 
         end
 
@@ -53,9 +53,9 @@ class Api::StudiesController < ApplicationController
             category = 4
           end
         
-          user_stage = UserStage.where(:user_id => user_id).first
+          user_stage = UserHighestLevel.where(:user_id => user_id).first
           if !user_stage.present?
-            UserStage.create(:user_id => user_id, :category => category, :level => @level, :stage => 1)
+            UserHighestLevel.create(:user_id => user_id, :category => category, :level => @level, :stage => 1)
           else
             user_stage.update_attributes(:category => category, :level => @level, :stage => 1)
           end
@@ -76,7 +76,7 @@ class Api::StudiesController < ApplicationController
       @msg = "not exist stage or level params"
     end
 
-    @word = Level.where(:stage => params[:stage],:level => params[:level])
+    @word = WordLevel.where(:stage => params[:stage],:level => params[:level])
 
     if !@word.present?
       @status = false
@@ -147,7 +147,7 @@ class Api::StudiesController < ApplicationController
       end
 
       if @status == true
-        if params[:is_new].to_i > 0 &&  UserRecordBest.where('user_id = ? and created_at >= ?', params[:user_id], Date.today.to_time).count > AppInfo.last.day_limit
+        if params[:is_new].to_i > 0 &&  UserStageBest.where('user_id = ? and created_at >= ?', params[:user_id], Date.today.to_time).count > AppInfo.last.new_stage_day_limit
           @possible = false
           @msg = "limit over joy studying"
         else
@@ -242,31 +242,31 @@ class Api::StudiesController < ApplicationController
     if @status == true
         
       # medal calc , rank_point & reward calc based on history -----------------------------
-      if @score >= AppInfo.last.two_star.to_i
+      if @score >= AppInfo.last.two_medal.to_i
         @medal = 2
-      elsif @score >= AppInfo.last.one_star.to_i
+      elsif @score >= AppInfo.last.one_medal.to_i
         @medal = 1
       else 
         @medal = 0
       end
 
-      record = UserRecordBest.where(:stage => stage, :level => level, :user_id => user_id).first
+      record = UserStageBest.where(:stage => stage, :level => level, :user_id => user_id).first
 
       if record.present? && record.score_best.present?
         @rank_point = @rank_point / 2
            
         if @medal - record.n_medals_best == 2
-          @reward = AppInfo.last.max_money.to_i
+          @reward = AppInfo.last.test_reward_max.to_i
         elsif @medal - record.n_medals_best == 1
-          @reward = AppInfo.last.max_money.to_i  / 2
+          @reward = AppInfo.last.test_reward_max.to_i  / 2
         else
           @reward = 0
         end
       else
         if @medal == 2
-          @reward = AppInfo.last.max_money.to_i
+          @reward = AppInfo.last.test_reward_max.to_i
         elsif @medal == 1
-          @reward = AppInfo.last.max_money.to_i / 2
+          @reward = AppInfo.last.test_reward_max.to_i / 2
         else
           @reward  = 0
         end
@@ -283,7 +283,7 @@ class Api::StudiesController < ApplicationController
         end
            
       else
-        UserRecordBest.create(:level => level, :stage => stage, :user_id => user_id, :n_medals_best => @medal, :score_best => @score)
+        UserStageBest.create(:level => level, :stage => stage, :user_id => user_id, :n_medals_best => @medal, :score_best => @score)
       end
 
       # highest level & stage record -------------------------------------------------
@@ -310,9 +310,9 @@ class Api::StudiesController < ApplicationController
         end
       end
 
-      user_stage = UserStage.where(:user_id => user_id).first
+      user_stage = UserHighestLevel.where(:user_id => user_id).first
       if !user_stage.present?
-        UserStage.create(:user_id => user_id, :category => next_category, :level => next_level, :stage => next_stage)
+        UserHighestLevel.create(:user_id => user_id, :category => next_category, :level => next_level, :stage => next_stage)
       else
         if  user_stage.category < next_category
           user_stage.update_attributes(:category => next_category, :level => next_level, :stage => next_stage)
@@ -326,7 +326,7 @@ class Api::StudiesController < ApplicationController
       # reward process ----------------------------------------------------------------
       if @reward > 0
         @token_user_id = user_id
-        @token_reward_type = 1000 + catogory
+        @token_reward_type = 1000 + category
         @token_title = "학습 장학금"
         @token_sub_title = "Level " + level.to_s + " - Stage " + stage.to_s
         @token_reward = @reward
@@ -336,26 +336,32 @@ class Api::StudiesController < ApplicationController
       # rank_point process
       if @rank_point > 0
         @token_user_id = user_id
-        @token_point_type = 1000 + catogory
+        @token_point_type = 1000 + category
         @token_name = "학습 장학금" + " : Level " + level.to_s + " - Stage " + stage.to_s
         @token_point = @rank_point
         process_point_general
       end
 
 
-      # consecutive attendance update ----------------------------------------------
+      # consecutive taking a test update ----------------------------------------------
       @user = User.find(user_id)
-      last_con = User.find(user_id).last_connection.to_date
+      last_test = User.find(user_id).last_test
 
-      if last_con == Date.today
-      elsif last_con < Date.today && Date.today - last_con == 1
-        @user.update_attributes(:attendance_time => @user.attendance_time + 1)
+      if last_test.present?
+        last_test_date = User.find(user_id).last_test.to_date
+
+        if last_test_date == Date.today
+        elsif last_test_date < Date.today && Date.today - last_test_date == 1
+          @user.update_attributes(:daily_test_count => @user.daily_test_count + 1)
+        else
+          @user.update_attributes(:daily_test_count => 1)
+        end
       else
-        @user.update_attributes(:attendance_time => 1)
+        @user.update_attributes(:daily_test_count => 1)
       end
 
-      # today attendance check ----------------------------------------------------
-      @user.update_attributes(:last_connection => Time.now)
+      # today taking a tes check ----------------------------------------------------
+      @user.update_attributes(:last_test => Time.now)
 
       # Return only highest medal
       #if record.present? &&  @medal < record.n_medals_best

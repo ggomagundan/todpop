@@ -3,6 +3,6 @@ json.msg @msg
 
 if @status == true
   json.data do |json|
-    json.(@pivot, :time)
+    json.(@pivot, :time_quick_ans)
   end
 end

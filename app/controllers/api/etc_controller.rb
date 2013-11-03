@@ -12,7 +12,7 @@ class Api::EtcController < ApplicationController
       @msg = "Not exist user"
     elsif !@ment.present?
       @status = false
-      @msg = "Not exist refund ment"
+      @msg = "not exist refund ment"
     end
 
     if @status == true
@@ -72,7 +72,8 @@ class Api::EtcController < ApplicationController
           @token_sub_title="request"
           @token_reward=(-1)*amount
 
-          # RefundInfo (refund only)
+          # Refund request history (refund only)
+          @token_name=name
           @token_bank=bank
           @token_account=account
           @token_comment="request"
@@ -154,85 +155,68 @@ class Api::EtcController < ApplicationController
 
 
   def my_home
-    @status=true
-    @msg=""
-    @category=params[:category].to_i
-    @period=params[:period].to_i
-    @today=0
+    @status = true
+    @msg = ""
+ 
+    user=User.find_by_id(params[:id])
+    if !user.present?
+      @status=false
+      @msg="not exist user"
+    elsif !params[:category].present? || !params[:period].present?
+      @status=false
+      @msg="not exist category or period params"
+    end
 
-    @user=User.find_by_id(params[:id])
-    if !@user.present?
-      @status=false
-      @msg="Not exist user"
-    elsif !(@category>0 && @category<5) || !(@period==1 || @period==2)
-      @status=false
-      @msg="Category or Period error"
-    else
-      @product=[]
-      @point=RankingPoint.find_by_id(params[:id])
-      if @period==1 && @category==1
-        @ranker=RankingPoint.order("week_1 DESC")
-        @point=@point.week_1
-        @remain=@ranker[0].week_1-@point
-      elsif @period==1 && @category==2
-        @ranker=RankingPoint.order("week_2 DESC")
-        @point=@point.week_2
-        @remain=@ranker[0].week_2-@point
-      elsif @period==1 && @category==3
-        @ranker=RankingPoint.order("week_3 DESC")
-        @point=@point.week_3
-        @remain=@ranker[0].week_3-@point
-      elsif @period==1 && @category==4
-        @ranker=RankingPoint.order("week_4 DESC")
-        @point=@point.week_4
-        @remain=@ranker[0].week_4-@point
-      elsif @period==2 && @category==1
-        @ranker=RankingPoint.order("mon_1 DESC")
-        @point=@point.mon_1
-        @remain=@ranker[0].mon_1-@point
-      elsif @period==2 && @category==2
-        @ranker=RankingPoint.order("mon_2 DESC")
-        @point=@point.mon_2
-        @remain=@ranker[0].mon_2-@point
-      elsif @period==2 && @category==3
-        @ranker=RankingPoint.order("mon_3 DESC")
-        @point=@point.mon_3
-        @remain=@ranker[0].mon_3-@point
-      elsif @period==2 && @category==4
-        @ranker=RankingPoint.order("mon_4 DESC")
-        @point=@point.mon_4
-        @remain=@ranker[0].mon_4-@point
+    if @status == true
+      category = params[:category].to_i
+      period = params[:period].to_i
+      if !(category>0 && category<5) || !(period==1 || period==2)
+        @status=false
+        @msg="category or period error"
       end
+    end
+
+    if @status == true
+
+      category = params[:category].to_s
+      if params[:period] == "2"
+        period = "mon_"
+      else
+        period = "week_"
+      end
+
+      tmp = "@ranker = RankingCurrent.order(\"" + period + category + " DESC\")"
+      eval(tmp)
+
+      @prize=[]
       (0..2).each do |i|
-        @nickname=User.find_by_id(@ranker[i].id)
-        @temp=Prize.where(:category => @category, :period => @period, :rank => (i+1))
-        @temp_product={:id => @temp[0].id, :image => @temp[0].image, :nickname => @nickname.nickname}
-        @product.push(@temp_product)
-      end
-      @user_stat=UserStage.find_by_user_id(params[:id])
-      @leveu=@user_stat.level
-
-      (0..@ranker.count-1).each do |i|    #SEARCHING MY RANK
-        if @user.id == @ranker[i].id
-          @my_rank=i
+        if @ranker[i].present?
+          nickname = User.find_by_id(@ranker[i].id).nickname
+        else
+          nickname = nil
+        end
+        temp = Prize.where('category = ? and period = ? and rank = ? and date_start <= ? and date_end >= ?',category,params[:period],i+1,Time.now,Time.now)
+        if temp.present?        
+          tmp_hash = {:id => temp[0].id, :image => temp[0].image, :nickname => nickname}
+          @prize.push(tmp_hash)
         end
       end
 
-      @reward_history=Reward.where(:user_id => @user.id)  #Today's reward
-      @today=0
-      (0..@reward_history.count-1).each do |i|
-        @date_type=@reward_history[i].created_at.to_date
-        if @date_type == Date.today
-          @today+=@reward_history[i].reward
-        end
-      end
+      @my_level = UserHighestLevel.find_by_user_id(params[:id]).level
+      @my_rank = @ranker.index{|r| r.id == params[:id].to_i} + 1
+      @daily_test_count = user.daily_test_count
 
-      @level=UserStage.find_by_user_id(@user.id)
-      @level=@level.level
-      @attendance=@user.attendance_time
-      @reward=@user.current_reward
-      @sum=@user.total_reward 
-      
+      my_point_all = RankingCurrent.find_by_id(params[:id])
+      tmp = "@my_point = my_point_all." + period + category
+      eval(tmp)
+
+      tmp = "@remain_to1st = @ranker[0]." + period + category + ' - @my_point'
+      eval(tmp)
+
+      @reward_today = RewardLog.where('user_id = ? and created_at >= ? and created_at < ? and reward > ?', user.id, Date.today.to_time, Date.tomorrow.to_time, 0).pluck(:reward).sum
+      @reward_current = user.current_reward
+      @reward_total = user.total_reward
+
     end
   end
 
@@ -293,8 +277,7 @@ class Api::EtcController < ApplicationController
     @user=User.find_by_id(params[:id])
     if !@user.present?
       @status=false
-      @msg="Not exist user"
-
+      @msg="not exist user"
     elsif params[:act]=='3001' && params[:value].present?          ##example act
       @msg = "this is act=3001 test"
       @value = params[:value]

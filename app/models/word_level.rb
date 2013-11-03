@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-class Level < ActiveRecord::Base
+class WordLevel < ActiveRecord::Base
 
   belongs_to :word
 end

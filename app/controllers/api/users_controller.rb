@@ -85,7 +85,7 @@ class Api::UsersController < ApplicationController
         if @user.save
           @msg = "complete"
           if !params[:mem_no].present?
-            a = RankingPoint.new
+            a = RankingCurrent.new
             a.id = @user.id
             a.save
           end
@@ -147,7 +147,7 @@ class Api::UsersController < ApplicationController
       end
       
       #if @status == true
-      #  @user.update_attributes(:last_connection => Time.now)   # def of last_connection != login
+      #  @user.update_attributes(:last_test => Time.now)   # def of last_test != login 
       #end
 
     end
@@ -295,12 +295,35 @@ class Api::UsersController < ApplicationController
     end
 
     if @status == true
-      @user_info = []
-      (1..10).each do |i|
-        @rank = {:rank => i, :name => "name#{i}", :score => (11-i)*100, :image => "http://www.1stwebdesigner.com/wp-content/uploads/2009/07/free-twitter-icons/designreviver-free-twitter-social-icon.jpg"}
-        @user_info.push(@rank)
+
+      if params[:period] == "2"
+        period = "mon_"
+      else
+        period = "week_"
       end
-      @mine = {:rank => 30, :name => "xxxx", :score => 20, :image => "http://www.1stwebdesigner.com/wp-content/uploads/2009/07/free-twitter-icons/designreviver-free-twitter-social-icon.jpg"}
+      
+      tmp = "@list = RankingCurrent.order(\"" + period + params[:category] + " DESC\")"
+      eval(tmp)
+
+      @user_info = []
+      (1..[10,@list.size].min).each do |i|
+        user = User.find_by_id(@list[i-1].id) 
+        name = user.nickname
+        tmp = "@user_point = @list[i-1]." + period + params[:category]
+        eval(tmp)
+        image = "http://www.1stwebdesigner.com/wp-content/uploads/2009/07/free-twitter-icons/designreviver-free-twitter-social-icon.jpg"
+
+        rank = {:rank => i, :name => name, :score => @user_point, :image => image}
+        @user_info.push(rank)
+      end
+
+      my_id = User.find_by_nickname(params[:nickname]).id
+      my_idx = @list.index{|l| l.id == my_id}
+      tmp = "@my_point = @list[my_idx]." + period + params[:category]
+      eval(tmp)
+      image = "http://www.1stwebdesigner.com/wp-content/uploads/2009/07/free-twitter-icons/designreviver-free-twitter-social-icon.jpg"
+
+      @mine = {:rank => my_idx+1, :name => params[:nickname], :score => @my_point, :image => image}
     end
 
   end
@@ -314,7 +337,7 @@ class Api::UsersController < ApplicationController
         @status = false
         @msg = "not exist this user"
       else
-        @point = Point.where(:user_id => @user.id).reverse
+        @point = PointLog.where(:user_id => @user.id).reverse
       end
 
   end
@@ -347,9 +370,9 @@ class Api::UsersController < ApplicationController
                            :birth => @user.birth, :address => @user.address, :mobile => @user.mobile,
                            :interest => @user.interest, :level_test => @user.level_test,
                            :is_set_facebook_password => @user.is_set_facebook_password,
-                           :attendance_time => @user.attendance_time, :current_reward => @user.current_reward,
+                           :daily_test_count => @user.daily_test_count, :current_reward => @user.current_reward,
                            :total_reward => @user.total_reward, :is_admin => @user.is_admin,
-                           :last_connection => @user.last_connection).save
+                           :last_test => @user.last_test).save
                            # skipped : password_digest, created_at, updated_at
 
       if job_copy
@@ -464,10 +487,10 @@ class Api::UsersController < ApplicationController
   end
 
   def is_set_facebook_password
-    @user = User.find(params[:id])
-
     @status = true
     @msg = ""
+
+    @user = User.find_by_id(params[:id])
 
     if !@user.present?
       @status = false
@@ -503,7 +526,7 @@ class Api::UsersController < ApplicationController
     end
 
     if @status == true
-      @list = Reward.where(:user_id => params[:id]).order('created_at desc').page(@page).per(10)
+      @list = RewardLog.where(:user_id => params[:id]).order('created_at desc').page(@page).per(10)
     end
 
     
@@ -523,19 +546,19 @@ class Api::UsersController < ApplicationController
 
     if @status == true
 
-      # update consecutive attendace
-      last_attendance = @user.last_connection
-      if last_attendance.present?
-        date_gap = Date.today - last_attendance.to_date
+      # update daily_test_count
+      last_test = @user.last_test
+      if last_test.present?
+        date_gap = Date.today - last_test.to_date
         if date_gap >= 2
-          @user.update_attributes(:attendance_time => 0)
+          @user.update_attributes(:daily_test_count => 0)
         end
       else
-        @user.update_attributes(:attendance_time => 0)    # never took exam
+        @user.update_attributes(:daily_test_count => 0)    # never took exam
       end
 
       # data
-      @attendance_time = @user.attendance_time
+      @attendance_time = @user.daily_test_count
     end
   end
 
