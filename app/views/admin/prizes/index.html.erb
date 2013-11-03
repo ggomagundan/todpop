@@ -1,3 +1,10 @@
+ <div class="search_form">
+       <%= form_tag admin_prizes_path, :method => :get do %>
+         <span class="form_label">날짜검색</span>
+         <%= text_field_tag :search_text, params[:search_text], :class=>'date' %>
+       <%= submit_tag "검색", :class => "btn btn-small" %>
+     <% end %>
+   </div>
 
 <table class="table table-hover">
   <tr>
@@ -13,7 +20,7 @@
       <td><%= prize.id %></td>
       <td><%= prize.name %></td>
       <td><%= prize.category %></td>
-      <td><%= prize.period %></td>
+      <td><%= prize.period_str   %></td>
       <td><%= prize.rank %></td>
       <td><%= prize.date_start %> - <%= prize.date_end %></td>
       <td><%= link_to "Edit", edit_admin_prize_path(prize) %></td>

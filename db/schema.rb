@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131030191547) do
+ActiveRecord::Schema.define(version: 20131103170137) do
 
   create_table "addresses", force: true do |t|
     t.string   "depth1"
@@ -240,8 +240,8 @@ ActiveRecord::Schema.define(version: 20131030191547) do
     t.integer  "category"
     t.integer  "period"
     t.integer  "rank"
-    t.datetime "date_start"
-    t.datetime "date_end"
+    t.date     "date_start"
+    t.date     "date_end"
     t.string   "image"
     t.text     "content1"
     t.text     "content2"

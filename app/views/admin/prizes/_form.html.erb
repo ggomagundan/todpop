@@ -1,8 +1,64 @@
 <%= form_for [:admin, @prize] do |f| %>
-  <%= f.error_messages %>
-  <p>
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </p>
+  <div class="control-group">
+    <label class="control-label">Name</label>
+    <div class="controls">
+      <label><%= f.text_field :name %></label>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">Category</label>
+    <div class="controls">
+      <label><%= f.text_field :category %></label>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">period</label>
+    <div class="controls">
+      <label><%= f.radio_button :period, 1 %>주간</label>
+      <label><%= f.radio_button :period, 2 %>월간</label>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">rank</label>
+    <div class="controls">
+      <label><%= f.text_field :rank %></label>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">date_start</label>
+    <div class="controls">
+      <label><%= f.text_field :date_start, :class=> 'date' %></label>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">date_end</label>
+    <div class="controls">
+      <label><%= f.text_field :date_end, :class=> 'date' %></label>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">image</label>
+    <div class="controls">
+      <label><%= f.file_field :image %></label>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">content1</label>
+    <div class="controls">
+      <label><%= f.text_area :content1, :style => 'width:350px'%></label>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">content1</label>
+    <div class="controls">
+      <label><%= f.text_area :content2, :style => 'width:350px'%></label>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">content1</label>
+    <div class="controls">
+      <label><%= f.text_area :content3, :style => 'width:350px'%></label>
+    </div>
+  </div>
   <p><%= f.submit %></p>
 <% end %>

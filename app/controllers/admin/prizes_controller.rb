@@ -1,6 +1,9 @@
-class Admin::PrizesController < ApplicationController
+class Admin::PrizesController < Admin::ApplicationController
   def index
     @prizes = Prize.all
+    if params[:search_text].present?
+      @prizes = @prizes.where('(prizes.date_start > ? && prizes.period = 1) || (prizes.date_start > ? && prizes.period = 2)', params[:search_text].to_date.at_beginning_of_week, params[:search_text].to_date.at_beginning_of_month)
+    end
 
   end
 

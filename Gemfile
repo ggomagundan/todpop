@@ -15,6 +15,7 @@ gem 'hirb-unicode'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails', '~> 2.3.0'
+gem 'jquery-ui-rails'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
@@ -65,6 +66,6 @@ end
 gem 'bcrypt-ruby', '~> 3.0.0'
 
 gem 'certified'
-
+gem 'bootstrap-datepicker-rails'
 # Use debugger
 # gem 'debugger', group: [:development, :test]
