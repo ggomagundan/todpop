@@ -52,7 +52,7 @@ class Api::UsersController < ApplicationController
       if params[:mem_no].present?
         # cross Join
         @user = User.find_by_id(params[:mem_no])
-        if @user.present?
+        if !@user.present?
           @status = false
           @msg = "not exist user_id"
         else
