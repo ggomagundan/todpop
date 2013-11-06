@@ -327,14 +327,20 @@ class Api::UsersController < ApplicationController
     end
 
     @current_time = DateTime.now
-
-   # %w(year month day hour minute second).map do |interval|
-   #   distance_in_seconds = (to_time.to_i - from_time.to_i).round(1)
-    #  delta = (distance_in_seconds / 1.send(interval)).floor
-    #  delta -= 1 if from_time + delta.send(interval) > to_time
-    #  from_time += delta.send(interval)
-    #  delta
-   # end
+    c_time=DateTime.now
+    @finish_time = RankingCurrent.first
+    if params[:period]=="1"
+      @finish_time = @finish_time.week_end.to_datetime
+    elsif params[:period]=="2"
+      @finish_time = @finish_time.mon_end.to_datetime
+    end
+    @time_diff = %w(year month day hour minute second).map do |interval|
+      distance_in_seconds = (@finish_time.to_i - c_time.to_i).round(1)
+      delta = (distance_in_seconds / 1.send(interval)).floor
+      delta -= 1 if c_time + delta.send(interval) > @finish_time
+      c_time += delta.send(interval)
+      delta
+    end
 
   end
 

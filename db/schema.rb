@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131105072351) do
+ActiveRecord::Schema.define(version: 20131106091016) do
 
   create_table "addresses", force: true do |t|
     t.string   "depth1"
@@ -117,6 +117,8 @@ ActiveRecord::Schema.define(version: 20131105072351) do
     t.integer  "ad_type"
     t.integer  "contract"
     t.integer  "remain"
+    t.integer  "unit_price",  default: 0
+    t.integer  "pay_type",    default: 1
     t.datetime "start_date"
     t.datetime "end_date"
     t.string   "front_image"
@@ -132,6 +134,8 @@ ActiveRecord::Schema.define(version: 20131105072351) do
     t.integer  "ad_type",    default: 201
     t.integer  "contract"
     t.integer  "remain"
+    t.integer  "unit_price", default: 0
+    t.integer  "pay_type",   default: 1
     t.date     "start_date"
     t.date     "end_date"
     t.string   "url"
@@ -147,6 +151,8 @@ ActiveRecord::Schema.define(version: 20131105072351) do
     t.integer  "ad_type"
     t.integer  "contract"
     t.integer  "remain"
+    t.integer  "unit_price",   default: 0
+    t.integer  "pay_type",     default: 1
     t.date     "start_date"
     t.date     "end_date"
     t.string   "ad_image"

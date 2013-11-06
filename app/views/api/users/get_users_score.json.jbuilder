@@ -8,5 +8,7 @@ if @status == true
     end
     json.mine @mine
     json.current_time @current_time
+    json.finish_time  @finish_time
+    json.time_diff    @time_diff
   end
 end
