@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131103170137) do
+ActiveRecord::Schema.define(version: 20131105072351) do
 
   create_table "addresses", force: true do |t|
     t.string   "depth1"
@@ -48,10 +48,10 @@ ActiveRecord::Schema.define(version: 20131103170137) do
   end
 
   create_table "app_infos", force: true do |t|
-    t.string   "time"
-    t.string   "one_star"
-    t.string   "two_star"
-    t.string   "max_money"
+    t.string   "time_quick_ans"
+    t.string   "one_medal"
+    t.string   "two_medal"
+    t.string   "test_reward_max"
     t.string   "android_version"
     t.string   "ios_version"
     t.string   "app_server"
@@ -60,9 +60,7 @@ ActiveRecord::Schema.define(version: 20131103170137) do
     t.text     "popup_text"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "day_limit"
-    t.string   "android_package"
-    t.string   "ios_package"
+    t.integer  "new_stage_day_limit"
     t.string   "android_package_name"
     t.string   "ios_package_name"
     t.string   "market_url"
@@ -76,15 +74,22 @@ ActiveRecord::Schema.define(version: 20131103170137) do
     t.string   "video"
   end
 
-  create_table "attendances", force: true do |t|
-    t.integer  "user"
-    t.datetime "attendance_day"
+  create_table "bank_lists", force: true do |t|
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "bank_lists", force: true do |t|
-    t.string   "name"
+  create_table "board_helps", force: true do |t|
+    t.string   "title"
+    t.text     "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "board_notices", force: true do |t|
+    t.string   "title"
+    t.text     "content"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -131,7 +136,7 @@ ActiveRecord::Schema.define(version: 20131103170137) do
     t.date     "end_date"
     t.string   "url"
     t.string   "length"
-    t.integer  "priority"
+    t.integer  "priority",   default: 4
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "video"
@@ -156,22 +161,6 @@ ActiveRecord::Schema.define(version: 20131103170137) do
     t.integer  "priority",     default: 5
   end
 
-  create_table "exam_infos", force: true do |t|
-    t.integer  "time"
-    t.integer  "one_star"
-    t.integer  "two_star"
-    t.integer  "max_money"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "helps", force: true do |t|
-    t.string   "title"
-    t.text     "content"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "inactive_users", force: true do |t|
     t.string   "email"
     t.string   "facebook"
@@ -185,20 +174,11 @@ ActiveRecord::Schema.define(version: 20131103170137) do
     t.integer  "interest"
     t.integer  "level_test"
     t.integer  "is_set_facebook_password"
-    t.integer  "attendance_time"
+    t.integer  "daily_test_count"
     t.integer  "current_reward"
     t.integer  "total_reward"
     t.integer  "is_admin"
-    t.datetime "last_connection"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "levels", force: true do |t|
-    t.integer  "level",      null: false
-    t.integer  "stage",      null: false
-    t.integer  "index",      null: false
-    t.integer  "word_id",    null: false
+    t.datetime "last_test"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -219,14 +199,7 @@ ActiveRecord::Schema.define(version: 20131103170137) do
     t.datetime "updated_at"
   end
 
-  create_table "notices", force: true do |t|
-    t.string   "title"
-    t.text     "content"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "points", force: true do |t|
+  create_table "point_logs", force: true do |t|
     t.integer  "user_id"
     t.integer  "point_type"
     t.string   "name"
@@ -250,18 +223,7 @@ ActiveRecord::Schema.define(version: 20131103170137) do
     t.datetime "updated_at"
   end
 
-  create_table "ranking_histories", force: true do |t|
-    t.string   "type"
-    t.date     "start"
-    t.date     "end"
-    t.integer  "rank"
-    t.string   "rank_id"
-    t.integer  "rank_point"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "ranking_points", force: true do |t|
+  create_table "ranking_currents", force: true do |t|
     t.integer  "week_1",     default: 0
     t.integer  "week_2",     default: 0
     t.integer  "week_3",     default: 0
@@ -272,13 +234,24 @@ ActiveRecord::Schema.define(version: 20131103170137) do
     t.integer  "mon_2",      default: 0
     t.integer  "mon_3",      default: 0
     t.integer  "mon_4",      default: 0
-    t.date     "mon_start",  default: '2013-11-01'
-    t.date     "mon_end",    default: '2013-11-30'
+    t.date     "mon_start",  default: '2013-10-01'
+    t.date     "mon_end",    default: '2013-10-31'
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "refund_infos", force: true do |t|
+  create_table "ranking_histories", force: true do |t|
+    t.string   "type"
+    t.date     "start"
+    t.date     "end"
+    t.integer  "rank"
+    t.string   "user_id"
+    t.integer  "point"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "refund_requests", force: true do |t|
     t.integer  "user_id"
     t.string   "name"
     t.string   "bank"
@@ -289,16 +262,7 @@ ActiveRecord::Schema.define(version: 20131103170137) do
     t.datetime "updated_at"
   end
 
-  create_table "reward_sums", force: true do |t|
-    t.integer  "current"
-    t.integer  "0"
-    t.integer  "total"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "content",    default: "THIS IS NOTICE"
-  end
-
-  create_table "rewards", force: true do |t|
+  create_table "reward_logs", force: true do |t|
     t.integer  "user_id"
     t.integer  "reward_type"
     t.string   "title"
@@ -332,21 +296,21 @@ ActiveRecord::Schema.define(version: 20131103170137) do
     t.datetime "updated_at"
   end
 
-  create_table "user_record_bests", force: true do |t|
+  create_table "user_highest_levels", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "category"
+    t.integer  "stage"
+    t.integer  "level"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "user_stage_bests", force: true do |t|
     t.integer  "user_id"
     t.integer  "level"
     t.integer  "stage"
     t.integer  "n_medals_best"
     t.integer  "score_best"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "user_stages", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "category"
-    t.integer  "stage"
-    t.integer  "level"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -367,21 +331,31 @@ ActiveRecord::Schema.define(version: 20131103170137) do
   create_table "users", force: true do |t|
     t.string   "email"
     t.string   "facebook"
-    t.string   "password_digest",                      null: false
-    t.string   "nickname",                             null: false
+    t.string   "password_digest",                        null: false
+    t.string   "nickname",                               null: false
     t.string   "recommend"
     t.integer  "sex"
     t.date     "birth"
     t.string   "address"
-    t.string   "mobile",                               null: false
+    t.string   "mobile",                                 null: false
     t.integer  "interest"
-    t.integer  "level_test"
+    t.string   "character",                default: "8"
+    t.integer  "level_test",               default: 0
     t.integer  "is_set_facebook_password", default: 0
-    t.integer  "attendance_time",          default: 0
+    t.integer  "daily_test_count",         default: 0
     t.integer  "current_reward",           default: 0
     t.integer  "total_reward",             default: 0
     t.integer  "is_admin",                 default: 0
-    t.datetime "last_connection"
+    t.datetime "last_test"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "word_levels", force: true do |t|
+    t.integer  "level",      null: false
+    t.integer  "stage",      null: false
+    t.integer  "index",      null: false
+    t.integer  "word_id",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

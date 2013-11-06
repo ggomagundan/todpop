@@ -216,7 +216,7 @@ class Api::EtcController < ApplicationController
       @reward_today = RewardLog.where('user_id = ? and created_at >= ? and created_at < ? and reward > ?', user.id, Date.today.to_time, Date.tomorrow.to_time, 0).pluck(:reward).sum
       @reward_current = user.current_reward
       @reward_total = user.total_reward
-
+      @character_url = user.character
     end
   end
 
@@ -305,6 +305,26 @@ class Api::EtcController < ApplicationController
       @msg = "enter proper act and value"
       @value = "99"
     end
+  end
+
+
+
+
+  def character
+    @status=true
+    @msg=""
+    
+    if !params[:id]
+      @msg="not exist user_id"
+    else
+      user=User.find_by_id(params[:id])
+      if params[:url]
+        user.update_attributes(:character => params[:url])
+      end
+      @url=user.character
+    end
+
+
   end
 
 end

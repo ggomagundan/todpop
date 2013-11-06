@@ -311,7 +311,7 @@ class Api::UsersController < ApplicationController
         name = user.nickname
         tmp = "@user_point = @list[i-1]." + period + params[:category]
         eval(tmp)
-        image = "http://www.1stwebdesigner.com/wp-content/uploads/2009/07/free-twitter-icons/designreviver-free-twitter-social-icon.jpg"
+        image = user.character
 
         rank = {:rank => i, :name => name, :score => @user_point, :image => image}
         @user_info.push(rank)
@@ -321,10 +321,20 @@ class Api::UsersController < ApplicationController
       my_idx = @list.index{|l| l.id == my_id}
       tmp = "@my_point = @list[my_idx]." + period + params[:category]
       eval(tmp)
-      image = "http://www.1stwebdesigner.com/wp-content/uploads/2009/07/free-twitter-icons/designreviver-free-twitter-social-icon.jpg"
+      image = User.find_by_nickname(params[:nickname]).character
 
       @mine = {:rank => my_idx+1, :name => params[:nickname], :score => @my_point, :image => image}
     end
+
+    @current_time = DateTime.now
+
+   # %w(year month day hour minute second).map do |interval|
+   #   distance_in_seconds = (to_time.to_i - from_time.to_i).round(1)
+    #  delta = (distance_in_seconds / 1.send(interval)).floor
+    #  delta -= 1 if from_time + delta.send(interval) > to_time
+    #  from_time += delta.send(interval)
+    #  delta
+   # end
 
   end
 
@@ -377,6 +387,10 @@ class Api::UsersController < ApplicationController
 
       if job_copy
         if @user.destroy
+          @ranking_current=RankingCurrent.find_by_id(@user.id)
+          if !@ranking_current.destroy
+            @msg = "fail to delete user's current raking"
+          end
         else
           @status = false
           @msg = "fail to delete user"  

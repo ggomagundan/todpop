@@ -12,5 +12,6 @@ if @status == true
     json.reward_today    @reward_today
     json.reward_current  @reward_current
     json.reward_total    @reward_total
+    json.character_url   @character_url
   end
 end

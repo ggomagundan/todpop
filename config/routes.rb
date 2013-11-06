@@ -106,6 +106,7 @@ Todpop::Application.routes.draw do
       get 'get_coupon_free_info', :on => :member
       get 'event_check', :on => :member
       get 'update_rank_point', :on => :collection
+      get 'character', :on => :member
     end
 
   

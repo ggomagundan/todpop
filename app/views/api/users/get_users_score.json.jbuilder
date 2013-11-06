@@ -7,5 +7,6 @@ if @status == true
       json.array! w 
     end
     json.mine @mine
+    json.current_time @current_time
   end
 end
