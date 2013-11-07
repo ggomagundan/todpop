@@ -122,8 +122,7 @@ class Api::EtcController < ApplicationController
     @status=true
     @msg=""
 
-    user=User.find_by_id(params[:id])
-    if !user.present?
+    if !(user=User.find_by_id(params[:id])).present?
       @status=false
       @msg="not exist user"
     else
@@ -148,9 +147,9 @@ class Api::EtcController < ApplicationController
           tmp_hash={:id => my_cpx_recent.id, :ad_id => ad_id, :ad_type => my_cpx_recent.ad_type, :act => act, :created_at => my_cpx_recent.created_at, :name => ad_info.ad_name, :image => ad_info.ad_image.url, :reward => ad_info.reward}
           @cpx_list.push(tmp_hash)
         end
+        @cpx_list.sort!{|a,b| b[:created_at] <=> a[:created_at]}
       end
     end
-    @cpx_list.sort!{|a,b| b[:created_at] <=> a[:created_at]}
   end
 
 

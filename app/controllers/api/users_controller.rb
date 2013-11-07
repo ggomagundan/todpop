@@ -330,9 +330,9 @@ class Api::UsersController < ApplicationController
     c_time=DateTime.now
     @finish_time = RankingCurrent.first
     if params[:period]=="1"
-      @finish_time = @finish_time.week_end.to_datetime
+      @finish_time = @finish_time.week_end.end_of_day
     elsif params[:period]=="2"
-      @finish_time = @finish_time.mon_end.to_datetime
+      @finish_time = @finish_time.mon_end.end_of_day
     end
     @time_diff = %w(year month day hour minute second).map do |interval|
       distance_in_seconds = (@finish_time.to_i - c_time.to_i).round(1)
