@@ -2,7 +2,7 @@
 class Api::AppInfosController < ApplicationController
 
   def get_fast_pivot_time
-    @pivot = AppInfo.last
+    @time = AppInfo.last.time_quick_ans
     @status = true
     @msg = ""
   end
