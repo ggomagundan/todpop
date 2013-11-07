@@ -1,7 +1,9 @@
 # -*- encoding : utf-8 -*-
 Todpop::Application.routes.draw do
    
-  namespace(:admin){ resources :sessions }
+  get "logout" => "sessions#destroy", :as => "logout"
+  get "login" => "sessions#new", :as => "login"
+  resources :sessions
   namespace(:admin){ resources :prizes }
   get "etc/refund_info"
   namespace(:admin){ resources :helps }
