@@ -59,6 +59,9 @@ class Api::StudiesController < ApplicationController
           else
             user_stage.update_attributes(:category => category, :level => @level, :stage => 1)
           end
+          #Update level_test column
+          user=User.find_by_id(user_id)
+          user.update_attributes(:level_test => 1)
         end
 
       end
