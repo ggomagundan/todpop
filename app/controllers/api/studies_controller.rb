@@ -18,6 +18,9 @@ class Api::StudiesController < ApplicationController
     elsif params[:step] !='1' && (!params[:level].present? || !params[:ox].present?)
       @status = false
       @msg = "not exist level or ox parameter"
+    elsif !(user=User.find_by_id(params[:user_id])).present?
+      @status = false
+      @msg = "not exist user"
     end
 
     if @status == true
@@ -60,7 +63,6 @@ class Api::StudiesController < ApplicationController
             user_stage.update_attributes(:category => category, :level => @level, :stage => 1)
           end
           #Update level_test column
-          user=User.find_by_id(user_id)
           user.update_attributes(:level_test => 1)
         end
 
