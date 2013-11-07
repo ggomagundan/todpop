@@ -18,9 +18,11 @@ class Api::StudiesController < ApplicationController
     elsif params[:step] !='1' && (!params[:level].present? || !params[:ox].present?)
       @status = false
       @msg = "not exist level or ox parameter"
-    elsif !(user=User.find_by_id(params[:user_id])).present?
-      @status = false
-      @msg = "not exist user"
+    elsif params[:user_id]
+      if !(user=User.find_by_id(params[:user_id])).present?
+        @status = false
+        @msg = "not exist user"
+      end
     end
 
     if @status == true
