@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131106091016) do
+ActiveRecord::Schema.define(version: 20131107074911) do
 
   create_table "addresses", force: true do |t|
     t.string   "depth1"
@@ -119,8 +119,8 @@ ActiveRecord::Schema.define(version: 20131106091016) do
     t.integer  "remain"
     t.integer  "unit_price",  default: 0
     t.integer  "pay_type",    default: 1
-    t.datetime "start_date"
-    t.datetime "end_date"
+    t.date     "start_date"
+    t.date     "end_date"
     t.string   "front_image"
     t.string   "back_image"
     t.integer  "coupon_id"
