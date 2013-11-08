@@ -355,17 +355,59 @@ class Api::StudiesController < ApplicationController
       @user = User.find(user_id)
       last_test = User.find(user_id).last_test
 
+      update_daily_test_count=0;
       if last_test.present?
         last_test_date = User.find(user_id).last_test.to_date
 
         if last_test_date == Date.today
         elsif last_test_date < Date.today && Date.today - last_test_date == 1
+          update_daily_test_count = @user.daily_test_count + 1;
           @user.update_attributes(:daily_test_count => @user.daily_test_count + 1)
         else
+          update_daily_test_count = 1;
           @user.update_attributes(:daily_test_count => 1)
         end
       else
+        update_daily_test_count = 1;
         @user.update_attributes(:daily_test_count => 1)
+      end
+
+      # daily test count : update reward & point
+      if update_daily_test_count > 0
+
+        if update_daily_test_count == 5
+          dtc_reward = 100
+        elsif (update_daily_test_count % 10) == 0
+          if update_daily_test_count == 10
+            dtc_reward = 200
+          elsif update_daily_test_count == 20
+            dtc_reward = 300
+          else
+            dtc_reward = 500
+          end
+        end
+
+        dtc_point = 2*update_daily_test_count + 3;
+        dtc_point = dtc_point > 31 ? 31 : dtc_point
+
+        # reward process
+        if dtc_reward > 0
+          @token_user_id = user_id
+          @token_reward_type = 2000
+          @token_title = "연속학습"
+          @token_sub_title = update_daily_test_count.to_s + " day(s)"
+          @token_reward = dtc_reward
+          process_reward_general
+        end
+
+        # rank_point process
+        if dtc_point > 0
+          @token_user_id = user_id
+          @token_point_type = 2000
+          @token_name = "연속학습" + " :  " + update_daily_test_count.to_s + " day(s)"
+          @token_point = dtc_point
+          process_point_general
+        end
       end
 
       # today taking a tes check ----------------------------------------------------

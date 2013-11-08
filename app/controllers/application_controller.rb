@@ -86,8 +86,15 @@ class ApplicationController < ActionController::Base
 
     user = RankingCurrent.find_by_id(@token_user_id)
     (category_start..category_end).each do |i|
-      tmp = "user.update_attributes(:week_" + i.to_s + " => user.week_" + i.to_s + " + @token_point, :mon_" + i.to_s + " => user.mon_" + i.to_s + " + @token_point)"
-      eval(tmp)
+      if i == 1
+        user.update_attributes(:week_1 => user.week_1 + @token_point, :mon_1 => user.mon_1 + @token_point)
+      elsif i == 2
+        user.update_attributes(:week_2 => user.week_2 + @token_point, :mon_2 => user.mon_2 + @token_point)
+      elsif i == 3
+        user.update_attributes(:week_3 => user.week_3 + @token_point, :mon_3 => user.mon_3 + @token_point)
+      elsif i == 4
+        user.update_attributes(:week_4 => user.week_4 + @token_point, :mon_4 => user.mon_4 + @token_point)
+      end
     end
 
   end

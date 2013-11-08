@@ -87,6 +87,18 @@ class Api::UsersController < ApplicationController
           if !params[:mem_no].present?
             a = RankingCurrent.new
             a.id = @user.id
+            b = RankingCurrent.first
+            if b.present?
+              a.week_start = b.week_start
+              a.week_end   = b.week_end
+              a.mon_start  = b.mon_start
+              a.mon_end    = b.mon_end
+            else
+              a.week_start = Date.today.beginning_of_week
+              a.week_end   = Date.today.end_of_week
+              a.mon_start  = Date.today.beginning_of_month
+              a.mon_end    = Date.today.end_of_month
+            end
             a.save
           end
         else
@@ -95,6 +107,60 @@ class Api::UsersController < ApplicationController
         end
       end
     end
+
+    # recommned reward & rank_point update
+    if @status == true && !params[:mem_no].present? && params[:recommend].present?
+
+      # Reward & Point DEFINITIOM !!!! --------------------  <-- Change here !!!!
+      old_user_reward = 0;
+      new_user_reward = 0;
+      old_user_point = 0;
+      new_user_point = 0;
+ 
+      # reward process
+      if old_user_reward > 0
+        old_user = User.find_by_nickname(params[:recommend])
+        if old_user.present?
+          @token_user_id = old_user.id
+          @token_reward_type = 3100
+          @token_title = "추천인 보너스"
+          @token_sub_title = "기존유저"
+          @token_reward = old_user_reward
+          process_reward_general
+        end
+      end
+
+      if new_user_reward > 0
+        @token_user_id = @user.id
+        @token_reward_type = 3200
+        @token_title = "추천인 보너스"
+        @token_sub_title = "신규유저"
+        @token_reward = new_user_reward
+        process_reward_general
+      end
+
+
+      # rank_point process
+      if old_user_point > 0
+        old_user = User.find_by_nickname(params[:recommend])
+        if old_user.present?
+          @token_user_id = old_user.id
+          @token_point_type = 3100
+          @token_name = "추천인 보너스 : 기존유저"
+          @token_point = old_user_point
+          process_point_general
+        end
+      end
+
+      if new_user_point > 0
+        @token_user_id = @user.id
+        @token_point_type = 3200
+        @token_name = "추천인 보너스 : 신규유저"
+        @token_point = new_user_point
+        process_point_general
+      end
+    end
+
   end
 
   def re_sign_up
