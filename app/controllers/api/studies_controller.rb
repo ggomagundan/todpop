@@ -7,8 +7,9 @@ class Api::StudiesController < ApplicationController
   def get_level_test_words
   
     @status = true
-    @msg = params[:user_id]
-
+    @msg = ""
+   
+   
     if !params[:step].present? 
       @status = false
       @msg = "not exist stage parameter"
@@ -21,7 +22,7 @@ class Api::StudiesController < ApplicationController
     elsif params[:user_id]
       if !(user=User.find_by_id(params[:user_id])).present?
         @status = false
-        @msg = params[:user_id]
+        @msg = "not exist user_id"
       end
     end
 
