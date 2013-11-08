@@ -61,6 +61,8 @@ ActiveRecord::Schema.define(version: 20131107074911) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "new_stage_day_limit"
+    t.string   "android_package"
+    t.string   "ios_package"
     t.string   "android_package_name"
     t.string   "ios_package_name"
     t.string   "market_url"
@@ -140,7 +142,7 @@ ActiveRecord::Schema.define(version: 20131107074911) do
     t.date     "end_date"
     t.string   "url"
     t.string   "length"
-    t.integer  "priority",   default: 4
+    t.integer  "priority"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "video"
@@ -240,8 +242,8 @@ ActiveRecord::Schema.define(version: 20131107074911) do
     t.integer  "mon_2",      default: 0
     t.integer  "mon_3",      default: 0
     t.integer  "mon_4",      default: 0
-    t.date     "mon_start",  default: '2013-10-01'
-    t.date     "mon_end",    default: '2013-10-31'
+    t.date     "mon_start",  default: '2013-11-01'
+    t.date     "mon_end",    default: '2013-11-30'
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -346,7 +348,7 @@ ActiveRecord::Schema.define(version: 20131107074911) do
     t.string   "mobile",                                 null: false
     t.integer  "interest"
     t.string   "character",                default: "8"
-    t.integer  "level_test",               default: 0
+    t.integer  "level_test"
     t.integer  "is_set_facebook_password", default: 0
     t.integer  "daily_test_count",         default: 0
     t.integer  "current_reward",           default: 0
