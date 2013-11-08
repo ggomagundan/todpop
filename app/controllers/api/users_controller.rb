@@ -393,7 +393,7 @@ class Api::UsersController < ApplicationController
 
       if job_copy
         if @user.destroy
-          @ranking_current=RankingCurrent.find_by_id(@user.id)
+          @ranking_current = RankingCurrent.find_by_id(params[:id])
           if !@ranking_current.destroy
             @msg = "fail to delete user's current raking"
           end
