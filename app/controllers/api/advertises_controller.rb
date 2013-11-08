@@ -425,6 +425,15 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           @msg = "success"
           if params[:act].to_i==2
             adInfo.update_attributes(:remain => adInfo.remain - 1)
+
+            # reward process .......
+            @token_user_id = params[:user_id]
+            @token_reward_type = 4000 + adInfo.ad_type              # reward_tpye : CPX = 4000 + ad_type
+            @token_title = "CPX"
+            @token_sub_title = adInfo.ad_type.to_s + " : " + adInfo.ad_name
+            @token_reward = adInfo.unit_price
+            process_reward_general
+
           end
         else
           @status = false
