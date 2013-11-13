@@ -6,6 +6,6 @@ if @status == true
     json.nickname @user.nickname
     json.recommend @user.recommend
     json.mem_id @user.id
-
+    json.is_set_password  @user.is_set_facebook_password
   end
 end
