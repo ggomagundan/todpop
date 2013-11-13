@@ -44,9 +44,9 @@ class Admin::AppInfosController < Admin::ApplicationController
 
 
 
- 
+  private
   def app_info_params
-    params.require(:app_info).permit(:time, :one_star, :two_star, :max_money, :android_version, :ios_version,  :app_server, :popup_style, :popup_image, :popup_text, :day_limit, :android_package_name, :ios_package_name, :market_url, :appstore_url )
+    params.require(:app_info).permit(:time_quick_ans, :one_medal, :two_medal, :test_reward_max, :android_version, :ios_version,  :app_server, :popup_style, :popup_image, :popup_text, :new_stage_day_limit, :android_package_name, :ios_package_name, :market_url, :appstore_url )
   end
 
 end

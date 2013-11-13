@@ -5,7 +5,7 @@ class NoticesController < ApplicationController
   # GET /notices
   # GET /notices.json
   def index
-    @notices = Notice.all
+    @notices = BoardNotice.all
   end
 
   # GET /notices/1
@@ -15,7 +15,7 @@ class NoticesController < ApplicationController
 
   # GET /notices/new
   def new
-    @notice = Notice.new
+    @notice = BoardNotice.new
   end
 
   # GET /notices/1/edit
@@ -25,7 +25,7 @@ class NoticesController < ApplicationController
   # POST /notices
   # POST /notices.json
   def create
-    @notice = Notice.new(notice_params)
+    @notice = BoardNotice.new(notice_params)
 
     respond_to do |format|
       if @notice.save
@@ -65,7 +65,7 @@ class NoticesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_notice
-      @notice = Notice.find(params[:id])
+      @notice = BoardNotice.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -27,6 +27,46 @@
       </label>
     </div>
   </div>
+  <div class="control-group coupon" style="<% if f.object.ad_type != 102 %> display:none; <% end %>">
+    <label class="control-label">coupon_free_info</label>
+    <div class="controls">
+      <table>
+        <tr> 
+          <td>name</td>
+          <td><input type='text' name='c_name' <% if @cpd_coupon.present? && @cpd_coupon.name.present? %> value='<%=@cpd_coupon.name%>' <% end %>/></td>
+        </tr>
+        <tr>
+          <td>place</td>
+          <td><input type='text' name='c_place' <% if @cpd_coupon.present? && @cpd_coupon.place.present? %> value='<%=@cpd_coupon.place%>' <% end %>/></td>
+        </tr>
+        <tr>
+          <td>valid_start</td>
+          <td><input type='text' name='c_valid_start' class='date' <% if @cpd_coupon.present? && @cpd_coupon.valid_start.present? %> value='<%=@cpd_coupon.valid_start%>' <% end %>/></td>
+        </tr>
+        <tr>
+          <td>valid_end</td>
+          <td><input type='text' name='c_valid_end' class='date' <% if @cpd_coupon.present? && @cpd_coupon.valid_end.present? %> value='<%=@cpd_coupon.valid_end%>' <% end %>/></td>
+        </tr>
+        <tr>
+          <td>bar_code</td>
+          <td><input type='text' name='c_bar_code' <% if @cpd_coupon.present? && @cpd_coupon.bar_code.present? %> value='<%=@cpd_coupon.bar_code%>' <% end %>/></td>
+        </tr>
+        <tr>
+          <td>image</td>
+          <td>
+            <input type='file' name='c_image'/><br/>
+            <% if @cpd_coupon.present? && @cpd_coupon.image.present? %>
+              <img src='<%=@cpd_coupon.image_url%>'/>
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <td>information</td>
+          <td><input type='text' name='c_information' <% if @cpd_coupon.present? && @cpd_coupon.information.present? %> value='<%=@cpd_coupon.information %>' <% end %> /></td>
+        </tr>
+      </table>
+    </div>
+  </div>
   <div class="control-group">
     <label class="control-label">contract</label>
     <div class="controls">
@@ -42,8 +82,8 @@
   <div class="control-group">
     <label class="control-label">Date</label>
     <div class="controls">
-        <%= f.text_field :start_date, :value => "#{@cpd_advertisement.start_date}", :class => "calendar" %> ~
-        <%= f.text_field :end_date, :value => "#{@cpd_advertisement.end_date}", :class=> "calendar" %>
+        <%= f.text_field :start_date, :value => "#{@cpd_advertisement.start_date}", :class => "date" %> ~
+        <%= f.text_field :end_date, :value => "#{@cpd_advertisement.end_date}", :class=> "date" %>
     </div>
   </div>
   <div class="control-group">
@@ -80,13 +120,20 @@
       </label>
     </div>
   </div>
-  <div class="control-group">
-    <label class="control-label">coupon_id</label>
-    <div class="controls">
-      <label><%= f.text_field :coupon_id %></label>
-    </div>
-  </div>
+  
   <div class="actions">
     <%= f.submit %>
   </div>
 <% end %>
+
+<script>
+$(document).ready(function() {
+  $("input[name='cpd_advertisement[ad_type]']").change(function() {
+    if($(this).val() == '102') {
+      $('.coupon').show();
+    } else {
+      $('.coupon').hide();
+    }
+  })
+});
+</script>

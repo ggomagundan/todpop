@@ -1,3 +1,14 @@
 
 <%= render 'form' %>
 
+<script>
+  $(document).ready(function() {
+    $('.edit_user').submit(function() {
+      if($('#user_password').val() != $('#user_password_confirmation').val()) {
+        alert('비밀번호와 비밀번호 확인이 일치하지 않습니다');
+        return false;
+      }
+    });
+
+  });
+</script>

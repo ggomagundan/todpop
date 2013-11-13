@@ -1,34 +1,34 @@
 <%= form_for [:admin, @app_info] do |f| %>
   
   <div class="control-group">
-    <label class="control-label">Time</label>
+    <label class="control-label">time_quick_ans</label>
     <div class="controls">
-      <label><%= f.text_field :time %></label>
+      <label><%= f.text_field :time_quick_ans %></label>
     </div>
   </div>
   
   <div class="control-group">
-    <label class="control-label">One_Star</label>
+    <label class="control-label">one_medal</label>
     <div class="controls">
-      <label><%= f.text_field :one_star %></label>
+      <label><%= f.text_field :one_medal %></label>
     </div>
   </div>
   <div class="control-group">
-    <label class="control-label">two_star</label>
+    <label class="control-label">two_medal</label>
     <div class="controls">
-      <label><%= f.text_field :two_star %></label>
-    </div>
-  </div>
-  
-  <div class="control-group">
-    <label class="control-label">max_money</label>
-    <div class="controls">
-      <label><%= f.text_field :max_money %></label>
+      <label><%= f.text_field :two_medal %></label>
     </div>
   </div>
   
   <div class="control-group">
-    <label class="control-label">Android_version</label>
+    <label class="control-label">test_reward_max</label>
+    <div class="controls">
+      <label><%= f.text_field :test_reward_max %></label>
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label">android_version</label>
     <div class="controls">
       <label><%= f.text_field :android_version %></label>
     </div>
@@ -58,6 +58,9 @@
     <label class="control-label">popup_image</label>
     <div class="controls">
       <label><%= f.file_field :popup_image %></label>
+      <% if @app_info.popup_image.present? %>
+        <img src='<%=@app_info.popup_image_url%>'/>
+      <% end %>
     </div>
   </div>
   <div class="control-group">
@@ -67,9 +70,9 @@
     </div>
   </div>
   <div class="control-group">
-    <label class="control-label">day_limit</label>
+    <label class="control-label">new_stage_day_limit</label>
     <div class="controls">
-      <label><%= f.text_field :day_limit %></label>
+      <label><%= f.text_field :new_stage_day_limit %></label>
     </div>
   </div>
   <div class="control-group">

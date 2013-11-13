@@ -10,10 +10,10 @@
     <tr>
       <td><%= notice.title %></td>
       <td><%= notice.content %></td>
-      <td><%= link_to "Edit", edit_admin_notice_path(notice) , :class=>"btn btn-warning"%></td>
+      <td><%= link_to "Edit", edit_admin_board_notice_path(notice) , :class=>"btn btn-warning"%></td>
       <td><%#= link_to "Destroy", [:admin, notice], :confirm => 'Are you sure?', :method => :delete %></td>
     </tr>
   <% end %>
 </table>
 
-<p><%= link_to "New Admin/Notice", new_admin_notice_path %></p>
+<p><%= link_to "New Admin/Notice", new_admin_board_notice_path %></p>

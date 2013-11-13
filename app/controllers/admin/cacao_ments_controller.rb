@@ -21,7 +21,7 @@ class Admin::CacaoMentsController < Admin::ApplicationController
   end
 
   def update
-    @cacao_ment = CacaoMent.find(params[id])
+    @cacao_ment = CacaoMent.find(params[:id])
     if @cacao_ment.update_attributes(ment_params)
       redirect_to admin_cacao_ments_path, :notice  => "Successfully updated cacao ment."
     else

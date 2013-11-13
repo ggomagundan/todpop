@@ -15,13 +15,26 @@
     <label class="control-label">Email</label>
     <div class="controls">
       <label><%= f.text_field :email %></label>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label">facebook</label>
+    <div class="controls">
       <label><%= f.text_field :facebook %></label>
     </div>
   </div>
- <div class="control-group">
+
+  <div class="control-group">
     <label class="control-label">PassWord</label>
     <div class="controls">
       <label><%= f.password_field :password %></label>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">PassWord confirmation</label>
+    <div class="controls">
+      <label><%= f.password_field :password_confirmation %></label>
     </div>
   </div>
 
@@ -50,7 +63,7 @@
   <div class="control-group">
     <label class="control-label">BirthDay</label>
     <div class="controls">
-      <label><%= f.text_field :birth, :class=>"calendar"%></label>
+      <label><%= f.text_field :birth, :class=>"date"%></label>
     </div>
   </div>
 
@@ -69,6 +82,13 @@
     </div>
   </div>
 
+  <div class="control-group">
+    <label class="control-label">Interest</label>
+    <div class="controls">
+      <label><%= f.text_field :interest %></label>
+    </div>
+  </div>
+
  <!-- <div class="control-group">
     <label class="control-label">Mobile</label>
     <div class="controls">
@@ -77,9 +97,9 @@
   </div>
 -->
   <div class="control-group">
-    <label class="control-label">LastConnection:</label>
+    <label class="control-label">Last test</label>
     <div class="controls">
-      <label><%= f.text_field :last_test %></label>
+      <label><%= f.text_field :last_test, :class => "date" %></label>
     </div>
   </div>
   <div class="control-group">
