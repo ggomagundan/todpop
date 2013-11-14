@@ -6,7 +6,7 @@ Todpop::Application.routes.draw do
   resources :sessions
   namespace(:admin){ resources :prizes }
   get "etc/refund_info"
-  namespace(:admin){ resources :helps }
+  namespace(:admin){ resources :board_helps }
   namespace(:admin){ resources :cacao_ments }
   namespace(:admin){ resources :app_introduce_videos }
   namespace(:admin){ resources :cpx_advertisements }
@@ -14,7 +14,7 @@ Todpop::Application.routes.draw do
   namespace(:admin){ resources :cpd_advertisements }
 
   namespace(:admin){ resources :app_infos }
-  namespace(:admin){ resources :notices }
+  namespace(:admin){ resources :board_notices }
   #resources :notices
 
   resources :mains
