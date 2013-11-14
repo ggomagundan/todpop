@@ -21,7 +21,7 @@
       current_image(실제크기실제비율아님)<br/>
       <% if f.object.picture != 0 %>
         <%#=image_tag f.object.image_url(:thumb) %>
-        <%=image_tag f.object.image_url, :style => 'width:356px;height:183px;' %>
+        <%=image_tag f.object.image_url(:thumb), :style => 'width:356px;height:183px;' %>
       <% else %>
         없음 
       <% end %><br/>
@@ -54,7 +54,7 @@
       current_image(실제크기실제비율아님)<br/>
       <% if f.object.picture != 0 %>
         <%#=image_tag f.object.image_url(:thumb) %>
-        <%=image_tag f.object.image_url, :style => 'width:356px;height:183px;' %>
+        <%=image_tag f.object.image_url(:thumb), :style => 'width:356px;height:183px;' %>
       <% else %>
         없음 
       <% end %> 

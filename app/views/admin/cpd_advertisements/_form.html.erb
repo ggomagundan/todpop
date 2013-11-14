@@ -33,28 +33,28 @@
       <table>
         <tr> 
           <td>name</td>
-          <td><input type='text' name='c_name' <% if @cpd_coupon.present? && @cpd_coupon.name.present? %> value='<%=@cpd_coupon.name%>' <% end %>/></td>
+          <td><input type='text' name='c_name' style='width:280px;'<% if @cpd_coupon.present? && @cpd_coupon.name.present? %> value='<%=@cpd_coupon.name%>' <% end %>/></td>
         </tr>
         <tr>
           <td>place</td>
-          <td><input type='text' name='c_place' <% if @cpd_coupon.present? && @cpd_coupon.place.present? %> value='<%=@cpd_coupon.place%>' <% end %>/></td>
+          <td><input type='text' name='c_place' style='width:280px;' <% if @cpd_coupon.present? && @cpd_coupon.place.present? %> value='<%=@cpd_coupon.place%>' <% end %>/></td>
         </tr>
         <tr>
           <td>valid_start</td>
-          <td><input type='text' name='c_valid_start' class='date' <% if @cpd_coupon.present? && @cpd_coupon.valid_start.present? %> value='<%=@cpd_coupon.valid_start%>' <% end %>/></td>
+          <td><input type='text' name='c_valid_start' class='date' style='width:280px;' <% if @cpd_coupon.present? && @cpd_coupon.valid_start.present? %> value='<%=@cpd_coupon.valid_start%>' <% end %>/></td>
         </tr>
         <tr>
           <td>valid_end</td>
-          <td><input type='text' name='c_valid_end' class='date' <% if @cpd_coupon.present? && @cpd_coupon.valid_end.present? %> value='<%=@cpd_coupon.valid_end%>' <% end %>/></td>
+          <td><input type='text' name='c_valid_end' class='date' style='width:280px;' <% if @cpd_coupon.present? && @cpd_coupon.valid_end.present? %> value='<%=@cpd_coupon.valid_end%>' <% end %>/></td>
         </tr>
         <tr>
           <td>bar_code</td>
-          <td><input type='text' name='c_bar_code' <% if @cpd_coupon.present? && @cpd_coupon.bar_code.present? %> value='<%=@cpd_coupon.bar_code%>' <% end %>/></td>
+          <td><input type='text' name='c_bar_code' style='width:280px;' <% if @cpd_coupon.present? && @cpd_coupon.bar_code.present? %> value='<%=@cpd_coupon.bar_code%>' <% end %>/></td>
         </tr>
         <tr>
           <td>image</td>
           <td>
-            <input type='file' name='c_image'/><br/>
+            <input type='file' name='c_image' style='width:280px;'/><br/>
             <% if @cpd_coupon.present? && @cpd_coupon.image.present? %>
               <img src='<%=@cpd_coupon.image_url%>'/>
             <% end %>
@@ -62,7 +62,9 @@
         </tr>
         <tr>
           <td>information</td>
-          <td><input type='text' name='c_information' <% if @cpd_coupon.present? && @cpd_coupon.information.present? %> value='<%=@cpd_coupon.information %>' <% end %> /></td>
+          <td>
+            <textarea name='c_information' style='width:280px;height:65px;'><% if @cpd_coupon.present? && @cpd_coupon.information.present? %><%=@cpd_coupon.information%><% end %></textarea>
+          </td>
         </tr>
       </table>
     </div>
@@ -74,9 +76,26 @@
     </div>
   </div>
   <div class="control-group">
-    <label class="control-label">remain</label>
+    <label class="control-label">reamain</label>
     <div class="controls">
       <%= f.text_field :remain %>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">unit_price</label>
+    <div class="controls">
+      <%= f.text_field :unit_price %>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">pay_type</label>
+    <div class="controls">
+      <label>
+        <%= f.radio_button :pay_type, 1, :checked=>f.object.pay_type ==1 || f.object.pay_type == nil  %> 선불제
+      </label>
+      <label>
+        <%= f.radio_button :pay_type, 2, :checked =>f.object.pay_type ==2  %> 후불제
+      </label>
     </div>
   </div>
   <div class="control-group">

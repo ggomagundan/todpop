@@ -117,7 +117,8 @@ class Admin::CpxAdvertisementsController < Admin::ApplicationController
                 end
               end
             else
-              survey_content.update_attributes(:q_image => nil)
+              survey_content.remove_q_image!
+              survey_content.save
             end
           else
             survey_content = SurveyContent.new
@@ -160,6 +161,6 @@ class Admin::CpxAdvertisementsController < Admin::ApplicationController
 
   private
   def cpx_params
-    params.require(:cpx_advertisement).permit(:ad_name, :ad_type, :start_date, :end_date, :contract, :remain, :ad_image, :ad_text, :target_url, :package_name, :confirm_url, :reward, :n_question, :priority)
+    params.require(:cpx_advertisement).permit(:ad_name, :ad_type, :start_date, :end_date, :contract, :remain, :unit_price, :pay_type, :ad_image, :ad_text, :target_url, :package_name, :confirm_url, :reward, :n_question, :priority)
   end
 end

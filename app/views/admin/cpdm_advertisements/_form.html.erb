@@ -30,10 +30,27 @@
     </div>
   </div>
   <div class="control-group">
+    <label class="control-label">unit_price</label>
+    <div class="controls">
+      <%= f.text_field :unit_price %>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">pay_type</label>
+    <div class="controls">
+      <label>
+        <%= f.radio_button :pay_type, 1, :checked=>f.object.pay_type ==1 || f.object.pay_type == nil  %> 선불제
+      </label>
+      <label>
+        <%= f.radio_button :pay_type, 2, :checked =>f.object.pay_type ==2  %> 후불제
+      </label>
+    </div>
+  </div>
+  <div class="control-group">
     <label class="control-label">Date</label>
     <div class="controls">
-        <%= f.text_field :start_date, :value => "#{@cpdm_advertisement.start_date}", :class => "calendar" %> ~
-        <%= f.text_field :end_date, :value => "#{@cpdm_advertisement.end_date}", :class=> "calendar" %>
+        <%= f.text_field :start_date, :value => "#{@cpdm_advertisement.start_date}", :class => "date" %> ~
+        <%= f.text_field :end_date, :value => "#{@cpdm_advertisement.end_date}", :class=> "date" %>
     </div>
   </div>
   <!--

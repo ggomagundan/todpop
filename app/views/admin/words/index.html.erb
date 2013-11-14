@@ -30,7 +30,7 @@
         <td><%= word.phonetics %></td>
         <td><%= word.example_ko %></td>
         <td><%= word.example_en %></td>
-        <td><%= image_tag word.image_url, :style => 'width:100px;height:74px;' if word.picture == 1 %></td>
+        <td><%= image_tag word.image_url(:thumb), :style => 'width:100px;height:74px;' if word.picture == 1 %></td>
         <td><%= link_to "Edit", edit_admin_word_path(word, :before_page => @page, :is_align => @align), :class => 'btn btn-warning' %></td>
         <td style='text-align:center;'>
           <% if word.confirm == 1 %>

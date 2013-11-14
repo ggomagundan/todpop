@@ -10,6 +10,10 @@ class CpxAdvertisement < ActiveRecord::Base
      :CPS => 305,
      :CPC => 306
   }
+  PAY_TYPE = {
+    :PAY_ADVANCE => 1,
+    :PAY_LATER =>2
+  }
   mount_uploader :ad_image, ImageUploader
 
   after_create do |ad|
@@ -21,6 +25,7 @@ class CpxAdvertisement < ActiveRecord::Base
    return CpxAdvertisement::AD_TYPE.key(self.ad_type)
   end
 
-
-
+  def pay_kind
+    return CpdAdvertisement::PAY_TYPE.key(self.pay_type)
+  end
 end
