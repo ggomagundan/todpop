@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 Todpop::Application.routes.draw do
    
+  resources :client
   get "logout" => "sessions#destroy", :as => "logout"
   get "login" => "sessions#new", :as => "login"
   resources :sessions
