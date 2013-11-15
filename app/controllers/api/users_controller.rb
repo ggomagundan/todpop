@@ -25,8 +25,10 @@ class Api::UsersController < ApplicationController
         @status = false
         @msg = "not exist email or facebook"
       elsif params[:email].present? && !params[:password].present?
-        @status = false
-        @msg = "email exist but no password"
+        if User.find_by_id(params[:mem_no]).is_set_facebook_password == 0
+          @status = false
+          @msg = "email exist but no password"
+        end
       end
     else
       if !params[:email].present? && !params[:facebook].present?
