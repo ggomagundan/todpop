@@ -84,6 +84,7 @@ require File.dirname(__FILE__) + '/../../config/environment.rb'
       ads.each do |cpx|
         if cpx.remain <= 0
           cpx.update_attributes(:priority => 99)
+        elsif cpx.priority == 1
         elsif cpx.end_time.to_date - Date.today.to_date <= 10 
           cpx.update_attributes(:priority => 2)
         elsif Date.today.to_date - cpx.start_time.to_date <= 10

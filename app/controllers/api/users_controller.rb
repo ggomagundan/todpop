@@ -647,6 +647,7 @@ class Api::UsersController < ApplicationController
 
       # data
       @attendance_time = @user.daily_test_count
+      @attendance_reward = @user.daily_test_reward
     end
   end
 

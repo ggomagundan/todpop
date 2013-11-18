@@ -50,6 +50,9 @@ class ApplicationController < ActionController::Base
     if @token_reward_type == 7000
       RefundRequest.create(:user_id => @token_user_id, :name => @token_name, :bank => @token_bank,
                           :account => @token_account, :amount => @token_reward, :comment => @token_comment)
+    elsif @token_reward_type == 2000
+      new_dtr = user.daily_test_reward + @token_reward
+      user.update_attributes(:daily_test_reward => new_dtr)
     end
 
   end
