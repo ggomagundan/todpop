@@ -1,0 +1,30 @@
+<h1>Create your Todpop Account</h1>
+
+<%= form_tag sign_up_sessions_path do %>
+  <p>
+    <th>Corporate name<th><br>
+    <%= text_field :cor_name, params[:cor_name] %>
+  </p>
+  <p>
+    <th>Name<th><br>
+    <%= text_field_tag :name, params[:name] %>
+  </p>
+  <p>
+    <th>Your email address<th><br>
+    <%= text_field_tag :email, params[:email] %>
+  </p>
+  <p>
+    <th>Create a password<th><br>
+    <%= password_field_tag :password, params[:password] %>
+  </p>
+  <p>
+    <th>Confirm your password<th><br>
+    <%= password_field_tag :password_confirmation, params[:password_confirmation] %>
+  </p>
+  <p>
+    <th>Mobile phone<th><br>
+    <%= text_field_tag :mobile, params[:mobile] %>
+  </p>
+  <p class="button"><%= submit_tag "Confirm" %></p>
+<% end %>
+

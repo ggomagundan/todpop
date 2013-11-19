@@ -1,7 +1,9 @@
 # -*- encoding : utf-8 -*-
 Todpop::Application.routes.draw do
    
-  resources :client
+  resources :client 
+  post "sessions/client_sign_up" => "sessions#client_sign_up", :as => :client_sign_up_sessions
+  post "sessions/sign_up" => "sessions#sign_up", :as => :sign_up_sessions
   get "logout" => "sessions#destroy", :as => "logout"
   get "login" => "sessions#new", :as => "login"
   resources :sessions
