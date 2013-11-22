@@ -24,8 +24,8 @@
     <td style='text-align:center;'><%=@all_cnt_1%></td>
     <td style='text-align:center;'><%=@all_cnt_2%> <% if @all_cnt_2 ==0 %>(0%)<% else %><%="(#{@all_cnt_2*100/@all_cnt_1}%)"%><% end %></td>
     <td style='text-align:center;'><%="#{(@all_cnt_1*@ad.unit_price).to_s.reverse.scan(/(?:\d*\.)?\d{1,3}-?/).join(',').reverse}"%></td>
-    <td style='text-align:center;'><%="#{(@ad.contract*@ad.unit_price - @all_cnt_1*@ad.unit_price).to_s.reverse.scan(/(?:\d*\.)?\d{1,3}-?/).join(',').reverse}"%></td>
-    <td style='text-align:center;'><%="#{(@ad.contract*@ad.unit_price).to_s.reverse.scan(/(?:\d*\.)?\d{1,3}-?/).join(',').reverse}"%></td>
+    <td style='text-align:center;'><% if @ad.pay_type == 2 %>0<% else %><%="#{(@ad.contract*@ad.unit_price - @all_cnt_1*@ad.unit_price).to_s.reverse.scan(/(?:\d*\.)?\d{1,3}-?/).join(',').reverse}"%><% end %></td>
+    <td style='text-align:center;'><% if @ad.pay_type == 2 %>0<% else %><%="#{(@ad.contract*@ad.unit_price).to_s.reverse.scan(/(?:\d*\.)?\d{1,3}-?/).join(',').reverse}"%><% end %></td>
 </table>
 <br/>
 <br/>
