@@ -5,7 +5,15 @@ class SessionsController < ApplicationController
   def create 
     @user = User.find_by_email(params[:email])
     @client = Client.find_by_email(params[:email])
-    if @user.present?
+    if @client.present?
+      if !@client.authenticate(params[:password]).present?
+        flash.now.alert = "Invalid email or password"
+        render "new"
+      else
+        session[:client_id] = @client.id
+        redirect_to client_index_url, :notice => "Logged in!"
+      end
+    elsif @user.present?
       if !@user.authenticate(params[:password]).present?
         flash.now.alert = "Invalid email or password"
         render "new"
@@ -15,14 +23,6 @@ class SessionsController < ApplicationController
       else
         flash.now.alert = "You are not admin"
         render "new"
-      end
-    elsif @client.present?
-      if !@client.authenticate(params[:password]).present?
-        flash.now.alert = "Invalid email or password"
-        render "new"
-      else
-        session[:user_id] = @client.id
-        redirect_to client_index_url, :notice => "Logged in!"
       end
     else
       flash.now.alert = "Invalid email or password"
@@ -65,7 +65,7 @@ class SessionsController < ApplicationController
         render "new"
       else
         @client=Client.find_by_email(params[:email])
-        session[:user_id]=@client.id
+        session[:client_id]=@client.id
         redirect_to client_index_url, :notice => "Sign up success."
       end
     end

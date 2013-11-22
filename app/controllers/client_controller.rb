@@ -2,10 +2,10 @@ class ClientController < ApplicationController
   before_filter :require_client
   helper_method :current_user
   def index
-    @user = Client.find_by_id(session[:user_id])
-    @cpd = CpdAdvertisement.where(:cli_id => session[:user_id])
-    @cpx = CpxAdvertisement.where(:cli_id => session[:user_id])
-    @cpdm = CpdmAdvertisement.where(:cli_id => session[:user_id])
+    @user = Client.find_by_id(session[:client_id])
+    @cpd = CpdAdvertisement.where(:cli_id => session[:client_id])
+    @cpx = CpxAdvertisement.where(:cli_id => session[:client_id])
+    @cpdm = CpdmAdvertisement.where(:cli_id => session[:client_id])
   end
 
   def detail
@@ -41,7 +41,7 @@ class ClientController < ApplicationController
 
       if params[:type] == 'cpd'
         @type = 'cpd'
-        tmp_ad = CpdAdvertisement.where(:id => params[:id], :cli_id => session[:user_id])
+        tmp_ad = CpdAdvertisement.where(:id => params[:id], :cli_id => session[:client_id])
         @ad = tmp_ad[0]
         if !@ad.present?
           render :file => "#{Rails.root}/public/404"
@@ -84,7 +84,7 @@ class ClientController < ApplicationController
 
       elsif params[:type] == 'cpdm'
         @type = 'cpdm'
-        tmp_ad = CpdmAdvertisement.where("id = ? and cli_id = ?", params[:id], session[:user_id])
+        tmp_ad = CpdmAdvertisement.where("id = ? and cli_id = ?", params[:id], session[:client_id])
         @ad = tmp_ad[0]
         if !@ad.present?
           render :file => "#{Rails.root}/public/404"
@@ -118,7 +118,7 @@ class ClientController < ApplicationController
 
       elsif params[:type] == 'cpx'
         @type = 'cpx'
-        tmp_ad = CpxAdvertisement.where("id = ? and cli_id = ?", params[:id], session[:user_id])
+        tmp_ad = CpxAdvertisement.where("id = ? and cli_id = ?", params[:id], session[:client_id])
         @ad = tmp_ad[0]
         if !@ad.present?
           render :file => "#{Rails.root}/public/404"
@@ -164,6 +164,6 @@ class ClientController < ApplicationController
   end
 
   def current_user
-    @current_user ||= session[:user_id] && Client.find_by_id(session[:user_id]) 
+    @current_user ||= session[:client_id] && Client.find_by_id(session[:client_id]) 
   end
 end
