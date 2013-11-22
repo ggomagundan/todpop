@@ -11,6 +11,7 @@
       <th>Pay Type</th>
       <th>Date</th>
       <th>Priority</th>
+      <th>Client ID</th>
       <th></th>
       <th></th>
       <th></th>
@@ -29,6 +30,7 @@
         <td><%= cpd_advertisement.pay_type %> (<%=cpd_advertisement.pay_kind %>)</td>
         <td><%= cpd_advertisement.start_date.to_date %> ~ <%= cpd_advertisement.end_date.to_date %></td>
         <td><%= cpd_advertisement.priority %></td>
+        <td><%= cpd_advertisement.cli_id %></td>
         <td><%= link_to 'Edit', edit_admin_cpd_advertisement_path(cpd_advertisement), :class=>"btn btn-warning" %></td>
       </tr>
     <% end %>
