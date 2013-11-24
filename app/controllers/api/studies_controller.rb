@@ -375,6 +375,7 @@ class Api::StudiesController < ApplicationController
       # daily test count : update reward & point
       if update_daily_test_count > 0
 
+        dtc_reward = 0
         if update_daily_test_count == 5
           dtc_reward = 100
         elsif (update_daily_test_count % 10) == 0
@@ -390,9 +391,6 @@ class Api::StudiesController < ApplicationController
         dtc_point = 2*update_daily_test_count + 3;
         dtc_point = dtc_point > 31 ? 31 : dtc_point
 
-####################################################
-        dtc_reward = dtc_reward.to_i      ##20131124
-#####################################################
         # reward process
         if dtc_reward > 0
           @token_user_id = user_id
