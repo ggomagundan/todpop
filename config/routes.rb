@@ -24,6 +24,8 @@ Todpop::Application.routes.draw do
 
   resources :mains
 
+  get "category_list" => "mains#category_list"
+
   namespace(:admin){ resources :products }
   namespace(:admin){ resources :levels }
 
@@ -129,6 +131,7 @@ Todpop::Application.routes.draw do
     get '/words/dummy/confirm' => 'words#confirm'
     post '/words/dummy/confirm' => 'words#confirm'
     patch '/words/dummy/:id/confirm' => 'words#confirm'
+
   }
 
   # The priority is based upon order of creation: first created -> highest priority.
