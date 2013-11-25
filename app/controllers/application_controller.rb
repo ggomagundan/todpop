@@ -177,6 +177,17 @@ class ApplicationController < ActionController::Base
 
 
 
+  def category_list
+  #  http://211.245.169.201/qpcon/api/cateList.do?key=0f8f5a7024dd11e3b5ae00304860c864&cmd=cateList
+    uri = URI.parse("http://211.245.169.201/qpcon/api/cateList.do")
+
+    http = Net::HTTP.new(uri.host, uri.port)
+    request = Net::HTTP::Post.new(uri.request_uri)
+    request.set_form_data({:key=> "0f8f5a7024dd11e3b5ae00304860c864", :cmd=>"cateList"})
+
+    @response = http.request(request)
+  
+  end
 
 
 end

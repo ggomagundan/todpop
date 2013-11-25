@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131107074911) do
+ActiveRecord::Schema.define(version: 20131119065219) do
 
   create_table "addresses", force: true do |t|
     t.string   "depth1"
@@ -102,6 +102,16 @@ ActiveRecord::Schema.define(version: 20131107074911) do
     t.datetime "updated_at"
   end
 
+  create_table "clients", force: true do |t|
+    t.string   "cor_name"
+    t.string   "name"
+    t.string   "email"
+    t.string   "password_digest"
+    t.string   "mobile"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "coupon_free_infos", force: true do |t|
     t.string   "name"
     t.string   "place"
@@ -116,6 +126,7 @@ ActiveRecord::Schema.define(version: 20131107074911) do
 
   create_table "cpd_advertisements", force: true do |t|
     t.string   "ad_name"
+    t.integer  "cli_id"
     t.integer  "ad_type"
     t.integer  "contract"
     t.integer  "remain"
@@ -133,6 +144,7 @@ ActiveRecord::Schema.define(version: 20131107074911) do
 
   create_table "cpdm_advertisements", force: true do |t|
     t.string   "ad_name"
+    t.integer  "cli_id"
     t.integer  "ad_type",    default: 201
     t.integer  "contract"
     t.integer  "remain"
@@ -150,6 +162,7 @@ ActiveRecord::Schema.define(version: 20131107074911) do
 
   create_table "cpx_advertisements", force: true do |t|
     t.string   "ad_name"
+    t.integer  "cli_id"
     t.integer  "ad_type"
     t.integer  "contract"
     t.integer  "remain"
@@ -351,6 +364,7 @@ ActiveRecord::Schema.define(version: 20131107074911) do
     t.integer  "level_test"
     t.integer  "is_set_facebook_password", default: 0
     t.integer  "daily_test_count",         default: 0
+    t.integer  "daily_test_reward",        default: 0
     t.integer  "current_reward",           default: 0
     t.integer  "total_reward",             default: 0
     t.integer  "is_admin",                 default: 0
