@@ -375,6 +375,7 @@ class Api::StudiesController < ApplicationController
       # daily test count : update reward & point
       if update_daily_test_count > 0
 
+        dtc_reward = 0
         if update_daily_test_count == 5
           dtc_reward = 100
         elsif (update_daily_test_count % 10) == 0

@@ -1,7 +1,11 @@
 # -*- encoding : utf-8 -*-
 Todpop::Application.routes.draw do
    
-  resources :client
+  get 'client' => "client#index", :as => "client_index"
+  get 'client/detail' => "client#detail"
+  
+  post "sessions/client_sign_up" => "sessions#client_sign_up", :as => :client_sign_up_sessions
+  post "sessions/sign_up" => "sessions#sign_up", :as => :sign_up_sessions
   get "logout" => "sessions#destroy", :as => "logout"
   get "login" => "sessions#new", :as => "login"
   resources :sessions
@@ -19,6 +23,8 @@ Todpop::Application.routes.draw do
   #resources :notices
 
   resources :mains
+
+  get "category_list" => "mains#category_list"
 
   namespace(:admin){ resources :products }
   namespace(:admin){ resources :levels }
@@ -125,6 +131,7 @@ Todpop::Application.routes.draw do
     get '/words/dummy/confirm' => 'words#confirm'
     post '/words/dummy/confirm' => 'words#confirm'
     patch '/words/dummy/:id/confirm' => 'words#confirm'
+
   }
 
   # The priority is based upon order of creation: first created -> highest priority.

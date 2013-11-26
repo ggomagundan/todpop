@@ -14,6 +14,7 @@
     <th>ConfirmUrl</th>
     <th>Reward</th>
     <th>n_question</th>
+    <th>Cor Name</th>
     <th> </th>
   </tr>
   <% for cpx_advertisement in @cpx_advertisements %>
@@ -31,6 +32,7 @@
       <td><%= cpx_advertisement.confirm_url %></td>
       <td><%= cpx_advertisement.reward %></td>
       <td><%= cpx_advertisement.n_question %></td>
+      <td><%= @cpx_cor_name.find_by_id(cpx_advertisement.cli_id).cor_name %></td>
       <td><%= link_to "Edit", edit_admin_cpx_advertisement_path(cpx_advertisement), :class => "btn btn-warning" %></td>
       <%#= link_to "Destroy", [:admin, cpx_advertisement], :confirm => 'Are you sure?', :method => :delete %>
     </tr>

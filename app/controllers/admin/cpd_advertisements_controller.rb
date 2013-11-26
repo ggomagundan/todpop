@@ -1,6 +1,7 @@
 class Admin::CpdAdvertisementsController < Admin::ApplicationController
   def index
     @cpd_advertisements = CpdAdvertisement.all
+    @cpd_cor_name = Client.all
   end
 
   def show
@@ -9,6 +10,12 @@ class Admin::CpdAdvertisementsController < Admin::ApplicationController
 
   def new
     @cpd_advertisement = CpdAdvertisement.new
+    @client_arr = []
+    client_all = Client.all
+    for i in 1..client_all.size
+      client_str = "Cor Name : " + client_all[i-1].cor_name.to_s + " | Name : " + client_all[i-1].name
+      @client_arr.push([].push(client_str, i))
+    end
   end
 
   def create
@@ -51,6 +58,12 @@ class Admin::CpdAdvertisementsController < Admin::ApplicationController
   end
 
   def edit
+    @client_arr = []
+    client_all = Client.all
+    for i in 1..client_all.size
+      client_str = "Cor Name : " + client_all[i-1].cor_name.to_s + " | Name : " + client_all[i-1].name.to_s
+      @client_arr.push([].push(client_str, i))
+    end
     @cpd_advertisement = CpdAdvertisement.find(params[:id])
     if @cpd_advertisement.ad_type == 102 && @cpd_advertisement.coupon_id.present?
       @cpd_coupon = CouponFreeInfo.find(@cpd_advertisement.coupon_id)
@@ -103,6 +116,6 @@ class Admin::CpdAdvertisementsController < Admin::ApplicationController
   
   private
   def cpd_advertisement_params
-    params.require(:cpd_advertisement).permit(:ad_type, :contract, :remain, :unit_price, :pay_type, :start_date, :end_date, :front_image, :back_image, :coupon_id, :priority, :ad_name)
+    params.require(:cpd_advertisement).permit(:ad_type, :cli_id, :contract, :remain, :unit_price, :pay_type, :start_date, :end_date, :front_image, :back_image, :coupon_id, :priority, :ad_name)
   end
 end
