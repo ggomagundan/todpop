@@ -194,8 +194,9 @@ class Api::EtcController < ApplicationController
         else
           nickname = nil
         end
-        temp = Prize.where('category = ? and period = ? and rank = ? and date_start <= ? and date_end >= ?',category,params[:period],i+1,Time.now,Time.now)
-        if temp.present?        
+        temp = Prize.where('category = ? and period = ? and rank = ? and date_start <= ? and date_end >= ?',
+                           category, params[:period], i+1, Date.today, Date.today)
+        if temp.present?
           tmp_hash = {:id => temp[0].id, :image => temp[0].image, :nickname => nickname}
           @prize.push(tmp_hash)
         end
