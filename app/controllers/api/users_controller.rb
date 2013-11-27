@@ -375,11 +375,12 @@ class Api::UsersController < ApplicationController
 
       @user_info = []
       (1..10).each do |i|
-        if !(user = User.find_by_id(@list[i-1].id)).present?
+        if !User.find_by_id(@list[i-1].id).present?
           name = "짭짭짭"
           @user_point = 0
           image = "1"
         else
+          user = User.find_by_id(@list[i-1].id)
           name = user.nickname
           tmp = "@user_point = @list[i-1]." + period + params[:category]
           eval(tmp)
