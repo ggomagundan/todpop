@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 Todpop::Application.routes.draw do
-   
+  get 'downloads' => "downloads#index" 
+
   get 'client' => "client#index", :as => "client_index"
   get 'client/detail' => "client#detail"
   
