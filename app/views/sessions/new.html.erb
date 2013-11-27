@@ -20,7 +20,6 @@
   $(document).ready(function(){
     $('form').submit(function(){
       $('#password').val(hex_sha512($('#password').val()));
-      alert($('#password').val());
     });
   });
 </script>
