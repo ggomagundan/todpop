@@ -21,6 +21,11 @@ class Api::AppInfosController < ApplicationController
     @ios_url = "kakaolink://sendurl?msg=#{@ment}&url=#{@appstore_url}&appid=#{@ipa}&appver=#{@ios_version}"
      
 
+    @ios_url = @ment
+    @ment = '짭짤한 영어'
+    @android_url = '잠시만요'
+
+
     @status = true
     @msg =""
   end
