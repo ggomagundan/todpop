@@ -375,7 +375,7 @@ class Api::UsersController < ApplicationController
 
       @user_info = []
       (1..10).each do |i|
-        if !User.find_by_id(@list[i-1].id).present?
+        if !@list[i-1].present?
           name = "짭짭짭"
           @user_point = 0
           image = "1"
