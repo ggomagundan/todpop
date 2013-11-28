@@ -117,6 +117,7 @@ Todpop::Application.routes.draw do
       get 'event_check', :on => :member
       get 'update_rank_point', :on => :collection
       get 'character', :on => :member
+      get 'main_notice', :on => :collection
     end
 
   

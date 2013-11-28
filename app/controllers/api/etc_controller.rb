@@ -323,8 +323,18 @@ class Api::EtcController < ApplicationController
       end
       @url=user.character
     end
+  end
 
+  def main_notice
+    @status = true
+    @msg = ""
 
+    if !MentList.find_by_kind("notice").present?
+      @status = false
+      @msg = "Not exist notice"
+    else
+      @ment = MentList.where(:kind => "notice").last.content
+    end
   end
 
 end
