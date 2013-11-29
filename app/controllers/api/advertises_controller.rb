@@ -232,7 +232,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
 @ad_log = nil	# test purpose by cys
 
 
-        if @ad_log.length == 0
+        if !@ad_log.present?
           @ad_list = CpxAdvertisement.where(:priority => 1)
           @ad_list_2 = CpxAdvertisement.where(:priority => 2 )
           @ad_list_3 = CpxAdvertisement.where(:priority => 3 )
