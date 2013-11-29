@@ -14,7 +14,7 @@ class Admin::CpdAdvertisementsController < Admin::ApplicationController
     client_all = Client.all
     for i in 1..client_all.size
       client_str = "Cor Name : " + client_all[i-1].cor_name.to_s + " | Name : " + client_all[i-1].name
-      @client_arr.push([].push(client_str, i))
+      @client_arr.push([].push(client_str, client_all[i-1].id))
     end
   end
 
