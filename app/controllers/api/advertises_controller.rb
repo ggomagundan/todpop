@@ -426,7 +426,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
         if adLog.save
           @result = true
           @msg = "success"
-          if params[:act].to_i==2
+          if params[:act].to_i==3
             adInfo.update_attributes(:remain => adInfo.remain - 1)
 
             # reward process .......
