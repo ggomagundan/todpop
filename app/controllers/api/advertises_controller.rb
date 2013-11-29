@@ -229,10 +229,10 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
         @ad_log = AdvertiseCpxLog.where('user_id = ? and (act != 2 AND created_at >= ? AND created_at < ?) OR (act = 2 AND created_at >= ? AND created_at < ?)',
               @user.id, 14.day.ago.to_time, Time.now, 45.day.ago.to_time, Time.now).pluck(:ad_id).uniq
 
-@ad_log = nil	# test purpose by cys
+@ad_log = []	# test purpose by cys
 
 
-        if !@ad_log.present?
+        if @ad_log.length == 0
           @ad_list = CpxAdvertisement.where(:priority => 1)
           @ad_list_2 = CpxAdvertisement.where(:priority => 2 )
           @ad_list_3 = CpxAdvertisement.where(:priority => 3 )
