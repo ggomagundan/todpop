@@ -28,3 +28,12 @@
   <p class="button"><%= submit_tag "Confirm" %></p>
 <% end %>
 
+
+<script>
+  $(document).ready(function(){
+    $('form').submit(function(){
+      $('#password').val(hex_sha512($('#password').val()));
+      $('#password_confirmation').val(hex_sha512($('#password_confirmation').val()));
+    });
+  });
+</script>
