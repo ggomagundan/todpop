@@ -8,8 +8,7 @@ require File.dirname(__FILE__) + '/../../config/environment.rb'
       if json["STATUS_CODE"] == "00"
         json["CATEGORY"]["CATEGORY_LIST"].each do |list|
           if QpconCategory.where(:category_id => list["CATE_ID"]).blank?
-            binding.pry
-            #QpconCategory.create(:category_id => list["CATE_ID"], :category_name => list["CATE_NAME"])
+            QpconCategory.create(:category_id => list["CATE_ID"], :category_name => list["CATE_NAME"])
           end
         end
       end
