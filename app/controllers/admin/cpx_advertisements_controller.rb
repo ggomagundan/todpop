@@ -16,7 +16,7 @@ class Admin::CpxAdvertisementsController < Admin::ApplicationController
     client_all = Client.all
     for i in 1..client_all.size
       client_str = "Cor Name : " + client_all[i-1].cor_name.to_s + " | Name : " + client_all[i-1].name.to_s
-      @client_arr.push([].push(client_str, i))
+      @client_arr.push([].push(client_str, client_all[i-1].id))
     end
     for i in 0..15
       @n_question_arr.push([].push("#{i}",i))

@@ -329,10 +329,14 @@ class Api::EtcController < ApplicationController
     @status = true
     @msg = ""
 
-    if !MentList.find_by_kind("notice").present?
+    if !AppInfo.last.android_version.present?
       @status = false
-      @msg = "Not exist notice"
+      @msg = "not exist android_version"
+    elsif !MentList.find_by_kind("notice").present?
+      @status = false
+      @msg = "not exist notice"
     else
+      @android_version = AppInfo.last.android_version
       @ment = MentList.where(:kind => "notice").last.content
     end
   end
