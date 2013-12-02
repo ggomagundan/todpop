@@ -164,6 +164,9 @@ class Api::EtcController < ApplicationController
     elsif !params[:category].present? || !params[:period].present?
       @status=false
       @msg="not exist category or period params"
+    else
+      @token_user_id = params[:id]
+      update_rank_point_table
     end
 
     if @status == true
