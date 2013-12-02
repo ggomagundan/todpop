@@ -360,6 +360,9 @@ class Api::UsersController < ApplicationController
     if !params[:category].present? || !params[:period].present? || !params[:nickname].present?
       @status = false
       @msg = "not exist category or period or nickname parameter"
+    else
+      @token_user_id = User.find_by_nickname(params[:nickname])
+      update_rank_point_table
     end
 
     if @status == true

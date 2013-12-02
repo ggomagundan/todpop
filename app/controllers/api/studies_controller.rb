@@ -155,7 +155,7 @@ class Api::StudiesController < ApplicationController
       end
 
       if @status == true
-        if params[:is_new].to_i > 0 &&  UserStageBest.where('user_id = ? and created_at >= ?', params[:user_id], Date.today.to_time).count > AppInfo.last.new_stage_day_limit
+        if params[:is_new].to_i > 0 &&  UserStageBest.where('user_id = ? and created_at >= ?', params[:user_id], Date.today.to_time).count >= AppInfo.last.new_stage_day_limit
           @possible = false
           @msg = "limit over joy studying"
         else
