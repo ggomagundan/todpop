@@ -13,8 +13,7 @@ require 'net/http'
       if json["STATUS_CODE"] == "00"
         json["CATEGORY"]["CATEGORY_LIST"].each do |list|
           if QpconCategory.where(:category_id => list["CATE_ID"]).blank?
-            puts "make"
-           # QpconCategory.create(:category_id => list["CATE_ID"], :category_name => list["CATE_NAME"])
+            QpconCategory.create(:category_id => list["CATE_ID"], :category_name => list["CATE_NAME"])
           end
         end
       end
