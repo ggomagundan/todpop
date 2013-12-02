@@ -4,11 +4,12 @@ require File.dirname(__FILE__) + '/../../config/environment.rb'
 
   namespace :qpcon do
     task :category => :environment do
-      json = connect("cateList.do","cateList")
+      json = connect("cateList.do",{:cmd => "cateList"})
       if json["STATUS_CODE"] == "00"
         json["CATEGORY"]["CATEGORY_LIST"].each do |list|
           if QpconCategory.where(:category_id => list["CATE_ID"]).blank?
-            QpconCategory.create(:category_id => list["CATE_ID"], :category_name => list["CATE_NAME"])
+            binding.pry
+            #QpconCategory.create(:category_id => list["CATE_ID"], :category_name => list["CATE_NAME"])
           end
         end
       end
@@ -16,11 +17,11 @@ require File.dirname(__FILE__) + '/../../config/environment.rb'
   end
 
 
-  def connect(last_uri,cmd) 
+  def connect(last_uri,params) 
       uri = URI.parse("http://211.245.169.201/qpcon/api/cateList.do")
       http = Net::HTTP.new(uri.host, uri.port)
       request = Net::HTTP::Post.new(uri.request_uri)
-      request.set_form_data({:key=> KEY, :cmd=>cmd})
+      request.set_form_data(params.merge!({:key=> KEY}))
       @response = http.request(request)
       json = ActiveSupport::JSON.decode  Hash.from_xml(@response.body).to_json
       json = json["BIKINI"]

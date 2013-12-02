@@ -164,6 +164,9 @@ class Api::EtcController < ApplicationController
     elsif !params[:category].present? || !params[:period].present?
       @status=false
       @msg="not exist category or period params"
+    else
+      @token_user_id = params[:id]
+      update_rank_point_table
     end
 
     if @status == true
@@ -194,8 +197,9 @@ class Api::EtcController < ApplicationController
         else
           nickname = nil
         end
-        temp = Prize.where('category = ? and period = ? and rank = ? and date_start <= ? and date_end >= ?',category,params[:period],i+1,Time.now,Time.now)
-        if temp.present?        
+        temp = Prize.where('category = ? and period = ? and rank = ? and date_start <= ? and date_end >= ?',
+                           category, params[:period], i+1, Date.today, Date.today)
+        if temp.present?
           tmp_hash = {:id => temp[0].id, :image => temp[0].image, :nickname => nickname}
           @prize.push(tmp_hash)
         end
@@ -322,8 +326,22 @@ class Api::EtcController < ApplicationController
       end
       @url=user.character
     end
+  end
 
+  def main_notice
+    @status = true
+    @msg = ""
 
+    if !AppInfo.last.android_version.present?
+      @status = false
+      @msg = "not exist android_version"
+    elsif !MentList.find_by_kind("notice").present?
+      @status = false
+      @msg = "not exist notice"
+    else
+      @android_version = AppInfo.last.android_version
+      @ment = MentList.where(:kind => "notice").last.content
+    end
   end
 
 end

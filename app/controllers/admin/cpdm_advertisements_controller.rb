@@ -1,6 +1,7 @@
 class Admin::CpdmAdvertisementsController < Admin::ApplicationController
   def index
     @cpdm_advertisements = CpdmAdvertisement.all
+    @cpdm_cor_name = Client.all
   end
 
   def show
@@ -9,6 +10,12 @@ class Admin::CpdmAdvertisementsController < Admin::ApplicationController
 
   def new
     @cpdm_advertisement = CpdmAdvertisement.new
+    @client_arr = []
+    client_all = Client.all
+    for i in 1..client_all.size
+      client_str = "Cor Name : " + client_all[i-1].cor_name.to_s + " | Name : " + client_all[i-1].name.to_s
+      @client_arr.push([].push(client_str, client_all[i-1].id))
+    end
   end
 
   def create
@@ -22,6 +29,12 @@ class Admin::CpdmAdvertisementsController < Admin::ApplicationController
 
   def edit
     @cpdm_advertisement = CpdmAdvertisement.find(params[:id])
+    @client_arr = []
+    client_all = Client.all
+    for i in 1..client_all.size
+      client_str = "Cor Name : " + client_all[i-1].cor_name.to_s + " | Name : " + client_all[i-1].name.to_s
+      @client_arr.push([].push(client_str, i))
+    end
   end
 
   def update
@@ -49,6 +62,6 @@ class Admin::CpdmAdvertisementsController < Admin::ApplicationController
   private
  
   def cpdm_advertisement_params
-    params.require(:cpdm_advertisement).permit(:ad_type, :contract, :remain, :unit_price, :pay_type, :start_date, :end_date, :url, :priority, :ad_name, :length, :video)
+    params.require(:cpdm_advertisement).permit(:ad_type, :cli_id, :contract, :remain, :unit_price, :pay_type, :start_date, :end_date, :url, :priority, :ad_name, :length, :video)
   end
 end

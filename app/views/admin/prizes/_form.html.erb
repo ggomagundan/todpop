@@ -40,6 +40,7 @@
     <label class="control-label">image</label>
     <div class="controls">
       <label><%= f.file_field :image %></label>
+      <%= image_tag f.object.image_url(:thumb) if f.object.image.present? %>
     </div>
   </div>
   <div class="control-group">

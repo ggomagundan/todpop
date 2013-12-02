@@ -1,6 +1,7 @@
 class Admin::CpxAdvertisementsController < Admin::ApplicationController
   def index
     @cpx_advertisements = CpxAdvertisement.all
+    @cpx_cor_name = Client.all
   end
 
   def show
@@ -11,6 +12,12 @@ class Admin::CpxAdvertisementsController < Admin::ApplicationController
     @cpx_advertisement = CpxAdvertisement.new
     @n_question_arr = []
     @n_answer_arr = []
+    @client_arr = []
+    client_all = Client.all
+    for i in 1..client_all.size
+      client_str = "Cor Name : " + client_all[i-1].cor_name.to_s + " | Name : " + client_all[i-1].name.to_s
+      @client_arr.push([].push(client_str, client_all[i-1].id))
+    end
     for i in 0..15
       @n_question_arr.push([].push("#{i}",i))
     end
@@ -71,6 +78,12 @@ class Admin::CpxAdvertisementsController < Admin::ApplicationController
     @cpx_advertisement = CpxAdvertisement.find(params[:id])
     @n_question_arr = []
     @n_answer_arr = []
+    @client_arr = []
+    client_all = Client.all
+    for i in 1..client_all.size
+      client_str = "Cor Name : " + client_all[i-1].cor_name.to_s + " | Name : " + client_all[i-1].name.to_s
+      @client_arr.push([].push(client_str, i))
+    end
     for i in 0..15
       @n_question_arr.push([].push("#{i}",i))
     end
@@ -161,6 +174,6 @@ class Admin::CpxAdvertisementsController < Admin::ApplicationController
 
   private
   def cpx_params
-    params.require(:cpx_advertisement).permit(:ad_name, :ad_type, :start_date, :end_date, :contract, :remain, :unit_price, :pay_type, :ad_image, :ad_text, :target_url, :package_name, :confirm_url, :reward, :n_question, :priority)
+    params.require(:cpx_advertisement).permit(:ad_name, :cli_id, :ad_type, :start_date, :end_date, :contract, :remain, :unit_price, :pay_type, :ad_image, :ad_text, :target_url, :package_name, :confirm_url, :reward, :n_question, :priority)
   end
 end

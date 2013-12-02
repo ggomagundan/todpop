@@ -360,6 +360,9 @@ class Api::UsersController < ApplicationController
     if !params[:category].present? || !params[:period].present? || !params[:nickname].present?
       @status = false
       @msg = "not exist category or period or nickname parameter"
+    else
+      @token_user_id = User.find_by_nickname(params[:nickname])
+      update_rank_point_table
     end
 
     if @status == true
@@ -374,12 +377,18 @@ class Api::UsersController < ApplicationController
       eval(tmp)
 
       @user_info = []
-      (1..[10,@list.size].min).each do |i|
-        user = User.find_by_id(@list[i-1].id) 
-        name = user.nickname
-        tmp = "@user_point = @list[i-1]." + period + params[:category]
-        eval(tmp)
-        image = user.character
+      (1..10).each do |i|
+        if !@list[i-1].present?
+          name = "짭짭짭"
+          @user_point = 0
+          image = "1"
+        else
+          user = User.find_by_id(@list[i-1].id)
+          name = user.nickname
+          tmp = "@user_point = @list[i-1]." + period + params[:category]
+          eval(tmp)
+          image = user.character
+        end
 
         rank = {:rank => i, :name => name, :score => @user_point, :image => image}
         @user_info.push(rank)

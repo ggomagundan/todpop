@@ -20,6 +20,11 @@ class Api::AppInfosController < ApplicationController
     @android_url = "kakaolink://sendurl?msg=#{@ment}&url=#{@market_url}&appid=#{@apk}&appver=#{@android_version}"
     @ios_url = "kakaolink://sendurl?msg=#{@ment}&url=#{@appstore_url}&appid=#{@ipa}&appver=#{@ios_version}"
      
+    # temp for app ver.0.1.0
+    @ios_url = @ment
+    @ment = '짭짤한 영어'
+    @android_url = 'http://market.android.com/details?id=com.todpop.saltyenglish'
+    # --- till here ---
 
     @status = true
     @msg =""
