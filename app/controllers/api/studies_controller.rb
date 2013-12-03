@@ -261,7 +261,7 @@ class Api::StudiesController < ApplicationController
       record = UserStageBest.where(:stage => stage, :level => level, :user_id => user_id).first
 
       if record.present? && record.score_best.present?
-        @rank_point = @rank_point / 2
+        @rank_point = @rank_point / 5
            
         if @medal - record.n_medals_best == 2
           @reward = AppInfo.last.test_reward_max.to_i
@@ -424,6 +424,15 @@ class Api::StudiesController < ApplicationController
 
 
     end
+  end
+
+  def get_stage_info
+   @status = true
+   @msg = ""
+   @stage = "1"
+   (1..1799).each do
+     @stage += "0"
+   end
   end
 
 
