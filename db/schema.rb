@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131119065219) do
+ActiveRecord::Schema.define(version: 20131202152044) do
 
   create_table "addresses", force: true do |t|
     t.string   "depth1"
@@ -238,6 +238,13 @@ ActiveRecord::Schema.define(version: 20131119065219) do
     t.text     "content1"
     t.text     "content2"
     t.text     "content3"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "qpcon_categories", force: true do |t|
+    t.string   "category_id"
+    t.string   "category_name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
