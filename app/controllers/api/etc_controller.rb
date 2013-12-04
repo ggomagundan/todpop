@@ -344,4 +344,8 @@ class Api::EtcController < ApplicationController
     end
   end
 
+  def user_count
+    @count = User.all.count
+  end
+
 end
