@@ -111,7 +111,6 @@ class Api::UsersController < ApplicationController
             u.user_id = @user.id
             u.stage_info = info
             u.save
-
           end
         else
           @status = false
@@ -530,6 +529,16 @@ class Api::UsersController < ApplicationController
       @status = false
       @msg = "incorrect current password"
     else
+      @user.password = params[:new_password]
+      @user.password_confirmation = params[:new_password]
+      if @user.save
+      else
+        @status = false
+        @msg = "not success user update. please retry"
+      end
+    end
+  end
+
   def setting_facebook_password
     @status = true
     @msg = ""
