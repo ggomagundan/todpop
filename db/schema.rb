@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131202152044) do
+ActiveRecord::Schema.define(version: 20131203085344) do
 
   create_table "addresses", force: true do |t|
     t.string   "depth1"
@@ -180,6 +180,13 @@ ActiveRecord::Schema.define(version: 20131202152044) do
     t.integer  "priority",     default: 5
   end
 
+  create_table "create_user_stage_infos", force: true do |t|
+    t.integer  "user_id"
+    t.string   "stage_info"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "inactive_users", force: true do |t|
     t.string   "email"
     t.string   "facebook"
@@ -337,6 +344,13 @@ ActiveRecord::Schema.define(version: 20131202152044) do
     t.integer  "stage"
     t.integer  "n_medals_best"
     t.integer  "score_best"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "user_stage_infos", force: true do |t|
+    t.integer  "user_id"
+    t.text     "stage_info"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

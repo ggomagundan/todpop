@@ -102,6 +102,16 @@ class Api::UsersController < ApplicationController
               a.mon_end    = Date.today.end_of_month
             end
             a.save
+            /Create user stage info table/
+            u = UserStageInfo.new
+            info = ""
+            (1..1800).each do
+              info += "X"
+            end
+            u.user_id = @user.id
+            u.stage_info = info
+            u.save
+
           end
         else
           @status = false
@@ -193,6 +203,10 @@ class Api::UsersController < ApplicationController
     if (!params[:email].present? || !params[:password].present?) && !params[:facebook].present? 
       @status = false
       @msg = "not exist email/password or facebook parameter"
+      if params[:user_id].present?
+        @status = true
+        @msg = "user info"
+      end
     end
 
     if @status == true
@@ -208,6 +222,12 @@ class Api::UsersController < ApplicationController
         end
       elsif params[:facebook].present?
         @user = User.find_by_facebook(params[:facebook])
+        if !@user.present?
+          @msg = "not exist user"
+          @status = false
+        end
+      elsif params[:user_id].present?
+        @user = User.find_by_id(params[:user_id])
         if !@user.present?
           @msg = "not exist user"
           @status = false
