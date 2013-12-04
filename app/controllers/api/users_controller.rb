@@ -102,7 +102,7 @@ class Api::UsersController < ApplicationController
               a.mon_end    = Date.today.end_of_month
             end
             a.save
-            /Create user stage info table/
+            #Create user stage info table#
             u = UserStageInfo.new
             info = ""
             (1..1800).each do

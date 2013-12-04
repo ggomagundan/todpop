@@ -9,5 +9,6 @@ if @status == true
     if @level.present?
       json.level @level
     end
+    json.stage_info @stage_info
   end
 end

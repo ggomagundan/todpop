@@ -67,6 +67,26 @@ class Api::StudiesController < ApplicationController
           end
           #Update level_test column
           user.update_attributes(:level_test => 1)
+          #Update User_Stage_Info
+          if !UserStageInfo.find_by_user_id(user_id).present?
+            usi = UserStageInfo.new
+            usi.user_id = user_id
+            usi.stage_info = ""
+            (1..1800).each do
+              usi.stage_info += "X"
+            end
+            usi.save
+          end
+          stage_setting = UserStageInfo.find_by_user_id(user_id)
+          stage_setting.stage_info = ""
+          (1..1800).each do
+            stage_setting.stage_info += "X"
+          end
+          (1..@level).each do |i|
+            stage_setting.stage_info[(i-1)*10] = "0"
+          end
+          stage_setting.update_attributes(:stage_info => stage_setting.stage_info)
+          @stage_info = UserStageInfo.find_by_user_id(user_id).stage_info
         end
 
       end
@@ -422,7 +442,19 @@ class Api::StudiesController < ApplicationController
       # user_test_history log
       UserTestHistory.create(:user_id => user_id, :category => category, :level => level, :stage => stage, :n_medals => @medal, :score => @score, :reward => @reward, :rank_point => @rank_point)
 
-
+      # INPUT => User_Stage_Info
+      usinfo = UserStageInfo.find_by_user_id(user_id)
+      #usinfo.stage_info[(level-1)*10 + (stage-1)] = @medal.to_s
+      #if ((level-1)*10+stage) < 1800
+      #  usinfo.stage_info[(level-1)*10 + stage] = "0"
+      #end
+      
+      #bbbb = usinfo.stage_info[]
+      #usinfo.stage_info="1234"
+      hihi = usinfo.stage_info
+      hihi[0] = 'W'
+      usinfo.update_attributes(:stage_info => hihi)
+      @a = UserStageInfo.find_by_user_id(user_id).stage_info
     end
   end
 
