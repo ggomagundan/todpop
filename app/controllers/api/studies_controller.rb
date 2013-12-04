@@ -3,7 +3,7 @@ class Api::StudiesController < ApplicationController
   def index
     @studies = Study.all
   end
-  
+ 
   def get_level_test_words
   
     @status = true
@@ -444,28 +444,27 @@ class Api::StudiesController < ApplicationController
 
       # INPUT => User_Stage_Info
       usinfo = UserStageInfo.find_by_user_id(user_id)
-      #usinfo.stage_info[(level-1)*10 + (stage-1)] = @medal.to_s
-      #if ((level-1)*10+stage) < 1800
-      #  usinfo.stage_info[(level-1)*10 + stage] = "0"
-      #end
+      if usinfo.stage_info[(level-1)*10 + (stage-1)].to_i < @medal
+        usinfo.stage_info[(level-1)*10 + (stage-1)] = @medal.to_s
+      end
+      if ((level-1)*10+stage) < 1800 && usinfo.stage_info[(level-1)*10 + stage] == "X"
+        usinfo.stage_info[(level-1)*10 + stage] = "0"
+      end
       
-      #bbbb = usinfo.stage_info[]
-      #usinfo.stage_info="1234"
-      hihi = usinfo.stage_info
-      hihi[0] = 'W'
-      usinfo.update_attributes(:stage_info => hihi)
-      @a = UserStageInfo.find_by_user_id(user_id).stage_info
+      usinfo.update_column(:stage_info, usinfo.stage_info)
+      #usinfo.update_attributes(:stage_info => usinfo.stage_info)
+      @stage_info = UserStageInfo.find_by_user_id(user_id).stage_info
     end
   end
 
   def get_stage_info
    @status = true
    @msg = ""
-   @stage = "1"
-   (1..1799).each do
-     @stage += "0"
+   @stage = UserStageInfo.find_by_user_id(params[:user_id]).stage_info
+   if !@stage.present?
+     @status = false
+     @msg = "Not exist user"
    end
   end
-
 
 end

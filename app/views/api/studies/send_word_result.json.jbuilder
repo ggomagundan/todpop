@@ -7,7 +7,7 @@ if @status == true
    json.reward @reward
    json.medal @medal
    json.rank_point @rank_point
-   json.a @a
+   json.stage_info @stage_info
   end
 
 end
