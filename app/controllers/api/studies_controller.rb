@@ -451,9 +451,8 @@ class Api::StudiesController < ApplicationController
           cusinfo.stage_info += "X"
         end
         cusinfo.save
-      else
-        usinfo = UserStageInfo.find_by_user_id(user_id)
       end
+      usinfo = UserStageInfo.find_by_user_id(user_id)
       if usinfo.stage_info[(level-1)*10 + (stage-1)].to_i < @medal
         usinfo.stage_info[(level-1)*10 + (stage-1)] = @medal.to_s
       end
