@@ -80,6 +80,7 @@ Todpop::Application.routes.draw do
       get 'set_cpx_log', :on => :collection
       get 'get_cps_questions', :on => :collection
       get 'set_survey_result', :on => :collection
+      get 'show_cpx_ad', :on => :collection
     end
   
     resources :studies do
@@ -120,6 +121,7 @@ Todpop::Application.routes.draw do
       get 'character', :on => :member
       get 'main_notice', :on => :collection
       get 'user_count', :on => :collection
+      get 'stage_initialization', :on => :collection
     end
 
   

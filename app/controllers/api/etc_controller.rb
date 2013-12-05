@@ -348,4 +348,42 @@ class Api::EtcController < ApplicationController
     @count = User.all.count
   end
 
+  def stage_initialization
+    last_user = User.last.id
+    log_count = UserStageBest.count
+    (1..last_user).each do |i|
+      if User.find_by_id(i).present?
+        if !UserStageInfo.find_by_user_id(i).present?
+          new_stage_info = UserStageInfo.new
+          new_stage_info.user_id = i
+          new_stage_info.stage_info = ""
+          (1..1800).each do
+            new_stage_info.stage_info += "X"
+          end
+          new_stage_info.save
+        end
+        if UserHighestLevel.find_by_user_id(i).present?
+          high_level = UserHighestLevel.find_by_user_id(i)
+          stage_info_user = UserStageInfo.find_by_user_id(i)
+          (0..high_level.level-1).each do |j|
+            stage_info_user.stage_info[j*10] = "0"
+          end
+          stage_info_user.update_column(:stage_info, stage_info_user.stage_info)
+        else
+          ini_info_user = UserStageInfo.find_by_user_id(i)
+          ini_info_user.stage_info[0] = "0"
+          ini_info_user.update_column(:stage_info, ini_info_user.stage_info)
+        end
+        if UserStageBest.find_by_user_id(i).present?
+          stage_log = UserStageBest.where(:user_id => i)
+          log_apply = UserStageInfo.find_by_user_id(i)
+          (0..stage_log.count-1).each do |k|
+            log_apply.stage_info[(stage_log[k].level.to_i-1)*10+(stage_log[k].stage.to_i-1)] = stage_log[k].n_medals_best.to_s
+          end
+          log_apply.update_column(:stage_info, log_apply.stage_info)
+        end
+      end
+    end
+  end
+
 end

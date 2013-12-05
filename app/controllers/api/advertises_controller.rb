@@ -510,4 +510,28 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
     end
   end
 
+  def show_cpx_ad
+    @status = true
+    @msg = ""
+    if !params[:ad_id].present?
+      @status = false
+      @msg = "not exist ad_id"
+    end
+
+    if @status == true
+      if !CpxAdvertisement.find_by_id(params[:ad_id]).present?
+        cpx_data = CpxAdvertisement.find_by_id(params[:ad_id])
+        @ad_id = cpx_data.id
+        @ad_type = cpx_data.ad_type
+        @ad_image = cpx_data.ad_image
+        @ad_text = cpx_data.ad_text
+        @target_url = cpx_data.target_url
+        @package_name = cpx_data.package_name
+        @confirm_url = cpx_data.confirm_url
+        @reward = cpx_data.reward
+        @n_question = cpx_data.n_question
+      end
+    end
+  end
+
 end
