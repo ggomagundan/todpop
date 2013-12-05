@@ -137,12 +137,26 @@ class Api::EtcController < ApplicationController
           ad_info=CpxAdvertisement.find_by_id(ad_id)
           if my_cpx_recent.act == 1
             if ad_info.remain <= 0
-              act = 3
+              act = 9
             else
               act = 1
             end
+          elsif my_cpx_recent.act == 2
+            if ad_info.remain <= 0
+              act = 9
+            else
+              act = 2
+            end
+          elsif my_cpx_recent.act == 3
+            act = 3
+          elsif my_cpx_recent.act == 4
+            if ad_info.remain <= 0
+              act = 9
+            else
+              act = 4
+            end
           else
-            act = 2
+            act = 0
           end
           tmp_hash={:id => my_cpx_recent.id, :ad_id => ad_id, :ad_type => my_cpx_recent.ad_type, :act => act, :created_at => my_cpx_recent.created_at, :name => ad_info.ad_name, :image => ad_info.ad_image.url, :reward => ad_info.reward}
           @cpx_list.push(tmp_hash)
