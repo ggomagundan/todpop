@@ -456,7 +456,7 @@ class Api::StudiesController < ApplicationController
       if usinfo.stage_info[(level-1)*10 + (stage-1)].to_s == "Y" || usinfo.stage_info[(level-1)*10 + (stage-1)].to_i < @medal
         usinfo.stage_info[(level-1)*10 + (stage-1)] = @medal.to_s
       end
-      if ((level-1)*10+stage) < 1800 && usinfo.stage_info[(level-1)*10 + stage] == "X"
+      if ((level-1)*10+stage) < 1800 && usinfo.stage_info[(level-1)*10 + stage] == "x"
         usinfo.stage_info[(level-1)*10 + stage] = "Y"
       end
       
