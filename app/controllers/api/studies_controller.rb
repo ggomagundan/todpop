@@ -73,17 +73,17 @@ class Api::StudiesController < ApplicationController
             usi.user_id = user_id
             usi.stage_info = ""
             (1..1800).each do
-              usi.stage_info += "X"
+              usi.stage_info += "x"
             end
             usi.save
           end
           stage_setting = UserStageInfo.find_by_user_id(user_id)
           stage_setting.stage_info = ""
           (1..1800).each do
-            stage_setting.stage_info += "X"
+            stage_setting.stage_info += "x"
           end
           (1..@level).each do |i|
-            stage_setting.stage_info[(i-1)*10] = "0"
+            stage_setting.stage_info[(i-1)*10] = "Y"
           end
           stage_setting.update_attributes(:stage_info => stage_setting.stage_info)
           @stage_info = UserStageInfo.find_by_user_id(user_id).stage_info
