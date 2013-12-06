@@ -446,18 +446,18 @@ class Api::StudiesController < ApplicationController
       if !UserStageInfo.find_by_user_id(user_id).present?
         cusinfo = UserStageInfo.new
         cusinfo.user_id = user_id
-        cusinfo.stage_info = "0"
+        cusinfo.stage_info = "Y"
         (1..1799).each do
-          cusinfo.stage_info += "X"
+          cusinfo.stage_info += "x"
         end
         cusinfo.save
       end
       usinfo = UserStageInfo.find_by_user_id(user_id)
-      if usinfo.stage_info[(level-1)*10 + (stage-1)].to_i < @medal
+      if usinfo.stage_info[(level-1)*10 + (stage-1)].to_s == "Y" || usinfo.stage_info[(level-1)*10 + (stage-1)].to_i < @medal
         usinfo.stage_info[(level-1)*10 + (stage-1)] = @medal.to_s
       end
       if ((level-1)*10+stage) < 1800 && usinfo.stage_info[(level-1)*10 + stage] == "X"
-        usinfo.stage_info[(level-1)*10 + stage] = "0"
+        usinfo.stage_info[(level-1)*10 + stage] = "Y"
       end
       
       usinfo.update_column(:stage_info, usinfo.stage_info)
