@@ -126,7 +126,7 @@ class Api::EtcController < ApplicationController
       @status=false
       @msg="not exist user"
     else
-      my_cpx_ad_ids=AdvertiseCpxLog.where(:user_id => params[:id], :act =>1).pluck(:ad_id).uniq
+      my_cpx_ad_ids=AdvertiseCpxLog.where(:user_id => params[:id]).pluck(:ad_id).uniq
       if my_cpx_ad_ids.count==0
         @msg="not exist log"
       else
