@@ -87,6 +87,15 @@ class Api::StudiesController < ApplicationController
           end
           stage_setting.update_attributes(:stage_info => stage_setting.stage_info)
           @stage_info = UserStageInfo.find_by_user_id(user_id).stage_info
+        
+          #Reset -> Today's UserStageBest record
+          reset_usb = UserStageBest.where('user_id = ? and created_at >= ?')
+          if reset_usb.present?
+            reset_user_id = reset_usb[0].user_id*(-1)
+            (0..reset_usb.count-1).each do |i|
+              reset_usb[i].update_attributes(:user_id => reset_user_id)
+            end
+          end
         end
 
       end
