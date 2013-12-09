@@ -517,9 +517,9 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
       @status = false
       @msg = "not exist ad_id"
     end
-
+    
     if @status == true
-      if !CpxAdvertisement.find_by_id(params[:ad_id]).present?
+      if CpxAdvertisement.find_by_id(params[:ad_id]).present?
         cpx_data = CpxAdvertisement.find_by_id(params[:ad_id])
         @ad_id = cpx_data.id
         @ad_type = cpx_data.ad_type
@@ -530,6 +530,9 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
         @confirm_url = cpx_data.confirm_url
         @reward = cpx_data.reward
         @n_question = cpx_data.n_question
+      else
+        @status = false
+        @msg = "not exist ad_id"
       end
     end
   end
