@@ -1,7 +1,7 @@
 json.status @status
 json.msg  @msg
 
-if @status == ture
+if @status == true
   json.data do |json|
     json.ad_id  @ad_id
     json.ad_type  @ad_type
