@@ -407,4 +407,19 @@ class Api::EtcController < ApplicationController
     end
   end
 
+  def cpa_test
+    @status = true
+    @msg = ""
+
+    int_mobile = params[:mobile].to_i
+
+    if int_mobile%2 == 1
+      @action_date = Date.today
+      @action_time = "01:16:02"
+    else
+      @status = false
+      @msg = "Not exist user"
+    end
+  end
+
 end
