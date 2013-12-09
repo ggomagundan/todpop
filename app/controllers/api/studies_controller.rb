@@ -443,15 +443,17 @@ class Api::StudiesController < ApplicationController
       UserTestHistory.create(:user_id => user_id, :category => category, :level => level, :stage => stage, :n_medals => @medal, :score => @score, :reward => @reward, :rank_point => @rank_point)
 
       # INPUT => User_Stage_Info
-      if !UserStageInfo.find_by_user_id(user_id).present?
-        cusinfo = UserStageInfo.new
-        cusinfo.user_id = user_id
-        cusinfo.stage_info = "Y"
-        (1..1799).each do
-          cusinfo.stage_info += "x"
-        end
-        cusinfo.save
-      end
+      #if !UserStageInfo.find_by_user_id(user_id).present?
+      # cusinfo = UserStageInfo.new
+      # cusinfo.user_id = user_id
+      #  cusinfo.stage_info = "Y"
+      #  (1..1799).each do
+      #    cusinfo.stage_info += "x"
+      #  end
+      #  cusinfo.save
+      #end
+      # ... and "Y" || "x" || old_medal< new_medal conditions needed
+
       usinfo = UserStageInfo.find_by_user_id(user_id)
       if usinfo.stage_info[(level-1)*10 + (stage-1)].to_s == "Y" || usinfo.stage_info[(level-1)*10 + (stage-1)].to_i < @medal
         usinfo.stage_info[(level-1)*10 + (stage-1)] = @medal.to_s
