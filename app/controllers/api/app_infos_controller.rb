@@ -22,7 +22,7 @@ class Api::AppInfosController < ApplicationController
      
     # temp for app ver.0.1.0
     @ios_url = @ment
-    @ment = '짭짤한 영어'
+    #@ment = '짭짤한 영어'
     @android_url = 'http://market.android.com/details?id=com.todpop.saltyenglish'
     # --- till here ---
 
