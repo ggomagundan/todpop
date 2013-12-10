@@ -126,7 +126,7 @@ class Api::EtcController < ApplicationController
       @status=false
       @msg="not exist user"
     else
-      my_cpx_ad_ids=AdvertiseCpxLog.where(:user_id => params[:id], :act =>1).pluck(:ad_id).uniq
+      my_cpx_ad_ids=AdvertiseCpxLog.where(:user_id => params[:id]).pluck(:ad_id).uniq
       if my_cpx_ad_ids.count==0
         @msg="not exist log"
       else
@@ -404,6 +404,21 @@ class Api::EtcController < ApplicationController
           log_apply.update_column(:stage_info, log_apply.stage_info)
         end
       end
+    end
+  end
+
+  def cpa_test
+    @status = true
+    @msg = ""
+
+    int_mobile = params[:mobile].to_i
+
+    if int_mobile%2 == 1
+      @action_date = Date.today
+      @action_time = "01:16:02"
+    else
+      @status = false
+      @msg = "Not exist user"
     end
   end
 
