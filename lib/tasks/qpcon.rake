@@ -19,6 +19,27 @@ require 'net/http'
       end
     end
 
+
+    task :product_list => :environment do
+      QpconCategory.all.each do |c_id|
+        json = connect("prodList.do",{:cmd => "prodList", :cateId => c_id.category_id})
+        if json["STATUS_CODE"] == "00"
+
+          json["PRODUCT"]["PRODUCT_LIST"].each do |list|
+            if QpconProduct.where(:product_id => list["PROD_ID"]).present?
+              product = QpconProduct.where(:product_id => list["PROD_ID"]).first
+              product.update_attributes(:product_name => list["PROD_NAME"], :qpcon_category_id => c_id.id, :change_market_name => list["CHC_COMP_NAME"], :stock_count => list["STOCK_CNT"].to_i, :market_cost => list["MARKET_COST"].to_i, :common_cost => list["COMMON_COST"].to_i, :img_url_70 => list["IMG_URL_70"], :img_url_150 => list["IMG_URL_150"], :img_url_250 => list["IMG_URL_250"])
+            else
+              QpconProduct.create(:product_id => list["PROD_ID"], :product_name => list["PROD_NAME"], :qpcon_category_id => c_id.id, :change_market_name => list["CHC_COMP_NAME"], :stock_count => list["STOCK_CNT"].to_i, :market_cost => list["MARKET_COST"].to_i, :common_cost => list["COMMON_COST"].to_i, :img_url_70 => list["IMG_URL_70"], :img_url_150 => list["IMG_URL_150"], :img_url_250 => list["IMG_URL_250"])
+
+            end
+#product_id:string qpcon_category_id:integer product_name:string change_market_name stock_count:integer market_cost:integer common_cost:integer img_url_70:string img_url_150:string img_url_250:string market_name:string min_age:integer use_info:text valid_type:integer valid_date:string max_sale:integer min_sale:integer max_month_sale:integer is_sale:integer pin_type:integer product_type:integer
+
+          end
+        end
+      end
+    end
+
   end
 
 
