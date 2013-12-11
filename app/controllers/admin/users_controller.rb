@@ -2,6 +2,7 @@
 class Admin::UsersController < Admin::ApplicationController
   def index
     @users = User.all
+    @counting = User.count
   end
 
   def show
