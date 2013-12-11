@@ -19,6 +19,17 @@ require 'net/http'
       end
     end
 
+
+    task :product_list => :environment do
+      QpconCategory.all.each do |c_id|
+        json = connect("prodList.do",{:cmd => "prodList", :cateId => c_id})
+        if json["STATUS_CODE"] == "00"
+
+          binding.pry
+        end
+      end
+    end
+
   end
 
 
