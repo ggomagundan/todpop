@@ -22,7 +22,7 @@ require 'net/http'
 
     task :product_list => :environment do
       QpconCategory.all.each do |c_id|
-        json = connect("prodList.do",{:cmd => "prodList", :cateId => c_id})
+        json = connect("prodList.do",{:cmd => "prodList", :cateId => c_id.category_id})
         if json["STATUS_CODE"] == "00"
 
           binding.pry
