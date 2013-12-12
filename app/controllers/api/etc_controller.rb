@@ -430,6 +430,19 @@ class Api::EtcController < ApplicationController
    @token_name = "Launching Event"
    @token_point_type = 2500
 
+  ActiveRecord::Base.connection.execute("TRUNCATE advertise_cpd_logs")
+  ActiveRecord::Base.connection.execute("TRUNCATE advertise_cpdm_logs")
+  ActiveRecord::Base.connection.execute("TRUNCATE advertise_cpx_logs")
+  ActiveRecord::Base.connection.execute("TRUNCATE point_logs")
+  ActiveRecord::Base.connection.execute("TRUNCATE ranking_histories")
+  ActiveRecord::Base.connection.execute("TRUNCATE refund_requests")
+  ActiveRecord::Base.connection.execute("TRUNCATE reward_logs")
+  ActiveRecord::Base.connection.execute("TRUNCATE survey_results")
+  ActiveRecord::Base.connection.execute("TRUNCATE user_highest_levels")
+  ActiveRecord::Base.connection.execute("TRUNCATE user_stage_bests")
+  ActiveRecord::Base.connection.execute("TRUNCATE user_stage_infos")
+  ActiveRecord::Base.connection.execute("TRUNCATE user_test_histories")
+
    ranking_reset = RankingCurrent.all
    (0..ranking_reset.count-1).each do |i|
      if ranking_reset[i].present?
