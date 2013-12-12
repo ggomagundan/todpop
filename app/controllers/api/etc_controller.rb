@@ -429,7 +429,7 @@ class Api::EtcController < ApplicationController
    @token_point = 300
    @token_name = "Launching Event"
    @token_point_type = 2500
-   
+
    ranking_reset = RankingCurrent.all
    (0..ranking_reset.count-1).each do |i|
      if ranking_reset[i].present?
