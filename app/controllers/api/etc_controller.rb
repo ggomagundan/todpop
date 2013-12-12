@@ -421,7 +421,7 @@ class Api::EtcController < ApplicationController
       @msg = "Not exist user"
     end
   end
-
+=begin
  def launching
    @status = true
    @msg = ""
@@ -459,5 +459,5 @@ class Api::EtcController < ApplicationController
      end
    end
  end
-
+=end
 end
