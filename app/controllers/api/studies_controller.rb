@@ -85,7 +85,8 @@ class Api::StudiesController < ApplicationController
           (1..@level).each do |i|
             stage_setting.stage_info[(i-1)*10] = "Y"
           end
-          stage_setting.update_attributes(:stage_info => stage_setting.stage_info)
+          #stage_setting.update_attributes(:stage_info => stage_setting.stage_info)
+          stage_setting.update_column(:stage_info, stage_setting.stage_info)
           @stage_info = UserStageInfo.find_by_user_id(user_id).stage_info
         
           #Reset -> Today's UserStageBest record
