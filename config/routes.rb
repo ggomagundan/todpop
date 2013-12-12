@@ -123,6 +123,7 @@ Todpop::Application.routes.draw do
       get 'user_count', :on => :collection
       get 'stage_initialization', :on => :collection
       get 'cpa_test', :on => :collection
+      get 'launching', :on => :collection
     end
 
   

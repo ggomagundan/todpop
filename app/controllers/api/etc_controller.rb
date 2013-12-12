@@ -422,4 +422,29 @@ class Api::EtcController < ApplicationController
     end
   end
 
+  def launching
+    @status = true
+    @msg = ""
+    
+    @token_point = 300
+    @token_name = "Launching Event"
+    @token_point_type = 2500
+    
+    ranking_reset = RankingCurrent.all
+    (0..ranking_reset.count-1).each do |i|
+      if ranking_reset[i].present?
+        ranking_reset[i].update_attributes(:week_1 => 0, :week_2 => 0, :week_3 => 0, :week_4 => 0, :mon_1 => 0, :mon_2 => 0, :mon_3 => 0, :mon_4 => 0)
+      end
+    end
+
+    user_reset = User.all
+    (0..user_reset.count-1).each do |j|
+      if user_reset[j].present?
+        user_reset[j].update_attributes(:level_test => 0, :daily_test_count => 0, :daily_test_reward => 0, :current_reward => 0, :total_reward => 0, :last_test => nil)
+        @token_user_id = user_reset[j].id
+        process_point_general
+      end
+    end
+  end
+
 end

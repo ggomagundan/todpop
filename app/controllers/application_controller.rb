@@ -13,6 +13,7 @@ class ApplicationController < ActionController::Base
   #      --------------------------------------------------
   #      Test       =   1000+category      1000+category
   #      Attendace  =     2000                2000
+  #      Launching Event =                    2500
   #      Recommend  =     3000                3000
   #        CPX      =   4000+CPX_code      4000+CPX_code
   #       Refund    =     7000
