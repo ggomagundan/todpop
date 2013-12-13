@@ -421,43 +421,84 @@ class Api::EtcController < ApplicationController
       @msg = "Not exist user"
     end
   end
-=begin
- def launching
-   @status = true
-   @msg = ""
+ 
+
+
+  def launching
+    @status = true
+    @msg = ""
    
-   @token_point = 300
-   @token_name = "Launching Event"
-   @token_point_type = 2500
+    @token_point = 300
+    @token_name = "Launching Event"
+    @token_point_type = 2500
 
-  ActiveRecord::Base.connection.execute("TRUNCATE advertise_cpd_logs")
-  ActiveRecord::Base.connection.execute("TRUNCATE advertise_cpdm_logs")
-  ActiveRecord::Base.connection.execute("TRUNCATE advertise_cpx_logs")
-  ActiveRecord::Base.connection.execute("TRUNCATE point_logs")
-  ActiveRecord::Base.connection.execute("TRUNCATE ranking_histories")
-  ActiveRecord::Base.connection.execute("TRUNCATE refund_requests")
-  ActiveRecord::Base.connection.execute("TRUNCATE reward_logs")
-  ActiveRecord::Base.connection.execute("TRUNCATE survey_results")
-  ActiveRecord::Base.connection.execute("TRUNCATE user_highest_levels")
-  ActiveRecord::Base.connection.execute("TRUNCATE user_stage_bests")
-  ActiveRecord::Base.connection.execute("TRUNCATE user_stage_infos")
-  ActiveRecord::Base.connection.execute("TRUNCATE user_test_histories")
+    ActiveRecord::Base.connection.execute("TRUNCATE advertise_cpd_logs")
+    ActiveRecord::Base.connection.execute("TRUNCATE advertise_cpdm_logs")
+    ActiveRecord::Base.connection.execute("TRUNCATE advertise_cpx_logs")
+    ActiveRecord::Base.connection.execute("TRUNCATE point_logs")
+    ActiveRecord::Base.connection.execute("TRUNCATE ranking_histories")
+    ActiveRecord::Base.connection.execute("TRUNCATE refund_requests")
+    ActiveRecord::Base.connection.execute("TRUNCATE reward_logs")
+    ActiveRecord::Base.connection.execute("TRUNCATE survey_results")
+    ActiveRecord::Base.connection.execute("TRUNCATE user_highest_levels")
+    ActiveRecord::Base.connection.execute("TRUNCATE user_stage_bests")
+    ActiveRecord::Base.connection.execute("TRUNCATE user_stage_infos")
+    ActiveRecord::Base.connection.execute("TRUNCATE user_test_histories")
 
-   ranking_reset = RankingCurrent.all
-   (0..ranking_reset.count-1).each do |i|
-     if ranking_reset[i].present?
-       ranking_reset[i].update_attributes(:week_1 => 0, :week_2 => 0, :week_3 => 0, :week_4 => 0, :mon_1 => 0, :mon_2 => 0, :mon_3 => 0, :mon_4 => 0)
-     end
-   end
+    ranking_reset = RankingCurrent.all
+    (0..ranking_reset.count-1).each do |i|
+      if ranking_reset[i].present?
+        ranking_reset[i].update_attributes(:week_1 => 0, :week_2 => 0, :week_3 => 0, :week_4 => 0, :mon_1 => 0, :mon_2 => 0, :mon_3 => 0, :mon_4 => 0)
+      end
+    end
 
-   user_reset = User.all
-   (0..user_reset.count-1).each do |j|
-     if user_reset[j].present?
-       user_reset[j].update_attributes(:level_test => 0, :daily_test_count => 0, :daily_test_reward => 0, :current_reward => 0, :total_reward => 0, :last_test => nil)
-       @token_user_id = user_reset[j].id
-       process_point_general
-     end
-   end
- end
-=end
+    user_reset = User.all
+    (0..user_reset.count-1).each do |j|
+      if user_reset[j].present?
+        user_reset[j].update_attributes(:level_test => 0, :daily_test_count => 0, :daily_test_reward => 0, :current_reward => 0, :total_reward => 0, :last_test => nil)
+        @token_user_id = user_reset[j].id
+        process_point_general
+      end
+    end
+
+
+
+
+    ############## ad count reset (2013 12 13)  : change every time
+    cpdmx_ad = CpdAdvertisement.all
+    remain = 99999
+    (0..cpdmx_ad.count-1).each do |j|
+      if cpdmx_ad[j].present?
+        cpdmx_ad[j].update_attributes(:remain => remain)
+      end
+    end
+
+    cpdmx_ad = CpdmAdvertisement.all
+    remain = 9999
+    (0..cpdmx_ad.count-1).each do |j|
+      if cpdmx_ad[j].present?
+        cpdmx_ad[j].update_attributes(:remain => remain)
+      end
+    end
+
+    cpdmx_ad = CpxAdvertisement.all
+    remain = 9999
+    (0..cpdmx_ad.count-1).each do |j|
+      if cpdmx_ad[j].present?
+        cpdmx_ad[j].update_attributes(:remain => remain)
+      end
+    end
+    ################
+
+  end
+
+
 end
+
+
+
+
+
+
+
+
