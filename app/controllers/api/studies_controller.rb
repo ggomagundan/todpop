@@ -481,10 +481,21 @@ class Api::StudiesController < ApplicationController
   def get_stage_info
    @status = true
    @msg = ""
-   @stage = UserStageInfo.find_by_user_id(params[:user_id]).stage_info
-   if !@stage.present?
+
+   if !UserStageInfo.find_by_user_id(params[:user_id]).present?
+     new_usi = UserStageInfo.new
+     new_usi.user_id = params[:user_id].to_i
+     new_usi.stage_info = "Y"
+     (1..1799).each do
+       new_usi.stage_info += "x"
+     end
+     new_usi.save
+   else
+     @stage = UserStageInfo.find_by_user_id(params[:user_id]).stage_info
+     if !@stage.present?
      @status = false
      @msg = "Not exist user"
+   end
    end
   end
 
