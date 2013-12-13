@@ -425,6 +425,8 @@ class Api::EtcController < ApplicationController
 
 
   def launching
+
+=begin
     @status = true
     @msg = ""
    
@@ -489,6 +491,8 @@ class Api::EtcController < ApplicationController
       end
     end
     ################
+=end
+
 
   end
 
