@@ -423,7 +423,7 @@ class Api::EtcController < ApplicationController
   end
  
 
-
+=begin
   def launching
 
     @status = true
@@ -493,7 +493,7 @@ class Api::EtcController < ApplicationController
 
 
   end
-
+=end
 
 end
 
