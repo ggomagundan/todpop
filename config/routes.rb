@@ -31,7 +31,7 @@ Todpop::Application.routes.draw do
   namespace(:admin){ resources :levels }
 
   namespace(:api){ 
-
+=begin
     resources :users do
       post 'sign_up', :on => :collection
       post 'sign_in', :on => :collection
@@ -106,7 +106,7 @@ Todpop::Application.routes.draw do
       get 'get_notices', :on => :collection
       get 'get_helps', :on => :collection
     end
-
+=end
     resources :etc do
       get 'refund_info', :on => :member
       get 'get_bank_list', :on => :collection
