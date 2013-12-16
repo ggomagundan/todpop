@@ -38,7 +38,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           r_id = 0     
           @ad_list.each do |ad|
             day = ad.end_date.to_date - Date.today
-            if (ad.remain /  day.to_f) > r
+            if (ad.remain.to_f /  day.to_f) > r
               r = (ad.remain /  day.to_f)
               r_id = ad.id
             end
@@ -59,7 +59,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           r_id = 0     
           @ad_list_3.each do |ad|
             day = ad.end_date.to_date - Date.today
-            if (ad.remain /  day.to_f) > r
+            if (ad.remain.to_f /  day.to_f) > r
               r = (ad.remain /  day.to_f)
               r_id = ad.id
             end
@@ -69,7 +69,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           r_id = 0     
           @ad_list_4.each do |ad|
             day = ad.end_date.to_date - Date.today
-            if (ad.remain /  day.to_f) > r
+            if (ad.remain.to_f /  day.to_f) > r
               r = (ad.remain /  day.to_f)
               r_id = ad.id
             end
@@ -79,7 +79,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           r_id = 0     
           @ad_list_5.each do |ad|
             day = ad.end_date.to_date - Date.today
-            if (ad.remain /  day.to_f) > r
+            if (ad.remain.to_f /  day.to_f) > r
               r = (ad.remain /  day.to_f)
               r_id = ad.id
             end
@@ -142,7 +142,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           r_id = 0     
           @ad_list.each do |ad|
             day = ad.end_date - Date.today
-            if (ad.remain /  day.to_f) > r
+            if (ad.remain.to_f /  day.to_f) > r
               r = (ad.remain /  day.to_f)
               r_id = ad.id
             end
@@ -163,7 +163,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           r_id = 0     
           @ad_list_3.each do |ad|
             day = ad.end_date - Date.today
-            if (ad.remain /  day.to_f) > r
+            if (ad.remain.to_f /  day.to_f) > r
               r = (ad.remain /  day.to_f)
               r_id = ad.id
             end
@@ -173,7 +173,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           r_id = 0     
           @ad_list_4.each do |ad|
             day = ad.end_date - Date.today
-            if (ad.remain /  day.to_f)> r
+            if (ad.remain.to_f /  day.to_f)> r
               r = (ad.remain /  day.to_f)
               r_id = ad.id
             end
@@ -183,7 +183,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           r_id = 0     
           @ad_list_5.each do |ad|
             day = ad.end_date - Date.today
-            if (ad.remain /  day.to_f) > r
+            if (ad.remain.to_f /  day.to_f) > r
               r = (ad.remain /  day.to_f)
               r_id = ad.id
             end
@@ -252,7 +252,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           r_id = 0     
           @ad_list.each do |ad|
             day = ad.end_date.to_date - Date.today
-            if (ad.remain /  day.to_f) > r
+            if (ad.remain.to_f /  day.to_f) > r
               r = (ad.remain /  day.to_f)
               r_id = ad.id
             end
@@ -273,7 +273,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           r_id = 0     
           @ad_list_3.each do |ad|
             day = ad.end_date.to_date - Date.today
-            if (ad.remain /  day.to_f) > r
+            if (ad.remain.to_f /  day.to_f) > r
               r = (ad.remain /  day.to_f)
               r_id = ad.id
             end
@@ -283,7 +283,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           r_id = 0     
           @ad_list_4.each do |ad|
             day = ad.end_date.to_date - Date.today
-            if (ad.remain /  day.to_f) > r
+            if (ad.remain.to_f /  day.to_f) > r
               r = (ad.remain /  day.to_f)
               r_id = ad.id
             end
@@ -293,8 +293,8 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           r_id = 0     
           @ad_list_5.each do |ad|
             day = ad.end_date.to_date - Date.today
-            if (ad.remain /  day.to_f) > r
-              r = (ad.remain /  day.to_f)
+            if (ad.remain.to_f / day.to_f) > r
+              r = (ad.remain / day.to_f)
               r_id = ad.id
             end
           end
