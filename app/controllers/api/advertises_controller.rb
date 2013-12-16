@@ -261,8 +261,10 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
         elsif(@ad_list_2.length != 0)
           r = 999990
           r_id = 0     
+          @msg = @ad_list_2
           @ad_list_2.each do |ad|
             day = ad.end_date.to_date - Date.today
+            @msg = day
             if day < r
               r = day
               r_id = ad.id
@@ -290,16 +292,13 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           end
         else
           @msg = "ad_list_5"
-          @msg = @ad_list_5
           r = 0
           r_id = 0     
           @ad_list_5.each do |ad|
-            @msg = "each do"
             day = ad.end_date.to_date - Date.today
             if (ad.remain.to_f / day.to_f) > r
               r = (ad.remain / day.to_f)
               r_id = ad.id
-              @msg = r
             end
           end
 
