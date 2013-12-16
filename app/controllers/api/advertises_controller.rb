@@ -242,13 +242,12 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           @ad_list = CpxAdvertisement.where('priority = 1 and id not in (?)',@ad_log)
           @ad_list_2 = CpxAdvertisement.where('priority = 2 and id not in (?)',@ad_log)
           #@ad_list_2 = CpxAdvertisement.where(:priority => 2)
+          @msg = @ad_list_2
           @ad_list_3 = CpxAdvertisement.where('priority = 3 and id not in (?)',@ad_log)
           @ad_list_4 = CpxAdvertisement.where('priority = 4 and id not in (?)',@ad_log)
           @ad_list_5 = CpxAdvertisement.where(:priority => 5)
         end
         
-        @msg = @ad_list_2
-
         if(@ad_list.length != 0)
           r = 0
           r_id = 0     
@@ -261,11 +260,11 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           end
        
         elsif(@ad_list_2.length != 0)
+          @msg = "elsif(@ad_list_2.length != 0)"
           r = 999990
           r_id = 0     
           @ad_list_2.each do |ad|
             day = ad.end_date.to_date - Date.today
-            @msg = day + " = day"
             if day < r
               r = day
               r_id = ad.id
