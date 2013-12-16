@@ -240,7 +240,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           @ad_list_5 = CpxAdvertisement.where(:priority => 5)
         else
           @ad_list = CpxAdvertisement.where('priority = 1 and id not in (?)',@ad_log)
-          @ad_list_2 = CpxAdvertisement.where('priority = 2 and id not in (?)',@ad_log)
+          @ad_list_2 = CpxAdvertisement.where('priority = ? and id not in (?)', 2, @ad_log)
           #@ad_list_2 = CpxAdvertisement.where(:priority => 2)
           @ad_list_3 = CpxAdvertisement.where('priority = 3 and id not in (?)',@ad_log)
           @ad_list_4 = CpxAdvertisement.where('priority = 4 and id not in (?)',@ad_log)
