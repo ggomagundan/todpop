@@ -231,7 +231,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
 
 #@ad_log = []	# test purpose by cys
 
-        @msg = @ad_log
+        @msg = @ad_log + " = ad_log"
 
         if @ad_log.length == 0
           @ad_list = CpxAdvertisement.where(:priority => 1)
@@ -266,7 +266,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           @msg = @ad_list_2
           @ad_list_2.each do |ad|
             day = ad.end_date.to_date - Date.today
-            @msg = day
+            @msg = day + " = day"
             if day < r
               r = day
               r_id = ad.id
