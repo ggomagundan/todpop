@@ -231,7 +231,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
 
 #@ad_log = []	# test purpose by cys
 
-        @msg = @ad_log + " = ad_log"
+        @msg = @ad_log
 
         if @ad_log.length == 0
           @ad_list = CpxAdvertisement.where(:priority => 1)
