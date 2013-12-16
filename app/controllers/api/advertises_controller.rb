@@ -289,13 +289,16 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
             end
           end
         else
+          @msg = "ad_list_5"
           r = 0
           r_id = 0     
           @ad_list_5.each do |ad|
+            @msg = "each do"
             day = ad.end_date.to_date - Date.today
             if (ad.remain.to_f / day.to_f) > r
               r = (ad.remain / day.to_f)
               r_id = ad.id
+              @msg = r
             end
           end
 
@@ -303,7 +306,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
 
         if r_id == 0
           @status = false
-          @msg = "not exist ads"
+          #@msg = "not exist ads"
         else 
           ad = CpxAdvertisement.find(r_id)
           @ad_id = ad.id
