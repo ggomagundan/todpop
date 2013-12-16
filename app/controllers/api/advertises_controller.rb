@@ -226,9 +226,9 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
         @status = false
         @msg = "not exist user"
       else
-        #@ad_log = AdvertiseCpxLog.where('user_id = ? and (act != 2 AND created_at >= ? AND created_at < ?) OR (act = 2 AND created_at >= ? AND created_at < ?)',
-        #      @user.id, 14.day.ago.to_time, Time.now, 45.day.ago.to_time, Time.now).pluck(:ad_id).uniq
-        @ad_log = AdvertiseCpxLog.where('user_id = ? and (((act = 1 OR act = 2) AND created_at >= ?) or ((act = 3 OR act = 4) AND created_at >= ?)))', @user.id, 14.day.ago.to_time, 45.day.ago.to_time).pluck(:ad_id).uniq
+        @ad_log = AdvertiseCpxLog.where('user_id = ? and (act != 2 AND created_at >= ? AND created_at < ?) OR (act = 2 AND created_at >= ? AND created_at < ?)',
+              @user.id, 14.day.ago.to_time, Time.now, 45.day.ago.to_time, Time.now).pluck(:ad_id).uniq
+        #@ad_log = AdvertiseCpxLog.where('user_id = ? and (((act = 1 OR act = 2) AND created_at >= ?) or ((act = 3 OR act = 4) AND created_at >= ?)))', @user.id, 14.day.ago.to_time, 45.day.ago.to_time).pluck(:ad_id).uniq
 #@ad_log = []	# test purpose by cys
         @msg = @ad_log
 
