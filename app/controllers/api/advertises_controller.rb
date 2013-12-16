@@ -226,11 +226,11 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
         @status = false
         @msg = "not exist user"
       else
-        @ad_log = AdvertiseCpxLog.where('user_id = ? and (act != 2 AND created_at >= ? AND created_at < ?) OR (act = 2 AND created_at >= ? AND created_at < ?)',
-              @user.id, 14.day.ago.to_time, Time.now, 45.day.ago.to_time, Time.now).pluck(:ad_id).uniq
-
+        #@ad_log = AdvertiseCpxLog.where('user_id = ? and (act != 2 AND created_at >= ? AND created_at < ?) OR (act = 2 AND created_at >= ? AND created_at < ?)',
+        #      @user.id, 14.day.ago.to_time, Time.now, 45.day.ago.to_time, Time.now).pluck(:ad_id).uniq
+        @ad_log = AdvertiseCpxLog.where('user_id = ? and (((act = 1 OR act = 2) AND created_at >= ?) or ((act = 3 OR act = 4) AND created_at >= ?))', @user.id, 14.day.ago.to_time, 45.day.ago.to_time)
 #@ad_log = []	# test purpose by cys
-
+        @msg = @ad_log
 
         if @ad_log.length == 0
           @ad_list = CpxAdvertisement.where(:priority => 1)
@@ -241,8 +241,6 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
         else
           @ad_list = CpxAdvertisement.where('priority = 1 and id not in (?)',@ad_log)
           @ad_list_2 = CpxAdvertisement.where('priority = 2 and id not in (?)',@ad_log)
-          #@ad_list_2 = CpxAdvertisement.where(:priority => 2)
-          @msg = @ad_list_2
           @ad_list_3 = CpxAdvertisement.where('priority = 3 and id not in (?)',@ad_log)
           @ad_list_4 = CpxAdvertisement.where('priority = 4 and id not in (?)',@ad_log)
           @ad_list_5 = CpxAdvertisement.where(:priority => 5)
@@ -260,7 +258,6 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           end
        
         elsif(@ad_list_2.length != 0)
-          @msg = "elsif(@ad_list_2.length != 0)"
           r = 999990
           r_id = 0     
           @ad_list_2.each do |ad|
@@ -305,7 +302,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
 
         if r_id == 0
           @status = false
-          #@msg = "not exist ads"
+          @msg = "not exist ads"
         else 
           ad = CpxAdvertisement.find(r_id)
           @ad_id = ad.id
