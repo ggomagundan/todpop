@@ -233,17 +233,17 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
         @msg = @ad_log
 
         if @ad_log.length == 0
-          @ad_list = CpxAdvertisement.where(:priority => 1)
-          @ad_list_2 = CpxAdvertisement.where(:priority => 2 )
-          @ad_list_3 = CpxAdvertisement.where(:priority => 3 )
-          @ad_list_4 = CpxAdvertisement.where(:priority => 4)
-          @ad_list_5 = CpxAdvertisement.where(:priority => 5)
+          @ad_list = CpxAdvertisement.where('priority = 1 and remain != 0')
+          @ad_list_2 = CpxAdvertisement.where('priority = 2 and remain !=0')
+          @ad_list_3 = CpxAdvertisement.where('priority = 3 and remain !=0')
+          @ad_list_4 = CpxAdvertisement.where('priority = 4 and remain !=0')
+          @ad_list_5 = CpxAdvertisement.where('priority = 5 and remain !=0')
         else
-          @ad_list = CpxAdvertisement.where('priority = 1 and id not in (?)',@ad_log)
-          @ad_list_2 = CpxAdvertisement.where('priority = 2 and id not in (?)',@ad_log)
-          @ad_list_3 = CpxAdvertisement.where('priority = 3 and id not in (?)',@ad_log)
-          @ad_list_4 = CpxAdvertisement.where('priority = 4 and id not in (?)',@ad_log)
-          @ad_list_5 = CpxAdvertisement.where(:priority => 5)
+          @ad_list = CpxAdvertisement.where('priority = 1 and remain != 0 and id not in (?)',@ad_log)
+          @ad_list_2 = CpxAdvertisement.where('priority = 2 and remain != 0 and id not in (?)',@ad_log)
+          @ad_list_3 = CpxAdvertisement.where('priority = 3 and remain != 0 and id not in (?)',@ad_log)
+          @ad_list_4 = CpxAdvertisement.where('priority = 4 and remain != 0 and id not in (?)',@ad_log)
+          @ad_list_5 = CpxAdvertisement.where('priority = 5 and remain != 0)
         end
         
         if(@ad_list.length != 0)
