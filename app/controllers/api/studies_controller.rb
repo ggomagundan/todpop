@@ -292,11 +292,11 @@ class Api::StudiesController < ApplicationController
 
       if record.present? && record.score_best.present?
         test_log = UserTestHistory.where(:user_id => user_id, :level => level, :stage => stage)
-        if test_log.size >= 4
+        if test_log.size >= 3
           @rank_point = @rank_point / 16
-        elsif test_log.size == 3
-          @rank_point = @rank_point / 8
         elsif test_log.size == 2
+          @rank_point = @rank_point / 8
+        elsif test_log.size == 1
           @rank_point = @rank_point / 5
         end
         #@rank_point = @rank_point / 5
