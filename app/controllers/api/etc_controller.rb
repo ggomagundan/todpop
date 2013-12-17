@@ -354,14 +354,18 @@ class Api::EtcController < ApplicationController
       @msg = "not exist notice"
     else
       @android_version = AppInfo.last.android_version
-      @ment = MentList.where(:kind => "notice").last.content
+      mentlist = MentList.where(:kind => "notice")
+      @ment = []
+      (0..mentlist.count-1).each do |m|
+        @ment[m] = mentlist[m].content
+      end
     end
   end
 
   def user_count
     @count = User.all.count
   end
-
+=begin
   def stage_initialization
     last_user = User.last.id
     log_count = UserStageBest.count
@@ -406,7 +410,7 @@ class Api::EtcController < ApplicationController
       end
     end
   end
-
+=end
   def cpa_test
     @status = true
     @msg = ""
