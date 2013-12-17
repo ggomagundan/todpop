@@ -291,7 +291,15 @@ class Api::StudiesController < ApplicationController
       record = UserStageBest.where(:stage => stage, :level => level, :user_id => user_id).first
 
       if record.present? && record.score_best.present?
-        @rank_point = @rank_point / 5
+        test_log = UserTestHistory.where(:user_id => user_id, :level => level, :stage => stage)
+        if test_log.size >= 4
+          @rank_point = @rank_point / 16
+        elsif test_log.size == 3
+          @rank_point = @rank_point / 8
+        elsif test_log.size == 2
+          @rank_point = @rank_point / 5
+        end
+        #@rank_point = @rank_point / 5
            
         if @medal - record.n_medals_best == 2
           @reward = AppInfo.last.test_reward_max.to_i
