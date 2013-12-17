@@ -66,7 +66,7 @@ class Api::StudiesController < ApplicationController
             user_stage.update_attributes(:category => category, :level => @level, :stage => 1)
           end
           #Update level_test column
-          user.update_attributes(:level_test => 1)
+          user.update_attributes(:level_test => @level)
           #Update User_Stage_Info
           if !UserStageInfo.find_by_user_id(user_id).present?
             usi = UserStageInfo.new

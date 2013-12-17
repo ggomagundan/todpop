@@ -38,7 +38,11 @@
         <td><%= user.interest %></td>
         <td><%= user.created_at %></td>
         <td><%= user.last_test %></td>
-        <td><%= 'O' if user.level_test == 1 %></td>
+        <td><%= if user.level_test == 1
+                  "O"
+                elsif user.level_test != 0
+                  user.level_test
+                end%></td>
         <td><%= link_to 'Edit', edit_admin_user_path(user), :class=>'btn btn-warning' %></td>
         <td><%#= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }, :class=>"btn btn-danger" %></td>
       </tr>

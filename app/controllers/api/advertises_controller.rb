@@ -138,17 +138,31 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
         @ad_log = AdvertiseCpdmLog.where('user_id = ? and created_at >= ? and created_at <= ?',@user.id, Time.now.at_beginning_of_week, Time.now.at_end_of_week).pluck(:ad_id).uniq
 
         if @ad_log.length == 0
-          @ad_list = CpdmAdvertisement.where(:priority => 1)
-          @ad_list_2 = CpdmAdvertisement.where(:priority => 2 )
-          @ad_list_3 = CpdmAdvertisement.where(:priority => 3 )
-          @ad_list_4 = CpdmAdvertisement.where(:priority => 4)
-          @ad_list_5 = CpdmAdvertisement.where(:priority => 5)
+          @ad_list = CpdmAdvertisement.where('priority = 1 and remain > 0 and start_date <= ?
+                                             and end_date >= ?', Time.now, Time.now)
+          @ad_list_2 = CpdmAdvertisement.where('priority = 2 and remain > 0 and start_date <= ? and 
+                                               end_date >= ?', Time.now, Time.now)
+          @ad_list_3 = CpdmAdvertisement.where('priority = 3 and remain > 0 and start_date <= ? and 
+                                               end_date >= ?', Time.now, Time.now)
+          @ad_list_4 = CpdmAdvertisement.where('priority = 4 and remain > 0 and start_date <= ? and 
+                                               end_date >= ?', Time.now, Time.now)
+          @ad_list_5 = CpdmAdvertisement.where('priority = 5 and remain > 0 and start_date <= ? and 
+                                               end_date >= ?', Time.now, Time.now)
         else
-          @ad_list = CpdmAdvertisement.where('priority = 1 and id not in (?)',@ad_log)
-          @ad_list_2 = CpdmAdvertisement.where('priority = 2 and id not in (?)',@ad_log)
-          @ad_list_3 = CpdmAdvertisement.where('priority = 3 and id not in (?)',@ad_log)
-          @ad_list_4 = CpdmAdvertisement.where('priority = 4 and id not in (?)',@ad_log)
-          @ad_list_5 = CpdmAdvertisement.where('priority = 5')
+          @ad_list = CpdmAdvertisement.where('priority = 1 and id not in (?) and remain > 0 and 
+                                             start_date <= ? and end_date >= ?', @ad_log, Time.now, 
+                                            Time.now)
+          @ad_list_2 = CpdmAdvertisement.where('priority = 2 and id not in (?) and remain > 0 and 
+                                               start_date <= ? and end_date >= ?', @ad_log, Time.now, 
+                                              Time.now)
+          @ad_list_3 = CpdmAdvertisement.where('priority = 3 and id not in (?) and remain > 0 and 
+                                               start_date <= ? and end_date >= ?', @ad_log, Time.now, 
+                                              Time.now)
+          @ad_list_4 = CpdmAdvertisement.where('priority = 4 and id not in (?) and remain > 0 and 
+                                               start_date <= ? and end_date >= ?', @ad_log, Time.now, 
+                                              Time.now)
+          @ad_list_5 = CpdmAdvertisement.where('priority = 5 and remain > 0 and start_date <= ? and 
+                                               end_date >= ?', Time.now, Time.now)
         end
 
         if(@ad_list.length != 0)
