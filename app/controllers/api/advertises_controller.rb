@@ -345,6 +345,15 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
 
         end
 
+
+        # for Seo, YS test
+        if params[:user_id]==2
+          r_id = 11
+        end
+ 
+
+
+
         if r_id == 0
           @status = false
           @msg = "not exist ads"
