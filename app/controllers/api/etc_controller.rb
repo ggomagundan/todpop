@@ -533,26 +533,26 @@ class Api::EtcController < ApplicationController
         stage_high=user_stage_infos[j].stage_info[600..1199]
         stage_toeic=user_stage_infos[j].stage_info[1200..1799]
 
-        stage_basic.gsub("x","")
-        stage_basic.gsub("Y","")
+        stage_basic = stage_basic.gsub("x","")
+        stage_basic = stage_basic.gsub("Y","")
         if stage_basic.size >=3
-          n_bisic = n_basic+1
+          n_basic = n_basic+1
         end
 
-        stage_middle.gsub("x","")
-        stage_middle.gsub("Y","")
+        stage_middle = stage_middle.gsub("x","")
+        stage_middle = stage_middle.gsub("Y","")
         if stage_middle.size >=3
           n_middle = n_middle+1
         end
 
-        stage_high.gsub("x","")
-        stage_high.gsub("Y","")
+        stage_high = stage_high.gsub("x","")
+        stage_high = stage_high.gsub("Y","")
         if stage_high.size >=3
           n_high = n_high+1
         end
 
-        stage_toeic.gsub("x","")
-        stage_toeic.gsub("Y","")
+        stage_toeic = stage_toeic.gsub("x","")
+        stage_toeic = stage_toeic.gsub("Y","")
         if stage_toeic.size >=3
           n_toeic = n_toeic+1
         end
