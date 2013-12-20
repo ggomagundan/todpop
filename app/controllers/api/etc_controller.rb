@@ -105,16 +105,30 @@ class Api::EtcController < ApplicationController
     if @status == true
       @coupons=MyCoupon.where('user_id = ? and coupon_type = ?', params[:id] ,params[:coupon_type]).order("created_at DESC")
       if @coupons.present?
-        @product=[]
-        @coupons.each do |p|
-          tmp_hash = {}
-          tmp_hash[:coupon_id] = p.coupon_id
-          tmp_hash[:availability] = p.availability
-          tmp_hash[:created_at] = p.created_at
-          @product.push(tmp_hash)
-        end
-      end
 
+        if params[:coupon_type].to_i == 0
+          @product=[]
+          @coupons.each do |p|
+            tmp_hash = {}
+            tmp_hash[:coupon_id] = p.coupon_id
+            tmp_hash[:availability] = p.availability
+            tmp_hash[:created_at] = p.created_at
+            tmp_hash[:name] = nil                                # for hash format preserve
+            tmp_hash[:place] = nil
+            tmp_hash[:image] = nil
+
+            q=CouponFreeInfo.find_by_id(p.coupon_id)
+            if q.present?
+              tmp_hash[:name] = q.name
+              tmp_hash[:place] = q.place
+              tmp_hash[:image] = q.image                         # need to check later
+            end
+
+            @product.push(tmp_hash)
+          end
+        end
+
+      end
     end
   end
 

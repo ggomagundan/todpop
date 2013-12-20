@@ -347,9 +347,9 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
 
 
         # for Seo, YS test
-        if params[:user_id].to_i == 2
-          r_id = 11
-        end
+        #if params[:user_id].to_i == 2
+        #  r_id = 11
+        #end
  
 
 
