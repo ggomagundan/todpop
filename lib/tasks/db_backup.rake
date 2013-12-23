@@ -18,9 +18,9 @@ namespace :db do
     
     dest = Time.now.strftime('%Y-%m-%d')
     
-    command = "mysqldump -u #{user}"
-    command += " -p#{password}" unless password.blank?
-    command += " #{database} > db/backup/#{dest}.sql"
+    command = "mysqldump -u root"
+    command += " -p!Xhemvkq*()" unless password.blank?
+    command += " salty_production > db/backup/#{dest}.sql"
     system(command)
     #sh command
     #sh "mysqldump #{source} .dump > #{dest}"
