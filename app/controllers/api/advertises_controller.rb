@@ -231,7 +231,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           #end
 
           my_ad_log = AdvertiseCpdmLog.where('user_id = ?',params[:user_id])
-          if last_ad_id.present?
+          if my_ad_log.present?
             last_ad_id = my_ad_log.last.ad_id
             next_ad_id = CpdmAdvertisement.where('id in (?) and id > ?',@ad_list_5,last_ad_id).minimum(:id)
             if next_ad_id.present?
