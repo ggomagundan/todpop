@@ -121,7 +121,7 @@ class Api::EtcController < ApplicationController
             if q.present?
               tmp_hash[:name] = q.name
               tmp_hash[:place] = q.place
-              tmp_hash[:image] = q.image                         # need to check later
+              tmp_hash[:image] = q.image_url                     # need to check later
             end
 
             @product.push(tmp_hash)
