@@ -100,9 +100,13 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           #end
 
           last_ad_id = AdvertiseCpdLog.where('user_id = ? and act = ?',params[:id],1).last.ad_id
-          next_ad_id = CpdAdvertisement.where('id in (?) and id > ?',@ad_list_5,last_ad_id).minimum(:id)
-          if next_ad_id.present?
-            r_id = next_ad_id
+          if last_ad_id.present?
+            next_ad_id = CpdAdvertisement.where('id in (?) and id > ?',@ad_list_5,last_ad_id).minimum(:id)
+            if next_ad_id.present?
+              r_id = next_ad_id
+            else
+              r_id = CpdAdvertisement.where('id in (?)',@ad_list_5).minimum(:id)
+            end
           else
             r_id = CpdAdvertisement.where('id in (?)',@ad_list_5).minimum(:id)
           end
@@ -215,14 +219,26 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
             end
           end
         else
-          r = 0
-          r_id = 0     
-          @ad_list_5.each do |ad|
-            day = ad.end_date - Date.today
-            if (ad.remain.to_f /  day.to_f) > r
-              r = (ad.remain /  day.to_f)
-              r_id = ad.id
+          #r = 0
+          #r_id = 0     
+          #@ad_list_5.each do |ad|
+          #  day = ad.end_date - Date.today
+          #  if (ad.remain.to_f /  day.to_f) > r
+          #    r = (ad.remain /  day.to_f)
+          #    r_id = ad.id
+          #  end
+          #end
+
+          last_ad_id = AdvertiseCpdmLog.where('user_id = ?',params[:id]).last.ad_id
+          if last_ad_id.present?
+            next_ad_id = CpdmAdvertisement.where('id in (?) and id > ?',@ad_list_5,last_ad_id).minimum(:id)
+            if next_ad_id.present?
+              r_id = next_ad_id
+            else
+              r_id = CpdmAdvertisement.where('id in (?)',@ad_list_5).minimum(:id)
             end
+          else
+            r_id = CpdmAdvertisement.where('id in (?)',@ad_list_5).minimum(:id)
           end
 
         end
