@@ -368,7 +368,7 @@ class Api::EtcController < ApplicationController
       @msg = "not exist notice"
     else
       @android_version = AppInfo.last.android_version
-      #@ment = MentList.where(:kind => "notice").last.content
+      mentlist = MentList.where(:kind => "notice")
       @ment = []
       (0..mentlist.count-1).each do |m|
         @ment[m] = mentlist[m].content
@@ -525,6 +525,8 @@ class Api::EtcController < ApplicationController
     n_high=0
     n_toeic=0
 
+    ref_count = 3
+
     user_stage_infos = UserStageInfo.all
     (0..user_stage_infos.count-1).each do |j|
       if user_stage_infos[j].present?
@@ -535,25 +537,25 @@ class Api::EtcController < ApplicationController
 
         stage_basic = stage_basic.gsub("x","")
         stage_basic = stage_basic.gsub("Y","")
-        if stage_basic.size >=3
+        if stage_basic.size >= ref_count
           n_basic = n_basic+1
         end
 
         stage_middle = stage_middle.gsub("x","")
         stage_middle = stage_middle.gsub("Y","")
-        if stage_middle.size >=3
+        if stage_middle.size >= ref_count
           n_middle = n_middle+1
         end
 
         stage_high = stage_high.gsub("x","")
         stage_high = stage_high.gsub("Y","")
-        if stage_high.size >=3
+        if stage_high.size >= ref_count
           n_high = n_high+1
         end
 
         stage_toeic = stage_toeic.gsub("x","")
         stage_toeic = stage_toeic.gsub("Y","")
-        if stage_toeic.size >=3
+        if stage_toeic.size >= ref_count
           n_toeic = n_toeic+1
         end
       end
