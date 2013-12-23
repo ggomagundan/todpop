@@ -354,11 +354,11 @@ class Api::EtcController < ApplicationController
       @msg = "not exist notice"
     else
       @android_version = AppInfo.last.android_version
-      @ment = MentList.where(:kind => "notice").last.content
-      #@ment = []
-      #(0..mentlist.count-1).each do |m|
-      #  @ment[m] = mentlist[m].content
-      #end
+      #@ment = MentList.where(:kind => "notice").last.content
+      @ment = []
+      (0..mentlist.count-1).each do |m|
+        @ment[m] = mentlist[m].content
+      end
     end
   end
 
