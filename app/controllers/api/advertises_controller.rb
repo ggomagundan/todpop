@@ -99,8 +99,9 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           #  end
           #end
 
-          last_ad_id = AdvertiseCpdLog.where('user_id = ? and act = ?',params[:id],1).last.ad_id
-          if last_ad_id.present?
+          my_ad_log = AdvertiseCpdLog.where('user_id = ? and act = ?',params[:user_id],1)
+          if my_ad_log.present?
+            last_ad_id = my_ad_log.last.ad_id
             next_ad_id = CpdAdvertisement.where('id in (?) and id > ?',@ad_list_5,last_ad_id).minimum(:id)
             if next_ad_id.present?
               r_id = next_ad_id
@@ -229,8 +230,9 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           #  end
           #end
 
-          last_ad_id = AdvertiseCpdmLog.where('user_id = ?',params[:id]).last.ad_id
+          my_ad_log = AdvertiseCpdmLog.where('user_id = ?',params[:user_id])
           if last_ad_id.present?
+            last_ad_id = my_ad_log.last.ad_id
             next_ad_id = CpdmAdvertisement.where('id in (?) and id > ?',@ad_list_5,last_ad_id).minimum(:id)
             if next_ad_id.present?
               r_id = next_ad_id
