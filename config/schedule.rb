@@ -31,3 +31,7 @@ end
 every 1.day, :at => '00:05am' do
   rake "ads:cpx_priorities", :output => "log/change_ads_priority.log", :environment => ENV['RAILS_ENV']
 end
+
+every 1.day, :at => '04:50pm' do
+  rake "db:backup", :output => "log/change_ads_priority.log", :environment => ENV['RAILS_ENV']
+end
