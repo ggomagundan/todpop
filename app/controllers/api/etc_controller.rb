@@ -105,16 +105,30 @@ class Api::EtcController < ApplicationController
     if @status == true
       @coupons=MyCoupon.where('user_id = ? and coupon_type = ?', params[:id] ,params[:coupon_type]).order("created_at DESC")
       if @coupons.present?
-        @product=[]
-        @coupons.each do |p|
-          tmp_hash = {}
-          tmp_hash[:coupon_id] = p.coupon_id
-          tmp_hash[:availability] = p.availability
-          tmp_hash[:created_at] = p.created_at
-          @product.push(tmp_hash)
-        end
-      end
 
+        if params[:coupon_type].to_i == 0
+          @product=[]
+          @coupons.each do |p|
+            tmp_hash = {}
+            tmp_hash[:coupon_id] = p.coupon_id
+            tmp_hash[:availability] = p.availability
+            tmp_hash[:created_at] = p.created_at
+            tmp_hash[:name] = nil                                # for hash format preserve
+            tmp_hash[:place] = nil
+            tmp_hash[:image] = nil
+
+            q=CouponFreeInfo.find_by_id(p.coupon_id)
+            if q.present?
+              tmp_hash[:name] = q.name
+              tmp_hash[:place] = q.place
+              tmp_hash[:image] = q.image                         # need to check later
+            end
+
+            @product.push(tmp_hash)
+          end
+        end
+
+      end
     end
   end
 
@@ -498,6 +512,134 @@ class Api::EtcController < ApplicationController
 
   end
 =end
+
+
+
+
+  def show_user_stat
+    @status = true
+    @msg = ""
+
+    n_basic=0
+    n_middle=0
+    n_high=0
+    n_toeic=0
+
+    user_stage_infos = UserStageInfo.all
+    (0..user_stage_infos.count-1).each do |j|
+      if user_stage_infos[j].present?
+        stage_basic=user_stage_infos[j].stage_info[0..149]
+        stage_middle=user_stage_infos[j].stage_info[150..599]
+        stage_high=user_stage_infos[j].stage_info[600..1199]
+        stage_toeic=user_stage_infos[j].stage_info[1200..1799]
+
+        stage_basic = stage_basic.gsub("x","")
+        stage_basic = stage_basic.gsub("Y","")
+        if stage_basic.size >=3
+          n_basic = n_basic+1
+        end
+
+        stage_middle = stage_middle.gsub("x","")
+        stage_middle = stage_middle.gsub("Y","")
+        if stage_middle.size >=3
+          n_middle = n_middle+1
+        end
+
+        stage_high = stage_high.gsub("x","")
+        stage_high = stage_high.gsub("Y","")
+        if stage_high.size >=3
+          n_high = n_high+1
+        end
+
+        stage_toeic = stage_toeic.gsub("x","")
+        stage_toeic = stage_toeic.gsub("Y","")
+        if stage_toeic.size >=3
+          n_toeic = n_toeic+1
+        end
+      end
+    end
+
+    @n_basic=n_basic
+    @n_middle=n_middle
+    @n_high=n_high
+    @n_toeic=n_toeic
+
+
+
+    users = User.all
+    n_age_1      = users.where('? <= birth and birth <= ?',Date.parse('2013-01-01'), Date.today).count
+    n_age_2to7   = users.where('? <= birth and birth <= ?',Date.parse('2007-01-01'), Date.parse('2012-12-31')).count
+    n_age_8to13  = users.where('? <= birth and birth <= ?',Date.parse('2001-01-01'), Date.parse('2006-12-31')).count
+    n_age_14to16 = users.where('? <= birth and birth <= ?',Date.parse('1998-01-01'), Date.parse('2000-12-31')).count
+    n_age_17to19 = users.where('? <= birth and birth <= ?',Date.parse('1995-01-01'), Date.parse('1997-12-31')).count
+    n_age_20to24 = users.where('? <= birth and birth <= ?',Date.parse('1990-01-01'), Date.parse('1994-12-31')).count
+    n_age_25to29 = users.where('? <= birth and birth <= ?',Date.parse('1985-01-01'), Date.parse('1989-12-31')).count
+    n_age_30to39 = users.where('? <= birth and birth <= ?',Date.parse('1975-01-01'), Date.parse('1984-12-31')).count
+    n_age_40to49 = users.where('? <= birth and birth <= ?',Date.parse('1965-01-01'), Date.parse('1974-12-31')).count
+    n_age_50to59 = users.where('? <= birth and birth <= ?',Date.parse('1955-01-01'), Date.parse('1964-12-31')).count
+    n_age_60to69 = users.where('? <= birth and birth <= ?',Date.parse('1945-01-01'), Date.parse('1954-12-31')).count
+    n_age_70plus = users.where('birth <= ?',Date.parse('1944-12-31')).count
+
+    
+
+
+    @n_age=[]
+
+    tmp_hash = {}
+    tmp_hash[:age_1] = n_age_1
+    @n_age.push(tmp_hash)
+
+    tmp_hash = {}
+    tmp_hash[:age_2to7] = n_age_2to7
+    @n_age.push(tmp_hash)
+
+    tmp_hash = {}
+    tmp_hash[:age_8to13] = n_age_8to13
+    @n_age.push(tmp_hash)
+
+    tmp_hash = {}
+    tmp_hash[:age_14to16] = n_age_14to16
+    @n_age.push(tmp_hash)
+
+    tmp_hash = {}
+    tmp_hash[:age_17to19] = n_age_17to19
+    @n_age.push(tmp_hash)
+
+    tmp_hash = {}
+    tmp_hash[:age_20to24] = n_age_20to24
+    @n_age.push(tmp_hash)
+
+    tmp_hash = {}
+    tmp_hash[:age_25to29] = n_age_25to29
+    @n_age.push(tmp_hash)
+
+    tmp_hash = {}
+    tmp_hash[:age_30to39] = n_age_30to39
+    @n_age.push(tmp_hash)
+
+    tmp_hash = {}
+    tmp_hash[:age_40to49] = n_age_40to49
+    @n_age.push(tmp_hash)
+
+    tmp_hash = {}
+    tmp_hash[:age_50to59] = n_age_50to59
+    @n_age.push(tmp_hash)
+
+    tmp_hash = {}
+    tmp_hash[:age_60to69] = n_age_60to69
+    @n_age.push(tmp_hash)
+
+    tmp_hash = {}
+    tmp_hash[:age_70plus] = n_age_70plus
+    @n_age.push(tmp_hash)
+
+  end
+
+
+
+
+
+
 
 end
 
