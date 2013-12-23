@@ -10,9 +10,19 @@ namespace :db do
     dest = "#{Time.now.strftime('%Y-%m-%d')}.sql"
 =end
     makedirs backup_dir, :verbose => true
+
+    db_config = Rails.configuration.database_configuration
+    user = db_config[Rails.env]['username']
+    password = db_config[Rails.env]['password']
+    database = db_config[Rails.env]['database']
+    
     dest = Time.now.strftime('%Y-%m-%d')
-    sh "mysqldump -u root -p salty_production > #{dest}.sql"
-    sh "!Xhemvkq*()"
+    
+    command = "mysqldump -u #{user}"
+    command += " -p#{password}" unless password.blank?
+    command += " #{database} > db/backup/#{dest}.sql"
+    system(command)
+    #sh command
     #sh "mysqldump #{source} .dump > #{dest}"
   end
 end
