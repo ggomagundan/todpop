@@ -73,8 +73,15 @@ class Admin::CpdAdvertisementsController < Admin::ApplicationController
   def update
     @cpd_advertisement = CpdAdvertisement.find(params[:id])
     if @cpd_advertisement.update_attributes(cpd_advertisement_params)
-      if params[:cpd_advertisement][:ad_type] == '102' 
-        coupon = CouponFreeInfo.find(@cpd_advertisement.coupon_id)
+      if params[:cpd_advertisement][:ad_type] == '102'
+        if @cpd_advertisement.coupon_id.present?
+          flag = 1
+          coupon = CouponFreeInfo.find(@cpd_advertisement.coupon_id)
+        else
+          flag = 2
+          coupon = CouponFreeInfo.new
+        end
+
         if params[:c_name].present?
           coupon.name = params[:c_name]
         end
@@ -98,6 +105,9 @@ class Admin::CpdAdvertisementsController < Admin::ApplicationController
         end
 
         if coupon.save
+          if flag == 2
+            @cpd_advertisement.update_attributes(:coupon_id => coupon.id)
+          end
           redirect_to admin_cpd_advertisements_path, :notice => "Successfully created cpd advertisement."
         end
       else
