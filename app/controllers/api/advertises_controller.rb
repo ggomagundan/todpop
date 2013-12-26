@@ -442,16 +442,21 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
         @status = false
         @msg = "not exist user"
       else
-        new_coupon = MyCoupon.new
-        new_coupon.user_id = params[:user_id]
-        new_coupon.coupon_id = params[:coupon_id]
-        new_coupon.coupon_type = 0  # 0 - free, 1 - not free
-        if new_coupon.save
-          @result = true
-          @msg = "success"
+        if MyCoupon.where(:user_id => params[:user_id].to_i, :coupon_id => params[:coupon_id].to_i).present?
+          coupon = MyCoupon.where(:user_id => params[:user_id].to_i, :coupon_id => params[:coupon_id].to_i).last
+          coupon.update_attributes(:updated_at => Time.now)
         else
-          @status = false
-          @msg = "failed to save"
+          new_coupon = MyCoupon.new
+          new_coupon.user_id = params[:user_id]
+          new_coupon.coupon_id = params[:coupon_id]
+          new_coupon.coupon_type = 0  # 0 - free, 1 - not free
+          if new_coupon.save
+            @result = true
+            @msg = "success"
+          else
+            @status = false
+            @msg = "failed to save"
+          end
         end
       end
     end
