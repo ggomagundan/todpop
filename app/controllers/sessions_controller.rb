@@ -5,7 +5,18 @@ class SessionsController < ApplicationController
   def create 
     @user = User.find_by_email(params[:email])
     @client = Client.find_by_email(params[:email])
-    if @client.present?
+    if @user.present? && @client.present?
+      if !@user.authenticate(params[:password]).present?
+        flash.now.alert = "Invalid email or password"
+        render "new"
+      elsif @user.authenticate(params[:password]).is_admin == 1
+        session[:user_id] = @user.id
+        redirect_to admin_users_url, :notice => "Logged in!"
+      else
+        flash.now.alert = "Yor are not admin"
+        render "new"
+      end
+    elsif @client.present?
       if !@client.authenticate(params[:password]).present?
         flash.now.alert = "Invalid email or password"
         render "new"

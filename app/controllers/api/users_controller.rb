@@ -78,6 +78,9 @@ class Api::UsersController < ApplicationController
           @user.password_confirmation = params[:password] 
           @user.is_set_facebook_password = 1
         elsif params[:facebook].present?
+          @user.address = params[:address]
+          @user.sex = params[:sex]
+          @user.birth = params[:birth]
           @user.password = "dummypassword"
           @user.password_confirmation = "dummypassword"
           @user.is_set_facebook_password = 0
