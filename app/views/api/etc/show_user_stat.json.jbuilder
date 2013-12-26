@@ -7,6 +7,7 @@ json.n_toeic  @n_toeic
 
 
 json.n_age       @n_age
+json.n_address   @n_address
 
 
 
