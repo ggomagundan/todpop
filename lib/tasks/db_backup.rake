@@ -14,13 +14,13 @@ namespace :db do
     db_config = Rails.configuration.database_configuration
     user = db_config[Rails.env]['username']
     #password = db_config[Rails.env]['password']
-    password = "!Xhemvkq*\(\)"
+    password = "!Xhemvkq*()"
     database = db_config[Rails.env]['database']
     
     dest = Time.now.strftime('%Y-%m-%d-%H-%M')
     
     command = "mysqldump -u root"
-    command += " -p#{password} -i -c -q" unless password.blank?
+    command += " -p\'#{password}\'" unless password.blank?
     command += " salty_production > db/backup/#{dest}.sql"
     #system(command)
     sh command
