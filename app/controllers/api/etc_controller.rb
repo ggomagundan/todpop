@@ -643,6 +643,26 @@ class Api::EtcController < ApplicationController
     tmp_hash[:age_70plus] = n_age_70plus
     @n_age.push(tmp_hash)
 
+
+
+
+    address_head_all = Address.pluck(:depth1).uniq
+
+    @n_address=[]
+    (0..address_head_all.count-1).each do |j|
+      tmp_hash={}
+      n_person = User.where('address like ?',address_head_all[j] + "%").count
+      @temp = 'tmp_hash[:' + address_head_all[j] + '] = ' + n_person.to_s
+      eval(@temp)
+      @n_address.push(tmp_hash)
+    end
+
+
+
+
+
+
+
   end
 
 
