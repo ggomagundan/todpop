@@ -233,6 +233,14 @@ class Api::EtcController < ApplicationController
         end
       end
 
+      if !UserHighestLevel.find_by_user_id(params[:id]).level.present?
+        new_data = UserHighestLevel.new
+        new_data.user_id = params[:id].to_i
+        new_data.category = 1
+        new_data.stage = 1
+        new_data.level = 1
+        new_data.save
+      end
       @my_level = UserHighestLevel.find_by_user_id(params[:id]).level
       @my_rank = @ranker.index{|r| r.id == params[:id].to_i} + 1
       @daily_test_count = user.daily_test_count
