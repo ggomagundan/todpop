@@ -14,7 +14,7 @@ namespace :db do
     db_config = Rails.configuration.database_configuration
     user = db_config[Rails.env]['username']
     #password = db_config[Rails.env]['password']
-    password = db_config[Rails.env]['password']
+    password = "!Xhemvkq*()"
     database = db_config[Rails.env]['database']
     
     dest = Time.now.strftime('%Y-%m-%d-%H-%M')
