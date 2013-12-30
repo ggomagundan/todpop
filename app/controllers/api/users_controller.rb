@@ -63,7 +63,9 @@ class Api::UsersController < ApplicationController
             @user.password_confirmation = params[:password]
             @user.is_set_facebook_password = 1
           elsif params[:facebook].present?
-            @user.f_address = params[:address]
+            if params[:address].present?
+              @user.f_address = params[:address]
+            end
             @user.sex = params[:sex]
             @user.birth = params[:birth]
           end
