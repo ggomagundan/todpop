@@ -172,7 +172,7 @@ class Api::EtcController < ApplicationController
           else
             act = 0
           end
-          tmp_hash={:id => my_cpx_recent.id, :ad_id => ad_id, :ad_type => my_cpx_recent.ad_type, :act => act, :created_at => my_cpx_recent.created_at, :name => ad_info.ad_name, :image => ad_info.ad_image.url, :reward => ad_info.reward}
+          tmp_hash={:id => my_cpx_recent.id, :ad_id => ad_id, :ad_type => my_cpx_recent.ad_type, :act => act, :created_at => my_cpx_recent.created_at, :name => ad_info.ad_name, :image => ad_info.ad_image.url, :reward => ad_info.reward, :point => ad_info.point}
           @cpx_list.push(tmp_hash)
         end
         @cpx_list.sort!{|a,b| b[:created_at] <=> a[:created_at]}

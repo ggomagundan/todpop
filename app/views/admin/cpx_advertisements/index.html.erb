@@ -13,6 +13,7 @@
     <th>TargetUrl</th>
     <th>ConfirmUrl</th>
     <th>Reward</th>
+    <th>Point</th>
     <th>n_question</th>
     <th>Cor Name</th>
     <th> </th>
@@ -30,7 +31,16 @@
       <td><%= cpx_advertisement.priority %></td>
       <td><%= cpx_advertisement.target_url %></td>
       <td><%= cpx_advertisement.confirm_url %></td>
-      <td><%= cpx_advertisement.reward %></td>
+      <td><%= if cpx_advertisement.reward !=nil
+                cpx_advertisement.reward
+              else
+                0
+              end%></td>
+      <td><%= if cpx_advertisement.point != nil
+                cpx_advertisement.point
+              else
+                0
+              end%></td>
       <td><%= cpx_advertisement.n_question %></td>
       <td><%= @cpx_cor_name.find_by_id(cpx_advertisement.cli_id).cor_name %></td>
       <td><%= link_to "Edit", edit_admin_cpx_advertisement_path(cpx_advertisement), :class => "btn btn-warning" %></td>

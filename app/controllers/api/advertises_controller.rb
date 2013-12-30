@@ -393,6 +393,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           @package_name = ad.package_name
           @confirm_url = ad.confirm_url
           @reward = ad.reward
+          @point = ad.point
           @n_question = ad.n_question
           @msg = "success"
         end 
@@ -515,12 +516,18 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
 
             # reward process .......
             @token_user_id = params[:user_id]
-            @token_reward_type = 4000 + adInfo.ad_type              # reward_tpye : CPX = 4000 + ad_type
-            @token_title = "CPX"
-            @token_sub_title = adInfo.ad_type.to_s + " : " + adInfo.ad_name
-            @token_reward = adInfo.unit_price
-            process_reward_general
-
+            @token_reward = adInfo.reward
+            @token_point = adInfo.point
+            if @token_reward.present? && @token_reward > 0 
+              @token_sub_title = adInfo.ad_type.to_s + " : " + adInfo.ad_name
+              @token_reward_type = 4000 + adInfo.ad_type              # reward_tpye : CPX = 4000 + ad_type
+              @token_title = "CPX"
+              process_reward_general
+            elsif @token_point.present? && @token_point > 0
+              @token_name = adInfo.ad_name
+              @token_point_type = adInfo.ad_type
+              process_point_general
+            end
           end
         else
           @status = false

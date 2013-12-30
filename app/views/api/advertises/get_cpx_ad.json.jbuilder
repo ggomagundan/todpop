@@ -11,6 +11,7 @@ if @status == true
     json.package_name @package_name
     json.confirm_url @confirm_url
     json.reward @reward
+    json.point @point
     json.n_question @n_question
   end
 end
