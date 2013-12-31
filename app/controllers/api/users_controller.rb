@@ -64,6 +64,7 @@ class Api::UsersController < ApplicationController
             @user.is_set_facebook_password = 1
             @user.update_attributes(user_params)
           elsif params[:facebook].present?
+            @user.update_attributes(:facebook => params[:facebook])
             if params[:address].present?
               @user.update_attributes(:f_address => params[:address])
             end
