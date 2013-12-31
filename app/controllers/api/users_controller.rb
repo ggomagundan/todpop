@@ -62,14 +62,18 @@ class Api::UsersController < ApplicationController
             @user.password = params[:password]
             @user.password_confirmation = params[:password]
             @user.is_set_facebook_password = 1
+            @user.update_attributes(user_params)
           elsif params[:facebook].present?
             if params[:address].present?
-              @user.f_address = params[:address]
+              @user.update_attributes(:f_address => params[:address])
             end
-            @user.sex = params[:sex]
-            @user.birth = params[:birth]
+            if params[:birth].present?
+              @user.update_attributes(:birth => params[:birth])
+            end
+            if params[:sex].present?
+              @user.update_attributes(:sex => params[:sex])
+            end
           end
-          @user.update_attributes(user_params)
         end
       else
         # new Join

@@ -164,6 +164,6 @@ class ClientController < ApplicationController
   end
 
   def current_user
-    @current_user ||= session[:client_id] && Client.find_by_id(session[:client_id]) 
+    @current_user ||= session[:client_id] && Client.find_by_id(session[:client_id])
   end
 end
