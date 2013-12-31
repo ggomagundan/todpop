@@ -80,7 +80,7 @@ class Api::UsersController < ApplicationController
           @user.password_confirmation = params[:password] 
           @user.is_set_facebook_password = 1
         elsif params[:facebook].present?
-          @user.address = params[:address]
+          @user.f_address = params[:address]
           @user.sex = params[:sex]
           @user.birth = params[:birth]
           @user.password = "dummypassword"
@@ -691,7 +691,7 @@ class Api::UsersController < ApplicationController
 
   private
     def user_params
-      params.permit(:email, :facebook, :nickname, :recommend, :sex, :birth, :address, :mobile, :interest)
+      params.permit(:email, :facebook, :nickname, :recommend, :sex, :birth, :address, :f_address, :mobile, :interest)
     end
 
 end
