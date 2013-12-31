@@ -21,30 +21,30 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
 
         if @ad_log.length == 0
           @ad_list = CpdAdvertisement.where('priority = 1 and remain > 0 and start_date <= ? and 
-                                            end_date >= ?', Time.now, Time.now)
+                                            end_date >= ?', Date.today, Date.today)
           @ad_list_2 = CpdAdvertisement.where('priority = 2 and remain > 0 and start_date <= ? and
-                                              end_date >= ?', Time.now, Time.now)
+                                              end_date >= ?', Date.today, Date.today)
           @ad_list_3 = CpdAdvertisement.where('priority = 3 and remain > 0 and start_date <= ? and
-                                              end_date >= ?', Time.now, Time.now)
+                                              end_date >= ?', Date.today, Date.today)
           @ad_list_4 = CpdAdvertisement.where('priority = 4 and remain > 0 and start_date <= ? and 
-                                              end_date >= ?', Time.now, Time.now)
+                                              end_date >= ?', Date.today, Date.today)
           @ad_list_5 = CpdAdvertisement.where('priority = 5 and remain > 0 and start_date <= ? and
-                                              end_date >= ?', Time.now, Time.now)
+                                              end_date >= ?', Date.today, Date.today)
         else
           @ad_list = CpdAdvertisement.where('priority = 1 and id not in (?) and remain > 0 and 
-                                            start_date <= ? and end_date >= ?', @ad_log, Time.now, 
-                                           Time.now)
+                                            start_date <= ? and end_date >= ?', @ad_log, Date.today, 
+                                           Date.today)
           @ad_list_2 = CpdAdvertisement.where('priority = 2 and id not in (?) and remain > 0 and 
-                                              start_date <= ? and end_date >= ?', @ad_log, Time.now, 
-                                             Time.now)
+                                              start_date <= ? and end_date >= ?', @ad_log, Date.today, 
+                                             Date.today)
           @ad_list_3 = CpdAdvertisement.where('priority = 3 and id not in (?) and remain > 0 and 
-                                              start_date <= ? and end_date >= ?', @ad_log, Time.now, 
-                                             Time.now)
+                                              start_date <= ? and end_date >= ?', @ad_log, Date.today, 
+                                             Date.today)
           @ad_list_4 = CpdAdvertisement.where('priority = 4 and id not in (?) and remain > 0 and 
-                                              start_date <= ? and end_date >= ?', @ad_log, Time.now, 
-                                             Time.now)
+                                              start_date <= ? and end_date >= ?', @ad_log, Date.today, 
+                                             Date.today)
           @ad_list_5 = CpdAdvertisement.where('priority = 5 and remain > 0 and start_date <= ? and 
-                                              end_date >= ?', Time.now, Time.now)
+                                              end_date >= ?', Date.today, Date.today)
         end
 
         if(@ad_list.length != 0)
@@ -102,6 +102,13 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           my_ad_log = AdvertiseCpdLog.where('user_id = ? and act = ?',params[:user_id],1)
           if my_ad_log.present?
             last_ad_id = my_ad_log.last.ad_id
+
+            # Junior Herald ad_id=3,6,7,8 ---> 3 (representative)
+            if last_ad_id==3 || last_ad_id==6 || last_ad_id==7 || last_ad_id==8
+              last_ad_id = 3
+            end
+            # --------- till here Junior Herald
+
             next_ad_id = CpdAdvertisement.where('id in (?) and id > ?',@ad_list_5,last_ad_id).minimum(:id)
             if next_ad_id.present?
               r_id = next_ad_id
@@ -114,11 +121,28 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
 
         end
 
-        if r_id == 0
+        if r_id == 0 || !r_id.present?
           @status = false
           @msg = "not exist ads"
         else 
-          ad = CpdAdvertisement.find(r_id)
+
+          # Junior Herald case ---> r_id = 3,6,7,8
+          if r_id==3
+            tmp = rand(4)+1
+            if tmp==1
+              r_id=3
+            elsif tmp==2
+              r_id=6
+            elsif tmp==3
+              r_id=7
+            else
+              r_id=8
+            end
+          end
+          # --------- till here Junior Herald
+
+
+          ad = CpdAdvertisement.find_by_id(r_id)
           @ad_id = ad.id
           @ad_type = ad.ad_type
           @content1 = ad.front_image_url
@@ -152,30 +176,30 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
 
         if @ad_log.length == 0
           @ad_list = CpdmAdvertisement.where('priority = 1 and remain > 0 and start_date <= ?
-                                             and end_date >= ?', Time.now, Time.now)
+                                             and end_date >= ?', Date.today, Date.today)
           @ad_list_2 = CpdmAdvertisement.where('priority = 2 and remain > 0 and start_date <= ? and 
-                                               end_date >= ?', Time.now, Time.now)
+                                               end_date >= ?', Date.today, Date.today)
           @ad_list_3 = CpdmAdvertisement.where('priority = 3 and remain > 0 and start_date <= ? and 
-                                               end_date >= ?', Time.now, Time.now)
+                                               end_date >= ?', Date.today, Date.today)
           @ad_list_4 = CpdmAdvertisement.where('priority = 4 and remain > 0 and start_date <= ? and 
-                                               end_date >= ?', Time.now, Time.now)
+                                               end_date >= ?', Date.today, Date.today)
           @ad_list_5 = CpdmAdvertisement.where('priority = 5 and remain > 0 and start_date <= ? and 
-                                               end_date >= ?', Time.now, Time.now)
+                                               end_date >= ?', Date.today, Date.today)
         else
           @ad_list = CpdmAdvertisement.where('priority = 1 and id not in (?) and remain > 0 and 
-                                             start_date <= ? and end_date >= ?', @ad_log, Time.now, 
-                                            Time.now)
+                                             start_date <= ? and end_date >= ?', @ad_log, Date.today, 
+                                            Date.today)
           @ad_list_2 = CpdmAdvertisement.where('priority = 2 and id not in (?) and remain > 0 and 
-                                               start_date <= ? and end_date >= ?', @ad_log, Time.now, 
-                                              Time.now)
+                                               start_date <= ? and end_date >= ?', @ad_log, Date.today, 
+                                              Date.today)
           @ad_list_3 = CpdmAdvertisement.where('priority = 3 and id not in (?) and remain > 0 and 
-                                               start_date <= ? and end_date >= ?', @ad_log, Time.now, 
-                                              Time.now)
+                                               start_date <= ? and end_date >= ?', @ad_log, Date.today, 
+                                              Date.today)
           @ad_list_4 = CpdmAdvertisement.where('priority = 4 and id not in (?) and remain > 0 and 
-                                               start_date <= ? and end_date >= ?', @ad_log, Time.now, 
-                                              Time.now)
+                                               start_date <= ? and end_date >= ?', @ad_log, Date.today, 
+                                              Date.today)
           @ad_list_5 = CpdmAdvertisement.where('priority = 5 and remain > 0 and start_date <= ? and 
-                                               end_date >= ?', Time.now, Time.now)
+                                               end_date >= ?', Date.today, Date.today)
         end
 
         if(@ad_list.length != 0)
@@ -246,11 +270,11 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
         end
 
 
-        if r_id == 0
+        if r_id == 0 || !r_id.present?
           @status = false
           @msg = "not exist ads"
-        else 
-          ad = CpdmAdvertisement.find(r_id)
+        else
+          ad = CpdmAdvertisement.find_by_id(r_id)
           @ad_id = ad.id
           @ad_type = ad.ad_type
           @url  = ad.url
@@ -265,7 +289,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
   end
 
  
-   def get_cpx_ad
+  def get_cpx_ad
 
     @status = true
     @msg = ""
@@ -286,35 +310,36 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
                                         created_at >= ?) OR ((act = 3 OR act = 4) AND 
                                         created_at >= ?))', @user.id, 14.day.ago.to_time, 
                                         45.day.ago.to_time).pluck(:ad_id).uniq
-#@ad_log = []	# test purpose by cys
-        @msg = @ad_log
+
+        #@ad_log = []	# test purpose by cys
+        #@msg = @ad_log
 
         if @ad_log.length == 0
           @ad_list = CpxAdvertisement.where('priority = 1 and remain > 0 and start_date <= ? and
-                                            end_date >= ?', Time.now, Time.now)
+                                            end_date >= ?', Date.today, Date.today)
           @ad_list_2 = CpxAdvertisement.where('priority = 2 and remain > 0 and start_date <= ? and
-                                              end_date >= ?', Time.now, Time.now)
+                                              end_date >= ?', Date.today, Date.today)
           @ad_list_3 = CpxAdvertisement.where('priority = 3 and remain > 0 and start_date <= ? and
-                                              end_date >= ?', Time.now, Time.now)
+                                              end_date >= ?', Date.today, Date.today)
           @ad_list_4 = CpxAdvertisement.where('priority = 4 and remain > 0 and start_date <= ? and
-                                              end_date >= ?', Time.now, Time.now)
+                                              end_date >= ?', Date.today, Date.today)
           @ad_list_5 = CpxAdvertisement.where('priority = 5 and remain > 0 and start_date <= ? and
-                                              end_date >= ?', Time.now, Time.now)
+                                              end_date >= ?', Date.today, Date.today)
         else
           @ad_list = CpxAdvertisement.where('priority = 1 and remain > 0 and id not in (?) and 
-                                            start_date <= ? and end_date >= ?', @ad_log, Time.now, 
-                                            Time.now)
+                                            start_date <= ? and end_date >= ?', @ad_log, Date.today, 
+                                            Date.today)
           @ad_list_2 = CpxAdvertisement.where('priority = 2 and remain > 0 and id not in (?) and 
-                                              start_date <= ? and end_date >= ?', @ad_log, Time.now, 
-                                             Time.now)
+                                              start_date <= ? and end_date >= ?', @ad_log, Date.today, 
+                                             Date.today)
           @ad_list_3 = CpxAdvertisement.where('priority = 3 and remain > 0 and id not in (?) and 
-                                              start_date <= ? and end_date >= ?', @ad_log, Time.now, 
-                                             Time.now)
+                                              start_date <= ? and end_date >= ?', @ad_log, Date.today, 
+                                             Date.today)
           @ad_list_4 = CpxAdvertisement.where('priority = 4 and remain > 0 and id not in (?) and 
-                                              start_date <= ? and end_date >= ?', @ad_log, Time.now, 
-                                             Time.now)
+                                              start_date <= ? and end_date >= ?', @ad_log, Date.today, 
+                                             Date.today)
           @ad_list_5 = CpxAdvertisement.where('priority = 5 and remain > 0 and start_date <= ? and 
-                                              end_date >= ?', Time.now, Time.now)
+                                              end_date >= ?', Date.today, Date.today)
         end
         
         if(@ad_list.length != 0)
@@ -380,11 +405,11 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
 
 
 
-        if r_id == 0
+        if r_id == 0 || !r_id.present?
           @status = false
           @msg = "not exist ads"
         else 
-          ad = CpxAdvertisement.find(r_id)
+          ad = CpxAdvertisement.find_by_id(r_id)
           @ad_id = ad.id
           @ad_type = ad.ad_type
           @ad_image = ad.ad_image_url
