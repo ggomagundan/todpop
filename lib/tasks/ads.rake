@@ -3,14 +3,14 @@ require File.dirname(__FILE__) + '/../../config/environment.rb'
   namespace :ads do
     task :cpd_priorities => :environment do
       CpdAdvertisement.all.each do |cpd|
-        term_date = cpd.end_time.to_date - Date.today
+        term_date = cpd.end_date - Date.today
         if cpd.remain <= 0
             cpd.update_attributes(:priority => 99)
         elsif cpd.priority == 1
         elsif cpd.priority == 5
         elsif term_date <= 0
             cpd.update_attributes(:priority => 2)
-        elsif cpd.end_time.to_date - cpd.start_time.to_date >= 270
+        elsif cpd.end_date - cpd.start_time.to_date >= 270
           if term_date <=  90
             cpd.update_attributes(:priority => 2)
           elsif term_date <= 180
@@ -18,7 +18,7 @@ require File.dirname(__FILE__) + '/../../config/environment.rb'
           else
             cpd.update_attributes(:priority => 4)
           end
-        elsif cpd.end_time.to_date - cpd.start_time.to_date >= 180
+        elsif cpd.end_date - cpd.start_time.to_date >= 180
           if term_date <=  60
             cpd.update_attributes(:priority => 2)
           elsif term_date <= 120
@@ -41,14 +41,14 @@ require File.dirname(__FILE__) + '/../../config/environment.rb'
 
     task :cpdm_priorities => :environment do
       CpdmAdvertisement.all.each do |cpdm|
-        term_date = ad.end_time - Date.today
+        term_date = cpdm.end_date - Date.today
         if cpdm.remain <= 0
             cpdm.update_attributes(:priority => 99)
         elsif cpdm.priority == 1
         elsif cpdm.priority == 5
         elsif term_date <= 0
             cpdm.update_attributes(:priority => 2)
-        elsif cpdm.end_time.to_date - cpdm.start_time.to_date >= 270
+        elsif cpdm.end_date - cpdm.start_time.to_date >= 270
           if term_date <=  90
             cpdm.update_attributes(:priority => 2)
           elsif term_date <= 180
@@ -56,7 +56,7 @@ require File.dirname(__FILE__) + '/../../config/environment.rb'
           else
             cpdm.update_attributes(:priority => 4)
           end
-        elsif cpdm.end_time.to_date - cpdm.start_time.to_date >= 180
+        elsif cpdm.end_date - cpdm.start_time.to_date >= 180
           if term_date <=  60
             cpdm.update_attributes(:priority => 2)
           elsif term_date <= 120
@@ -85,7 +85,7 @@ require File.dirname(__FILE__) + '/../../config/environment.rb'
         if cpx.remain <= 0
           cpx.update_attributes(:priority => 99)
         elsif cpx.priority == 1
-        elsif cpx.end_time.to_date - Date.today.to_date <= 10 
+        elsif cpx.end_date - Date.today.to_date <= 10 
           cpx.update_attributes(:priority => 2)
         elsif Date.today.to_date - cpx.start_time.to_date <= 10
           cpx.update_attributes(:priority => 3)
