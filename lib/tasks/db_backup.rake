@@ -18,7 +18,6 @@ namespace :db do
     command += " salty_production > backup/#{dest}.sql"
     
     sh command
-    #sh "mv db/backup/#{dest}.sql root/backup/."
   end
 end
 
