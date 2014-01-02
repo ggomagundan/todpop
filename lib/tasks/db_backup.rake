@@ -20,6 +20,8 @@ namespace :db do
     sh command
 
     puts(Dir.pwd)
+    sh("mkdir -p ~deployer/backup")
+    sh("mv backup/#{dest}.sql ~deployer/backup/.")
     
   end
 end
