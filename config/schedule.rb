@@ -33,5 +33,5 @@ every 1.day, :at => '00:05am' do
 end
 
 every 1.day, :at => '04:00am' do
-  rake "db:backup", :output => "log/change_ads_priority.log", :environment => ENV['RAILS_ENV']
+  rake "db:backup", :output => "log/db_backup.log", :environment => ENV['RAILS_ENV']
 end
