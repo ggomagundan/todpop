@@ -1,7 +1,7 @@
 namespace :db do
   desc "Backup the salty_production database"
   task :backup => :environment do
-    backup_dir = ENV['DIR'] || File.join(Rails.root, 'db', 'backup')
+    backup_dir = ENV['DIR'] || File.join(Rails.root, 'backup')
 
     makedirs backup_dir, :verbose => true
 
@@ -15,10 +15,10 @@ namespace :db do
     
     command = "mysqldump -u root"
     command += " -p\'#{password}\'" unless password.blank?
-    command += " salty_production > db/backup/#{dest}.sql"
+    command += " salty_production > backup/#{dest}.sql"
     
     sh command
-    sh "mv db/backup/#{dest}.sql ../../backup/."
+    #sh "mv db/backup/#{dest}.sql root/backup/."
   end
 end
 
