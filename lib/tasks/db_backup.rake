@@ -18,6 +18,9 @@ namespace :db do
     command += " salty_production > backup/#{dest}.sql"
     
     sh command
+
+    puts(Dir.pwd)
+    
   end
 end
 
