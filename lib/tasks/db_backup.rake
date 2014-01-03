@@ -18,6 +18,11 @@ namespace :db do
     command += " salty_production > backup/#{dest}.sql"
     
     sh command
+
+    puts(Dir.pwd)
+    sh("mkdir -p ~deployer/backup")
+    sh("mv backup/#{dest}.sql ~deployer/backup/.")
+    
   end
 end
 
