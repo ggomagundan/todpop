@@ -543,18 +543,18 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           if params[:act].to_i==3
             adInfo.update_attributes(:remain => adInfo.remain - 1)
 
-            # reward process .......
+            # reward / point process .......
             @token_user_id = params[:user_id]
             @token_reward = adInfo.reward
             @token_point = adInfo.point
             if @token_reward.present? && @token_reward > 0 
               @token_sub_title = adInfo.ad_type.to_s + " : " + adInfo.ad_name
-              @token_reward_type = 4000 + adInfo.ad_type              # reward_tpye : CPX = 4000 + ad_type
+              @token_reward_type = 4000 + adInfo.ad_type              # reward_type : CPX = 4000 + ad_type
               @token_title = "CPX"
               process_reward_general
             elsif @token_point.present? && @token_point > 0
-              @token_name = adInfo.ad_name
-              @token_point_type = adInfo.ad_type
+              @token_name = "CPX : " + adInfo.ad_type.to_s + " : " + adInfo.ad_name
+              @token_point_type = 4000 + adInfo.ad_type               # point_type : CPX = 4000 + ad_type
               process_point_general
             end
           end
