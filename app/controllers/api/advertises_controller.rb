@@ -645,6 +645,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
         @package_name = cpx_data.package_name
         @confirm_url = cpx_data.confirm_url
         @reward = cpx_data.reward
+        @point = cpx_data.point
         @n_question = cpx_data.n_question
       else
         @status = false
