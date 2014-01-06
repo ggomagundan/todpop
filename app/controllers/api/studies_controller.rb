@@ -114,11 +114,23 @@ class Api::StudiesController < ApplicationController
       @msg = "not exist stage or level params"
     end
 
-    @word = WordLevel.where(:stage => params[:stage],:level => params[:level])
+    if @status == true
+      level = params[:level].to_i
+      stage = params[:stage].to_i
 
-    if !@word.present?
+      if stage==10
+        @spare = WordLevel.where(:level => params[:level]).order("RAND()").first(36)
+      elsif stage==1
+        @word = WordLevel.where(:level => params[:level], :stage => params[:stage])
+      else                                                                               # stage 1~9
+        @word = WordLevel.where(:level => params[:level], :stage => params[:stage])
+        @spare = WordLevel.where('level = ? and stage = ?', level, stage-1).order("RAND()").first(3)
+      end
+    end
+
+    if !@word.present? && !@spare.present?
       @status = false
-      @msg = "not exist words"
+      @msg = "not exist words / spare words"
     end
   end
 
