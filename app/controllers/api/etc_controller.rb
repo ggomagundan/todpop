@@ -528,6 +528,9 @@ class Api::EtcController < ApplicationController
     @status = true
     @msg = ""
 
+
+    # -------------------------- category stat
+
     n_basic=0
     n_middle=0
     n_high=0
@@ -575,6 +578,7 @@ class Api::EtcController < ApplicationController
     @n_toeic=n_toeic
 
 
+    # ---------------- age stat
 
     users = User.all
     n_age_1      = users.where('? <= birth and birth <= ?',Date.parse('2013-01-01'), Date.today).count
@@ -644,7 +648,7 @@ class Api::EtcController < ApplicationController
     @n_age.push(tmp_hash)
 
 
-
+    # ------------------- address stat
 
     address_head_all = Address.pluck(:depth1).uniq
 
@@ -657,10 +661,66 @@ class Api::EtcController < ApplicationController
       @n_address.push(tmp_hash)
     end
 
+    # ------------------ DAU stat -----------------------------------------------------------------------
+
+    if params[:mode]=="3"
+
+      if params[:date].present?
+
+        #start_date = User.find_by_id(1).created_at.to_date
+        #end_date = Date.today
+        user_all = User.all
+        @dau=[]
+
+        #(start_date..end_date).each do |d|
+
+          d = params[:date].to_date
+
+          n_user = User.where('created_at < ?', (d+1).to_time).count
+
+          n_3=0
+          n_2=0
+          n_1=0
+          tmp_hash={}
+
+          user_all.each do |u|
+
+            log_all = UserTestHistory.where('created_at >= ? and created_at < ? and user_id = ?', d.to_time, (d+1).to_time ,u.id).pluck(:level,:stage).uniq
+            n_new=0
+            log_all.each do |log|
+              past = UserTestHistory.where('created_at < ? and user_id = ? and level = ? and stage = ?', d.to_time, u.id, log[0], log[1])
+              if !past.present?
+                n_new = n_new + 1
+              end
+            end
+
+            if n_new==0
+            elsif n_new==1
+              n_1 = n_1 +1
+            elsif n_new==2
+              n_2 = n_2 +1
+            else
+              n_3 = n_3 +1
+            end
+
+          end
+
+          tmp_hash[:date]=d
+          tmp_hash[:users]=n_user
+          tmp_hash[:n_3]=n_3
+          tmp_hash[:n_2]=n_2
+          tmp_hash[:n_1]=n_1
+
+          @dau.push(tmp_hash)
+
+        #end
+
+      end
+
+    end
 
 
-
-
+    # ---------------------------------------------
 
 
   end
