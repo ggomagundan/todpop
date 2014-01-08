@@ -663,26 +663,26 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
     @status = true
     @msg = ""
 
-    if !params[:uid].present? || !params[:campaign_idx].present? || !params[:campaign_title].present?
-      @status = false
-      @msg = "not sufficient params"
-    else
+    #if !params[:uid].present? || !params[:campaign_idx].present? || !params[:campaign_title].present?
+    #  @status = false
+    #  @msg = "not sufficient params"
+    #else
       uid = params[:uid].to_i
       campaign_idx = params[:campaign_idx].to_i
       campaign_title = params[:campaign_title].to_s
 
       @msg = uid.to_s + " / " + campaign_idx.to_s + " / " +campaign_title
-    end
+    #end
 
-    if @status == true
+    #if @status == true
 
-      tmp = LogCrosswalk.new
-      tmp.uid = uid
-      tmp.campaign_idx = campaign_idx
-      tmp.campaign_title = campaign_title
-      tmp.save
+    #  tmp = LogCrosswalk.new
+    #  tmp.uid = uid
+    #  tmp.campaign_idx = campaign_idx
+    #  tmp.campaign_title = campaign_title
+    #  tmp.save
 
-    end 
+    #end 
 
 
 
