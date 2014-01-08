@@ -81,6 +81,7 @@ Todpop::Application.routes.draw do
       get 'get_cps_questions', :on => :collection
       get 'set_survey_result', :on => :collection
       get 'show_cpx_ad', :on => :collection
+      post 'set_crosswalk_log', :on => :collection
     end
   
     resources :studies do
