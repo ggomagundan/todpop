@@ -233,7 +233,7 @@ class Api::EtcController < ApplicationController
         end
       end
 
-      if !UserHighestLevel.find_by_user_id(params[:id]).level.present?
+      if !UserHighestLevel.find_by_user_id(params[:id]).present?
         new_data = UserHighestLevel.new
         new_data.user_id = params[:id].to_i
         new_data.category = 1
