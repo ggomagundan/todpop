@@ -670,6 +670,8 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
       uid = params[:uid].to_i
       campaign_idx = params[:campaign_idx].to_i
       campaign_title = params[:campaign_title].to_s
+
+      @msg = uid.to_s + " / " + campaign_idx.to_s + " / " +campaign_title
     end
 
     if @status == true
