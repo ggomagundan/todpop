@@ -669,7 +669,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
     else
       uid = params[:uid].to_i
       campaign_idx = params[:campaign_idx].to_i
-      campaign_title = parmas[:campaign_title].to_s
+      campaign_title = params[:campaign_title].to_s
     end
 
     if @status == true
