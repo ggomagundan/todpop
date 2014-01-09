@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 class Api::AdvertisesController < ApplicationController#< Api::ApplicationController
+  skip_before_filter :verify_authenticity_token
 
   def get_cpd_ad
  
@@ -669,7 +670,9 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
     else
       uid = params[:uid].to_i
       campaign_idx = params[:campaign_idx].to_i
-      campaign_title = parmas[:campaign_title].to_s
+      campaign_title = params[:campaign_title].to_s
+
+      @msg = uid.to_s + " / " + campaign_idx.to_s + " / " +campaign_title
     end
 
     if @status == true
@@ -681,7 +684,6 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
       tmp.save
 
     end 
-
 
 
   end
