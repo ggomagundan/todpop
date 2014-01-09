@@ -147,7 +147,7 @@ class Api::EtcController < ApplicationController
         @cpx_list=[]
         (0..my_cpx_ad_ids.count-1).each do |i|
           ad_id=my_cpx_ad_ids[i]
-          my_cpx_recent=AdvertiseCpxLog.where('ad_id = ?',ad_id).order("created_at DESC").first
+          my_cpx_recent=AdvertiseCpxLog.where('user_id = ? and ad_id = ?',params[:id], ad_id).order("id DESC").order("created_at DESC").first
           ad_info=CpxAdvertisement.find_by_id(ad_id)
           if my_cpx_recent.act == 1
             if ad_info.remain <= 0
