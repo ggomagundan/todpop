@@ -726,7 +726,16 @@ class Api::EtcController < ApplicationController
   end
 
 
+  def show_service_stat
+    @status = true
+    @msg = ""
 
+    total_reward_active = User.all.pluck(:total_reward).sum
+    total_reward_inactive = InactiveUser.all.pluck(:total_reward).sum
+
+    @total_reward_amount = total_reward_active + total_reward_inactive
+
+  end
 
 
 
