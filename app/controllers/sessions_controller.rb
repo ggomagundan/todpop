@@ -81,4 +81,14 @@ class SessionsController < ApplicationController
       end
     end
   end
+
+  def pwd_change
+    if params[:password]!=nil
+      @user = User.find_by_id(params[:id].to_i)
+      if @user.update_attributes(:password => params[:password], :password_confirmation => params[:password])
+        redirect_to admin_users_path
+      end
+    end
+  end
+
 end

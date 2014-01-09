@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 class Admin::UsersController < Admin::ApplicationController
+  skip_before_filter :verify_authenticity_token
   def index
     @users = User.all
     @counting = User.count
@@ -28,6 +29,10 @@ class Admin::UsersController < Admin::ApplicationController
 
   def update
     @user = User.find(params[:id])
+    #@user.password = Digest::SHA512.hexdigest(temp.to_s)
+    #@user.password_confirmation = Digest::SHA512.hexdigest(temp.to_s)
+    @user.password = params[:password]
+    @user.password_confirmation = params[:password]
     if @user.update_attributes(user_params)
       redirect_to admin_users_path, :notice  => "Successfully updated user."
     else
@@ -40,9 +45,9 @@ class Admin::UsersController < Admin::ApplicationController
     @user.destroy
     redirect_to admin_users_url, :notice => "Successfully destroyed user."
   end
-
+  
   private 
   def user_params
-    params.require(:user).permit(:email, :facebook, :password, :password_confirmation, :nickname, :recommend , :sex , :birth , :address , :mobile ,  :last_connection , :level_test, :interest, :is_admin )
+    params.require(:user).permit(:email, :facebook, :password, :password_confirmation, :nickname, :recommend , :sex , :birth , :address , :mobile , :last_connection , :level_test, :interest, :is_admin )
   end
 end

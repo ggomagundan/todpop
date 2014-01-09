@@ -7,6 +7,9 @@ Todpop::Application.routes.draw do
   
   post "sessions/client_sign_up" => "sessions#client_sign_up", :as => :client_sign_up_sessions
   post "sessions/sign_up" => "sessions#sign_up", :as => :sign_up_sessions
+  
+  post "admin/users/pwd_change" => "sessions#pwd_change", :as => :pwd_change_sessions
+
   get "logout" => "sessions#destroy", :as => "logout"
   get "login" => "sessions#new", :as => "login"
   resources :sessions

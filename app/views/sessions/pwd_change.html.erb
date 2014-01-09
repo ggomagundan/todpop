@@ -1,0 +1,26 @@
+<%= form_tag pwd_change_sessions_path do %>
+  <p>
+    <th>User ID<th><br>
+    <%= text_field_tag :id, params[:id] %>
+  </p>
+  
+  <p>
+    <th>password<th><br>
+    <%= password_field_tag :password, params[:password] %>
+  </p>
+  
+  <p>
+    <th>password_confirmation<th><br>
+    <%= password_field_tag :password_confirmation, params[:password_confirmation] %>
+  </p>
+  <p class="button"><%= submit_tag "password" %></p>
+<% end %>
+
+<script>
+  $(document).ready(function(){
+    $('form').submit(function(){
+      $('#password').val(hex_sha512($('#password').val()));
+      $('#password_confirmation').val(hex_sha512($('#password_confirmation').val()));
+    });
+  });
+</script>
