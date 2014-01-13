@@ -40,6 +40,18 @@ require 'net/http'
       end
     end
 
+    task :product_reload => :environment do
+      QpconProduct.all.each do |product|
+        json = connect("prodDetail.do",{:cmd => "prodDetail", :prodId => product.product_id})
+        if json["STATUS_CODE"] == "00"
+
+          detail = json["PRODUCT_DETAIL"]
+          product.update_attributes(:stock_count => detail["STOCK_CNT"].to_i, :market_cost => detail["MARKET_COST"].to_i, :common_cost => detail["COMMON_COST"].to_i, :img_url_70 => detail["IMG_URL_70"], :img_url_150 => detail["IMG_URL_150"], :img_url_250 => detail["IMG_URL_250"], :info => detail["USE_INFO"])
+
+        end
+      end
+    end
+
   end
 
 

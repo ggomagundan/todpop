@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131203085344) do
+ActiveRecord::Schema.define(version: 20140113172526) do
 
   create_table "addresses", force: true do |t|
     t.string   "depth1"
@@ -61,6 +61,8 @@ ActiveRecord::Schema.define(version: 20131203085344) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "new_stage_day_limit"
+    t.string   "android_package"
+    t.string   "ios_package"
     t.string   "android_package_name"
     t.string   "ios_package_name"
     t.string   "market_url"
@@ -152,7 +154,7 @@ ActiveRecord::Schema.define(version: 20131203085344) do
     t.date     "end_date"
     t.string   "url"
     t.string   "length"
-    t.integer  "priority",   default: 4
+    t.integer  "priority"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "video"
@@ -174,17 +176,11 @@ ActiveRecord::Schema.define(version: 20131203085344) do
     t.string   "package_name"
     t.string   "confirm_url"
     t.integer  "reward"
+    t.integer  "point"
     t.integer  "n_question"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "priority",     default: 5
-  end
-
-  create_table "create_user_stage_infos", force: true do |t|
-    t.integer  "user_id"
-    t.string   "stage_info"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "inactive_users", force: true do |t|
@@ -205,6 +201,14 @@ ActiveRecord::Schema.define(version: 20131203085344) do
     t.integer  "total_reward"
     t.integer  "is_admin"
     t.datetime "last_test"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "log_crosswalks", force: true do |t|
+    t.integer  "uid"
+    t.integer  "campaign_idx"
+    t.string   "campaign_title"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -256,6 +260,33 @@ ActiveRecord::Schema.define(version: 20131203085344) do
     t.datetime "updated_at"
   end
 
+  create_table "qpcon_products", force: true do |t|
+    t.string   "product_id"
+    t.integer  "qpcon_category_id"
+    t.string   "product_name"
+    t.string   "change_market_name"
+    t.integer  "stock_count"
+    t.integer  "market_cost"
+    t.integer  "common_cost"
+    t.string   "img_url_70"
+    t.string   "img_url_150"
+    t.string   "img_url_250"
+    t.string   "market_name"
+    t.integer  "min_age"
+    t.text     "use_info"
+    t.integer  "valid_type"
+    t.string   "valid_date"
+    t.integer  "max_sale"
+    t.integer  "min_sale"
+    t.integer  "max_month_sale"
+    t.integer  "is_sale"
+    t.integer  "pin_type"
+    t.integer  "product_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "info"
+  end
+
   create_table "ranking_currents", force: true do |t|
     t.integer  "week_1",     default: 0
     t.integer  "week_2",     default: 0
@@ -267,8 +298,8 @@ ActiveRecord::Schema.define(version: 20131203085344) do
     t.integer  "mon_2",      default: 0
     t.integer  "mon_3",      default: 0
     t.integer  "mon_4",      default: 0
-    t.date     "mon_start",  default: '2013-10-01'
-    t.date     "mon_end",    default: '2013-10-31'
+    t.date     "mon_start",  default: '2013-11-01'
+    t.date     "mon_end",    default: '2013-11-30'
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -377,10 +408,11 @@ ActiveRecord::Schema.define(version: 20131203085344) do
     t.integer  "sex"
     t.date     "birth"
     t.string   "address"
+    t.string   "f_address"
     t.string   "mobile",                                 null: false
     t.integer  "interest"
     t.string   "character",                default: "8"
-    t.integer  "level_test",               default: 0
+    t.integer  "level_test"
     t.integer  "is_set_facebook_password", default: 0
     t.integer  "daily_test_count",         default: 0
     t.integer  "daily_test_reward",        default: 0
