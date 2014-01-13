@@ -1,7 +1,11 @@
 <%= button_to "Change_Password", pwd_change_sessions_url %>
 <div class = 'noset'>
-  <b>User Count : <%=@counting%></b>
+  <b>User Count : <%=@counting%></b> 
 </div>
+<div style='text-align:right'>
+  <input type='text' name='search' class='search' style='width:110px;'> <input type='button' id='search_user' value='Search' class='btn-inverse' style='margin-bottom:9px;'></b>
+</div>
+<%= form_tag(admin_users_path(:before_page => @page), method: "post", id: "confirm_form") %>
 <table class="table table-hover">
   <thead>
     <tr>
@@ -52,4 +56,7 @@
 </table>
 
 <br>
+<div style='text-align:right'>
+  <%= paginate(@users) %>
+</div>
 

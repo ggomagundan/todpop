@@ -2,8 +2,14 @@
 class Admin::UsersController < Admin::ApplicationController
   skip_before_filter :verify_authenticity_token
   def index
-    @users = User.all
     @counting = User.count
+    @page = params[:page] ? params[:page] : 1
+    if params[:search].present?
+      q = "%#{params[:search]}%"
+      @users = User.where("id LIKE ? OR email LIKE ? OR facebook LIKE ? OR mobile LIKE ? OR nickname LIKE ?", q, q, q, q, q).page(params[:page]).per(15)
+    else
+      @users = User.page(params[:page]).per(15)
+    end
   end
 
   def show
