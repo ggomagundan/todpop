@@ -4,8 +4,8 @@ class Admin::UsersController < Admin::ApplicationController
   def index
     @counting = User.count
     @page = params[:page] ? params[:page] : 1
-    if params[:search].present?
-      q = "%#{params[:search]}%"
+    if params[:search_user].present?
+      q = "%#{params[:search_user]}%"
       @users = User.where("id LIKE ? OR email LIKE ? OR facebook LIKE ? OR mobile LIKE ? OR nickname LIKE ?", q, q, q, q, q).page(params[:page]).per(15)
     else
       @users = User.page(params[:page]).per(15)
