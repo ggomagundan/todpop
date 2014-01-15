@@ -156,4 +156,31 @@ class Admin::InsightController < ApplicationController
     end
   end
 
+  def reward_analysis
+      @logs = []
+      added_cnt_1 =0
+      added_cnt_2 =0
+      added_cnt_3 =0
+      if params[:start_date].present?
+        sd = Date.parse(params[:start_date])
+      elsif params[:recent].present? && params[:recent] == 'month'
+        sd = 30.day.ago.to_date
+        @r = 2
+      else
+        sd = 7.day.ago.to_date
+        @r = 1
+      end
+
+      if params[:end_date].present?
+        ed = Date.parse(params[:end_date])
+      else
+        ed = Date.today
+      end
+
+      if sd > ed
+        sd = 7.day.ago.to_date
+        ed = Date.today
+      end
+  end
+
 end
