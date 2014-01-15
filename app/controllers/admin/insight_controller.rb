@@ -41,7 +41,7 @@ class Admin::InsightController < ApplicationController
 
       if params[:type] == 'cpd'
         @type = 'cpd'
-        tmp_ad = CpdAdvertisement.where(:id => params[:id], :cli_id => session[:client_id])
+        tmp_ad = CpdAdvertisement.where(:id => params[:id])
         @ad = tmp_ad[0]
         if !@ad.present?
           render :file => "#{Rails.root}/public/404"
@@ -84,7 +84,7 @@ class Admin::InsightController < ApplicationController
 
       elsif params[:type] == 'cpdm'
         @type = 'cpdm'
-        tmp_ad = CpdmAdvertisement.where("id = ? and cli_id = ?", params[:id], session[:client_id])
+        tmp_ad = CpdmAdvertisement.where("id = ?", params[:id])
         @ad = tmp_ad[0]
         if !@ad.present?
           render :file => "#{Rails.root}/public/404"
@@ -118,7 +118,7 @@ class Admin::InsightController < ApplicationController
 
       elsif params[:type] == 'cpx'
         @type = 'cpx'
-        tmp_ad = CpxAdvertisement.where("id = ? and cli_id = ?", params[:id], session[:client_id])
+        tmp_ad = CpxAdvertisement.where("id = ?", params[:id])
         @ad = tmp_ad[0]
         if !@ad.present?
           render :file => "#{Rails.root}/public/404"
