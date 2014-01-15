@@ -8,7 +8,7 @@ class Admin::InsightController < ApplicationController
     @cpdm = CpdmAdvertisement.all
   end
 
-  def ad_detail
+  def ad_analysis_detail
     error_flag = false
     if !params[:type].present? && !params[:id].present?
       error_flag = true
