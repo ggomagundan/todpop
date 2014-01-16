@@ -157,10 +157,10 @@ class Admin::InsightController < ApplicationController
   end
 
   def reward_analysis
-      @logs = []
-      added_cnt_1 =0
-      added_cnt_2 =0
-      added_cnt_3 =0
+    @total_reward = User.sum(:total_reward)
+    @current_reward = User.sum(:current_reward)
+
+    @logs = []
       if params[:start_date].present?
         sd = Date.parse(params[:start_date])
       elsif params[:recent].present? && params[:recent] == 'month'
@@ -181,6 +181,48 @@ class Admin::InsightController < ApplicationController
         sd = 7.day.ago.to_date
         ed = Date.today
       end
+      
+        #tmp_ad = CpdAdvertisement.where(:id => params[:id])
+        #@ad = tmp_ad[0]
+        @tmp_reward = RewardLog.all
+        if !@tmp_reward.present?
+          render :file => "#{Rails.root}/public/404"
+        else
+          if params[:recent].present? && params[:recent] == 'all'
+            sd = @tmp_reward[0].created_at.to_date
+            ed = Date.today
+            @r = 3
+          end
+=begin
+          if sd < @ad.start_date
+            sd = @ad.start_date
+          end
+          if ed > @ad.end_date
+            ed = @ad.end_date
+          end
+          if ed > Date.today
+            ed = Date.today
+          end
+=end
+          
+          period_reward = 0
+          period_minus_reward = 0
+          sd.upto(ed).each do |d|
+            row = {}
+            day_reward = @tmp_reward.where("created_at >= ? and created_at < ? and reward > 0 ", d, d+1).sum(:reward)
+            period_reward += day_reward
+            day_minus_reward = @tmp_reward.where("created_at >= ? and created_at < ? and reward < 0 ", d, d+1).sum(:reward)
+            period_minus_reward += day_minus_reward
+
+            row[:day] = d
+            row[:day_reward] = day_reward
+            row[:period_reward] = period_reward
+            row[:day_minus_reward] = day_minus_reward
+            row[:period_minus_reward] = period_minus_reward
+
+            @logs.push(row)
+          end
+        end
   end
 
 end
