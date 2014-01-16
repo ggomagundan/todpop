@@ -14,8 +14,10 @@ class ApplicationController < ActionController::Base
   #      Test       =   1000+category      1000+category
   #      Attendace  =     2000                2000
   #      Launching Event =                    2500
-  #      Recommend  =     3000                3000
+  #      Recommend  =     3000                3000          (3100:old_user  3200:new_user)
   #        CPX      =   4000+CPX_code      4000+CPX_code
+  #        CPDM     =   5000+CPDM_code     5000+CPDM_code
+  #        CPD      =   6000+CPD_code      6000+CPD_code
   #       Refund    =     7000
   #
 
