@@ -144,12 +144,24 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
 
 
           ad = CpdAdvertisement.find_by_id(r_id)
+          @msg = "success"
+
           @ad_id = ad.id
           @ad_type = ad.ad_type
           @content1 = ad.front_image_url
           @content2 = ad.back_image_url
+
           @coupon = ad.coupon_id
-          @msg = "success"
+
+          @reward = ad.reward
+          @point = ad.point
+
+          @name = ad.name
+          @caption = ad.caption
+          @description = ad.description
+          @link = ad.link
+          @picture = ad.picture
+
         end
       end
 
@@ -276,11 +288,21 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           @msg = "not exist ads"
         else
           ad = CpdmAdvertisement.find_by_id(r_id)
+          @msg = "success"
+
           @ad_id = ad.id
           @ad_type = ad.ad_type
           @url  = ad.url
           @length = ad.length
-          @msg = "success"
+
+          @reward = ad.reward
+          @point = ad.point
+
+          @name = ad.name
+          @caption = ad.caption
+          @description = ad.description
+          @link = ad.link
+          @picture = ad.picture
         end
 
       
@@ -438,26 +460,78 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
     if !params[:ad_id].present? || !params[:ad_type].present? || !params[:user_id].present? || !params[:act].present?
       @status = false
       @msg = "lacking in params"
-    else
-      if !(adInfo = CpdAdvertisement.find_by_id(params[:ad_id])).present? || !User.find_by_id(params[:user_id]).present?
-        @status = false
-        @msg = "not exist cpd or user"
+    elsif !(adInfo = CpdAdvertisement.find_by_id(params[:ad_id])).present? || !User.find_by_id(params[:user_id]).present?
+      @status = false
+      @msg = "not exist ad or user"
+    elsif params[:ad_type]=="102" && params[:act]=="2" && !params[:coupon_id].present?
+      @status = false
+      @msg = "not exist coupon_id"
+    elsif params[:ad_type]=="103" && params[:act]=="2" && !params[:facebook_id].present?
+      @status = false
+      @msg = "not exist facebook_id"
+    end
+
+    if @status == true
+      adLog = AdvertiseCpdLog.new
+      adLog.ad_id = params[:ad_id]
+      adLog.ad_type = params[:ad_type]
+      adLog.user_id = params[:user_id]
+      adLog.act = params[:act]
+      if params[:facebook_id].present?
+        adLog.facebook_id = params[:facebook_id]
+      end
+
+      if adLog.save
+        @msg = "success"
+        @result = true
+        adInfo.update_attributes(:remain => adInfo.remain - 1)
       else
-        adLog = AdvertiseCpdLog.new
-        adLog.ad_id = params[:ad_id]
-        adLog.ad_type = params[:ad_type]
-        adLog.user_id = params[:user_id]
-        adLog.act = params[:act]
-        if adLog.save
-          @msg = "success"
-          @result = true
-          adInfo.update_attributes(:remain => adInfo.remain - 1)
+        @msg = "failed to save"
+        @result = false
+        @status = false
+      end
+    end
+
+    if @status == true && params[:act] == "2"
+
+      if params[:ad_type] == "102"
+        if MyCoupon.where(:user_id => params[:user_id].to_i, :coupon_id => params[:coupon_id].to_i).present?
+          coupon = MyCoupon.where(:user_id => params[:user_id].to_i, :coupon_id => params[:coupon_id].to_i).last
+          coupon.update_attributes(:updated_at => Time.now)
         else
-          @msg = "failed to save"
-          @result = false
-          @status = false
+          new_coupon = MyCoupon.new
+          new_coupon.user_id = params[:user_id]
+          new_coupon.coupon_id = params[:coupon_id]
+          new_coupon.coupon_type = 0  # 0 - free, 1 - not free
+          if new_coupon.save
+            @result = true
+            @msg = "success"
+          else
+            @status = false
+            @msg = "succeeded to write log but failed to save the coupon"
+          end
         end
       end
+
+      # reward of point
+      if adInfo.reward.present? && adInfo.reward > 0
+        @token_user_id = params[:user_id].to_i
+        @token_reward_type = 6000 + params[:ad_type].to_i
+        @token_title = "CPD"
+        @token_sub_title = "이미지공유 etc"
+        @token_reward = adInfo.reward
+        process_reward_general
+      end
+
+      if adInfo.point.present? && adInfo.point  > 0
+        @token_user_id = params[:user_id].to_i
+        @token_point_type = 6000 +params[:ad_type].to_i
+        @token_name = "CPD : 이미지공유 etc"
+        @token_point = adInfo.point
+        process_point_general
+      end
+      # ------
+
     end
   end
 
@@ -496,23 +570,58 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
   def set_cpdm_log
     @status = true
     @msg = ""
-    if !params[:ad_id].present? || !params[:ad_type].present? || !params[:user_id].present? || !params[:view_time].present?
+    if !params[:ad_id].present? || !params[:ad_type].present? || !params[:user_id].present?
       @status = false
       @msg = "lacking in params"
+    elsif params[:ad_type] == "201" && !params[:view_time].present?
+      @status = false
+      @msg = "lacking in params (view_time)"
+    elsif params[:ad_type] == "202" && ( !params[:act].present? || (!params[:view_time].present? && !params[:facebook_id].present?) )
+      @status = false
+      @msg = "lacking in ad_type 202 params (act, view_time or facebook_id)"
     else
       if !(adInfo = CpdmAdvertisement.find_by_id(params[:ad_id])).present? || !User.find_by_id(params[:user_id]).present?
         @status = false
-        @msg = "not exist cpx or user"
+        @msg = "not exist ad or user"
       else
         adLog = AdvertiseCpdmLog.new
         adLog.ad_id = params[:ad_id]
         adLog.ad_type = params[:ad_type]
         adLog.user_id = params[:user_id]
-        adLog.view_time = params[:view_time]
+        if params[:view_time].present?
+          adLog.view_time = params[:view_time]
+        end
+        if params[:act].present?
+          adLog.act = params[:act]
+        end
+        if params[:facebook_id].present?
+          adLog.view_time = params[:facebook_id]
+        end
+
         if adLog.save
           @msg = "success"
           @result = true
           adInfo.update_attributes(:remain => adInfo.remain-1)
+
+          # reward or point
+          if adInfo.reward.present? && adInfo.reward > 0
+            @token_user_id = params[:user_id].to_i
+            @token_reward_type = 5000 + params[:ad_type].to_i
+            @token_title = "CPDM"
+            @token_sub_title = "동영상공유 etc"
+            @token_reward = adInfo.reward
+            process_reward_general
+          end
+
+          if adInfo.point.present? && adInfo.point  > 0
+            @token_user_id = params[:user_id].to_i
+            @token_point_type = 5000 +params[:ad_type].to_i
+            @token_name = "CPDM : 동영상공유 etc"
+            @token_point = adInfo.point
+            process_point_general
+          end
+          # ------
+
         else
           @status = false
           @msg = "failed to save"       
