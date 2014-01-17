@@ -69,7 +69,7 @@ class ClientController < ApplicationController
             added_cnt_1 += day_cnt_1
             day_cnt_2 = AdvertiseCpdLog.where("ad_id = ? and act = 2 and created_at between ? and ?", params[:id], d, d+1).count
             added_cnt_2 += day_cnt_2
-            day_cnt_3 = @ad.unit_price * day_cnt_1
+            day_cnt_3 = @ad.basic_show_price * day_cnt_1
             added_cnt_3 += day_cnt_3
             row[:day] = d
             row[:day_cnt_1] = day_cnt_1
@@ -103,7 +103,7 @@ class ClientController < ApplicationController
             added_cnt_1 += day_cnt_1
             day_cnt_2 = AdvertiseCpdmLog.where("ad_id = ? and view_time >= ? and created_at between ? and ?", params[:id], @ad.length*0.3, d, d+1).count
             added_cnt_2 += day_cnt_2
-            day_cnt_3 = @ad.unit_price * day_cnt_1
+            day_cnt_3 = @ad.basic_show_price * day_cnt_1
             added_cnt_3 += day_cnt_3
             row[:day] = d
             row[:day_cnt_1] = day_cnt_1
@@ -137,7 +137,7 @@ class ClientController < ApplicationController
             added_cnt_1 += day_cnt_1
             day_cnt_2 = AdvertiseCpxLog.where("ad_id = ? and act = 2 and created_at between ? and ?", params[:id], d, d+1).count
             added_cnt_2 += day_cnt_2
-            day_cnt_3 = @ad.unit_price * day_cnt_1
+            day_cnt_3 = @ad.basic_show_price * day_cnt_1
             added_cnt_3 += day_cnt_3
             row[:day] = d
             row[:day_cnt_1] = day_cnt_1
