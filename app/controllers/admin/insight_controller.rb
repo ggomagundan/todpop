@@ -225,4 +225,56 @@ class Admin::InsightController < ApplicationController
         end
   end
 
+  def user_analysis
+    @logs = []
+    user_tmp = User.all
+    @inactive_user = InactiveUser.count
+    @current_user = user_tmp.count
+    @fb_user = user_tmp.where(:email => nil).count
+    @email_user = user_tmp.where(:facebook => nil).count
+    @cross_user = @current_user - (@fb_user + @email_user)
+    @total_user = @current_user + @inactive_user
+
+    @boy = user_tmp.where(:sex => 1).count
+    @girl = user_tmp.where(:sex => 2).count
+
+    @year_1 = 0
+    @year_2 = 0
+    @year_3 = 0
+    @year_4 = 0
+    @year_5 = 0
+    @year_6 = 0
+    @year_7 = 0
+    @year_8 = 0
+    @year_9 = 0
+    @year_10 = 0
+    this_year = Date.today.year
+    user_tmp.each do |i|
+      if i.birth.present?
+        year_tmp = this_year - i.birth.year
+        if year_tmp < 7
+          @year_1 += 1
+        elsif year_tmp < 10
+          @year_2 += 1
+        elsif year_tmp < 13
+          @year_3 += 1
+        elsif year_tmp < 16
+          @year_4 += 1
+        elsif year_tmp < 19
+          @year_5 += 1
+        elsif year_tmp < 24
+          @year_6 += 1
+        elsif year_tmp < 29
+          @year_7 += 1
+        elsif year_tmp < 39
+          @year_8 += 1
+        elsif year_tmp < 49
+          @year_9 += 1
+        else
+          @year_10 += 1
+        end
+      end
+    end
+  end
+
 end

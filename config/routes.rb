@@ -4,6 +4,7 @@ Todpop::Application.routes.draw do
   get "admin/insight/ad_analysis" => "admin/insight#ad_analysis", :as => "admin_insight_ad_analysis"
   get "admin/insight/ad_analysis_detail" => "admin/insight#ad_analysis_detail"
   get "admin/insight/reward_analysis" => "admin/insight#reward_analysis"
+  get "admin/insight/user_analysis" => "admin/insight#user_analysis"
   get 'downloads' => "downloads#index" 
 
   get 'client' => "client#index", :as => "client_index"
