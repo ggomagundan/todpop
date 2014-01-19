@@ -1,4 +1,4 @@
-<button onclick="location.href='/client';" class='btn btn-primary' style='margin-top:15px;'>← HOME</button>
+<button onclick="location.href='/admin/insight/ad_analysis';" class='btn btn-primary' style='margin-top:15px;'>← HOME</button>
 
 <h3><%=@ad.ad_name%>(<% if @ad.pay_type == 1 %>선불제<% else %>후불제<% end %>)</h3>
 
@@ -30,9 +30,9 @@
 <br/>
 <br/>
 기간선택&nbsp;&nbsp;
-<button class="btn <% if @r == 1 %> btn-success <% end %>" onclick="location.href='/client/detail?type=<%=@type%>&id=<%=@ad.id%>'">최근 1주일</button>&nbsp;&nbsp;
-<button class='btn <% if @r == 2 %> btn-success <% end %>' onclick="location.href='/client/detail?type=<%=@type%>&id=<%=@ad.id%>&recent=month'">최근 1달</button>&nbsp;&nbsp;
-<button class='btn <% if @r == 3 %> btn-success <% end %>' onclick="location.href='/client/detail?type=<%=@type%>&id=<%=@ad.id%>&recent=all'">전체기간</button><br/><br/>
+<button class="btn <% if @r == 1 %> btn-success <% end %>" onclick="location.href='/admin/insight/ad_analysis_detail?type=<%=@type%>&id=<%=@ad.id%>'">최근 1주일</button>&nbsp;&nbsp;
+<button class='btn <% if @r == 2 %> btn-success <% end %>' onclick="location.href='/admin/insight/ad_analysis_detail?type=<%=@type%>&id=<%=@ad.id%>&recent=month'">최근 1달</button>&nbsp;&nbsp;
+<button class='btn <% if @r == 3 %> btn-success <% end %>' onclick="location.href='/admin/insight/ad_analysis_detail?type=<%=@type%>&id=<%=@ad.id%>&recent=all'">전체기간</button><br/><br/>
 직접입력&nbsp;&nbsp;
 <input type='text' name='date1' class='date' style='width:80px;margin:0;'/> ~ <input type='text' name='date2' class='date' style='width:80px;margin:0;'/>&nbsp;&nbsp;
 <button id='date_btn' class='btn'>선택완료</button>

@@ -140,8 +140,8 @@ class Api::UsersController < ApplicationController
       # Reward & Point DEFINITIOM !!!! --------------------  <-- Change here !!!!
       old_user_reward = 0;
       new_user_reward = 0;
-      old_user_point = 0;
-      new_user_point = 0;
+      old_user_point = 30;			# temporary 2014/01/16
+      new_user_point = 30;			# temporary 2014/01/16
  
       # reward process
       if old_user_reward > 0

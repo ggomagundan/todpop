@@ -2,8 +2,12 @@
 <div class = 'noset'>
   <b>User Count : <%=@counting%></b> 
 </div>
-<div style='text-align:right'>
-  <input type='text' name='search' class='search' style='width:110px;'> <input type='button' id='search_user' value='Search' class='btn-inverse' style='margin-bottom:9px;'></b>
+<div class="search_form">
+  <%= form_tag admin_users_path, :method => :get do %>
+    <span class="form_label">유저검색하기</span>
+    <%= text_field_tag :search_user, params[:search_user], :class=>'text' %>
+    <%= submit_tag "검색", :class => "btn btn-small" %>
+    <% end %>
 </div>
 <%= form_tag(admin_users_path(:before_page => @page), method: "post", id: "confirm_form") %>
 <table class="table table-hover">
