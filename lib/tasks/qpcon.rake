@@ -55,7 +55,7 @@ require 'net/http'
 
     
     task :product_send => :environment do
-      json = pin_connect("sendOrder.do",{:cmd => "sendOrder", :prodId => QpconProduct.last.product_id,:ordId => Time.now.to_datetime.strftime('%Y-%m-%d %H:%M:%S.%N'), :sndrHp => "010000000", :recvHp => "01085748310" })
+      json = pin_connect("sendOrder.do",{:prodId => QpconProduct.last.product_id,:reqOrdId => Time.now.to_datetime.strftime('%Y-%m-%d %H:%M:%S.%N') })
 
 
         puts json
