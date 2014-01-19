@@ -53,7 +53,7 @@ class Api::QpconCouponsController < ApplicationController
       user.update_attributes(:total_reward => user.total_reward - coupon.common_cost)
 
       last_uri = "pinIssue.do"
-      c_params = {:prodId => coupon.product_id,:reqOrdId => Time.now.to_datetime.strftime('%Y-%m-%d %H:%M:%S.%N'), :key => "0f8f5a7024dd11e3b5ae00304860c864"}
+      c_params = {:prodId => coupon.product_id,:reqOrdId => Time.now.to_datetime.strftime('%Y%m%d%H%M%S%N'), :key => "0f8f5a7024dd11e3b5ae00304860c864"}
 
       uri = URI.parse("http://211.245.169.201/qpcon/api/pin/#{last_uri}")
       http = Net::HTTP.new(uri.host, uri.port)
