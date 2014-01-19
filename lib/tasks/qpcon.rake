@@ -54,6 +54,17 @@ require 'net/http'
 
   end
 
+    
+  task :product_send => :environment do
+    json = connect("sendOrder.do",{:cmd => "sendOrder", :prodId =>{:prodId => QpconProduct.first.product_id,:ordId => Time.now.to_datetime.strftime('%Y-%m-%d %H:%M:%S.%N'), :sndrHp => "010000000", :recvHp => "01085748310" }})
+    if json["STATUS_CODE"] == "00"
+
+      puts json["ORDER_SEND"]
+
+    end
+  end
+
+
 
   def connect(last_uri,params) 
       uri = URI.parse("http://211.245.169.201/qpcon/api/#{last_uri}")
