@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 Todpop::Application.routes.draw do
   namespace(:api){ 
-    resources :qpcon_coupons do
+    resources :qpcon_coupons do 
   
       get 'can_shopping', :on => :collection
       get 'get_categories', :on => :collection

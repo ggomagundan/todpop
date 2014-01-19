@@ -68,7 +68,7 @@ class Api::QpconCouponsController < ApplicationController
 
         @result = true
        
-       Order.create(:user_id => user.id, :order_id => pin_list[2], :barcode => pin_llist[3], :product_id => coupon.id, :qpcon_order_id => pin_list[5], :limit_date =>  Date.strptime(pin_list[4],"%Y%m%d") )
+       Order.create(:user_id => user.id, :order_id => pin_list[2], :barcode => pin_list[3], :product_id => coupon.id, :qpcon_order_id => pin_list[5], :limit_date =>  Date.strptime(pin_list[4],"%Y%m%d") )
        
       else
         @result = false
