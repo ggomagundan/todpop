@@ -47,7 +47,15 @@ class Api::QpconCouponsController < ApplicationController
     coupon = QpconProduct.find(params[:coupon_id])
 
 
-    if user.total_reward >= coupon.common_cost
+    if !user.authenticate(params[:password]).present?
+
+      @status = false
+      @msg = "비밀번호가 잘못 되었습니다."
+
+    end
+
+
+    if @status == true && user.total_reward >= coupon.common_cost
 
 
       user.update_attributes(:total_reward => user.total_reward - coupon.common_cost)
@@ -73,7 +81,7 @@ class Api::QpconCouponsController < ApplicationController
       else
         @result = false
       end
-    else
+    elsif @status == true
       @msg = "장학금이 부족합니다"
       @result = false
       @status = false
