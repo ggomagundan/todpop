@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140113172526) do
+ActiveRecord::Schema.define(version: 20140119055831) do
 
   create_table "addresses", force: true do |t|
     t.string   "depth1"
@@ -25,15 +25,18 @@ ActiveRecord::Schema.define(version: 20140113172526) do
     t.integer  "ad_type"
     t.integer  "user_id"
     t.integer  "act"
+    t.string   "facebook_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "advertise_cpdm_logs", force: true do |t|
     t.integer  "ad_id"
-    t.integer  "ad_type",    default: 201
+    t.integer  "ad_type",     default: 201
     t.integer  "user_id"
+    t.integer  "act"
     t.integer  "view_time"
+    t.string   "facebook_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -130,8 +133,9 @@ ActiveRecord::Schema.define(version: 20140113172526) do
     t.integer  "ad_type"
     t.integer  "contract"
     t.integer  "remain"
-    t.integer  "unit_price",  default: 0
-    t.integer  "pay_type",    default: 1
+    t.integer  "basic_show_price", default: 0
+    t.integer  "action_price"
+    t.integer  "pay_type",         default: 1
     t.date     "start_date"
     t.date     "end_date"
     t.string   "front_image"
@@ -139,17 +143,24 @@ ActiveRecord::Schema.define(version: 20140113172526) do
     t.integer  "coupon_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "priority",    default: 4
+    t.integer  "priority",         default: 4
+    t.integer  "reward"
+    t.integer  "point"
+    t.string   "name"
+    t.string   "caption"
+    t.string   "description"
+    t.string   "link"
+    t.string   "picture"
   end
 
   create_table "cpdm_advertisements", force: true do |t|
     t.string   "ad_name"
     t.integer  "cli_id"
-    t.integer  "ad_type",    default: 201
+    t.integer  "ad_type",                default: 201
     t.integer  "contract"
     t.integer  "remain"
-    t.integer  "unit_price", default: 0
-    t.integer  "pay_type",   default: 1
+    t.integer  "basic_show_price",       default: 0
+    t.integer  "pay_type",               default: 1
     t.date     "start_date"
     t.date     "end_date"
     t.string   "url"
@@ -158,6 +169,15 @@ ActiveRecord::Schema.define(version: 20140113172526) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "video"
+    t.integer  "full_show_price"
+    t.integer  "additional_share_price"
+    t.integer  "reward"
+    t.integer  "point"
+    t.string   "name"
+    t.string   "caption"
+    t.string   "description"
+    t.string   "link"
+    t.string   "picture"
   end
 
   create_table "cpx_advertisements", force: true do |t|
@@ -166,8 +186,8 @@ ActiveRecord::Schema.define(version: 20140113172526) do
     t.integer  "ad_type"
     t.integer  "contract"
     t.integer  "remain"
-    t.integer  "unit_price",   default: 0
-    t.integer  "pay_type",     default: 1
+    t.integer  "basic_show_price", default: 0
+    t.integer  "pay_type",         default: 1
     t.date     "start_date"
     t.date     "end_date"
     t.string   "ad_image"
@@ -180,7 +200,7 @@ ActiveRecord::Schema.define(version: 20140113172526) do
     t.integer  "n_question"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "priority",     default: 5
+    t.integer  "priority",         default: 5
   end
 
   create_table "inactive_users", force: true do |t|
@@ -225,6 +245,18 @@ ActiveRecord::Schema.define(version: 20140113172526) do
     t.integer  "coupon_type"
     t.integer  "coupon_id"
     t.integer  "availability", default: 1
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "orders", force: true do |t|
+    t.integer  "user_id"
+    t.string   "order_id"
+    t.string   "barcode"
+    t.string   "product_id"
+    t.string   "qpcon_order_id"
+    t.boolean  "is_used",        default: false
+    t.date     "limit_date"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

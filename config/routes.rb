@@ -1,5 +1,16 @@
 # -*- encoding : utf-8 -*-
 Todpop::Application.routes.draw do
+  namespace(:api){ 
+    resources :qpcon_coupons do
+  
+      get 'can_shopping', :on => :collection
+      get 'get_categories', :on => :collection
+      get 'purchase', :on => :collection
+  
+  end
+
+ 
+  }
   get "insight/index"
   get "admin/insight/ad_analysis" => "admin/insight#ad_analysis", :as => "admin_insight_ad_analysis"
   get "admin/insight/ad_analysis_detail" => "admin/insight#ad_analysis_detail"
