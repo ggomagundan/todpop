@@ -694,6 +694,18 @@ class Api::UsersController < ApplicationController
     end
   end
 
+  def get_qpcon_coupons
+
+    @user = User.find_by_id(params[:id])
+
+    @status = true
+    @msg = ""
+
+    @coupons = Order.where(:user_id => @user.id)
+
+
+  end
+
 
   private
     def user_params

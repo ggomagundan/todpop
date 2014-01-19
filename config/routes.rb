@@ -80,6 +80,8 @@ Todpop::Application.routes.draw do
       get 'is_set_facebook_password', :on => :member
       get 'get_reward_list', :on => :member
       get 'get_attendance_time', :on => :member
+      
+      get 'get_qpcon_coupons', :on => :member
 
       get 'delete_user', :on => :member
     end
