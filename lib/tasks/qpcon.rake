@@ -55,7 +55,7 @@ require 'net/http'
 
     
     task :product_send => :environment do
-      json = connect("sendOrder.do",{:cmd => "sendOrder", :prodId =>{:prodId => QpconProduct.first.product_id,:ordId => Time.now.to_datetime.strftime('%Y-%m-%d %H:%M:%S.%N'), :sndrHp => "010000000", :recvHp => "01085748310" }})
+      json = connect("sendOrder.do",{:cmd => "sendOrder", :prodId => QpconProduct.first.product_id,:ordId => Time.now.to_datetime.strftime('%Y-%m-%d %H:%M:%S.%N'), :sndrHp => "010000000", :recvHp => "01085748310" })
       if json["STATUS_CODE"] == "00"
 
         puts json["ORDER_SEND"]
