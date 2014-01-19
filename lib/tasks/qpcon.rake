@@ -55,12 +55,11 @@ require 'net/http'
 
     
     task :product_send => :environment do
-      json = connect("sendOrder.do",{:cmd => "sendOrder", :prodId => QpconProduct.first.product_id,:ordId => Time.now.to_datetime.strftime('%Y-%m-%d %H:%M:%S.%N'), :sndrHp => "010000000", :recvHp => "01085748310" })
-      if json["STATUS_CODE"] == "00"
+      json = pin_connect("sendOrder.do",{:cmd => "sendOrder", :prodId => QpconProduct.last.product_id,:ordId => Time.now.to_datetime.strftime('%Y-%m-%d %H:%M:%S.%N'), :sndrHp => "010000000", :recvHp => "01085748310" })
 
-        puts json["ORDER_SEND"]
 
-      end
+        puts json
+
     end
   end
 
@@ -77,4 +76,14 @@ require 'net/http'
       json = json["BIKINI"]
       return json
   end
+
+
+  def pin_connect(last_uri,params)
+    uri = URI.parse("http://211.245.169.201/qpcon/api/pin/#{last_uri}")
+    http = Net::HTTP.new(uri.host, uri.port)
+    request = Net::HTTP::Post.new(http.request_uri)
+    request.set_form_data(params.merge!({:key=> KEY}))
+    @response = http.request(request)
+    return @response.body
+  end 
 
