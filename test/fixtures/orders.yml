@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  user_id: 1
+  order_id: MyString
+  barcode: MyString
+  product_Id: MyString
+  : 1
+  qpcon_order_id: MyString
+  is_used: 
+
+two:
+  user_id: 1
+  order_id: MyString
+  barcode: MyString
+  product_Id: MyString
+  : 1
+  qpcon_order_id: MyString
+  is_used: 
