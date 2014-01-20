@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20140117015049) do
+=======
+ActiveRecord::Schema.define(version: 20140119055831) do
+>>>>>>> 8edf516b5a21da8fa81f51cd5f8ef3b5f6420b13
 
   create_table "addresses", force: true do |t|
     t.string   "depth1"
@@ -64,6 +68,8 @@ ActiveRecord::Schema.define(version: 20140117015049) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "new_stage_day_limit"
+    t.string   "android_package"
+    t.string   "ios_package"
     t.string   "android_package_name"
     t.string   "ios_package_name"
     t.string   "market_url"
@@ -163,7 +169,11 @@ ActiveRecord::Schema.define(version: 20140117015049) do
     t.date     "end_date"
     t.string   "url"
     t.string   "length"
+<<<<<<< HEAD
     t.integer  "priority",               default: 4
+=======
+    t.integer  "priority"
+>>>>>>> 8edf516b5a21da8fa81f51cd5f8ef3b5f6420b13
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "video"
@@ -199,6 +209,7 @@ ActiveRecord::Schema.define(version: 20140117015049) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "priority",         default: 5
+<<<<<<< HEAD
   end
 
   create_table "create_user_stage_infos", force: true do |t|
@@ -206,6 +217,8 @@ ActiveRecord::Schema.define(version: 20140117015049) do
     t.string   "stage_info"
     t.datetime "created_at"
     t.datetime "updated_at"
+=======
+>>>>>>> 8edf516b5a21da8fa81f51cd5f8ef3b5f6420b13
   end
 
   create_table "inactive_users", force: true do |t|
@@ -250,6 +263,18 @@ ActiveRecord::Schema.define(version: 20140117015049) do
     t.integer  "coupon_type"
     t.integer  "coupon_id"
     t.integer  "availability", default: 1
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "orders", force: true do |t|
+    t.integer  "user_id"
+    t.string   "order_id"
+    t.string   "barcode"
+    t.string   "product_id"
+    t.string   "qpcon_order_id"
+    t.boolean  "is_used",        default: false
+    t.date     "limit_date"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -309,6 +334,10 @@ ActiveRecord::Schema.define(version: 20140117015049) do
     t.integer  "product_type"
     t.datetime "created_at"
     t.datetime "updated_at"
+<<<<<<< HEAD
+=======
+    t.string   "info"
+>>>>>>> 8edf516b5a21da8fa81f51cd5f8ef3b5f6420b13
   end
 
   create_table "ranking_currents", force: true do |t|
@@ -322,8 +351,8 @@ ActiveRecord::Schema.define(version: 20140117015049) do
     t.integer  "mon_2",      default: 0
     t.integer  "mon_3",      default: 0
     t.integer  "mon_4",      default: 0
-    t.date     "mon_start",  default: '2013-10-01'
-    t.date     "mon_end",    default: '2013-10-31'
+    t.date     "mon_start",  default: '2013-11-01'
+    t.date     "mon_end",    default: '2013-11-30'
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -446,7 +475,7 @@ ActiveRecord::Schema.define(version: 20140117015049) do
     t.string   "mobile",                                 null: false
     t.integer  "interest"
     t.string   "character",                default: "8"
-    t.integer  "level_test",               default: 0
+    t.integer  "level_test"
     t.integer  "is_set_facebook_password", default: 0
     t.integer  "daily_test_count",         default: 0
     t.integer  "daily_test_reward",        default: 0

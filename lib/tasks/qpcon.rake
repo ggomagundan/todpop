@@ -40,7 +40,30 @@ require 'net/http'
       end
     end
 
+    task :product_reload => :environment do
+      QpconProduct.all.each do |product|
+        json = connect("prodDetail.do",{:cmd => "prodDetail", :prodId => product.product_id})
+        if json["STATUS_CODE"] == "00"
+
+          detail = json["PRODUCT_DETAIL"]
+          product.update_attributes(:stock_count => detail["STOCK_CNT"].to_i, :market_cost => detail["MARKET_COST"].to_i, :common_cost => detail["COMMON_COST"].to_i, :img_url_70 => detail["IMG_URL_70"], :img_url_150 => detail["IMG_URL_150"], :img_url_250 => detail["IMG_URL_250"], :info => detail["USE_INFO"])
+
+        end
+      end
+    end
+
+
+    
+    task :product_send => :environment do
+      json = pin_connect("pinIssue.do",{:prodId => QpconProduct.last.product_id,:reqOrdId => Time.now.to_datetime.strftime('%Y-%m-%d %H:%M:%S.%N') })
+
+
+        puts json
+
+    end
   end
+
+
 
 
   def connect(last_uri,params) 
@@ -53,4 +76,14 @@ require 'net/http'
       json = json["BIKINI"]
       return json
   end
+
+
+  def pin_connect(last_uri,params)
+    uri = URI.parse("http://211.245.169.201/qpcon/api/pin/#{last_uri}")
+    http = Net::HTTP.new(uri.host, uri.port)
+    request = Net::HTTP::Post.new(uri.request_uri)
+    request.set_form_data(params.merge!({:key=> KEY}))
+    @response = http.request(request)
+    return @response.body
+  end 
 
