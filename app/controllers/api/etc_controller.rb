@@ -138,7 +138,7 @@ class Api::EtcController < ApplicationController
           @coupons.each do |p|
 
             tmp_hash = {}
-            tmp_hash[:coupon_id] = p.product_id
+            tmp_hash[:coupon_id] = p.order_id
             tmp_hash[:availability] = 0
             tmp_hash[:created_at] = p.created_at
             tmp_hash[:name] = nil
@@ -345,27 +345,57 @@ class Api::EtcController < ApplicationController
     @status=true
     @msg=""
 
-    if !params[:product_id].present?
+    if !params[:product_id] && !params[:order_id].present? 
       @status=false
-      @msg="not exist product_id params"
+      @msg="not exist product_id or order_id params"
     else
-      coupon=QpconProduct.find_by_product_id(params[:product_id])
 
-      if !coupon.present?
-        @status=false
-        @msg="not exist qpcon"
-      else
-        @name = coupon.product_name
-        @place = coupon.change_market_name
-        @valid_start = nil
-        @valid_end = nil
-        @bar_code = nil
-        @image = coupon.img_url_250
-        @information = nil
+      if params[:product_id].present?
+
+        coupon=QpconProduct.find_by_product_id(params[:product_id])
+
+        if !coupon.present?
+          @status=false
+          @msg="not exist qpcon"
+        else
+          @name = coupon.product_name
+          @place = coupon.change_market_name
+          @valid_start = nil
+          @valid_end = nil
+          @bar_code = nil
+          @image = coupon.img_url_250
+          @information = nil
+        end
+
+      elsif params[:order_id].present?
+
+        coupon=Order.find_by_order_id(params[:order_id])
+
+        if !coupon.present?
+          @status=false
+          @msg="not exist ordered qpcon"
+        else
+          product = QpconProduct.find_by_prodect_id(coupon.product_id)
+
+          if !product.present?
+            @status=false
+            @msg="not exist qpcon product"
+          else
+            @name = product.product_name
+            @place = product.change_market_name
+            @valid_start = nil
+            @valid_end = coupon.limit_date
+            @bar_code = coupon.barcode
+            @image = product.img_url_250
+            @information = nil
+          end
+        end
+
       end
+
+
     end
   end
-
 
 
 
