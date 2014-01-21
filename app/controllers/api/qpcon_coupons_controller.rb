@@ -9,19 +9,17 @@ class Api::QpconCouponsController < ApplicationController
     if params[:category_id].present?
       @coupons = @coupons.where(:qpcon_category_id => params[:category_id])
     end
-
-
   end
 
   def can_shopping
-    
     @status = true
     @msg =""
-    
     @result = true
-    user =  User.find(params[:user_id])
+
+    user =  User.find_by_id(params[:user_id])
     
-    if !user.is_set_facebook_password  && user.email.nil
+    #if !user.is_set_facebook_password && user.email.nil
+    if !user.is_set_facebook_password
       @status = false
       @result = false
       @msg ="상품구매와 장학금 수여를 위해서는 비밀번호를 설정해야 합니다. 마이페이지에서 비밀번호를 설정해주세요"
@@ -33,7 +31,6 @@ class Api::QpconCouponsController < ApplicationController
     @msg = ""
 
     @category = QpconCategory.all
-
   end 
 
 
@@ -41,51 +38,59 @@ class Api::QpconCouponsController < ApplicationController
     @status = true
     @msg = ""
     @result = false
-
     @return_msg = ""
 
-    user =  User.find(params[:user_id])
-    coupon = QpconProduct.find(params[:coupon_id])
-
+    user =  User.find_by_id(params[:user_id])
+    coupon = QpconProduct.find_by_id(params[:coupon_id])
 
     if !user.authenticate(params[:password]).present?
-
       @status = false
       @msg = "비밀번호가 잘못 되었습니다."
-
     end
 
+    if @status == true
 
-    if @status == true && user.total_reward >= coupon.common_cost
+      if user.current_reward >= coupon.common_cost
 
+        last_uri = "pinIssue.do"
+        c_params = {:prodId => coupon.product_id,:reqOrdId => Time.now.to_datetime.strftime('%Y%m%d%H%M%S%N'), :key => "0f8f5a7024dd11e3b5ae00304860c864"}
 
-      user.update_attributes(:total_reward => user.total_reward - coupon.common_cost)
+        uri = URI.parse("http://211.245.169.201/qpcon/api/pin/#{last_uri}")
+        http = Net::HTTP.new(uri.host, uri.port)
+        request = Net::HTTP::Post.new(uri.request_uri)
+        request.set_form_data(c_params)
+        @response = http.request(request)
+        @response = @response.body
 
-      last_uri = "pinIssue.do"
-      c_params = {:prodId => coupon.product_id,:reqOrdId => Time.now.to_datetime.strftime('%Y%m%d%H%M%S%N'), :key => "0f8f5a7024dd11e3b5ae00304860c864"}
+        pin_list = @response.split("|")
+        @return_msg = pin_list[1]
 
-      uri = URI.parse("http://211.245.169.201/qpcon/api/pin/#{last_uri}")
-      http = Net::HTTP.new(uri.host, uri.port)
-      request = Net::HTTP::Post.new(uri.request_uri)
-      request.set_form_data(c_params)
-      @response = http.request(request)
-      @response = @response.body
+        if pin_list[0] == "00"
 
-      pin_list = @response.split("|")
-      @return_msg = pin_list[1]
-      if pin_list[0] == "00"
-
-        @result = true
+          @result = true
        
-       Order.create(:user_id => user.id, :order_id => pin_list[2], :barcode => pin_list[3], :product_id => coupon.id, :qpcon_order_id => pin_list[5], :limit_date =>  Date.strptime(pin_list[4],"%Y%m%d") )
+          Order.create(:user_id => user.id, :order_id => pin_list[2], :barcode => pin_list[3], :product_id => coupon.product_id, :qpcon_order_id => pin_list[5], :limit_date =>  Date.strptime(pin_list[4],"%Y%m%d") )
+
+          #user.update_attributes(:total_reward => user.total_reward - coupon.common_cost)
+          # reward process
+          @token_user_id = user.id
+          @token_reward_type = 7000
+          @token_title = "상품구매:큐피콘"
+          @token_sub_title = QpconProduct.find_by_id(coupon.id).product_name
+          @token_reward = (-1).to_i * coupon.common_cost
+          process_reward_general
+          # ---------
        
+        else
+          @result = false
+        end
+    
       else
+        @msg = "장학금이 부족합니다"
         @result = false
+        @status = false
       end
-    elsif @status == true
-      @msg = "장학금이 부족합니다"
-      @result = false
-      @status = false
+
     end
 
   end
