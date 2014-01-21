@@ -1,8 +1,7 @@
 class Api::QpconCouponsController < ApplicationController
+  protect_from_forgery :except => [:index, :show]
+  
   def index
-    
-    protect_from_forgery :except => [:index, :show]
-
     @status = true
     @msg =""
   
