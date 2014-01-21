@@ -375,7 +375,7 @@ class Api::EtcController < ApplicationController
           @status=false
           @msg="not exist ordered qpcon"
         else
-          product = QpconProduct.find_by_prodect_id(coupon.product_id)
+          product = QpconProduct.find_by_product_id(coupon.product_id)
 
           if !product.present?
             @status=false
