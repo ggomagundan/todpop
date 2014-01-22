@@ -362,6 +362,7 @@ class Api::EtcController < ApplicationController
           @place = coupon.change_market_name
           @valid_start = nil
           @valid_end = nil
+          @price = coupon.common_cost 
           @bar_code = nil
           @image = coupon.img_url_250
           @information = nil
@@ -385,6 +386,7 @@ class Api::EtcController < ApplicationController
             @place = product.change_market_name
             @valid_start = nil
             @valid_end = coupon.limit_date
+            @price = product.common_cost 
             @bar_code = coupon.barcode
             @image = product.img_url_250
             @information = nil

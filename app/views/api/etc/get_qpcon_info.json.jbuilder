@@ -6,6 +6,7 @@ if @status==true
   json.place @place
   json.valid_start @valid_start
   json.valid_end @valid_end
+  json.price @price
   json.bar_code @bar_code
   json.image @image
   json.information @information
