@@ -275,6 +275,12 @@ class Admin::InsightController < ApplicationController
         end
       end
     end
+    address_head_all = Address.pluck(:depth1).uniq
+
+    @n_address=[]
+    (0..address_head_all.count-1).each do |j|
+      @n_address[j] = User.where('address like ?',address_head_all[j] + "%").count
+    end
   end
 
 end
