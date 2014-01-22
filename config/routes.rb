@@ -139,6 +139,7 @@ Todpop::Application.routes.draw do
       get 'my_home', :on => :member
       get 'get_product_info', :on => :collection
       get 'get_coupon_free_info', :on => :member
+      get 'get_qpcon_info', :on => :collection
       get 'event_check', :on => :member
       get 'update_rank_point', :on => :collection
       get 'character', :on => :member
