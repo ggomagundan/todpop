@@ -283,4 +283,12 @@ class Admin::InsightController < ApplicationController
     end
   end
 
+  def ranker
+
+  end
+
+  def dau_analysis
+
+  end
+
 end
