@@ -595,7 +595,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           adLog.act = params[:act]
         end
         if params[:facebook_id].present?
-          adLog.view_time = params[:facebook_id]
+          adLog.facebook_id = params[:facebook_id]
         end
 
         if adLog.save
