@@ -182,8 +182,6 @@ class Admin::InsightController < ApplicationController
         ed = Date.today
       end
       
-        #tmp_ad = CpdAdvertisement.where(:id => params[:id])
-        #@ad = tmp_ad[0]
         @tmp_reward = RewardLog.all
         if !@tmp_reward.present?
           render :file => "#{Rails.root}/public/404"
@@ -193,17 +191,6 @@ class Admin::InsightController < ApplicationController
             ed = Date.today
             @r = 3
           end
-=begin
-          if sd < @ad.start_date
-            sd = @ad.start_date
-          end
-          if ed > @ad.end_date
-            ed = @ad.end_date
-          end
-          if ed > Date.today
-            ed = Date.today
-          end
-=end
           
           period_reward = 0
           period_minus_reward = 0
@@ -284,10 +271,84 @@ class Admin::InsightController < ApplicationController
   end
 
   def ranker
+    @w_logs = []
+    @m_logs = []
+    @logs = []
 
+    week_end_day = Date.today.beginning_of_week-1
+    last_week_record = RankingHistory.where(:end => week_end_day).where(:rank => [1,2,3,4,5])
+    last_week_record.each do |i|
+      w_row = {}
+      week_tmp = User.find_by_id(i.user_id)
+      w_row[:rank] = i.rank
+      case i.rank_type
+      when "week_1"
+        w_row[:category] = "기초"
+      when "week_2"
+        w_row[:category] = "중학"
+      when "week_3"
+        w_row[:category] = "수능"
+      else
+        w_row[:category] = "토익"
+      end
+      w_row[:nickname] = week_tmp.nickname
+      w_row[:mobile] = week_tmp.mobile
+      w_row[:email] = if week_tmp.email.present? then week_tmp.email else week_tmp.facebook end
+      @w_logs.push(w_row)
+    end
+
+    month_end_day = Date.today.beginning_of_month-1
+    last_month_record = RankingHistory.where(:end => month_end_day).where(:rank => [1,2,3,4,5])
+    last_month_record.each do |j|
+      m_row = {}
+      month_tmp = User.find_by_id(j.user_id)
+      m_row[:rank] = j.rank
+      case j.rank_type
+      when "month_1"
+        m_row[:category] = "기초"
+      when "month_2"
+        m_row[:category] = "중학"
+      when "month_3"
+        m_row[:category] = "수능"
+      else
+        m_row[:category] = "토익"
+      end
+      m_row[:nickname] = month_tmp.nickname
+      m_row[:mobile] = month_tmp.mobile
+      m_row[:email] = if month_tmp.email.present? then month_tmp.email else month_tmp.facebook end
+      @m_logs.push(m_row)
+    end
   end
 
   def dau_analysis
+    @logs = []
+
+    if params[:start_date].present?
+      sd = Date.parse(params[:start_date])
+    elsif params[:recent].present? && params[:recent] == 'month'
+      sd = 30.day.ago.to_date
+      @r = 2
+    else
+      sd = 7.day.ago.to_date
+      @r = 1
+    end
+
+    if params[:end_date].present?
+      ed = Date.parse(params[:end_date])
+    else
+      ed = Date.today
+    end
+
+    if sd > ed
+      sd = 7.day.ago.to_date
+      ed = Date.today
+    end
+
+    if params[:recent].present? && params[:recent] == 'all'
+      sd = @tmp_reward[0].created_at.to_date
+      ed = Date.today
+      @r = 3
+    end
 
   end
 

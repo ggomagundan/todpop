@@ -1,80 +1,52 @@
 
-
 <button onclick="location.href='/admin/users';" class='btn btn-primary' style='margin-top:15px;'>← HOME</button>
 
-<h3>User</h3>
+<h3>Last Week Rank</h3>
 
 <table class='table table-hover' style='text-align:center;'>
   <tr>
-    <th style='text-align:center;'>페북 가입수</th>
-    <th style='text-align:center;'>이메일 가입수</th>
-    <th style='text-align:center;'>교차 가입수</th>
-    <th style='text-align:center;'>총 가입수</th>
-    <th style='text-align:center;'>총 탈퇴수</th>
-    <th style='text-align:center;'>현재 회원수</th>
+    <th style='text-align:center;'>카테고리</th>
+    <th style='text-align:center;'>순위</th>
+    <th style='text-align:center;'>닉네임</th>
+    <th style='text-align:center;'>전화번호</th>
+    <th style='text-align:center;'>이메일</th>
   </tr>
+  <% for w_row in @w_logs %>
   <tr>
-    <td style='text-align:center;'><%=@fb_user%></td>
-    <td style='text-align:center;'><%=@email_user%></td>
-    <td style='text-align:center;'><%=@cross_user%></td>
-    <td style='text-align:center;'><%=@total_user%></td>
-    <td style='text-align:center;'><%=@inactive_user%></td>
-    <td style='text-align:center;'><%=@current_user%></td>
+    <td style='text-align:center;'><%=w_row[:category]%></td>
+    <td style='text-align:center;'><%=w_row[:rank]%></td>
+    <td style='text-align:center;'><%=w_row[:nickname]%></td>
+    <td style='text-align:center;'><%=w_row[:mobile]%></td>
+    <td style='text-align:center;'><%=w_row[:email]%></td>
+  <% end %>
+  </tr>
+</table>
+<h3>Last Month Rank</h3>
+
+<table class='table table-hover' style='text-align:center;'>
+  <tr>
+    <th style='text-align:center;'>카테고리</th>
+    <th style='text-align:center;'>순위</th>
+    <th style='text-align:center;'>닉네임</th>
+    <th style='text-align:center;'>전화번호</th>
+    <th style='text-align:center;'>이메일</th>
+  </tr>
+  <% for m_row in @m_logs %>
+  <tr>
+    <td style='text-align:center;'><%=m_row[:category]%></td>
+    <td style='text-align:center;'><%=m_row[:rank]%></td>
+    <td style='text-align:center;'><%=m_row[:nickname]%></td>
+    <td style='text-align:center;'><%=m_row[:mobile]%></td>
+    <td style='text-align:center;'><%=m_row[:email]%></td>
+  <% end %>
+  </tr>
 </table>
 <br/>
 <br/>
-<h4>성별</h4>
-
-<table class='table table-hover' style='text-align:center;'>
-  <tr>
-    <th style='text-align:center;'>남성</th>
-    <th style='text-align:center;'>여성</th>
-  </tr>
-  <tr>
-    <td style='text-align:center;'><%=@boy%></td>
-    <td style='text-align:center;'><%=@girl%></td>
-  </table>
-  <br/>
-  <br/>
-<h4>연령대</h4>
-<table class='table table-hover' style='text-align:center;'>
-  <tr>
-    <th style='text-align:center;'>미취학아동(~7)</th>
-    <th style='text-align:center;'>초등(8~10)</th>
-    <th style='text-align:center;'>초등(11~13)</th>
-    <th style='text-align:center;'>중학생(14~16)</th>
-    <th style='text-align:center;'>고등학생(17~19)</th>
-  </tr>
-  <tr>
-    <td style='text-align:center;'><%=@year_1%></td>
-    <td style='text-align:center;'><%=@year_2%></td>
-    <td style='text-align:center;'><%=@year_3%></td>
-    <td style='text-align:center;'><%=@year_4%></td>
-    <td style='text-align:center;'><%=@year_5%></td>
-  </table>
-  <br/>
-  <br/>
-<table class='table table-hover' style='text-align:center;'>
-  <tr>
-    <th style='text-align:center;'>20대초반(20~24)</th>
-    <th style='text-align:center;'>20대후반(25~29)</th>
-    <th style='text-align:center;'>30대(30~39)</th>
-    <th style='text-align:center;'>40대(40~49)</th>
-    <th style='text-align:center;'>50대이상(50~)</th>
-  </tr>
-  <tr>
-    <td style='text-align:center;'><%=@year_6%></td>
-    <td style='text-align:center;'><%=@year_7%></td>
-    <td style='text-align:center;'><%=@year_8%></td>
-    <td style='text-align:center;'><%=@year_9%></td>
-    <td style='text-align:center;'><%=@year_10%></td>
-  </table>
-  <br/>
-  <br/>
 기간선택&nbsp;&nbsp;
 <button class="btn <% if @r == 1 %> btn-success <% end %>" onclick="location.href='/admin/insight/reward_analysis'">최근 1주일</button>&nbsp;&nbsp;
 <button class='btn <% if @r == 2 %> btn-success <% end %>' onclick="location.href='/admin/insight/reward_analysis?recent=month'">최근 1달</button>&nbsp;&nbsp;
-<button class='btn <% if @r == 3 %> btn-success <% end %>' onclick="location.href='/admin/insight/reward_analysis?recent=all'">전체기간</button>&nbsp;&nbsp;
+<button class='btn <% if @r == 3 %> btn-success <% end %>' onclick="location.href='/admin/insight/reward_analysis?recent=all'">전체기간</button><br/><br/>
 직접입력&nbsp;&nbsp;
 <input type='text' name='date1' class='date' style='width:80px;margin:0;'/> ~ <input type='text' name='date2' class='date' style='width:80px;margin:0;'/>&nbsp;&nbsp;
 <button id='date_btn' class='btn'>선택완료</button>
@@ -83,18 +55,10 @@
 <table class='table table-hover' style='text-align:center;'>
   <tr>
     <th style='text-align:center;'>날짜</th>
-    <th style='text-align:center;'>당일 발생 리워드</th>
-    <th style='text-align:center;'>기간내 누적 리워드</th>
-    <th style='text-align:center;'>당일 사용된 리워드</th>
-    <th style='text-align:center;'>기간내 사용된 리워드</th>
   </tr>
   <% for row in @logs %>
   <tr>
     <td style='text-align:center;'><%=row[:day]%></td>
-    <td style='text-align:center;'><%=row[:day_reward]%></td>
-    <td style='text-align:center;'><%=row[:period_reward]%></td>
-    <td style='text-align:center;'><%=row[:day_minus_reward]%></td>
-    <td style='text-align:center;'><%=row[:period_minus_reward]%></td>
   </tr>
   <% end %>
 </table>
