@@ -345,9 +345,23 @@ class Admin::InsightController < ApplicationController
     end
 
     if params[:recent].present? && params[:recent] == 'all'
-      sd = @tmp_reward[0].created_at.to_date
+      sd = UserTestHistory.first.created_at.to_date
       ed = Date.today
       @r = 3
+    end
+
+    test_history = UserTestHistory.all
+
+    sd.upto(ed).each do |d|
+      row = {}
+      day_history = test_history.where('created_at >= ? and created_at < ?', d, d+1)
+      app_info = AppInfo.last
+      row[:day] = d
+      row[:daily_user] = day_history.distinct.count('user_id')
+      row[:test_count] = day_history.count
+      row[:review_count] = day_history.where('(score >= ? and reward < ?) or (score >= ? and reward < ?)', app_info.two_medal, app_info.test_reward_max, app_info.one_medal, app_info.test_reward_max.to_i/2).count
+      row[:daily_test] = row[:test_count] - row[:review_count]
+      @logs.push(row)
     end
 
   end

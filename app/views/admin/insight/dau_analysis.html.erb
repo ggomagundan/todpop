@@ -1,39 +1,10 @@
 
 <button onclick="location.href='/admin/insight/ad_analysis';" class='btn btn-primary' style='margin-top:15px;'>← HOME</button>
 
-<h3><%=@ad.ad_name%>(<% if @ad.pay_type == 1 %>선불제<% else %>후불제<% end %>)</h3>
-
-<table class='table table-hover' style='text-align:center;'>
-  <tr>
-    <th style='text-align:center;'>계약기간</th>
-    <th style='text-align:center;'>총노출수</th>
-    <th style='text-align:center;'>
-      <% if @type == 'cpd' %>
-        총쿠폰다운수
-      <% elsif @type == 'cpdm' %>
-        skip하지 않은 총사람수
-      <% else %>
-        액션을 수행한 사람수
-      <% end %>
-    </th>
-    <th style='text-align:center;'>집행금액</th>
-    <th style='text-align:center;'>남은금액</th>
-    <th style='text-align:center;'>계약금액</th>
-  </tr>
-  <tr>
-    <td style='text-align:center;'><%="#{@ad.start_date.to_date} ~ #{@ad.end_date.to_date}"%></td>
-    <td style='text-align:center;'><%=@all_cnt_1%></td>
-    <td style='text-align:center;'><%=@all_cnt_2%> <% if @all_cnt_2 ==0 %>(0%)<% else %><%="(#{@all_cnt_2*100/@all_cnt_1}%)"%><% end %></td>
-    <td style='text-align:center;'><%="#{(@all_cnt_1*@ad.basic_show_price).to_s.reverse.scan(/(?:\d*\.)?\d{1,3}-?/).join(',').reverse}"%></td>
-    <td style='text-align:center;'><% if @ad.pay_type == 2 %>0<% else %><%="#{(@ad.contract*@ad.basic_show_price - @all_cnt_1*@ad.basic_show_price).to_s.reverse.scan(/(?:\d*\.)?\d{1,3}-?/).join(',').reverse}"%><% end %></td>
-    <td style='text-align:center;'><% if @ad.pay_type == 2 %>0<% else %><%="#{(@ad.contract*@ad.basic_show_price).to_s.reverse.scan(/(?:\d*\.)?\d{1,3}-?/).join(',').reverse}"%><% end %></td>
-</table>
-<br/>
-<br/>
 기간선택&nbsp;&nbsp;
-<button class="btn <% if @r == 1 %> btn-success <% end %>" onclick="location.href='/admin/insight/ad_analysis_detail?type=<%=@type%>&id=<%=@ad.id%>'">최근 1주일</button>&nbsp;&nbsp;
-<button class='btn <% if @r == 2 %> btn-success <% end %>' onclick="location.href='/admin/insight/ad_analysis_detail?type=<%=@type%>&id=<%=@ad.id%>&recent=month'">최근 1달</button>&nbsp;&nbsp;
-<button class='btn <% if @r == 3 %> btn-success <% end %>' onclick="location.href='/admin/insight/ad_analysis_detail?type=<%=@type%>&id=<%=@ad.id%>&recent=all'">전체기간</button><br/><br/>
+<button class="btn <% if @r == 1 %> btn-success <% end %>" onclick="location.href='/admin/insight/dau_analysis'">최근 1주일</button>&nbsp;&nbsp;
+<button class='btn <% if @r == 2 %> btn-success <% end %>' onclick="location.href='/admin/insight/dau_analysis?recent=month'">최근 1달</button>&nbsp;&nbsp;
+<button class='btn <% if @r == 3 %> btn-success <% end %>' onclick="location.href='/admin/insight/dau_analysis?recent=all'">전체기간</button><br/><br/>
 직접입력&nbsp;&nbsp;
 <input type='text' name='date1' class='date' style='width:80px;margin:0;'/> ~ <input type='text' name='date2' class='date' style='width:80px;margin:0;'/>&nbsp;&nbsp;
 <button id='date_btn' class='btn'>선택완료</button>
@@ -42,38 +13,18 @@
 <table class='table table-hover' style='text-align:center;'>
   <tr>
     <th style='text-align:center;'>날짜</th>
-    <th style='text-align:center;'>노출수</th>
-    <th style='text-align:center;'>기간내누적노출수</th>
-    <th style='text-align:center;'>
-      <% if @type == 'cpd' %>
-        쿠폰다운수
-      <% elsif @type == 'cpdm' %>
-        skip하지 않은 총사람수
-      <% else %>
-        액션을 수행한 사람수
-      <% end %>
-    </th>
-    <th style='text-align:center;'>
-      <% if @type == 'cpd' %>
-        기간내 누적 다운수
-      <% elsif @type == 'cpdm' %>
-        기간내 skip하지 않은 누적사람수
-      <% else %>
-        기간내 액션을 수행한 누적사람수
-      <% end %>
-    </th>
-    <th style='text-align:center;'>집행금액</th>
-    <th style='text-align:center;'>기간내누적집행금액</th>
+    <th style='text-align:center;'>오늘 학습한 유저(명)</th>
+    <th style='text-align:center;'>스테이지 클리어 횟수</th>
+    <th style='text-align:center;'>복습 횟수</th>
+    <th style='text-align:center;'>총 학습 횟수</th>
   </tr>
   <% for row in @logs %>
   <tr>
     <td style='text-align:center;'><%=row[:day]%></td>
-    <td style='text-align:center;'><%=row[:day_cnt_1]%></td>
-    <td style='text-align:center;'><%=row[:added_cnt_1]%></td>
-    <td style='text-align:center;'><%=row[:day_cnt_2]%></td>
-    <td style='text-align:center;'><%=row[:added_cnt_2]%></td>
-    <td style='text-align:center;'><%=row[:day_cnt_3]%></td>
-    <td style='text-align:center;'><%=row[:added_cnt_3]%></td>
+    <td style='text-align:center;'><%=row[:daily_user]%></td>
+    <td style='text-align:center;'><%=row[:daily_test]%></td>
+    <td style='text-align:center;'><%=row[:review_count]%></td>
+    <td style='text-align:center;'><%=row[:test_count]%></td>
   </tr>
   <% end %>
 </table>
@@ -102,7 +53,7 @@ $(document).ready(function() {
       return false;
     }
 
-    location.href="/client/detail?type=<%=@type%>&id=<%=@ad.id%>&start_date="+$("input[name=date1]").val()+"&end_date="+$("input[name=date2]").val();
+    location.href="/admin/insight?start_date="+$("input[name=date1]").val()+"&end_date="+$("input[name=date2]").val();
   });
 });
 </script>
