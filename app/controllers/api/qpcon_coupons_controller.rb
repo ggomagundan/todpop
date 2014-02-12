@@ -41,7 +41,7 @@ class Api::QpconCouponsController < ApplicationController
     @return_msg = ""
 
     user =  User.find_by_id(params[:user_id])
-    coupon = QpconProduct.find_by_id(params[:coupon_id])
+    coupon = QpconProduct.find_by_product_id(params[:product_id])
 
     if !user.authenticate(params[:password]).present?
       @status = false
@@ -52,37 +52,80 @@ class Api::QpconCouponsController < ApplicationController
 
       if user.current_reward >= coupon.common_cost
 
-        last_uri = "pinIssue.do"
-        c_params = {:prodId => coupon.product_id,:reqOrdId => Time.now.to_datetime.strftime('%Y%m%d%H%M%S%N'), :key => "0f8f5a7024dd11e3b5ae00304860c864"}
+        timenow = Time.now.to_datetime 
+        server_uri = "http://211.245.169.201/qpcon/api/pin"        # qpcon_test_server_URI
+        
+        qpcon_key       = "0f8f5a7024dd11e3b5ae00304860c864"       # qpcon_test_server_key_for_todpop
+        qpcon_reqOrdId  = user.id.to_s + '_' + timenow.strftime('%Y%m%d') + '_' + timenow.strftime('%H%M%S') + '_' + timenow.strftime('%N')
+        qpcon_prodId    = coupon.product_id
+        qpcon_pinCnt    = 1
+        qpcon_payGb     = nil
+        qpcon_reserved1 = nil
+        qpcon_reserved2 = nil
 
-        uri = URI.parse("http://211.245.169.201/qpcon/api/pin/#{last_uri}")
-        http = Net::HTTP.new(uri.host, uri.port)
-        request = Net::HTTP::Post.new(uri.request_uri)
-        request.set_form_data(c_params)
+        issue_uri = URI.parse(server_uri + "/pinIssue.do")
+        issue_params = {:key => qpcon_key, :reqOrdId => qpcon_reqOrdId, :prodId => qpcon_prodId}
+
+        http = Net::HTTP.new(issue_uri.host, issue_uri.port)
+        request = Net::HTTP::Post.new(issue_uri.request_uri)
+        request.set_form_data(issue_params)
         @response = http.request(request)
         @response = @response.body
 
-        pin_list = @response.split("|")
-        @return_msg = pin_list[1]
+        response_all = @response.split("|")
+        response_code     = response_all[0]
+        response_msg      = response_all[1]
+        response_reqOrdId = response_all[2]
+        response_pin      = response_all[3]
+        response_valid    = response_all[4]
+        response_approval = response_all[5]
+        response_date     = response_all[6]
 
-        if pin_list[0] == "00"
+        @return_msg = response_msg
 
-          @result = true
-       
-          Order.create(:user_id => user.id, :order_id => pin_list[2], :barcode => pin_list[3], :product_id => coupon.product_id, :qpcon_order_id => pin_list[5], :limit_date =>  Date.strptime(pin_list[4],"%Y%m%d") )
+        if response_code == "00"
 
-          #user.update_attributes(:total_reward => user.total_reward - coupon.common_cost)
-          # reward process
-          @token_user_id = user.id
-          @token_reward_type = 7000
-          @token_title = "상품구매:큐피콘"
-          @token_sub_title = QpconProduct.find_by_id(coupon.id).product_name
-          @token_reward = (-1).to_i * coupon.common_cost
-          process_reward_general
-          # ---------
+          qpcon_admitId = response_approval
+        
+          admit_uri = URI.parse(server_uri + "/pinIssueConfirm.do")
+          admit_params = {:key => qpcon_key, :admitId => qpcon_admitId}
+
+          http = Net::HTTP.new(admit_uri.host, admit_uri.port)
+          request = Net::HTTP::Post.new(admit_uri.request_uri)
+          request.set_form_data(admit_params)
+          @response2 = http.request(request)
+          @response2 = @response2.body
+
+          response2_all = @response2.split("|")
+          response2_code  = response2_all[0]
+          response2_msg   = response2_all[1]
+
+          @return_msg = response_msg + '_' + response2_msg
+
+          if response2_code == "00"
+
+            @result=true
+
+            Order.create(:coupon_company => "qpcon", :user_id => user.id, :order_id => response_reqOrdId, :product_id => coupon.product_id, :barcode => response_pin, :limit_date => Date.strptime(response_valid,"%Y%m%d"), :approval_number => response_approval, :issue_date => response_date)
+
+            #user.update_attributes(:total_reward => user.total_reward - coupon.common_cost)
+            # reward process
+            @token_user_id = user.id
+            @token_reward_type = 7000
+            @token_title = "상품구매:큐피콘"
+            @token_sub_title = QpconProduct.find_by_id(coupon.id).product_name
+            @token_reward = (-1).to_i * coupon.common_cost
+            process_reward_general
+            # ---------
+
+          else
+            @result = false
+            @msg = "issue OK, admit FAIL"
+          end
        
         else
           @result = false
+          @msg = "issue FAIL"
         end
     
       else
