@@ -87,7 +87,7 @@ class Api::QpconCouponsController < ApplicationController
 
           qpcon_admitId = response_approval
         
-          admit_uri = URI.parse(server_url + "/pinIssueConfirm.do")
+          admit_uri = URI.parse(server_uri + "/pinIssueConfirm.do")
           admit_params = {:key => qpcon_key, :admitId => qpcon_admitId}
 
           http = Net::HTTP.new(admit_uri.host, admit_uri.port)
