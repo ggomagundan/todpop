@@ -242,7 +242,10 @@ class Api::StudiesController < ApplicationController
       category = params[:category].to_i
       user_id = params[:user_id].to_i
 
-      if stage==10
+      if stage==10 && (result > exam_count)
+        @status == false
+
+      elsif stage==10
         @score = (result.to_f / exam_count *100).to_i
         @rank_point = result.to_f / exam_count * 64
 
