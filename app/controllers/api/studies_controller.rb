@@ -242,7 +242,7 @@ class Api::StudiesController < ApplicationController
       category = params[:category].to_i
       user_id = params[:user_id].to_i
 
-      if stage==10 && (result > exam_count)
+      if stage==10 && (result.to_i > exam_count)
         @status == false
 
       elsif stage==10
