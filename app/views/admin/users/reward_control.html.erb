@@ -1,0 +1,24 @@
+
+<%= form_tag admin_users_reward_control_path do %>
+  <p>
+    <th>User ID<th><br>
+    <%= text_field_tag :id, params[:id] %>
+  </p>
+  
+  <p>
+    <th>Title<th><br>
+    <%= text_field_tag :title, params[:title] %>
+  </p>
+  
+  <p>
+    <th>Sub_title<th><br>
+    <%= text_field_tag :sub_title, params[:sub_title] %>
+    </p>
+
+  <p>
+    <th>Reward<th><br>
+    <%= text_field_tag :reward, params[:reward] %>
+  </p>
+  <p class="button"><%= submit_tag "reward_control" %></p>
+<% end %>
+

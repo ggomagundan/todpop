@@ -51,6 +51,17 @@ class Admin::UsersController < Admin::ApplicationController
     @user.destroy
     redirect_to admin_users_url, :notice => "Successfully destroyed user."
   end
+
+  def reward_control
+    if params[:id].present?
+      @token_user_id = params[:id].to_i
+      @token_reward_type = 9999
+      @token_title = params[:title]
+      @token_sub_title = params[:sub_title]
+      @token_reward = params[:reward].to_i
+      process_reward_general
+    end
+  end
   
   private 
   def user_params

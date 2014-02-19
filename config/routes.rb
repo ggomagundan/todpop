@@ -18,6 +18,7 @@ Todpop::Application.routes.draw do
   get "admin/insight/user_analysis" => "admin/insight#user_analysis"
   get "admin/insight/ranker" => "admin/insight#ranker"
   get "admin/insight/dau_analysis" => "admin/insight#dau_analysis"
+  
 
   get 'downloads' => "downloads#index" 
 
@@ -28,6 +29,7 @@ Todpop::Application.routes.draw do
   post "sessions/sign_up" => "sessions#sign_up", :as => :sign_up_sessions
   
   post "admin/users/pwd_change" => "sessions#pwd_change", :as => :pwd_change_sessions
+  post "admin/users/reward_control" => "admin/users#reward_control", :as => "admin_users_reward_control"
 
   get "logout" => "sessions#destroy", :as => "logout"
   get "login" => "sessions#new", :as => "login"
