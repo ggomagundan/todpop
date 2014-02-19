@@ -1,6 +1,7 @@
 json.status @status
 json.msg @msg
 
-json.data do |json|
+if @status == true
   json.result @result
+  json.return_msg @return_msg
 end
