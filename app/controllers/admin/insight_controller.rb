@@ -1,4 +1,4 @@
-class Admin::InsightController < ApplicationController
+class Admin::InsightController < Admin::ApplicationController
   def index
   end
   
