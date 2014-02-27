@@ -5,7 +5,10 @@ require 'json'
 require 'net/http'
 
   KEY = "0f8f5a7024dd11e3b5ae00304860c864"
-
+  PRODUCT_PATH = "#{Rails.root}/upload/qpcon"
+  WEB_PATH = "http://www.todpop.co.kr/upload/qpcon"
+  
+  
   namespace :qpcon do
 
     task :category => :environment do
@@ -21,6 +24,10 @@ require 'net/http'
 
 
     task :product_list => :environment do
+      if !Dir.exits? PRODUCT_PATH
+        Dir.mkdir PRODCUT_PATH
+      end  
+         
       QpconCategory.all.each do |c_id|
         json = connect("prodList.do",{:cmd => "prodList", :cateId => c_id.category_id})
         if json["STATUS_CODE"] == "00"
@@ -29,15 +36,26 @@ require 'net/http'
             if QpconProduct.where(:product_id => list["PROD_ID"]).present?
               product = QpconProduct.where(:product_id => list["PROD_ID"]).first
               product.update_attributes(:product_name => list["PROD_NAME"], :qpcon_category_id => c_id.id, :change_market_name => list["CHC_COMP_NAME"], :stock_count => list["STOCK_CNT"].to_i, :market_cost => list["MARKET_COST"].to_i, :common_cost => list["COMMON_COST"].to_i)
-              coupon.remote_img_url_70_url =  list["IMG_URL_70"]
-              coupon.remote_img_url_150_url = list["IMG_URL_150"]
-              coupon.remote_img_url_250_url = list["IMG_URL_250"]
+              coupon.remote_img_url_70_url  = "#{WEB_PATH}/#{File.basename list["IMG_URL_70"]}"
+              coupon.remote_img_url_150_url = "#{WEB_PATH}/#{File.basename list["IMG_URL_150"]}"
+              coupon.remote_img_url_250_url = "#{WEB_PATH}/#{File.basename list["IMG_URL_250"]}"
+              
+              [list["IMG_URL_70"],list["IMG_URL_150"],list["IMG_URL_250"]].each do |url|
+                image_down url
+                sleep 0.3
+              end
+              
               coupon.save!
             else
               coupon = QpconProduct.create(:product_id => list["PROD_ID"], :product_name => list["PROD_NAME"], :qpcon_category_id => c_id.id, :change_market_name => list["CHC_COMP_NAME"], :stock_count => list["STOCK_CNT"].to_i, :market_cost => list["MARKET_COST"].to_i, :common_cost => list["COMMON_COST"].to_i)
-              coupon.remote_img_url_70_url =  list["IMG_URL_70"]
-              coupon.remote_img_url_150_url = list["IMG_URL_150"]
-              coupon.remote_img_url_250_url = list["IMG_URL_250"]
+              coupon.remote_img_url_70_url =  "#{WEB_PATH}/#{File.basename list["IMG_URL_70"]}"
+              coupon.remote_img_url_150_url = "#{WEB_PATH}/#{File.basename list["IMG_URL_70"]}"
+              coupon.remote_img_url_250_url = "#{WEB_PATH}/#{File.basename list["IMG_URL_70"]}"
+              
+             [list["IMG_URL_70"],list["IMG_URL_150"],list["IMG_URL_250"]].each do |url|
+                image_down url
+                sleep 0.3
+              end
               coupon.save!
             end
 #product_id:string qpcon_category_id:integer product_name:string change_market_name stock_count:integer market_cost:integer common_cost:integer img_url_70:string img_url_150:string img_url_250:string market_name:string min_age:integer use_info:text valid_type:integer valid_date:string max_sale:integer min_sale:integer max_month_sale:integer is_sale:integer pin_type:integer product_type:integer
@@ -63,16 +81,20 @@ require 'net/http'
     
     task :product_send => :environment do
       json = pin_connect("pinIssue.do",{:prodId => QpconProduct.last.product_id,:reqOrdId => Time.now.to_datetime.strftime('%Y-%m-%d %H:%M:%S.%N') })
-
-
         puts json
 
     end
   end
 
-
-
-
+  # 이미지 다운 로드 
+  # 큐미폰 상품  이미지 다운을 위해 사용
+  def image_down(url)  
+    file_name = File.basename(url)
+    open("#{PRODUCT_PATH}/#{file_name}", 'wb') do |file|
+      file << open(url).read
+    end
+  end
+  
   def connect(last_uri,params) 
       uri = URI.parse("http://211.245.169.201/qpcon/api/#{last_uri}")
       http = Net::HTTP.new(uri.host, uri.port)
@@ -93,4 +115,3 @@ require 'net/http'
     @response = http.request(request)
     return @response.body
   end 
-

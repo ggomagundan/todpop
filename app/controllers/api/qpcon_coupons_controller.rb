@@ -60,7 +60,15 @@ class Api::QpconCouponsController < ApplicationController
 
     if @status == true
       if user.current_reward >= coupon.market_cost
-
+        qpcon_manager = QpconManager.new # initialize in devlopment 
+        request_result = qpcon_manager.request_issue_pin(user, coupon)
+        if reqeust_result == true
+          save_log_qpcon(user,coupon,request_manager.response_params)
+          @result = true
+        else
+          @result = false
+        end
+=begin
         qpcon = set_qpcon(user,coupon)
         qpcon = issue_qpcon(qpcon)
 
@@ -88,7 +96,7 @@ class Api::QpconCouponsController < ApplicationController
             end
           end  # end of confirm branch (00 or else)
         end    # end of issue OK
-
+=end
       else
         @status = false 
         @msg = "not enouth money"
@@ -98,6 +106,7 @@ class Api::QpconCouponsController < ApplicationController
 
   end          # end of def
 
+=begin
   # --------------------------------------------------------------------------------------------------------------------
   def set_qpcon(user,coupon)
 
@@ -260,7 +269,7 @@ class Api::QpconCouponsController < ApplicationController
 
   end
   # --------------------------------------------------------------------------------------------------------------------
-
+=end
   def save_log_qpcon(user,coupon,qpcon)
 
     Order.create(:coupon_company => "qpcon", :user_id => user.id, :order_id => qpcon[:reqOrdId], :product_id => coupon.product_id, :barcode => qpcon[:pinNum], :limit_date => Date.strptime(qpcon[:validDate],"%Y%m%d"), :approval_number => qpcon[:admitId], :issue_date => qpcon[:issueDate])
