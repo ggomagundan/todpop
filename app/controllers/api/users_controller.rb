@@ -407,7 +407,7 @@ class Api::UsersController < ApplicationController
         period = "week_"
       end
       
-      tmp = "@list = RankingCurrent.order(\"" + period + params[:category] + " DESC\")"
+      tmp = "@list = RankingCurrent.order(\"" + period + params[:category] + " DESC\").limit(10)"
       eval(tmp)
 
       @user_info = []
