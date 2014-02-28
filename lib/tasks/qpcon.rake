@@ -4,8 +4,8 @@ require 'json'
 require 'net/http'
 
 KEY = "0f8f5a7024dd11e3b5ae00304860c864"
-PRODUCT_PATH = "#{Rails.root}/current/public/upload/qpcon"
-WEB_PATH = "http://www.todpop.co.kr/upload/qpcon"
+PRODUCT_PATH = "#{Rails.root}/current/public/uploads/qpcon"
+WEB_PATH = "http://www.todpop.co.kr/uploads/qpcon"
 
 namespace :qpcon do
 
