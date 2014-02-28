@@ -4,7 +4,7 @@ require 'json'
 require 'net/http'
 
 KEY = "0f8f5a7024dd11e3b5ae00304860c864"
-PRODUCT_PATH = "#{Rails.root}/upload/qpcon"
+PRODUCT_PATH = "#{Rails.root}/current/public/upload/qpcon"
 WEB_PATH = "http://www.todpop.co.kr/upload/qpcon"
 
 namespace :qpcon do
@@ -21,8 +21,8 @@ namespace :qpcon do
   end
 
   task :product_list => :environment do
-    if !Dir.exits? PRODUCT_PATH
-      Dir.mkdir PRODCUT_PATH
+    if !Dir.exist? PRODUCT_PATH
+      Dir.mkdir PRODUCT_PATH
     end
 
     QpconCategory.all.each do |c_id|
