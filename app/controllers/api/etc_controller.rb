@@ -248,7 +248,7 @@ class Api::EtcController < ApplicationController
         period = "week_"
       end
 
-      tmp = "@ranker = RankingCurrent.order(\"" + period + category + " DESC\").limit(3)"
+      tmp = "@ranker = RankingCurrent.order(\"" + period + category + " DESC\")"
       eval(tmp)
 
       @prize=[]
