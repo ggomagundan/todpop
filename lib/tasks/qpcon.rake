@@ -55,7 +55,7 @@ namespace :qpcon do
             save_path = "#{PRODUCT_PATH}/#{c_id.category_id}/#{prod_id}"
             
             [list["IMG_URL_70"],list["IMG_URL_150"],list["IMG_URL_250"]].each do |url|
-              image_down url save_path
+              image_down url, save_path
               sleep 0.3
             end
 
@@ -77,7 +77,7 @@ namespace :qpcon do
             save_path = "#{PRODUCT_PATH}/#{c_id.category_id}/#{prod_id}"
             
             [list["IMG_URL_70"],list["IMG_URL_150"],list["IMG_URL_250"]].each do |url|
-              image_down url save_path
+              image_down url, save_path
               sleep 0.3
             end
           coupon.save!
