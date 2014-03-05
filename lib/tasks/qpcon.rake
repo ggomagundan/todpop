@@ -55,6 +55,11 @@ namespace :qpcon do
             save_path = "#{PRODUCT_PATH}/#{c_id.category_id}/#{prod_id}"
             
             [list["IMG_URL_70"],list["IMG_URL_150"],list["IMG_URL_250"]].each do |url|
+              puts url
+              sleep 0.3
+            end
+            
+            [list["IMG_URL_70"],list["IMG_URL_150"],list["IMG_URL_250"]].each do |url|
               image_down url, save_path
               sleep 0.3
             end
