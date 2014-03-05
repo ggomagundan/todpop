@@ -1,10 +1,11 @@
+
 require File.dirname(__FILE__) + '/../../config/environment.rb'
 require 'open-uri'
 require 'json'
 require 'net/http'
 
 KEY = "0f8f5a7024dd11e3b5ae00304860c864"
-PRODUCT_PATH = "uploads/qpcon"
+PRODUCT_PATH = "/todpop/todpop_data/qpcon" # link : /todpop/current/public/uploads
 WEB_PATH = "http://www.todpop.co.kr/uploads/qpcon"
 
 namespace :qpcon do
@@ -33,32 +34,48 @@ namespace :qpcon do
         end
         json["PRODUCT"]["PRODUCT_LIST"].each do |list|
           prod_id = list["PROD_ID"]
-          if !Dir.exist?("#{PRODUCT_PATH}/#{c_id.category_id}/#{}")
+          if !Dir.exist? "#{PRODUCT_PATH}/#{c_id.category_id}/#{prod_id}"
             Dir.mkdir "#{PRODUCT_PATH}/#{c_id.category_id}/#{prod_id}"
           end
 
           if QpconProduct.where(:product_id => list["PROD_ID"]).present?
-            product = QpconProduct.where(:product_id => list["PROD_ID"]).first
-            product.update_attributes(:product_name => list["PROD_NAME"], :qpcon_category_id => c_id.id, :change_market_name => list["CHC_COMP_NAME"], :stock_count => list["STOCK_CNT"].to_i, :market_cost => list["MARKET_COST"].to_i, :common_cost => list["COMMON_COST"].to_i)
+            coupon = QpconProduct.where(:product_id => list["PROD_ID"]).first
+            coupon.update_attributes(:product_name       => list["PROD_NAME"], 
+                                      :qpcon_category_id  => c_id.id, 
+                                      :change_market_name => list["CHC_COMP_NAME"], 
+                                      :stock_count        => list["STOCK_CNT"].to_i, 
+                                      :market_cost        => list["MARKET_COST"].to_i, 
+                                      :common_cost        => list["COMMON_COST"].to_i
+                                      )
+                                      
             coupon.remote_img_url_70_url   = "#{WEB_PATH}/#{c_id.category_id}/#{prod_id}/#{File.basename list["IMG_URL_70"]}"
             coupon.remote_img_url_150_url  = "#{WEB_PATH}/#{c_id.category_id}/#{prod_id}/#{File.basename list["IMG_URL_150"]}"
             coupon.remote_img_url_250_url  = "#{WEB_PATH}/#{c_id.category_id}/#{prod_id}/#{File.basename list["IMG_URL_250"]}"
 
             save_path = "#{PRODUCT_PATH}/#{c_id.category_id}/#{prod_id}"
+            
             [list["IMG_URL_70"],list["IMG_URL_150"],list["IMG_URL_250"]].each do |url|
-
               image_down url save_path
               sleep 0.3
             end
 
             coupon.save!
           else
-            coupon = QpconProduct.create(:product_id => list["PROD_ID"], :product_name => list["PROD_NAME"], :qpcon_category_id => c_id.id, :change_market_name => list["CHC_COMP_NAME"], :stock_count => list["STOCK_CNT"].to_i, :market_cost => list["MARKET_COST"].to_i, :common_cost => list["COMMON_COST"].to_i)
+            coupon = QpconProduct.create(:product_id          => list["PROD_ID"], 
+                                         :product_name        => list["PROD_NAME"], 
+                                         :qpcon_category_id   => c_id.id, 
+                                         :change_market_name  => list["CHC_COMP_NAME"], 
+                                         :stock_count         => list["STOCK_CNT"].to_i, 
+                                         :market_cost         => list["MARKET_COST"].to_i, 
+                                         :common_cost         => list["COMMON_COST"].to_i
+                                         )
+                                         
             coupon.remote_img_url_70_url   = "#{WEB_PATH}/#{c_id.category_id}/#{prod_id}/#{File.basename list["IMG_URL_70"]}"
             coupon.remote_img_url_150_url  = "#{WEB_PATH}/#{c_id.category_id}/#{prod_id}/#{File.basename list["IMG_URL_150"]}"
             coupon.remote_img_url_250_url  = "#{WEB_PATH}/#{c_id.category_id}/#{prod_id}/#{File.basename list["IMG_URL_250"]}"
-              
+
             save_path = "#{PRODUCT_PATH}/#{c_id.category_id}/#{prod_id}"
+            
             [list["IMG_URL_70"],list["IMG_URL_150"],list["IMG_URL_250"]].each do |url|
               image_down url save_path
               sleep 0.3
@@ -78,14 +95,21 @@ namespace :qpcon do
       if json["STATUS_CODE"] == "00"
 
         detail = json["PRODUCT_DETAIL"]
-        product.update_attributes(:stock_count => detail["STOCK_CNT"].to_i, :market_cost => detail["MARKET_COST"].to_i, :common_cost => detail["COMMON_COST"].to_i, :img_url_70 => detail["IMG_URL_70"], :img_url_150 => detail["IMG_URL_150"], :img_url_250 => detail["IMG_URL_250"], :info => detail["USE_INFO"])
+        product.update_attributes(:stock_count    => detail["STOCK_CNT"].to_i, 
+                                  :market_cost    => detail["MARKET_COST"].to_i, 
+                                  :common_cost    => detail["COMMON_COST"].to_i, 
+                                  :img_url_70     => detail["IMG_URL_70"], 
+                                  :img_url_150    => detail["IMG_URL_150"], 
+                                  :img_url_250    => detail["IMG_URL_250"], 
+                                  :info           => detail["USE_INFO"])
 
       end
     end
   end
 
   task :product_send => :environment do
-    json = pin_connect("pinIssue.do",{:prodId => QpconProduct.last.product_id,:reqOrdId => Time.now.to_datetime.strftime('%Y-%m-%d %H:%M:%S.%N') })
+    json = pin_connect("pinIssue.do",{:prodId => QpconProduct.last.product_id,
+                                      :reqOrdId => Time.now.to_datetime.strftime('%Y-%m-%d %H:%M:%S.%N') })
     puts json
 
   end
@@ -95,7 +119,7 @@ end
 # 큐미폰 상품  이미지 다운을 위해 사용
 def image_down(url, save_path)
   file_name = File.basename(url)
-  open(save_path, 'wb') do |file|
+  open("#{save_path}/#{file_name}", 'wb') do |file|
     file << open(url).read
   end
 end
