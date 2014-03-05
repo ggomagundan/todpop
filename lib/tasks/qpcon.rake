@@ -55,11 +55,6 @@ namespace :qpcon do
             save_path = "#{PRODUCT_PATH}/#{c_id.category_id}/#{prod_id}"
             
             [list["IMG_URL_70"],list["IMG_URL_150"],list["IMG_URL_250"]].each do |url|
-              puts url
-              sleep 0.3
-            end
-            
-            [list["IMG_URL_70"],list["IMG_URL_150"],list["IMG_URL_250"]].each do |url|
               image_down url, save_path
               sleep 0.3
             end
@@ -123,6 +118,7 @@ end
 # 이미지 다운 로드
 # 큐미폰 상품  이미지 다운을 위해 사용
 def image_down(url, save_path)
+  puts url
   file_name = File.basename(url)
   open("#{save_path}/#{file_name}", 'wb') do |file|
     file << open(url).read
