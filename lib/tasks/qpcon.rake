@@ -48,9 +48,13 @@ namespace :qpcon do
                                       :common_cost        => list["COMMON_COST"].to_i
                                       )
                                       
-            coupon.remote_img_url_70_url   = "#{WEB_PATH}/#{c_id.category_id}/#{prod_id}/#{File.basename list["IMG_URL_70"]}"
-            coupon.remote_img_url_150_url  = "#{WEB_PATH}/#{c_id.category_id}/#{prod_id}/#{File.basename list["IMG_URL_150"]}"
-            coupon.remote_img_url_250_url  = "#{WEB_PATH}/#{c_id.category_id}/#{prod_id}/#{File.basename list["IMG_URL_250"]}"
+            coupon.img_url_70   = "#{WEB_PATH}/#{c_id.category_id}/#{prod_id}/#{File.basename list["IMG_URL_70"]}"
+            coupon.img_url_150  = "#{WEB_PATH}/#{c_id.category_id}/#{prod_id}/#{File.basename list["IMG_URL_150"]}"
+            coupon.img_url_250  = "#{WEB_PATH}/#{c_id.category_id}/#{prod_id}/#{File.basename list["IMG_URL_250"]}"
+            
+            puts coupon.img_url_70
+            puts coupon.img_url_150
+            puts coupon.img_url_250
 
             save_path = "#{PRODUCT_PATH}/#{c_id.category_id}/#{prod_id}"
             
@@ -70,10 +74,14 @@ namespace :qpcon do
                                          :common_cost         => list["COMMON_COST"].to_i
                                          )
                                          
-            coupon.remote_img_url_70_url   = "#{WEB_PATH}/#{c_id.category_id}/#{prod_id}/#{File.basename list["IMG_URL_70"]}"
-            coupon.remote_img_url_150_url  = "#{WEB_PATH}/#{c_id.category_id}/#{prod_id}/#{File.basename list["IMG_URL_150"]}"
-            coupon.remote_img_url_250_url  = "#{WEB_PATH}/#{c_id.category_id}/#{prod_id}/#{File.basename list["IMG_URL_250"]}"
+            coupon.img_url_70   = "#{WEB_PATH}/#{c_id.category_id}/#{prod_id}/#{File.basename list["IMG_URL_70"]}"
+            coupon.img_url_150  = "#{WEB_PATH}/#{c_id.category_id}/#{prod_id}/#{File.basename list["IMG_URL_150"]}"
+            coupon.img_url_250  = "#{WEB_PATH}/#{c_id.category_id}/#{prod_id}/#{File.basename list["IMG_URL_250"]}"
 
+            puts coupon.img_url_70
+            puts conpon.img_url_150
+            puts coupon.img_url_250
+            
             save_path = "#{PRODUCT_PATH}/#{c_id.category_id}/#{prod_id}"
             
             [list["IMG_URL_70"],list["IMG_URL_150"],list["IMG_URL_250"]].each do |url|
