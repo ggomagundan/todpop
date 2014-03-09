@@ -36,6 +36,6 @@ every 1.day, :at => '04:00am' do
   rake "db:backup", :output => "log/db_backup.log", :environment => ENV['RAILS_ENV']
 end
 
-every 5.minute do
+every 30.minute do
   rake "db:rank", :output => "log/rank_temp.log", :environment => ENV['RAILS_ENV']
 end
