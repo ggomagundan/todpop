@@ -402,12 +402,25 @@ class Api::UsersController < ApplicationController
     if @status == true
 
       if params[:period] == "2"
-        period = "mon_"
+        period_ = "mon_"
+        period = "Mon"
       else
-        period = "week_"
+        period_ = "week_"
+        period = "Week"
       end
-      
-      tmp = "@list = RankingCurrent.order(\"" + period + params[:category] + " DESC\")"
+
+      if params[:category] == "1"
+        category = "A"
+      elsif params[:category] == "2"
+        category = "B"
+      elsif params[:category] == "3"
+        category = "C"
+      else
+        category = "D"
+      end
+     
+=begin 
+      tmp = "@list = RankingCurrent.order(\"" + period_ + params[:category] + " DESC\")"
       eval(tmp)
 
       @user_info = []
@@ -419,7 +432,7 @@ class Api::UsersController < ApplicationController
         else
           user = User.find_by_id(@list[i-1].id)
           name = user.nickname
-          tmp = "@user_point = @list[i-1]." + period + params[:category]
+          tmp = "@user_point = @list[i-1]." + period_ + params[:category]
           eval(tmp)
           image = user.character
         end
@@ -430,12 +443,51 @@ class Api::UsersController < ApplicationController
 
       my_id = User.find_by_nickname(params[:nickname]).id
       my_idx = @list.index{|l| l.id == my_id}
-      tmp = "@my_point = @list[my_idx]." + period + params[:category]
+      tmp = "@my_point = @list[my_idx]." + period_ + params[:category]
       eval(tmp)
       image = User.find_by_nickname(params[:nickname]).character
 
       @mine = {:rank => my_idx+1, :name => params[:nickname], :score => @my_point, :image => image}
     end
+=end
+    rank_tmp=""
+    q = "rank_tmp = RankingTemp" + period + category + ".first(10)"
+    eval(q)
+    if rank_tmp.present?
+      @user_info = []
+      (1..10).each do |i|
+        if rank_tmp[i-1] != nil
+          #user = rank_tmp[i-1].user_id
+          @user_point = rank_tmp[i-1].score
+          if User.find(rank_tmp[i-1].user_id).present?
+            name = User.find(rank_tmp[i-1].user_id).nickname
+            image = User.find(rank_tmp[i-1].user_id).character
+
+            rank = {:rank => i, :name => name, :score => @user_point, :image => image}
+            @user_info.push(rank)
+          else
+            rank = {:rank => i, :name => "짭짤이", :score => @user_point, :image => 1}
+          end
+        else
+          @user_point=0
+          rank = {:rank => i, :name => "짭짤이", :score => @user_point, :image => 1}
+        end
+      end
+    end
+
+    my_id = User.find_by_nickname(params[:nickname]).id
+    image = User.find_by_nickname(params[:nickname]).character
+    myidx=0
+    p = "myidx = RankingTemp" + period + category + ".find_by_user_id(" + my_id.to_s + ")"
+    eval(p)
+    if myidx==nil
+      @my_point = 0
+      @mine = {:rank => 0, :name => params[:nickname], :score => @my_point, :image => image}
+    else
+      @my_point = myidx.score
+      @mine = {:rank => myidx.id, :name => params[:nickname], :score => @my_point, :image => image}
+    end
+    
 
     @current_time = DateTime.now
     c_time=DateTime.now
@@ -454,6 +506,8 @@ class Api::UsersController < ApplicationController
     end
 
   end
+  end
+
 
   def get_users_point_list
     @status = true
