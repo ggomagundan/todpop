@@ -27,15 +27,15 @@ namespace :db do
 
 
   task :rank => :environment do
-    ActiveRecord::Base.connection.execute("TRUNCATE ranking_temp_week_as")
-    ActiveRecord::Base.connection.execute("TRUNCATE ranking_temp_week_bs")
-    ActiveRecord::Base.connection.execute("TRUNCATE ranking_temp_week_cs")
-    ActiveRecord::Base.connection.execute("TRUNCATE ranking_temp_week_ds")
+    #ActiveRecord::Base.connection.execute("TRUNCATE ranking_temp_week_as")
+    #ActiveRecord::Base.connection.execute("TRUNCATE ranking_temp_week_bs")
+    #ActiveRecord::Base.connection.execute("TRUNCATE ranking_temp_week_cs")
+    #ActiveRecord::Base.connection.execute("TRUNCATE ranking_temp_week_ds")
 
-    ActiveRecord::Base.connection.execute("TRUNCATE ranking_temp_mon_as")
-    ActiveRecord::Base.connection.execute("TRUNCATE ranking_temp_mon_bs")
-    ActiveRecord::Base.connection.execute("TRUNCATE ranking_temp_mon_cs")
-    ActiveRecord::Base.connection.execute("TRUNCATE ranking_temp_mon_ds")
+    #ActiveRecord::Base.connection.execute("TRUNCATE ranking_temp_mon_as")
+    #ActiveRecord::Base.connection.execute("TRUNCATE ranking_temp_mon_bs")
+    #ActiveRecord::Base.connection.execute("TRUNCATE ranking_temp_mon_cs")
+    #ActiveRecord::Base.connection.execute("TRUNCATE ranking_temp_mon_ds")
 
     current_rank = RankingCurrent.all
     
@@ -52,13 +52,20 @@ namespace :db do
         category = period_ + j.to_s + " DESC"
         if j==1
           type="A"
+          types="as"
         elsif j==2
           type="B"
+          types="bs"
         elsif j==3
           type="C"
+          types="cs"
         elsif j==4
           type="D"
+          types="ds"
         end
+
+        s = "ActiveRecord::Base.connection.execute(\"TRUNCATE ranking_temp_" + period_ + types +"\")"
+        eval(s)
 
         current_rank.order(category).each do |i|
           option=0
