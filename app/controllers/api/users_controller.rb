@@ -478,13 +478,18 @@ class Api::UsersController < ApplicationController
     my_id = User.find_by_nickname(params[:nickname]).id
     image = User.find_by_nickname(params[:nickname]).character
     myidx=0
+
     p = "myidx = RankingTemp" + period + category + ".find_by_user_id(" + my_id.to_s + ")"
     eval(p)
+
+    r = "@my_point = RankingCurrent.find_by_id(my_id)." + period_ + params[:category].to_s
+    eval(r)
+
     if myidx==nil
-      @my_point = 0
+      #@my_point = 0
       @mine = {:rank => 0, :name => params[:nickname], :score => @my_point, :image => image}
     else
-      @my_point = myidx.score
+      #@my_point = myidx.score
       @mine = {:rank => myidx.id, :name => params[:nickname], :score => @my_point, :image => image}
     end
     
