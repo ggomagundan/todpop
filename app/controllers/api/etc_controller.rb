@@ -241,25 +241,49 @@ class Api::EtcController < ApplicationController
 
     if @status == true
 
-      category = params[:category].to_s
-      if params[:period] == "2"
-        period = "mon_"
+      category = params[:category].to_i
+      if category == 1
+        category = "A"
+      elsif category == 2
+        category = "B"
+      elsif category == 3
+        category = "C"
       else
-        period = "week_"
+        category = "D"
       end
 
-      tmp = "@ranker = RankingCurrent.order(\"" + period + category + " DESC\")"
-      eval(tmp)
+      if params[:period] == "2"
+        #period = "mon_"
+        period = "Mon"
+        period_ = "mon_"
+      else
+        #period = "week_"
+        period = "Week"
+        period_ = "week_"
+      end
+
+      #tmp = "@ranker = RankingCurrent.order(\"" + period + category + " DESC\")"
+      #eval(tmp)
+      #
+      tmp=[]
+      p = "tmp = RankingTemp" + period + category + ".first(3)"
+      eval(p)
 
       @prize=[]
       (0..2).each do |i|
-        if @ranker[i].present?
-          nickname = User.find_by_id(@ranker[i].id).nickname
+        if tmp[i] != nil
+          nickname = User.find_by_id(tmp[i].user_id).nickname
         else
-          nickname = nil
+          nickname = "짭짤이"
         end
+
+        #if @ranker[i].present?
+        #  nickname = User.find_by_id(@ranker[i].id).nickname
+        #else
+        #  nickname = nil
+        #end
         temp = Prize.where('category = ? and period = ? and rank = ? and date_start <= ? and date_end >= ?',
-                           category, params[:period], i+1, Date.today, Date.today)
+                           params[:category].to_i, params[:period], i+1, Date.today, Date.today)
         if temp.present?
           tmp_hash = {:id => temp[0].id, :image => temp[0].image, :nickname => nickname}
           @prize.push(tmp_hash)
@@ -275,15 +299,27 @@ class Api::EtcController < ApplicationController
         new_data.save
       end
       @my_level = UserHighestLevel.find_by_user_id(params[:id]).level
-      @my_rank = @ranker.index{|r| r.id == params[:id].to_i} + 1
+      my_rank=nil
+      q = "my_rank = RankingTemp" + period + category + ".find_by_user_id(" + params[:id].to_s + ")"
+      eval(q)
+      if my_rank == nil
+        @my_rank = 0
+      else
+        @my_rank = my_rank.id
+      end
+      @my_point=0
+      r = "@my_point = RankingCurrent.find_by_id(params[:id])." + period_ + params[:category]
+      eval(r)
+      @remain_to1st = tmp[0].score - @my_point
+      #@my_rank = @ranker.index{|r| r.id == params[:id].to_i} + 1
       @daily_test_count = user.daily_test_count
 
-      my_point_all = RankingCurrent.find_by_id(params[:id])
-      tmp = "@my_point = my_point_all." + period + category
-      eval(tmp)
+      #my_point_all = RankingCurrent.find_by_id(params[:id])
+      #tmp = "@my_point = my_point_all." + period + category
+      #eval(tmp)
 
-      tmp = "@remain_to1st = @ranker[0]." + period + category + ' - @my_point'
-      eval(tmp)
+      #tmp = "@remain_to1st = @ranker[0]." + period + category + ' - @my_point'
+      #eval(tmp)
 
       @reward_today = RewardLog.where('user_id = ? and created_at >= ? and created_at < ? and reward > ?', user.id, Date.today.to_time, Date.tomorrow.to_time, 0).pluck(:reward).sum
       @reward_current = user.current_reward
