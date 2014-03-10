@@ -329,10 +329,12 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
       else
         #@ad_log = AdvertiseCpxLog.where('user_id = ? and (act != 2 AND created_at >= ? AND created_at < ?) OR (act = 2 AND created_at >= ? AND created_at < ?)',
         #      @user.id, 14.day.ago.to_time, Time.now, 45.day.ago.to_time, Time.now).pluck(:ad_id).uniq
+        
         @ad_log = AdvertiseCpxLog.where('user_id = ? and (((act = 1 OR act = 2) AND 
                                         created_at >= ?) OR ((act = 3 OR act = 4) AND 
                                         created_at >= ?))', @user.id, 14.day.ago.to_time, 
                                         45.day.ago.to_time).pluck(:ad_id).uniq
+
 
         #@ad_log = []	# test purpose by cys
         #@msg = @ad_log
@@ -406,7 +408,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
               r_id = ad.id
             end
           end
-        else
+        elsif(@ad_list_5.length != 0)
           r = 0
           r_id = 0     
           @ad_list_5.each do |ad|
@@ -416,7 +418,19 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
               r_id = ad.id
             end
           end
-
+        elsif params[:type].present?
+          ad_tmp = CpxAdvertisement.where('remain > 0 and end_date >= ? and start_date <= ?', Date.today, Date.today).pluck(:id) - AdvertiseCpxLog.where('user_id = ? and act = 3', params[:user_id].to_i).pluck(:ad_id).uniq
+          if ad_tmp.length == 0
+            r_id = 0
+          else
+            r_id = 0
+            ad_tmp.each do |i|
+              a = AdvertiseCpxLog.where('user_id = ? and ad_id = ?', params[:user_id].to_i, i).count
+              if a > r_id
+                r_id = i
+              end
+            end
+          end
         end
 
 
