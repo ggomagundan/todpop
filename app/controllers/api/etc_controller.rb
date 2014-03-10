@@ -310,7 +310,11 @@ class Api::EtcController < ApplicationController
       @my_point=0
       r = "@my_point = RankingCurrent.find_by_id(params[:id])." + period_ + params[:category]
       eval(r)
-      @remain_to1st = tmp[0].score - @my_point
+      if tmp[0].score != nil
+        @remain_to1st = tmp[0].score - @my_point
+      else
+        @remain_to1st = 0
+      end
       #@my_rank = @ranker.index{|r| r.id == params[:id].to_i} + 1
       @daily_test_count = user.daily_test_count
 
