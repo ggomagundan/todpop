@@ -310,7 +310,7 @@ class Api::EtcController < ApplicationController
       @my_point=0
       r = "@my_point = RankingCurrent.find_by_id(params[:id])." + period_ + params[:category]
       eval(r)
-      if tmp[0].score != nil
+      if tmp[0].score.present?
         @remain_to1st = tmp[0].score - @my_point
       else
         @remain_to1st = 0
