@@ -690,6 +690,53 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
     end
   end
 
+  def cpa_return
+    @status = true
+    @msg = ""
+
+    if !params[:aid].present? || !params[:mid].present?
+      @status = false
+      @msg = "not exist params"
+    else
+      if !(adInfo = CpxAdvertisement.find_by_id(params[:aid])).present? || !User.find_by_id(params[:mid]).present?
+        @status = false
+        @msg = "not exist cpx or user"
+      else
+        adLog = AdvertiseCpxLog.new
+        adLog.ad_id = params[:aid].to_i
+        adLog.ad_type = 303 #only cpa
+        adLog.user_id = params[:mid]
+        adLog.act = 3 #only_cpa_return
+        
+        if adLog.save
+          @result = true
+          @msg = "success"
+          
+          adInfo.update_attributes(:remain => adInfo.remain - 1)
+
+            # reward / point process .......
+            @token_user_id = params[:mid].to_i
+            @token_reward = adInfo.reward
+            @token_point = adInfo.point
+            if @token_reward.present? && @token_reward > 0 
+              @token_sub_title = adInfo.ad_type.to_s + " : " + adInfo.ad_name
+              @token_reward_type = 4000 + adInfo.ad_type              # reward_type : CPX = 4000 + ad_type
+              @token_title = "CPX"
+              process_reward_general
+            elsif @token_point.present? && @token_point > 0
+              @token_name = "CPX : " + adInfo.ad_type.to_s + " : " + adInfo.ad_name
+              @token_point_type = 4000 + adInfo.ad_type               # point_type : CPX = 4000 + ad_type
+              process_point_general
+            end
+        else
+          @status = false
+          @msg = "failed to save"
+        end
+      end
+
+    end
+  end
+
   def get_cps_questions
     @status = true
     @msg = ""
