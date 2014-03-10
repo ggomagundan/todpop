@@ -1,4 +1,3 @@
-
 require File.dirname(__FILE__) + '/../../config/environment.rb'
 require 'open-uri'
 require 'json'
@@ -106,11 +105,18 @@ namespace :qpcon do
         product.update_attributes(:stock_count    => detail["STOCK_CNT"].to_i, 
                                   :market_cost    => detail["MARKET_COST"].to_i, 
                                   :common_cost    => detail["COMMON_COST"].to_i, 
-                                  :img_url_70     => detail["IMG_URL_70"], 
-                                  :img_url_150    => detail["IMG_URL_150"], 
-                                  :img_url_250    => detail["IMG_URL_250"], 
-                                  :info           => detail["USE_INFO"])
-
+                                  :use_info       => detail["USE_INFO"],
+                                  :min_age        => detail["MIN_AGE"].to_i,
+                                  :valid_type     => detail["VALID_TYPE"].to_i,
+                                  :valid_date     => detail["VALID_DATE"],
+                                  :max_sale       => detail["MAX_SALE_CNT"].to_i,
+                                  :min_sale       => detail["MIN_SALE_COUNT"].to_i,
+                                  :max_month_sale => detail["MON_MAX_SALE__CNT"].to_i,
+                                  :is_sale        => detail["SALE_GB"].to_i,
+                                  :pin_type       => detail["PIN_TYPE"].to_i,
+                                  :product_type   => detail["PROD_GB"].to_i,
+                                  :info           => detail["WARN_INFO"],
+                                  :market_name    => detail["MAKER"])
       end
     end
   end
