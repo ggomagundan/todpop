@@ -37,8 +37,7 @@ namespace :db do
     #ActiveRecord::Base.connection.execute("TRUNCATE ranking_temp_mon_cs")
     #ActiveRecord::Base.connection.execute("TRUNCATE ranking_temp_mon_ds")
 
-    current_rank = RankingCurrent.all
-    
+    #current_rank = RankingCurrent.all
     (0..1).each do |k|
       if k==0
         period_ = "week_"
@@ -64,15 +63,19 @@ namespace :db do
           types="ds"
         end
 
+        current_rank=""
+        t = "current_rank = RankingCurrent.where(\"" + period_ + j.to_s + " > 0\")"
+        eval(t)
+
         s = "ActiveRecord::Base.connection.execute(\"TRUNCATE ranking_temp_" + period_ + types +"\")"
         eval(s)
 
         current_rank.order(category).each do |i|
-          option=0
-          r = "option=i."+period_ + j.to_s
-          eval(r)
+          #option=0
+          #r = "option=i."+period_ + j.to_s
+          #eval(r)
 
-          if option != 0
+          #if option != 0
             temp=""
             q = "temp=RankingTemp" + period + type + ".new"
             eval(q)
@@ -82,7 +85,7 @@ namespace :db do
             eval(p)
             #temp.score = i.week_1
             temp.save
-          end
+          #end
         end
       end
     end
