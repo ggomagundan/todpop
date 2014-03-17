@@ -101,18 +101,20 @@ namespace :db do
     word.each do |i|
       begin
         tmp_url = url + i.name + ".mp3"
-        file_name = File.basename(tmp_url)
-        open("#{file_name}", 'wb') do |file|
-          file << open(tmp_url).read
-        end
-        sh("mv #{file_name} voice/.")
+        #file_name = File.basename(tmp_url)
+        #open("#{file_name}", 'wb') do |file|
+        #  file << open(tmp_url).read
+        #end
+        #sh("mv #{file_name} voice/.")
+        open(tmp_url)
         i.update_attributes(:voice => 1)
-
+        @success_cnt += 1
       rescue Exception => e
         @fail_cnt += 1
       end
     end
 
+    puts "success words : " + @success_cnt.to_s
     puts "fail words : " + @fail_cnt.to_s
 
   end

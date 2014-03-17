@@ -528,4 +528,32 @@ class Api::StudiesController < ApplicationController
    end
   end
 
+  def voice
+    @status = true
+    @msg = ""
+    
+    if !params[:category].present?
+      @status = false
+      @msg = "not exist category"
+    else
+      ver = AppInfo.first.voice_ver.to_i
+
+      if params[:category].to_i == 0
+        @list = Word.where("voice = ?", ver).pluck(:name)
+      else
+        if params[:category].to_i == 1
+          level = WordLevel.where("level < 16").pluck(:word_id)
+        elsif params[:category].to_i == 2
+          level = WordLevel.where("level > 15 and level < 61").pluck(:word_id)
+        elsif params[:category].to_i == 3
+          level = WordLevel.where("level > 60 and level < 121").pluck(:word_id)
+        elsif params[:category].to_i == 4
+          level = WordLevel.where("level > 120").pluck(:word_id)
+        end
+        @list = Word.where("id in (?) and voice = ?", level, ver).pluck(:name)
+        #@list = Word.where("id in (?)", level).pluck(:name)
+      end
+    end
+  end
+
 end
