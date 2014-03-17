@@ -91,6 +91,31 @@ namespace :db do
     end
   end
 
+  task :mp3 => :environment do
+    url = "https://ssl.gstatic.com/dictionary/static/sounds/de/0/"
+    @fail_cnt = 0
+    @success_cnt = 0
+
+    word = Word.all
+
+    word.each do |i|
+      begin
+        tmp_url = url + i.name + ".mp3"
+        file_name = File.basename(tmp_url)
+        open("#{file_name}", 'wb') do |file|
+          file << open(tmp_url).read
+        end
+        sh("mv #{file_name} voice/.")
+        i.update_attributes(:voice => 1)
+
+      rescue Exception => e
+        @fail_cnt += 1
+      end
+    end
+
+    puts "fail words : " + @fail_cnt.to_s
+
+  end
 
 end
 
