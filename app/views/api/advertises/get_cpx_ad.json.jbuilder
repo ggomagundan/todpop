@@ -5,6 +5,7 @@ if @status == true
   json.data do |json|
     json.ad_id @ad_id
     json.ad_type @ad_type
+    json.ad_action @ad_action
     json.ad_image @ad_image
     json.ad_text @ad_text
     json.target_url @target_url

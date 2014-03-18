@@ -453,6 +453,21 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           ad = CpxAdvertisement.find_by_id(r_id)
           @ad_id = ad.id
           @ad_type = ad.ad_type
+          if @ad_type == 301 #CPI
+            @ad_action = "다운로드"
+          elsif @ad_type == 302 #CPL
+            @ad_action = "좋아요"
+          elsif @ad_type == 303 #CPA
+            @ad_action = "참여하기"
+          elsif @ad_type == 304 #CPE
+            @ad_action = "실행하기"
+          elsif @ad_type == 305 #CPS
+            @ad_action = "설문조사"
+          elsif @ad_type == 306 #CPC
+            @ad_action = "구경하기"
+          else
+            @ad_action = "참여하기"
+          end
           @ad_image = ad.ad_image_url
           @ad_text = ad.ad_text
           @target_url = ad.target_url
@@ -814,6 +829,21 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
         cpx_data = CpxAdvertisement.find_by_id(params[:ad_id])
         @ad_id = cpx_data.id
         @ad_type = cpx_data.ad_type
+          if @ad_type == 301 #CPI
+            @ad_action = "다운로드"
+          elsif @ad_type == 302 #CPL
+            @ad_action = "좋아요"
+          elsif @ad_type == 303 #CPA
+            @ad_action = "참여하기"
+          elsif @ad_type == 304 #CPE
+            @ad_action = "실행하기"
+          elsif @ad_type == 305 #CPS
+            @ad_action = "설문조사"
+          elsif @ad_type == 306 #CPC
+            @ad_action = "구경하기"
+          else
+            @ad_action = "참여하기"
+          end
         @ad_image = cpx_data.ad_image
         @ad_text = cpx_data.ad_text
         @target_url = cpx_data.target_url
