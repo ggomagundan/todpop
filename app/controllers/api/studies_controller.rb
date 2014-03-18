@@ -536,10 +536,9 @@ class Api::StudiesController < ApplicationController
       @status = false
       @msg = "not exist category"
     else
-      ver = AppInfo.first.voice_ver.to_i
 
       if params[:category].to_i == 0
-        @list = Word.where("voice = ?", ver).pluck(:name)
+        @list = Word.where("voice is not null").pluck(:name, :voice)
       else
         if params[:category].to_i == 1
           level = WordLevel.where("level < 16").pluck(:word_id)
@@ -550,7 +549,7 @@ class Api::StudiesController < ApplicationController
         elsif params[:category].to_i == 4
           level = WordLevel.where("level > 120").pluck(:word_id)
         end
-        @list = Word.where("id in (?) and voice = ?", level, ver).pluck(:name)
+        @list = Word.where("id in (?) and voice is not null", level).pluck(:name, :voice)
         #@list = Word.where("id in (?)", level).pluck(:name)
       end
     end

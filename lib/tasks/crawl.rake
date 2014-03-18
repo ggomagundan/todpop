@@ -2,15 +2,32 @@
      
        namespace :word do
              task :bal => :environment do
+               @cnt = 0
+               @list = ""
+               @success = 0
                Word.all.each do |w|
-                 
-                 url = "http://dic.naver.com/search.nhn?dicQuery=word&x=0&y=0&query=#{w.name}&target=dic&ie=utf8&query_utf=&isOnlyViewEE="
+                 begin
+                 if w.name != w.name.downcase
+                 url = "http://dic.daum.net/search.do?q=#{w.name}"
+                 else
+                 url = "http://dic.daum.net/search.do?q=#{w.name.downcase}"
+                 end
+                 #url = "http://dic.naver.com/search.nhn?dicQuery=word&x=0&y=0&query=#{w.name}&target=dic&ie=utf8&query_utf=&isOnlyViewEE="
                   doc = Nokogiri::HTML(open(url)) 
-                  bal =  doc.xpath("//span[contains(@class, 'fnt_e25')]").first.children.text.split('[').last.split(']').first
+                  bal = doc.xpath("//span[contains(@class, 'pronounce')]").children.text.split('[').last.split(']').first
+                  #bal =  doc.xpath("//span[contains(@class, 'fnt_e25')]").first.children.text.split('[').last.split(']').first
                   w.phonetics = bal
                   w.save
+                  @success += 1
+                 rescue Exception => e
+                   @cnt += 1
+                   @list += "#{w.name}\t"
+                 end
 
                end
+               puts @list
+               puts @cnt
+               puts @success
 
           end
 

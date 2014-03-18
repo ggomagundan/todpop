@@ -99,6 +99,7 @@ class Api::UsersController < ApplicationController
       end
 
       if @status == true
+      begin
         if @user.save
           @msg = "complete"
           if !params[:mem_no].present?
@@ -131,6 +132,10 @@ class Api::UsersController < ApplicationController
           @status = false
           @msg = "join save error"
         end
+      rescue Exception => e
+        @status = false
+        @msg = "incorrect nickname"
+      end
       end
     end
 
@@ -262,11 +267,16 @@ class Api::UsersController < ApplicationController
     @msg = ""
 
     if params[:nickname].present?
-      @status = true
-      @msg = ""
-      @result = true
-      if User.where(:nickname => params[:nickname]).present?
-        @result = false
+      begin
+        @status = true
+        @msg = ""
+        @result = true
+        if User.where(:nickname => params[:nickname]).present?
+          @result = false
+        end
+      rescue Exception => e
+        @status = false
+        @msg = "incorrect nickname"
       end
     else
       @status = false
