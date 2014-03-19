@@ -110,10 +110,12 @@ class Admin::WordsController < Admin::ApplicationController
   def get_img_url
     @status = true
     @msg = ''
+=begin
     query = URI::encode(params[:word])
     start = params[:start]
     @data_url = []
-    url = "https://www.google.co.kr/search?q=#{query}&newwindow=1&as_st=y&hl=ko&tbs=sur:fc&biw=1051&bih=573&sei=QAdcUujIPOWXiQecuICwAg&tbm=isch&ijn=1&ei=QAdcUujIPOWXiQecuICwAg&start=#{start}&csl=1"
+    #url = "https://www.google.co.kr/search?q=#{query}&newwindow=1&as_st=y&hl=ko&tbs=sur:fc&biw=1051&bih=573&sei=QAdcUujIPOWXiQecuICwAg&tbm=isch&ijn=1&ei=QAdcUujIPOWXiQecuICwAg&start=#{start}&csl=1"
+    url = "https://www.google.co.kr/search?newwindow=1&hl=ko&site=imghp&tbm=isch&source=hp&biw=1075&bih=596&q=apple&oq=apple&gs_l=img.3..0l10.2431.5677.0.5811.7.6.1.0.0.0.338.903.1j3j0j1.5.0....0...1ac.1.37.img..1.6.913.kj8aLe7hRd8#hl=ko&newwindow=1&q=#{start}&tbm=isch&tbs=sur:fc"
     doc = Nokogiri::HTML(open(url))
     html = doc.xpath("//div[contains(@class,'rg_di')]")
     @length = html.length
@@ -124,10 +126,18 @@ class Admin::WordsController < Admin::ApplicationController
       tmp_data = {'show' => show_src, 'real_url' => img_url['imgurl'][0]}
       @data_url.push(tmp_data)
     end
+=end
   end
-
-  private
+  
+private
   def word_params
     params.require(:word).permit(:mean, :example_en, :example_ko, :phonetics, :picture, :image, :remote_image_url )
   end
 end
+
+
+
+
+
+
+"https://www.google.co.kr/search?newwindow=1&hl=ko&site=imghp&tbm=isch&source=hp&biw=1075&bih=596&q=apple&oq=apple&gs_l=img.3..0l10.2431.5677.0.5811.7.6.1.0.0.0.338.903.1j3j0j1.5.0....0...1ac.1.37.img..1.6.913.kj8aLe7hRd8#hl=ko&newwindow=1&q=#{}&tbm=isch&tbs=sur:fc"
