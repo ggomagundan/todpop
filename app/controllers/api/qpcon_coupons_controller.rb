@@ -1,5 +1,7 @@
 class Api::QpconCouponsController < ApplicationController
   protect_from_forgery :except => [:index, :show]
+  require File.dirname(__FILE__)+'/../../../lib/qpcon_manager.rb'
+
   
   def index
     @status = true
@@ -37,9 +39,7 @@ class Api::QpconCouponsController < ApplicationController
   # --------------------------------------------------------------------------------------------------------------------
   def purchase
     @status = true
-    @msg = ""
-    @result = false
-    @return_msg = "purchase start"
+    @msg = "purchase start"
 
     user =  User.find_by_id(params[:user_id])
     coupon = QpconProduct.find_by_product_id(params[:product_id])
@@ -61,46 +61,20 @@ class Api::QpconCouponsController < ApplicationController
     if @status == true
       if user.current_reward >= coupon.market_cost
         qpcon_manager = QpconManager.new # initialize in devlopment 
-        request_result = qpcon_manager.request_issue_pin(user, coupon)
-        if reqeust_result == true
-          save_log_qpcon(user,coupon,request_manager.response_params)
-          @result = true
+        qpcon_result = qpcon_manager.request_purchase(user, coupon)
+
+        @status = qpcon_result[:status]
+        @msg = @msg + qpcon_result[:msg]
+
+        if @status == true
+          save_log_qpcon(user,coupon,qpcon_result)
+          @msg = @msg + " / qpcon_issue done"
         else
-          @result = false
+          @msg = @msg + " / qpcon_issue fail"
         end
-=begin
-        qpcon = set_qpcon(user,coupon)
-        qpcon = issue_qpcon(qpcon)
-
-        if qpcon[:respCode] == "10"     # conditional issue OK check
-          qpcon = issue_query_qpcon(qpcon)
-          if qpcon[:respCode] != "00"
-            sleep(1)                           # sleep 1 sec
-            qpcon = issue_query_qpcon(qpcon)   # retry only one more time
-          end
-        end
-
-        if qpcon[:respCode] == "00"     # 2 cases : direct OK or conditional-then-final OK
-          qpcon = confirm_qpcon(qpcon)
-          if qpcon[:respCode] == "00"     # confirm OK
-            save_log_qpcon(user,coupon,qpcon)
-            @result=true
-          else                             # confirm Fail
-            qpcon = cancel_qpcon(qpcon)    # suggested by qpcon guide
-
-            cnt=3
-            while qpcon[:respCode]!="00" && cnt>0
-              sleep(0.5)                         # sleep 0.5 sec
-              qpcon = cancel_qpcon(qpcon)        # retry 3 more time (total 4 times : 4 = trivial)
-              cnt = cnt-1 
-            end
-          end  # end of confirm branch (00 or else)
-        end    # end of issue OK
-=end
       else
         @status = false 
         @msg = "not enouth money"
-        @result = false
       end      # end of enough money
     end        # end of status:true
 
