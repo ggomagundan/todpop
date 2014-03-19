@@ -20,6 +20,7 @@ class ApplicationController < ActionController::Base
   #        CPDM     =   5000+CPDM_code     5000+CPDM_code
   #        CPD      =   6000+CPD_code      6000+CPD_code
   #       Refund    =     7000
+  #       Store     =     8000                              (8100:pay    8200:cancel_return)
   #
 
 

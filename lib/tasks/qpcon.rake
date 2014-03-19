@@ -3,7 +3,8 @@ require 'open-uri'
 require 'json'
 require 'net/http'
 
-KEY = "0f8f5a7024dd11e3b5ae00304860c864"
+KEY = "0f8f5a7024dd11e3b5ae00304860c864"        # test key
+SERVER_IP = "211.245.169.201"			# test server
 PRODUCT_PATH = "/todpop/todpop_data/qpcon" # link : /todpop/current/public/uploads
 WEB_PATH = "http://www.todpop.co.kr/uploads/qpcon"
 
@@ -140,7 +141,7 @@ def image_down(url, save_path)
 end
 
 def connect(last_uri,params)
-  uri = URI.parse("http://211.245.169.201/qpcon/api/#{last_uri}")
+  uri = URI.parse("http://#{SERVER_IP}/qpcon/api/#{last_uri}")
   http = Net::HTTP.new(uri.host, uri.port)
   request = Net::HTTP::Post.new(uri.request_uri)
   request.set_form_data(params.merge!({:key=> KEY}))
@@ -151,7 +152,7 @@ def connect(last_uri,params)
 end
 
 def pin_connect(last_uri,params)
-  uri = URI.parse("http://211.245.169.201/qpcon/api/pin/#{last_uri}")
+  uri = URI.parse("http://#{SERVER_IP}/qpcon/api/pin/#{last_uri}")
   http = Net::HTTP.new(uri.host, uri.port)
   request = Net::HTTP::Post.new(uri.request_uri)
   request.set_form_data(params.merge!({:key=> KEY}))
