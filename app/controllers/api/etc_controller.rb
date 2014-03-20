@@ -433,7 +433,7 @@ class Api::EtcController < ApplicationController
             @place = product.change_market_name
             @price = product.market_cost 
             @image = product.img_url_250
-            @information = product.info			# info? use_info?
+            @information = product.use_info
 
             @valid_start = nil
             @valid_end = coupon.limit_date
