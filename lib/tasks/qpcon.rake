@@ -38,7 +38,7 @@ namespace :qpcon do
     if json["STATUS_CODE"] == "00"
 
       ActiveRecord::Base.connection.execute("TRUNCATE qpcon_products")
- 
+
       json["PRODUCT"]["PRODUCT_LIST"].each do |list|
 
         prod_id = list["PROD_ID"]
@@ -52,12 +52,12 @@ namespace :qpcon do
           Dir.mkdir "#{PRODUCT_PATH}/#{cate_id}/#{prod_id}"
         end
 
-        coupon = QpconProduct.create(:product_id          => list["PROD_ID"], 
-                                     :qpcon_category_id   => list["CATE_ID"], 
-                                     :product_name        => list["PROD_NAME"], 
-                                     :change_market_name  => list["CHC_COMP_NAME"], 
-                                     :stock_count         => list["STOCK_CNT"].to_i, 
-                                     :market_cost         => list["MARKET_COST"].to_i, 
+        coupon = QpconProduct.create(:product_id          => list["PROD_ID"],
+                                     :qpcon_category_id   => list["CATE_ID"],
+                                     :product_name        => list["PROD_NAME"],
+                                     :change_market_name  => list["CHC_COMP_NAME"],
+                                     :stock_count         => list["STOCK_CNT"].to_i,
+                                     :market_cost         => list["MARKET_COST"].to_i,
                                      :common_cost         => list["COMMON_COST"].to_i
                                     )
                                          
@@ -70,9 +70,9 @@ namespace :qpcon do
         puts coupon.img_url_70
         puts coupon.img_url_150
         puts coupon.img_url_250
-            
+ 
         save_path = "#{PRODUCT_PATH}/#{cate_id}/#{prod_id}"
-            
+ 
         [list["IMG_URL_70"],list["IMG_URL_150"],list["IMG_URL_250"]].each do |url|
           image_down url, save_path
           sleep 0.3
@@ -89,7 +89,7 @@ namespace :qpcon do
       if json["STATUS_CODE"] == "00"
 
         detail = json["PRODUCT_DETAIL"]
-        product.update_attributes(:market_name      => detail["MAKER"] 
+        product.update_attributes(:market_name      => detail["MAKER"],
                                   :min_age          => detail["MIN_AGE"].to_i,
                                   :reg_dtm          => detail["REG_DTM"],
                                   :use_info         => detail["USE_INFO"],
@@ -100,7 +100,7 @@ namespace :qpcon do
                                   :mon_max_sale_cnt => detail["MON_MAX_SALE_CNT"].to_i,
                                   :sale_gb          => detail["SALE_GB"].to_i,
                                   :pin_type         => detail["PIN_TYPE"].to_i,
-                                  :prod_gb          => detail["PROD_GB"].to_i,
+                                  :prod_gb          => detail["PROD_GB"].to_i
                                  )
       end
     end
@@ -114,6 +114,10 @@ namespace :qpcon do
 
   end
 =end
+
+  task :pin_statement => :environment do
+    fromDtm = AppInfo.first.pin_dtm
+  end
 
 end
 
@@ -228,57 +232,5 @@ end
   end
 =end
 
-<<<<<<< HEAD
-  task :product_reload => :environment do
-    QpconProduct.all.each do |product|
-      json = connect("prodDetail.do",{:cmd => "prodDetail", :prodId => product.product_id})
-      if json["STATUS_CODE"] == "00"
-
-        detail = json["PRODUCT_DETAIL"]
-        product.update_attributes(:stock_count    => detail["STOCK_CNT"].to_i, 
-                                  :market_cost    => detail["MARKET_COST"].to_i, 
-                                  :common_cost    => detail["COMMON_COST"].to_i, 
-                                  :use_info       => detail["USE_INFO"],
-                                  :min_age        => detail["MIN_AGE"].to_i,
-                                  :valid_type     => detail["VALID_TYPE"].to_i,
-                                  :valid_date     => detail["VALID_DATE"],
-                                  :max_sale       => detail["MAX_SALE_CNT"].to_i,
-                                  :min_sale       => detail["MIN_SALE_COUNT"].to_i,
-                                  :max_month_sale => detail["MON_MAX_SALE__CNT"].to_i,
-                                  :is_sale        => detail["SALE_GB"].to_i,
-                                  :pin_type       => detail["PIN_TYPE"].to_i,
-                                  :product_type   => detail["PROD_GB"].to_i,
-                                  :info           => detail["WARN_INFO"],
-                                  :market_name    => detail["MAKER"])
-      end
-    end
-  end
-
-  task :product_send => :environment do
-    json = pin_connect("pinIssue.do",{:prodId => QpconProduct.last.product_id,
-                                      :reqOrdId => Time.now.to_datetime.strftime('%Y-%m-%d %H:%M:%S.%N') })
-    puts json
-
-  end
-
-
-  task :pin_statement => :environment do
-    fromDtm = AppInfo.first.pin_dtm
-
-  end
-  
-end
-
-# 이미지 다운 로드
-# 큐미폰 상품  이미지 다운을 위해 사용
-def image_down(url, save_path)
-  puts url
-  file_name = File.basename(url)
-  open("#{save_path}/#{file_name}", 'wb') do |file|
-    file << open(url).read
-  end
-end
-=======
->>>>>>> 82acb45eef39156384eff6801de8a742a9578337
 
 
