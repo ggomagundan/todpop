@@ -5,6 +5,7 @@ if @status == true
   json.data do |json|
     json.ad_id        @ad_id
     json.ad_type      @ad_type
+    json.history      @history
     json.url          @url
     json.length       @length
 
