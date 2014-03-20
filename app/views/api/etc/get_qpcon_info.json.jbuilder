@@ -10,4 +10,6 @@ if @status==true
   json.bar_code @bar_code
   json.image @image
   json.information @information
+  json.is_used @is_used
+  json.is_expired @is_expired
 end
