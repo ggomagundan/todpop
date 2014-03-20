@@ -116,7 +116,17 @@ namespace :qpcon do
 =end
 
   task :pin_statement => :environment do
-    fromDtm = AppInfo.first.pin_dtm
+    app_info = AppInfo.first
+    fromDtm = app_info.pin_dtm.to_i
+    tmp = Time.now
+    toDtm = tmp.strftime("%y%m%d%H%M%S").to_i
+
+    json = connect("sendList.do",{:cmd => "sendList", :fromDtm => fromDtm, :toDtm => toDtm})
+    
+    puts json
+
+    app_info.pin_dtm = toDtm.to_s
+    app_info.save
   end
 
 end
