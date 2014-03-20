@@ -1,5 +1,7 @@
 class Api::EtcController < ApplicationController
   skip_before_filter :verify_authenticity_token
+  require File.dirname(__FILE__)+'/../../../lib/qpcon_manager.rb'
+
   def refund_info
     @status = true
     @msg = ""
@@ -416,20 +418,30 @@ class Api::EtcController < ApplicationController
           @status=false
           @msg="not exist ordered qpcon"
         else
+          qpcon_manager = QpconManager.new                          # pinStatus refresh 
+          qpcon_result = qpcon_manager.request_info_query(coupon)
+
           product = QpconProduct.find_by_product_id(coupon.product_id)
 
           if !product.present?
             @status=false
             @msg="not exist qpcon product"
           else
+            coupon=Order.find_by_order_id(params[:order_id])          # read again (for update safety, not mandatory)
+
             @name = product.product_name
             @place = product.change_market_name
+            @price = product.market_cost 
+            @image = product.img_url_250
+            @information = product.info			# info? use_info?
+
             @valid_start = nil
             @valid_end = coupon.limit_date
-            @price = product.common_cost 
             @bar_code = coupon.barcode
-            @image = product.img_url_250
-            @information = nil
+            @admitId = coupon.approval_number
+            @is_used = coupon.is_used
+            @is_expired = coupon.is_expired
+
           end
         end
 

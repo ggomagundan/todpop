@@ -303,5 +303,32 @@ class QpconManager
     return hash_tmp
   end
 
+  # ----------------------------------------------------------------------------------------------------
+
+  # Start pin info
+  def request_info_query(coupon)
+    @status = true
+    @msg = ""
+
+    @params[:key]       = @key
+    @params[:admitId]   = coupon.approval_number
+    @params[:pinNum]    = coupon.barcode
+    @params[:reserved1] = nil
+    @params[:reserved2] = nil
+
+    respCode = request_pin_info
+
+    if respCode=="00"
+      if @params[:pinStatus]=="001"
+        coupon.update_attributes(:is_used => true)			# used
+      elsif @params[:pinStatus]=="200"
+        coupon.update_attributes(:is_expired => true)			# expired
+      end
+    end
+
+    return respCode
+  end
+
+
 end
 
