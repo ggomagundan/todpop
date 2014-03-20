@@ -128,6 +128,13 @@ namespace :qpcon do
     puts json
 
   end
+
+
+  task :pin_statement => :environment do
+    fromDtm = AppInfo.first.pin_dtm
+
+  end
+  
 end
 
 # 이미지 다운 로드
