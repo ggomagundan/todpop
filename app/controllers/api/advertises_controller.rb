@@ -648,7 +648,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           adInfo.update_attributes(:remain => adInfo.remain-1)
 
           # reward or point
-          if adInfo.reward.present? && adInfo.reward > 0
+          if adInfo.reward.present? && adInfo.reward > 0 && adLog.act.to_i == 2
             @token_user_id = params[:user_id].to_i
             @token_reward_type = 5000 + params[:ad_type].to_i
             @token_title = "CPDM"
@@ -657,7 +657,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
             process_reward_general
           end
 
-          if adInfo.point.present? && adInfo.point  > 0
+          if adInfo.point.present? && adInfo.point  > 0 && adLog.act.to_i == 2
             @token_user_id = params[:user_id].to_i
             @token_point_type = 5000 +params[:ad_type].to_i
             @token_name = "CPDM : 동영상공유 etc"
