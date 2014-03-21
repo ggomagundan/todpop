@@ -51,3 +51,7 @@ end
 every 1.day, :at => '03:20am' do
   rake "qpcon:product_reload", :output => "log/qpcon.log", :environment => ENV['RAILS_ENV']
 end
+
+every 5.minute do
+  rake "qpcon:pin_state", :output => "log/qpcon.log", :environment => ENV['RAILS_ENV']
+end

@@ -118,24 +118,22 @@ namespace :qpcon do
   task :pin_state => :environment do
     app_info = AppInfo.first
     fromDtm = app_info.pin_dtm.to_i
-    fromDtm = 20140319201000  #test
-    tmp = Time.now  
+    tmp = Time.now
     toDtm = tmp.strftime("%Y%m%d%H%M%S").to_i
-    toDtm = 20140320201000 #test
+
+    fromDtm = (tmp-1.day).strftime("%Y%m%d%H%M%S").to_i if fromDtm == nil
 
     response = connect("sendList.do",{:cmd => "sendList", :fromDtm => fromDtm, :toDtm => toDtm})
     
     response = response.split("\n")
-    order = Order.where('is_used != 0 and is_expired != 1')
-    order = Order.where('is_used = 0') #test
+    order = Order.where('is_used != 1 and is_expired != 1')
+
     response.each do |i|
       content = i.split('|')
-      if content[4] != nil and content[4] != 100
-        if (state = order.find_by_approval_number(content[0])).present?
-          state.is_used = 0 if content[4]==400
-          state.is_expired = 1 if content[4]==000
-          state.save
-        end
+      if (state = order.find_by_approval_number(content[0])).present?
+        state.is_used = 1 if content[4]==400
+        state.is_expired = 1 if content[4]==000
+        state.save
       end
     end
 
