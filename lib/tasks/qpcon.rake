@@ -115,17 +115,31 @@ namespace :qpcon do
   end
 =end
 
-  task :pin_statement => :environment do
+  task :pin_state => :environment do
     app_info = AppInfo.first
     fromDtm = app_info.pin_dtm.to_i
-    tmp = Time.now
-    toDtm = tmp.strftime("%y%m%d%H%M%S").to_i
+    fromDtm = 20140319201000  #test
+    tmp = Time.now  
+    toDtm = tmp.strftime("%Y%m%d%H%M%S").to_i
+    toDtm = 20140320201000 #test
 
-    json = connect("sendList.do",{:cmd => "sendList", :fromDtm => fromDtm, :toDtm => toDtm})
+    response = connect("sendList.do",{:cmd => "sendList", :fromDtm => fromDtm, :toDtm => toDtm})
     
-    puts json
+    response = response.split("\n")
+    order = Order.where('is_used != 0 and is_expired != 1')
+    order = Order.where('is_used = 0') #test
+    response.each do |i|
+      content = i.split('|')
+      if content[4] != nil and content[4] != 100
+        if (state = order.find_by_approval_number(content[0])).present?
+          state.is_used = 0 if content[4]==400
+          state.is_expired = 1 if content[4]==000
+          state.save
+        end
+      end
+    end
 
-    app_info.pin_dtm = toDtm.to_s
+    app_info.pin_dtm = (tmp-1).strftime("%Y%m%d%H%M%S").to_s
     app_info.save
   end
 
@@ -147,9 +161,13 @@ def connect(last_uri,params)
   request = Net::HTTP::Post.new(uri.request_uri)
   request.set_form_data(params.merge!({:key=> KEY}))
   @response = http.request(request)
-  json = ActiveSupport::JSON.decode  Hash.from_xml(@response.body).to_json
-  json = json["BIKINI"]
-  return json
+  if last_uri == 'sendList.do'
+    return @response.body
+  else
+    json = ActiveSupport::JSON.decode  Hash.from_xml(@response.body).to_json
+    json = json["BIKINI"]
+    return json
+  end
 end
 
 =begin
