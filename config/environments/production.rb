@@ -23,7 +23,7 @@ Todpop::Application.configure do
  config.middleware.use ExceptionNotifier,
     :email_prefix => "[Exception] ",
     :sender_address => %{"Exception Notifier" <noreply@todpop.co.kr>}, 
-    exception_recipients: %w{kai_park@todpop.co.kr, action@todpop.co.kr, topayc@todpop.co.kr}
+    exception_recipients: %w{ever4cys@todpop.co.kr, kai_park@todpop.co.kr, action@todpop.co.kr, topayc@todpop.co.kr}
 
 
   # Disable Rails's static asset server (Apache or nginx will already do this).
