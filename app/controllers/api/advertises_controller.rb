@@ -378,7 +378,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
                                               start_date <= ? and end_date >= ?', @ad_log, Date.today, 
                                              Date.today)
           @ad_list_5 = CpxAdvertisement.where('priority = 5 and remain > 0 and start_date <= ? and 
-                                              end_date >= ?', Date.today, Date.today)
+                                              end_date >= ? and ad_type not in (300)', Date.today, Date.today)
         end
         
         if(@ad_list.length != 0)
