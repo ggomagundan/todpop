@@ -108,7 +108,7 @@ Todpop::Application.routes.draw do
       get 'set_survey_result', :on => :collection
       get 'show_cpx_ad', :on => :collection
       post 'set_crosswalk_log', :on => :collection
-      get 'cpa_return', :on => :collection
+      post 'cpa_return', :on => :collection
     end
   
     resources :studies do
