@@ -140,21 +140,21 @@ class Api::EtcController < ApplicationController
           @coupons.each do |p|
 
             tmp_hash = {}
-            tmp_hash[:coupon_id] = p.order_id
-            tmp_hash[:availability] = 0
+            tmp_hash[:order_id]  = p.order_id
+            tmp_hash[:is_used]    = p.is_used
+            tmp_hash[:is_expired] = p.is_expired
             tmp_hash[:created_at] = p.created_at
             tmp_hash[:name] = nil
-            tmp_hash[:place] = nil
-            tmp_hash[:image] = nil
             tmp_hash[:price] = nil
+            tmp_hash[:maker] = nil
+            tmp_hash[:image] = nil
 
             q=QpconProduct.find_by_product_id(p.product_id)
             if q.present?
-              tmp_hash[:availability] = 1
-              tmp_hash[:name] = q.product_name
-              tmp_hash[:place] = q.change_market_name
+              tmp_hash[:name]  = q.product_name
+              tmp_hash[:price] = q.market_cost
+              tmp_hash[:maker] = q.market_name
               tmp_hash[:image] = q.img_url_250
-              tmp_hash[:price] = q.common_cost
             end
 
             @product.push(tmp_hash)
@@ -382,6 +382,14 @@ class Api::EtcController < ApplicationController
     end
   end
 
+  def get_maker_logo_url(cate_id)
+    if cate_id=="SPCblah" || cate_id=="SPCaaaa"
+      logo="happycon.jpg"
+    else
+      logo=cate_id + ".jpg"
+    end
+    return "http://todpop.co.kr/upload/qpcon/logo/" + logo
+  end
 
   def get_qpcon_info
     @status=true
@@ -401,13 +409,21 @@ class Api::EtcController < ApplicationController
           @msg="not exist qpcon"
         else
           @name = coupon.product_name
+          @maker = coupon.market_name
+          @maker_logo_url = get_maker_logo_url(coupon.qpcon_category_id)
+          @price = coupon.market_cost 
+
           @place = coupon.change_market_name
+          @image = coupon.img_url_250
+          @information = coupon.use_info
+          @valid_duration = coupon.valid_date
+          
           @valid_start = nil
           @valid_end = nil
-          @price = coupon.common_cost 
           @bar_code = nil
-          @image = coupon.img_url_250
-          @information = nil
+          @admit_id = nil
+          @is_used = nil
+          @is_expired = nil
         end
 
       elsif params[:order_id].present?
@@ -430,15 +446,19 @@ class Api::EtcController < ApplicationController
             coupon=Order.find_by_order_id(params[:order_id])          # read again (for update safety, not mandatory)
 
             @name = product.product_name
-            @place = product.change_market_name
+            @maker = product.market_name
+            @maker_logo_url = get_maker_logo_url(product.qpcon_category_id)
             @price = product.market_cost 
+
+            @place = product.change_market_name
             @image = product.img_url_250
             @information = product.use_info
+            @valid_duration = nil
 
             @valid_start = nil
             @valid_end = coupon.limit_date
             @bar_code = coupon.barcode
-            @admitId = coupon.approval_number
+            @admit_id = coupon.approval_number
             @is_used = coupon.is_used
             @is_expired = coupon.is_expired
 
