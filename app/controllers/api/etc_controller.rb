@@ -129,7 +129,7 @@ class Api::EtcController < ApplicationController
 
             #temp val ------------------
             tmp_hash[:coupon_id] = p.coupon_id
-            tmp_hash[:availability] = p.availabilty
+            tmp_hash[:availability] = p.availability
             # -----------------
 
             q=CouponFreeInfo.find_by_id(p.coupon_id)
