@@ -52,7 +52,7 @@ namespace :qpcon do
         prod_id = list["PROD_ID"]
         cate_id = list["CATE_ID"]
 
-        if !product.where('product_id = ?', list["PROD_ID"]).present?
+        if !(prod = product.where('product_id = ?', list["PROD_ID"])).present?
           if !Dir.exist? "#{PRODUCT_PATH}/#{cate_id}"
             Dir.mkdir "#{PRODUCT_PATH}/#{cate_id}"
           end
@@ -85,10 +85,8 @@ namespace :qpcon do
             image_down url, save_path
             sleep 0.3
           end           # end of image down
-       
         end #product present end
         prod_id_list.push(list["PROD_ID"])
-
       end #json each end
       del_prod = QpconProduct.where('product_id not in (?)', prod_id_list)
       del_prod.each do |i|
@@ -105,7 +103,13 @@ namespace :qpcon do
       if json["STATUS_CODE"] == "00"
 
         detail = json["PRODUCT_DETAIL"]
-        product.update_attributes(:market_name      => detail["MAKER"],
+        product.update_attributes(:qpcon_category_id => detail["CATE_ID"],
+                                  :product_name => detail["PROD_NAME"],
+                                  :change_market_name => detail["CHC_COMP_NAME"],
+                                  :stock_count => detail["STOCK_CNT"],
+                                  :market_cost => detail["MARKET_COST"],
+                                  :common_cost => detail["COMMON_COST"],
+                                  :market_name      => detail["MAKER"],
                                   :min_age          => detail["MIN_AGE"].to_i,
                                   :reg_dtm          => detail["REG_DTM"],
                                   :use_info         => detail["USE_INFO"],
