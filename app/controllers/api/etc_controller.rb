@@ -114,8 +114,15 @@ class Api::EtcController < ApplicationController
           @coupons.each do |p|
             tmp_hash = {}
             tmp_hash[:order_id] = p.coupon_id
-            tmp_hash[:is_used] = p.availability
-            tmp_hash[:is_expired] = p.availability
+
+            if p.availability == 1
+              tmp_hash[:is_used] = false
+              tmp_hash[:is_expired] = false
+            else
+              tmp_hash[:is_used] = true
+              tmp_hash[:is_expired] = true
+            end
+
             tmp_hash[:created_at] = p.created_at
             tmp_hash[:name] = nil                                # for hash format preserve
             tmp_hash[:price] = nil
