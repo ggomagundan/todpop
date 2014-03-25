@@ -46,7 +46,7 @@ namespace :qpcon do
     if json["STATUS_CODE"] == "00"
 
       prod_id_list = []
-      product = product.all
+      product = QpconProduct.all
 
       json["PRODUCT"]["PRODUCT_LIST"].each do |list|
         prod_id = list["PROD_ID"]
@@ -92,7 +92,7 @@ namespace :qpcon do
       end #json each end
       del_prod = QpconProduct.where('product_id not in (?)', prod_id_list)
       del_prod.each do |i|
-        i.delete
+        i.delete			# delete folder later
       end
     end               # json OK
   end #task
@@ -122,6 +122,8 @@ namespace :qpcon do
     end
   end
 
+  # ---------------------------------------------------------------------------------------------------
+
 =begin
   task :product_send => :environment do
     json = pin_connect("pinIssue.do",{:prodId => QpconProduct.last.product_id,
@@ -130,6 +132,8 @@ namespace :qpcon do
 
   end
 =end
+
+  # ---------------------------------------------------------------------------------------------------
 
   task :pin_state => :environment do
     app_info = AppInfo.first
