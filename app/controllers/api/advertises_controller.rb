@@ -690,6 +690,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
         if adLog.save
           @result = true
           @msg = "success"
+          if !AdvertiseCpxLog.where('user_id = ? and ad_id = ? and act = 3', params[:user_id].to_i, params[:ad_id].to_i).present?
           if params[:act].to_i==3
             adInfo.update_attributes(:remain => adInfo.remain - 1)
 
@@ -707,6 +708,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
               @token_point_type = 4000 + adInfo.ad_type               # point_type : CPX = 4000 + ad_type
               process_point_general
             end
+          end
           end
         else
           @status = false
