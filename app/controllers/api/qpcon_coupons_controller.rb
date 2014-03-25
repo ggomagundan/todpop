@@ -10,14 +10,12 @@ class Api::QpconCouponsController < ApplicationController
     @coupons=[]
     if params[:category_id].present?
       tmp = QpconProduct.where(:qpcon_category_id => params[:category_id])
-      tmp.each do |i|
-        @coupons.push(:product_id => i.product_id, :img_url_70 => i.img_url_70, :product_name => i.product_name, :market_name => i.market_name, :stock_count => i.stock_count)
-      end
     else
       tmp = QpconProduct.all
-      tmp.each do |i|
-        @coupons.push(:product_id => i.product_id, :img_url_70 => i.img_url_70, :product_name => i.product_name, :market_name => i.market_name, :stock_count => i.stock_count)
-      end
+    end
+    tmp.each do |i|
+      @coupons.push(:product_id => i.product_id, :img_url_70 => i.img_url_70, :product_name => i.product_name, 
+                    :market_name => i.market_name, :stock_count => i.stock_count, :market_cost => i.market_cost)
     end
   end
 
