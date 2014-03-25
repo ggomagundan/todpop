@@ -436,7 +436,6 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           ad_tmp = CpxAdvertisement.where('remain > 0 and end_date >= ? and start_date <= ?', Date.today, Date.today).pluck(:id) - AdvertiseCpxLog.where('user_id = ? and act = 3', params[:user_id].to_i).pluck(:ad_id).uniq
           if ad_tmp.length == 1
             r_id = CpxAdvertisement.where('ad_type = 300').pluck(:id).first
-            r_id = 0 if r_id == nil
           else
             log = AdvertiseCpxLog.where('user_id =? and ad_id in (?)', params[:user_id].to_i , ad_tmp).pluck(:ad_id)
             r_id = CpxAdvertisement.where('id > ? and ad_type not in (300)', log.last).first
