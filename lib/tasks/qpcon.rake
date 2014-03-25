@@ -17,10 +17,18 @@ namespace :qpcon do
     json = connect("cateList.do",{:cmd => "cateList"})
     if json["STATUS_CODE"] == "00"
 
-      ActiveRecord::Base.connection.execute("TRUNCATE qpcon_categories")
+      #ActiveRecord::Base.connection.execute("TRUNCATE qpcon_categories")
+      cate_id = []
+      category = QpconCategory.all
 
       json["CATEGORY"]["CATEGORY_LIST"].each do |list|
-        QpconCategory.create(:category_id => list["CATE_ID"], :category_name => list["CATE_NAME"])
+        QpconCategory.create(:category_id => list["CATE_ID"], :category_name => list["CATE_NAME"]) if !category.where('category_id = ?', list["CATE_ID"]).present?
+        cate_id.push(list["CATE_ID"])
+      end
+
+      del_cate = QpconCategory.where('category_id not in (?)', cate_id)
+      del_cate.each do |i|
+        i.delete
       end
     end
   end
@@ -28,58 +36,66 @@ namespace :qpcon do
   # ---------------------------------------------------------------------------------------------------
 
   task :product_list => :environment do
-
+    
     if !Dir.exist? PRODUCT_PATH
       Dir.mkdir PRODUCT_PATH
     end
-
+    
     json = connect("prodList.do",{:cmd => "prodList"})
 
     if json["STATUS_CODE"] == "00"
 
-      ActiveRecord::Base.connection.execute("TRUNCATE qpcon_products")
+      prod_id_list = []
+      product = product.all
 
       json["PRODUCT"]["PRODUCT_LIST"].each do |list|
-
         prod_id = list["PROD_ID"]
         cate_id = list["CATE_ID"]
 
-        if !Dir.exist? "#{PRODUCT_PATH}/#{cate_id}"
-          Dir.mkdir "#{PRODUCT_PATH}/#{cate_id}"
-        end
+        if !product.where('product_id = ?', list["PROD_ID"]).present?
+          if !Dir.exist? "#{PRODUCT_PATH}/#{cate_id}"
+            Dir.mkdir "#{PRODUCT_PATH}/#{cate_id}"
+          end
 
-        if !Dir.exist? "#{PRODUCT_PATH}/#{cate_id}/#{prod_id}"
-          Dir.mkdir "#{PRODUCT_PATH}/#{cate_id}/#{prod_id}"
-        end
+          if !Dir.exist? "#{PRODUCT_PATH}/#{cate_id}/#{prod_id}"
+            Dir.mkdir "#{PRODUCT_PATH}/#{cate_id}/#{prod_id}"
+          end
 
-        coupon = QpconProduct.create(:product_id          => list["PROD_ID"],
-                                     :qpcon_category_id   => list["CATE_ID"],
-                                     :product_name        => list["PROD_NAME"],
-                                     :change_market_name  => list["CHC_COMP_NAME"],
-                                     :stock_count         => list["STOCK_CNT"].to_i,
-                                     :market_cost         => list["MARKET_COST"].to_i,
-                                     :common_cost         => list["COMMON_COST"].to_i
-                                    )
+          coupon = QpconProduct.create(:product_id          => list["PROD_ID"],
+                                       :qpcon_category_id   => list["CATE_ID"],
+                                       :product_name        => list["PROD_NAME"],
+                                       :change_market_name  => list["CHC_COMP_NAME"],
+                                       :stock_count         => list["STOCK_CNT"].to_i,
+                                       :market_cost         => list["MARKET_COST"].to_i,
+                                       :common_cost         => list["COMMON_COST"].to_i)
                                          
-        coupon.img_url_70   = "#{WEB_PATH}/#{cate_id}/#{prod_id}/#{File.basename list["IMG_URL_70"]}"
-        coupon.img_url_150  = "#{WEB_PATH}/#{cate_id}/#{prod_id}/#{File.basename list["IMG_URL_150"]}"
-        coupon.img_url_250  = "#{WEB_PATH}/#{cate_id}/#{prod_id}/#{File.basename list["IMG_URL_250"]}"
+          coupon.img_url_70   = "#{WEB_PATH}/#{cate_id}/#{prod_id}/#{File.basename list["IMG_URL_70"]}"
+          coupon.img_url_150  = "#{WEB_PATH}/#{cate_id}/#{prod_id}/#{File.basename list["IMG_URL_150"]}"
+          coupon.img_url_250  = "#{WEB_PATH}/#{cate_id}/#{prod_id}/#{File.basename list["IMG_URL_250"]}"
 
-        coupon.save!
+          coupon.save!
 
-        puts coupon.img_url_70
-        puts coupon.img_url_150
-        puts coupon.img_url_250
+          puts coupon.img_url_70
+          puts coupon.img_url_150
+          puts coupon.img_url_250
  
-        save_path = "#{PRODUCT_PATH}/#{cate_id}/#{prod_id}"
+          save_path = "#{PRODUCT_PATH}/#{cate_id}/#{prod_id}"
  
-        [list["IMG_URL_70"],list["IMG_URL_150"],list["IMG_URL_250"]].each do |url|
-          image_down url, save_path
-          sleep 0.3
-        end           # end of image down
-      end             # end of product
+          [list["IMG_URL_70"],list["IMG_URL_150"],list["IMG_URL_250"]].each do |url|
+            image_down url, save_path
+            sleep 0.3
+          end           # end of image down
+       
+        end #product present end
+        prod_id_list.push(list["PROD_ID"])
+
+      end #json each end
+      del_prod = QpconProduct.where('product_id not in (?)', prod_id_list)
+      del_prod.each do |i|
+        i.delete
+      end
     end               # json OK
-  end
+  end #task
 
   # --------------------------------------------------------------------------------------------------------------------------------
 
