@@ -60,7 +60,7 @@ namespace :qpcon do
           Dir.mkdir "#{PRODUCT_PATH}/#{cate_id}/#{prod_id}"
         end
 
-        prod = product.find_by_product_id(list["PROD_ID"]
+        prod = product.find_by_product_id(list["PROD_ID"])
         if !prod.present?
           prod = QpconProduct.create(:product_id          => list["PROD_ID"],
                                      :qpcon_category_id   => list["CATE_ID"],
