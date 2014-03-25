@@ -388,7 +388,7 @@ class Api::EtcController < ApplicationController
     else
       logo=cate_id + ".jpg"
     end
-    return "http://todpop.co.kr/upload/qpcon/logo/" + logo
+    return "http://www.todpop.co.kr/uploads/qpcon/logo/xhdpi" + logo
   end
 
   def get_qpcon_info
