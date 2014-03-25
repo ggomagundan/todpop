@@ -48,7 +48,7 @@ every 1.day, :at => '03:10am' do
   rake "qpcon:product_list", :output => "log/qpcon.log", :environment => ENV['RAILS_ENV']
 end
 
-every 1.day, :at => '03:20am' do
+every 1.day, :at => '03:14am' do
   rake "qpcon:product_reload", :output => "log/qpcon.log", :environment => ENV['RAILS_ENV']
 end
 
