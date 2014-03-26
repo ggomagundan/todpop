@@ -62,12 +62,12 @@ class ClientController < ApplicationController
           end
           
           @all_cnt_1 = AdvertiseCpdLog.where("ad_id = ? and created_at between ? and ?", params[:id], @ad.start_date, @ad.end_date+1).count
-          @all_cnt_2 = AdvertiseCpdLog.where("ad_id = ? and act = 2 and created_at between ? and ?", params[:id], @ad.start_date, @ad.end_date+1).count
+          @all_cnt_2 = AdvertiseCpdLog.where("ad_id = ? and act = 2 and ad_type = 102 and created_at between ? and ?", params[:id], @ad.start_date, @ad.end_date+1).count
           sd.upto(ed).each do |d|
             row = {}
             day_cnt_1 = AdvertiseCpdLog.where("ad_id = ? and created_at between ? and ?", params[:id], d, d+1).count
             added_cnt_1 += day_cnt_1
-            day_cnt_2 = AdvertiseCpdLog.where("ad_id = ? and act = 2 and created_at between ? and ?", params[:id], d, d+1).count
+            day_cnt_2 = AdvertiseCpdLog.where("ad_id = ? and ad_type = 102 and act = 2 and created_at between ? and ?", params[:id], d, d+1).count
             added_cnt_2 += day_cnt_2
             day_cnt_3 = @ad.basic_show_price * day_cnt_1
             added_cnt_3 += day_cnt_3
@@ -96,12 +96,12 @@ class ClientController < ApplicationController
             ed = @ad.end_date
           end
           @all_cnt_1 = AdvertiseCpdmLog.where("ad_id = ? and created_at between ? and ?", params[:id], @ad.start_date, @ad.end_date+1).count
-          @all_cnt_2 = AdvertiseCpdmLog.where("ad_id = ? and view_time >= ? and created_at between ? and ?", params[:id], @ad.length*0.3, @ad.start_date, @ad.end_date+1).count
+          @all_cnt_2 = AdvertiseCpdmLog.where("ad_id = ? and view_time >= ? and created_at between ? and ?", params[:id], @ad.length.to_f*0.3, @ad.start_date, @ad.end_date+1).count
           sd.upto(ed).each do |d|
             row = {}
             day_cnt_1 = AdvertiseCpdmLog.where("ad_id = ? and created_at between ? and ?", params[:id], d, d+1).count
             added_cnt_1 += day_cnt_1
-            day_cnt_2 = AdvertiseCpdmLog.where("ad_id = ? and view_time >= ? and created_at between ? and ?", params[:id], @ad.length*0.3, d, d+1).count
+            day_cnt_2 = AdvertiseCpdmLog.where("ad_id = ? and view_time >= ? and created_at between ? and ?", params[:id], @ad.length.to_f*0.3, d, d+1).count
             added_cnt_2 += day_cnt_2
             day_cnt_3 = @ad.basic_show_price * day_cnt_1
             added_cnt_3 += day_cnt_3
@@ -130,14 +130,14 @@ class ClientController < ApplicationController
             ed = @ad.end_date
           end
           @all_cnt_1 = AdvertiseCpxLog.where("ad_id = ? and act = 1 and created_at between ? and ?", params[:id], @ad.start_date, @ad.end_date+1).count
-          @all_cnt_2 = AdvertiseCpxLog.where("ad_id = ? and act = 2 and created_at between ? and ?", params[:id], @ad.start_date, @ad.end_date+1).count
+          @all_cnt_2 = AdvertiseCpxLog.where("ad_id = ? and act = 3 and created_at between ? and ?", params[:id], @ad.start_date, @ad.end_date+1).count
           sd.upto(ed).each do |d|
             row = {}
             day_cnt_1 = AdvertiseCpxLog.where("ad_id = ? and act = 1 and created_at between ? and ?", params[:id], d, d+1).count
             added_cnt_1 += day_cnt_1
-            day_cnt_2 = AdvertiseCpxLog.where("ad_id = ? and act = 2 and created_at between ? and ?", params[:id], d, d+1).count
+            day_cnt_2 = AdvertiseCpxLog.where("ad_id = ? and act = 3 and created_at between ? and ?", params[:id], d, d+1).count
             added_cnt_2 += day_cnt_2
-            day_cnt_3 = @ad.basic_show_price * day_cnt_1
+            day_cnt_3 = @ad.basic_show_price * day_cnt_2
             added_cnt_3 += day_cnt_3
             row[:day] = d
             row[:day_cnt_1] = day_cnt_1
