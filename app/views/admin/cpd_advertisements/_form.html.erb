@@ -78,7 +78,7 @@
       </table>
     </div>
   </div>
-  <div class="control-group coupon" style="<% if f.object.ad_type != 103 %> display:none; <% end %>">
+  <div class="control-group facebook" style="<% if f.object.ad_type != 103 %> display:none; <% end %>">
     <label class="control-label">facebook_info</label>
     <div class="controls">
       <table>
@@ -184,6 +184,11 @@ $(document).ready(function() {
       $('.coupon').show();
     } else {
       $('.coupon').hide();
+    }
+    if($(this).val() == '103') {
+      $('.facebook').show();
+    } else {
+      $('.facebook').hide();
     }
   })
 });
