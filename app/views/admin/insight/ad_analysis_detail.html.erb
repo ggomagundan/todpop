@@ -7,10 +7,14 @@
     <th style='text-align:center;'>계약기간</th>
     <th style='text-align:center;'>총노출수</th>
     <th style='text-align:center;'>
-      <% if @type == 'cpd' %>
+      <% if @type == 'cpd' && @ad.ad_type != 103%>
         총쿠폰다운수
-      <% elsif @type == 'cpdm' %>
+      <% elsif @type == 'cpd' && @ad.ad_type == 103%>
+        총 공유횟수
+      <% elsif @type == 'cpdm' && @ad.ad_type != 202%>
         skip하지 않은 총사람수
+      <% elsif @type == 'cpdm' && @ad.ad_type == 202%>
+          총 공유횟수
       <% else %>
         액션을 수행한 사람수
       <% end %>
@@ -44,19 +48,27 @@
     <th style='text-align:center;'>노출수</th>
     <th style='text-align:center;'>기간내누적노출수</th>
     <th style='text-align:center;'>
-      <% if @type == 'cpd' %>
+      <% if @type == 'cpd' && @ad.ad_type != 103%>
         쿠폰다운수
-      <% elsif @type == 'cpdm' %>
-        skip하지 않은 총사람수
+      <% elsif @type == 'cpd' && @ad.ad_type == 103%>
+        공유횟수
+      <% elsif @type == 'cpdm' && @ad.ad_type != 202%>
+        skip하지 않은 사람수
+      <% elsif @type == 'cpdm' && @ad.ad_type == 202%>
+          공유횟수
       <% else %>
         액션을 수행한 사람수
       <% end %>
     </th>
     <th style='text-align:center;'>
-      <% if @type == 'cpd' %>
+      <% if @type == 'cpd' && @ad.ad_type != 103%>
         기간내 누적 다운수
-      <% elsif @type == 'cpdm' %>
+      <% elsif @type == 'cpd' && @ad.ad_type == 103%>
+          기간내 누적 공유횟수
+      <% elsif @type == 'cpdm' && @ad.ad_type != 202%>
         기간내 skip하지 않은 누적사람수
+      <% elsif @type == 'cpdm' && @ad.ad_type == 202%>
+          기간내 누적 공유횟수
       <% else %>
         기간내 액션을 수행한 누적사람수
       <% end %>

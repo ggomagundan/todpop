@@ -20,6 +20,20 @@ class Admin::CpdmAdvertisementsController < Admin::ApplicationController
 
   def create
     @cpdm_advertisement = CpdmAdvertisement.new(cpdm_advertisement_params)
+    if params[:cpdm_advertisement][:ad_type] == '202'
+      if params[:f_price].present?
+        @cpdm_advertisement.additional_share_price = params[:f_price].to_i
+      end
+      if params[:f_reward].present?
+        @cpdm_advertisement.reward = params[:f_reward].to_i
+      end
+      if params[:f_point].present?
+        @cpdm_advertisement.point = params[:f_point].to_i
+      end
+      if params[:f_link].present?
+        @cpdm_advertisement.link = params[:f_link].to_s
+      end
+    end
     if @cpdm_advertisement.save
       redirect_to admin_cpdm_advertisements_path, :notice => "Successfully created cpdm advertisement."
     else
@@ -39,6 +53,21 @@ class Admin::CpdmAdvertisementsController < Admin::ApplicationController
 
   def update
     @cpdm_advertisement = CpdmAdvertisement.find(params[:id])
+    if params[:cpdm_advertisement][:ad_type] == '202'
+      if params[:f_price].present?
+        @cpdm_advertisement.additional_share_price = params[:f_price].to_i
+      end
+      if params[:f_reward].present?
+        @cpdm_advertisement.reward = params[:f_reward].to_i
+      end
+      if params[:f_point].present?
+        @cpdm_advertisement.point = params[:f_point].to_i
+      end
+      if params[:f_link].present?
+        @cpdm_advertisement.link = params[:f_link].to_s
+      end
+    end
+    @cpdm_advertisement.save
     if params[:video].present?
       params[:video].delete("@headers")
       params[:video].delete("@tempfile")

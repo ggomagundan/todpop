@@ -24,6 +24,40 @@
     </div>
   </div>
   <div class="control-group">
+    <label class="control-label">ad_type</label>
+    <div class="controls">
+      <label>
+        <%= f.radio_button :ad_type, 201, :checked=>f.object.ad_type ==201 || f.object.ad_type == nil  %> 영상광고
+      </label>
+      <label>
+        <%= f.radio_button :ad_type, 202, :checked =>f.object.ad_type ==202  %> 페북공유하기
+      </label>
+    </div>
+  </div>
+  <div class="control-group facebook" style="<% if f.object.ad_type != 202 %> display:none; <% end %>">
+    <label class="control-label">facebook_info</label>
+    <div class="controls">
+      <table>
+        <tr>
+          <td>단가</td>
+          <td><input type='text' name='f_price' style='width:280px;'<% if @cpdm_advertisement.present? && @cpdm_advertisement.additional_share_price.present? %> value='<%=@cpd_advertisement.additional_share_price%>' <% end %>/></td>
+        </tr>
+        <tr>
+          <td>리워드</td>
+          <td><input type='text' name='f_reward' style='width:280px;'<% if @cpdm_advertisement.present? && @cpdm_advertisement.reward.present? %> value='<%=@cpdm_advertisement.reward%>' <% end %>/></td>
+        </tr>
+        <tr>
+          <td>포인트</td>
+          <td><input type='text' name='f_point' style='width:280px;'<% if @cpdm_advertisement.present? && @cpdm_advertisement.point.present? %> value='<%=@cpdm_advertisement.point%>' <% end %>/></td>
+        </tr>
+        <tr>
+          <td>링크</td>
+          <td><input type='text' name='f_link' style='width:280px;'<% if @cpdm_advertisement.present? && @cpdm_advertisement.link.present? %> value='<%=@cpdm_advertisement.link%>' <% end %>/></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="control-group">
     <label class="control-label">contract</label>
     <div class="controls">
       <label><%= f.text_field :contract %></label>
@@ -32,7 +66,7 @@
   <div class="control-group">
     <label class="control-label">remain</label>
     <div class="controls">
-      <label><%= f.text_field :remain %></label>
+      <label><%= f.text_field :remain %></label
     </div>
   </div>
   <div class="control-group">
@@ -106,3 +140,14 @@
 
 
 <% end %>
+<script>
+$(document).ready(function() {
+  $("input[name='cpdm_advertisement[ad_type]']").change(function() {
+    if($(this).val() == '202') {
+      $('.facebook').show();
+    } else {
+      $('.facebook').hide();
+    }
+  })
+});
+</script>
