@@ -4,7 +4,8 @@ class CpdAdvertisement < ActiveRecord::Base
 
   AD_TYPE={
     :IMAGE => 101,
-    :COUPON => 102
+    :COUPON => 102,
+    :FACEBOOK => 103,
   }
   PAY_TYPE = {
     :PAY_ADVANCE => 1,
