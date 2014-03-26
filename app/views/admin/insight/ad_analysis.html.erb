@@ -18,7 +18,7 @@
   <% @cpdm.each do |a| %>
     <tr class='pointer' data-type='cpdm' data-id='<%=a.id%>'>
       <td style='text-align:center;'><%="#{count+=1}"%></td>
-      <td>CPDM</td>
+      <td><%=a.kind%></td>
       <td><%=a.ad_name%></td>
     </tr>
   <% end %>
