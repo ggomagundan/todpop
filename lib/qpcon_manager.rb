@@ -218,7 +218,7 @@ class QpconManager
   end
 
   def request_pin_issue_result
-    params = set_pin_issue_result
+    params = set_pin_issue_result_params
     response = request_http(@end_point[:pin_issue_result],params)
     parse_pin_issue_result_response(response)
     return @params[:respCode]

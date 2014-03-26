@@ -49,45 +49,56 @@ namespace :qpcon do
       product = QpconProduct.all
 
       json["PRODUCT"]["PRODUCT_LIST"].each do |list|
-        prod_id = list["PROD_ID"]
         cate_id = list["CATE_ID"]
+        prod_id = list["PROD_ID"]
 
-        if !(prod = product.where('product_id = ?', list["PROD_ID"])).present?
-          if !Dir.exist? "#{PRODUCT_PATH}/#{cate_id}"
-            Dir.mkdir "#{PRODUCT_PATH}/#{cate_id}"
-          end
+        if !Dir.exist? "#{PRODUCT_PATH}/#{cate_id}"
+          Dir.mkdir "#{PRODUCT_PATH}/#{cate_id}"
+        end
 
-          if !Dir.exist? "#{PRODUCT_PATH}/#{cate_id}/#{prod_id}"
-            Dir.mkdir "#{PRODUCT_PATH}/#{cate_id}/#{prod_id}"
-          end
+        if !Dir.exist? "#{PRODUCT_PATH}/#{cate_id}/#{prod_id}"
+          Dir.mkdir "#{PRODUCT_PATH}/#{cate_id}/#{prod_id}"
+        end
 
-          coupon = QpconProduct.create(:product_id          => list["PROD_ID"],
-                                       :qpcon_category_id   => list["CATE_ID"],
-                                       :product_name        => list["PROD_NAME"],
-                                       :change_market_name  => list["CHC_COMP_NAME"],
-                                       :stock_count         => list["STOCK_CNT"].to_i,
-                                       :market_cost         => list["MARKET_COST"].to_i,
-                                       :common_cost         => list["COMMON_COST"].to_i)
+        prod = product.find_by_product_id(list["PROD_ID"])
+        if !prod.present?
+          prod = QpconProduct.create(:product_id          => list["PROD_ID"],
+                                     :qpcon_category_id   => list["CATE_ID"],
+                                     :product_name        => list["PROD_NAME"],
+                                     :change_market_name  => list["CHC_COMP_NAME"],
+                                     :stock_count         => list["STOCK_CNT"].to_i,
+                                     :market_cost         => list["MARKET_COST"].to_i,
+                                     :common_cost         => list["COMMON_COST"].to_i)
+        else
+          prod.update_attributes(:product_id          => list["PROD_ID"],
+                                 :qpcon_category_id   => list["CATE_ID"],
+                                 :product_name        => list["PROD_NAME"],
+                                 :change_market_name  => list["CHC_COMP_NAME"],
+                                 :stock_count         => list["STOCK_CNT"].to_i,
+                                 :market_cost         => list["MARKET_COST"].to_i,
+                                 :common_cost         => list["COMMON_COST"].to_i)
+        end
                                          
-          coupon.img_url_70   = "#{WEB_PATH}/#{cate_id}/#{prod_id}/#{File.basename list["IMG_URL_70"]}"
-          coupon.img_url_150  = "#{WEB_PATH}/#{cate_id}/#{prod_id}/#{File.basename list["IMG_URL_150"]}"
-          coupon.img_url_250  = "#{WEB_PATH}/#{cate_id}/#{prod_id}/#{File.basename list["IMG_URL_250"]}"
+        prod.img_url_70   = "#{WEB_PATH}/#{cate_id}/#{prod_id}/#{File.basename list["IMG_URL_70"]}"
+        prod.img_url_150  = "#{WEB_PATH}/#{cate_id}/#{prod_id}/#{File.basename list["IMG_URL_150"]}"
+        prod.img_url_250  = "#{WEB_PATH}/#{cate_id}/#{prod_id}/#{File.basename list["IMG_URL_250"]}"
 
-          coupon.save!
+        prod.save!
 
-          puts coupon.img_url_70
-          puts coupon.img_url_150
-          puts coupon.img_url_250
+        puts prod.img_url_70
+        puts prod.img_url_150
+        puts prod.img_url_250
  
-          save_path = "#{PRODUCT_PATH}/#{cate_id}/#{prod_id}"
+        save_path = "#{PRODUCT_PATH}/#{cate_id}/#{prod_id}"
  
-          [list["IMG_URL_70"],list["IMG_URL_150"],list["IMG_URL_250"]].each do |url|
-            image_down url, save_path
-            sleep 0.3
-          end           # end of image down
-        end #product present end
+        [list["IMG_URL_70"],list["IMG_URL_150"],list["IMG_URL_250"]].each do |url|
+          image_down url, save_path
+          sleep 0.3
+        end           # end of image down
+
         prod_id_list.push(list["PROD_ID"])
       end #json each end
+
       del_prod = QpconProduct.where('product_id not in (?)', prod_id_list)
       del_prod.each do |i|
         i.delete			# delete folder later
@@ -227,8 +238,8 @@ end
             coupon.update_attributes(:product_name       => list["PROD_NAME"], 
                                       :qpcon_category_id  => c_id.id,                                  # <---------- why just id? rather than category_id
                                       :change_market_name => list["CHC_COMP_NAME"], 
-                                      :stock_count        => list["STOCK_CNT"].to_i, 
-                                      :market_cost        => list["MARKET_COST"].to_i, 
+                                      :stock_count        => list["STOCK_CNT"].to_i,
+                                      :market_cost        => list["MARKET_COST"].to_i,
                                       :common_cost        => list["COMMON_COST"].to_i
                                       )
                                       
@@ -250,11 +261,11 @@ end
             coupon.save!
           else
             coupon = QpconProduct.create(:product_id          => list["PROD_ID"], 
-                                         :product_name        => list["PROD_NAME"], 
-                                         :qpcon_category_id   => c_id.id, 
-                                         :change_market_name  => list["CHC_COMP_NAME"], 
-                                         :stock_count         => list["STOCK_CNT"].to_i, 
-                                         :market_cost         => list["MARKET_COST"].to_i, 
+                                         :product_name        => list["PROD_NAME"],
+                                         :qpcon_category_id   => c_id.id,
+                                         :change_market_name  => list["CHC_COMP_NAME"],
+                                         :stock_count         => list["STOCK_CNT"].to_i,
+                                         :market_cost         => list["MARKET_COST"].to_i,
                                          :common_cost         => list["COMMON_COST"].to_i
                                          )
                                          

@@ -113,19 +113,35 @@ class Api::EtcController < ApplicationController
           @product=[]
           @coupons.each do |p|
             tmp_hash = {}
-            tmp_hash[:coupon_id] = p.coupon_id
-            tmp_hash[:availability] = p.availability
+            tmp_hash[:order_id] = p.coupon_id
+            if p.availability == 1
+              tmp_hash[:is_used] = false
+              tmp_hash[:is_expired] = false
+            else
+              tmp_hash[:is_used] = true
+              tmp_hash[:is_expired] = true
+            end
             tmp_hash[:created_at] = p.created_at
             tmp_hash[:name] = nil                                # for hash format preserve
-            tmp_hash[:place] = nil
-            tmp_hash[:image] = nil
             tmp_hash[:price] = nil
+            tmp_hash[:maker] = nil
+            tmp_hash[:image] = nil
+
+            #temp val ------------------
+            tmp_hash[:coupon_id] = p.coupon_id
+            tmp_hash[:availability] = p.availability
+            # -----------------
 
             q=CouponFreeInfo.find_by_id(p.coupon_id)
             if q.present?
               tmp_hash[:name] = q.name
-              tmp_hash[:place] = q.place
+              tmp_hash[:maker] = q.place
               tmp_hash[:image] = q.image_url                     # need to check later
+
+              #temp val ------------------------
+              tmp_hash[:place] = q.place
+              # ----------------------------
+
             end
 
             @product.push(tmp_hash)
