@@ -131,6 +131,13 @@ class QpconManager
 
   # parsing
 
+  # for Happymoney pin + veriNum
+  #def pase_pinNum_for_Happymoney(response)
+  #  response_split = response.split("^")
+  #  @params[:pinNum]  = response_split[0]
+  #  @params[:veriNum] = response_split[1]
+  #end
+
   # for pin issue
   def parse_pin_issue_response(response)
     response_split = response.split("|")
@@ -141,6 +148,8 @@ class QpconManager
     @params[:validDate]  = response_split[4]
     @params[:admitId]    = response_split[5]
     @params[:issueDate]  = response_split[6]
+
+    #parse_pinNum_for_Happymoney(response_split[3]) if response_split[3].include?("^")
 
     @msg = @msg + " / pin issue(" + @params[:respCode] + ")"
   end
@@ -174,6 +183,8 @@ class QpconManager
     @params[:validDate]  = response_split[4]
     @params[:admitId]    = response_split[5]
     @params[:issueDate]  = response_split[6]
+
+    #parse_pinNum_for_Happymoney(response_split[3]) if response_split[3].include?("^")
 
     @msg = @msg + " / pin issue result(" + @params[:respCode] +")"
   end
@@ -312,7 +323,7 @@ class QpconManager
 
     @params[:key]       = @key
     @params[:admitId]   = coupon.approval_number
-    @params[:pinNum]    = coupon.barcode
+    @params[:pinNum]    = coupon.barcode               # Happymoney matters
     @params[:reserved1] = nil
     @params[:reserved2] = nil
 

@@ -2,6 +2,8 @@ json.status @status
 json.msg @msg
 
 if @status==true
+  json.category_id @category_id
+  json.product_id @product_id
   json.name @name
   json.maker @maker
   json.maker_logo_url @maker_logo_url
@@ -13,7 +15,7 @@ if @status==true
   json.valid_start @valid_start
   json.valid_end @valid_end
   json.bar_code @bar_code
-  json.admit_id @admit_id
+  json.veri_numid @admit_id
   json.is_used @is_used
   json.is_expired @is_expired
 end
