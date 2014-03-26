@@ -63,14 +63,14 @@ class Admin::InsightController < Admin::ApplicationController
           end
           
           @all_cnt_1 = AdvertiseCpdLog.where("ad_id = ? and created_at between ? and ?", params[:id], @ad.start_date, @ad.end_date+1).count
-          @all_cnt_2 = AdvertiseCpdLog.where("ad_id = ? and act = 2 and ad_type = 102 and created_at between ? and ?", params[:id], @ad.start_date, @ad.end_date+1).count
+          @all_cnt_2 = @ad.ad_type == 103 ? AdvertiseCpdLog.where("ad_id = ? and act = 2 and ad_type = 103 and created_at between ? and ?", params[:id], @ad.start_date, @ad.end_date+1).count : AdvertiseCpdLog.where("ad_id = ? and act = 2 and ad_type = 102 and created_at between ? and ?", params[:id], @ad.start_date, @ad.end_date+1).count
           sd.upto(ed).each do |d|
             row = {}
             day_cnt_1 = AdvertiseCpdLog.where("ad_id = ? and created_at between ? and ?", params[:id], d, d+1).count
             added_cnt_1 += day_cnt_1
-            day_cnt_2 = AdvertiseCpdLog.where("ad_id = ? and ad_type = 102 and act = 2 and created_at between ? and ?", params[:id], d, d+1).count
+            day_cnt_2 = @ad.ad_type == 103 ? AdvertiseCpdLog.where("ad_id = ? and ad_type = 103 and act = 2 and created_at between ? and ?", params[:id], d, d+1).count : AdvertiseCpdLog.where("ad_id = ? and ad_type = 102 and act = 2 and created_at between ? and ?", params[:id], d, d+1).count
             added_cnt_2 += day_cnt_2
-            day_cnt_3 = @ad.basic_show_price * day_cnt_1
+            day_cnt_3 = @ad.ad_type == 103 ? @ad.action_price * day_cnt_2 : @ad.basic_show_price * day_cnt_1
             added_cnt_3 += day_cnt_3
             row[:day] = d
             row[:day_cnt_1] = day_cnt_1
