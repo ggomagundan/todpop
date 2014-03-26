@@ -62,12 +62,12 @@ class Admin::InsightController < Admin::ApplicationController
           end
           
           @all_cnt_1 = AdvertiseCpdLog.where("ad_id = ? and created_at between ? and ?", params[:id], @ad.start_date, @ad.end_date+1).count
-          @all_cnt_2 = AdvertiseCpdLog.where("ad_id = ? and act = 2 and created_at between ? and ?", params[:id], @ad.start_date, @ad.end_date+1).count
+          @all_cnt_2 = AdvertiseCpdLog.where("ad_id = ? and act = 3 and created_at between ? and ?", params[:id], @ad.start_date, @ad.end_date+1).count
           sd.upto(ed).each do |d|
             row = {}
             day_cnt_1 = AdvertiseCpdLog.where("ad_id = ? and created_at between ? and ?", params[:id], d, d+1).count
             added_cnt_1 += day_cnt_1
-            day_cnt_2 = AdvertiseCpdLog.where("ad_id = ? and act = 2 and created_at between ? and ?", params[:id], d, d+1).count
+            day_cnt_2 = AdvertiseCpdLog.where("ad_id = ? and act = 3 and created_at between ? and ?", params[:id], d, d+1).count
             added_cnt_2 += day_cnt_2
             day_cnt_3 = @ad.basic_show_price * day_cnt_1
             added_cnt_3 += day_cnt_3
