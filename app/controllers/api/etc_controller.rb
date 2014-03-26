@@ -424,6 +424,9 @@ class Api::EtcController < ApplicationController
           @status=false
           @msg="not exist qpcon"
         else
+          @category_id = product.qpcon_category_id
+          @product_id = product.product_id
+
           @name = coupon.product_name
           @maker = coupon.market_name
           @maker_logo_url = get_maker_logo_url(coupon.qpcon_category_id)
@@ -437,6 +440,7 @@ class Api::EtcController < ApplicationController
           @valid_start = nil
           @valid_end = nil
           @bar_code = nil
+          @veri_num = nil
           @admit_id = nil
           @is_used = nil
           @is_expired = nil
@@ -450,8 +454,8 @@ class Api::EtcController < ApplicationController
           @status=false
           @msg="not exist ordered qpcon"
         else
-          qpcon_manager = QpconManager.new                          # pinStatus refresh 
-          qpcon_result = qpcon_manager.request_info_query(coupon)
+          #qpcon_manager = QpconManager.new                          # pinStatus refresh 
+          #qpcon_result = qpcon_manager.request_info_query(coupon)
 
           product = QpconProduct.find_by_product_id(coupon.product_id)
 
@@ -459,7 +463,10 @@ class Api::EtcController < ApplicationController
             @status=false
             @msg="not exist qpcon product"
           else
-            coupon=Order.find_by_order_id(params[:order_id])          # read again (for update safety, not mandatory)
+            #coupon=Order.find_by_order_id(params[:order_id])          # read again (for update safety, not mandatory)
+
+            @category_id = product.qpcon_category_id
+            @product_id = product.product_id
 
             @name = product.product_name
             @maker = product.market_name
@@ -474,9 +481,16 @@ class Api::EtcController < ApplicationController
             @valid_start = nil
             @valid_end = coupon.limit_date
             @bar_code = coupon.barcode
+            @veri_num = nil
             @admit_id = coupon.approval_number
             @is_used = coupon.is_used
             @is_expired = coupon.is_expired
+
+            if @bar_code.include?("^")
+              bar_split = @bar_code.split("^")
+              @bar_code = bar_split[0]
+              @veri_num = bar_split[1]
+            end
 
           end
         end
