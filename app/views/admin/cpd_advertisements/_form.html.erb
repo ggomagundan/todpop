@@ -84,19 +84,19 @@
       <table>
         <tr>
           <td>단가</td>
-          <td><input type='text' name='f_price' style='width:280px;'<% if @facebook_info.present? && @facebook_info.action_price.present? %> value='<%=@facebook_info.action_price%>' <% end %>/></td>
+          <td><input type='text' name='f_price' style='width:280px;'<% if @cpd_advertisement.present? && @cpd_advertisement.action_price.present? %> value='<%=@cpd_advertisement.action_price%>' <% end %>/></td>
         </tr>
         <tr>
           <td>리워드</td>
-          <td><input type='text' name='f_reward' style='width:280px;'<% if @facebook_info.present? && @facebook_info.reward.present? %> value='<%=@facebook_info.reward%>' <% end %>/></td>
+          <td><input type='text' name='f_reward' style='width:280px;'<% if @cpd_advertisement.present? && @cpd_advertisement.reward.present? %> value='<%=@cpd_advertisement.reward%>' <% end %>/></td>
         </tr>
         <tr>
           <td>포인트</td>
-          <td><input type='text' name='f_point' style='width:280px;'<% if @facebook_info.present? && @facebook_info.point.present? %> value='<%=@facebook_info.point%>' <% end %>/></td>
+          <td><input type='text' name='f_point' style='width:280px;'<% if @cpd_advertisement.present? && @cpd_advertisement.point.present? %> value='<%=@cpd_advertisement.point%>' <% end %>/></td>
         </tr>
         <tr>
           <td>링크</td>
-          <td><input type='text' name='f_link' style='width:280px;'<% if @facebook_info.present? && @facebook_info.link.present? %> value='<%=@facebook_info.link%>' <% end %>/></td>
+          <td><input type='text' name='f_link' style='width:280px;'<% if @cpd_advertisement.present? && @cpd_advertisement.link.present? %> value='<%=@cpd_advertisement.link%>' <% end %>/></td>
         </tr>
       </table>
     </div>
