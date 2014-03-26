@@ -706,15 +706,15 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
               @token_name = "CPX : " + adInfo.ad_type.to_s + " : " + adInfo.ad_name
               @token_point_type = 4000 + adInfo.ad_type               # point_type : CPX = 4000 + ad_type
               process_point_general
-            end
-          end
-          end
+            end #reward/point process
+          end #if act=3
+          end #if log save success
         else
           @status = false
           @msg = "failed to save"
-        end
-      end
-    end
+        end #exist act=3 log
+      end #check ad and user
+    end #parameter check
   end
 
   def cpa_return
