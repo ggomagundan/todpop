@@ -10,6 +10,7 @@ class Admin::InsightController < Admin::ApplicationController
 
   def ad_analysis_detail
     error_flag = false
+    @type=""
     if !params[:type].present? && !params[:id].present?
       error_flag = true
     else
