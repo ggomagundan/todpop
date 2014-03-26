@@ -31,6 +31,9 @@
       <label>
         <%= f.radio_button :ad_type, 102, :checked =>f.object.ad_type ==102  %> 쿠폰
       </label>
+      <label>
+        <%= f.radio_button :ad_type, 103, :checked => f.object.ad_type == 103 %> 페북공유하기
+      </label>
     </div>
   </div>
   <div class="control-group coupon" style="<% if f.object.ad_type != 102 %> display:none; <% end %>">
@@ -71,6 +74,29 @@
           <td>
             <textarea name='c_information' style='width:280px;height:65px;'><% if @cpd_coupon.present? && @cpd_coupon.information.present? %><%=@cpd_coupon.information%><% end %></textarea>
           </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="control-group coupon" style="<% if f.object.ad_type != 103 %> display:none; <% end %>">
+    <label class="control-label">facebook_info</label>
+    <div class="controls">
+      <table>
+        <tr>
+          <td>단가</td>
+          <td><input type='text' name='f_price' style='width:280px;'<% if @facebook_info.present? && @facebook_info.action_price.present? %> value='<%=@facebook_info.action_price%>' <% end %>/></td>
+        </tr>
+        <tr>
+          <td>리워드</td>
+          <td><input type='text' name='f_reward' style='width:280px;'<% if @facebook_info.present? && @facebook_info.reward.present? %> value='<%=@facebook_info.reward%>' <% end %>/></td>
+        </tr>
+        <tr>
+          <td>포인트</td>
+          <td><input type='text' name='f_point' style='width:280px;'<% if @facebook_info.present? && @facebook_info.point.present? %> value='<%=@facebook_info.point%>' <% end %>/></td>
+        </tr>
+        <tr>
+          <td>링크</td>
+          <td><input type='text' name='f_link' style='width:280px;'<% if @facebook_info.present? && @facebook_info.link.present? %> value='<%=@facebook_info.link%>' <% end %>/></td>
         </tr>
       </table>
     </div>

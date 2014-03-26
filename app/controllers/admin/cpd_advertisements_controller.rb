@@ -20,6 +20,20 @@ class Admin::CpdAdvertisementsController < Admin::ApplicationController
 
   def create
     @cpd_advertisement = CpdAdvertisement.new(cpd_advertisement_params)
+    if params[:cpd_advertisement][:ad_type] == '103'
+      if params[:f_price].present?
+        @cpd_advertisement.action_price = params[:f_price].to_i
+      end
+      if params[:f_reward].present?
+        @cpd_advertisement.reward = params[:f_reward].to_i
+      end
+      if params[:f_point].present?
+        @cpd_advertisement.point = params[:f_point].to_i
+      end
+      if params[:f_link].present?
+        @cpd_advertisement.link = params[:f_link].to_s
+      end
+    end
     if @cpd_advertisement.save
       if params[:cpd_advertisement][:ad_type] == '102' 
         coupon = CouponFreeInfo.new
@@ -73,6 +87,22 @@ class Admin::CpdAdvertisementsController < Admin::ApplicationController
   def update
     @cpd_advertisement = CpdAdvertisement.find(params[:id])
     if @cpd_advertisement.update_attributes(cpd_advertisement_params)
+      if params[:cpd_advertisement][:ad_type] == '103'
+        if params[:f_price].present?
+          @cpd_advertisement.action_price = params[:f_price].to_i
+        end
+        if params[:f_reward].present?
+          @cpd_advertisement.reward = params[:f_reward].to_i
+        end
+        if params[:f_point].present?
+          @cpd_advertisement.point = params[:f_point].to_i
+        end
+        if params[:f_link].present?
+          @cpd_advertisement.link = params[:f_link].to_s
+        end
+      end
+      @cpd_advertisement.save
+
       if params[:cpd_advertisement][:ad_type] == '102'
         if @cpd_advertisement.coupon_id.present?
           flag = 1
