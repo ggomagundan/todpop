@@ -15,7 +15,7 @@ if @status==true
   json.valid_start @valid_start
   json.valid_end @valid_end
   json.bar_code @bar_code
-  json.veri_numid @admit_id
+  json.veri_num @veri_num
   json.is_used @is_used
   json.is_expired @is_expired
 end
