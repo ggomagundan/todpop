@@ -149,10 +149,10 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           @ad_id = ad.id
           @ad_type = ad.ad_type
           if @ad_type.to_i == 103
-            if AdvertiseCpdLog.where('user_id = ? and ad_id = ? and act = 2', params[:user_id].to_i, @ad_id).size == 0
-              @history = 1 #facebook share not yet
+            if AdvertiseCpdLog.where('user_id = ? and ad_id = ? and act = 1 and facebook_id is not null', params[:user_id].to_i, @ad_id).size > 0
+              @history = 0 #facebook shared
             else
-              @history = 0
+              @history = 1
             end
           end
           @content1 = ad.front_image_url
@@ -300,10 +300,10 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           @ad_id = ad.id
           @ad_type = ad.ad_type
           if @ad_type.to_i == 202
-            if AdvertiseCpdmLog.where('user_id = ? and ad_id = ? and act = 2', params[:user_id].to_i, @ad_id).size == 0
-              @history = 1 #facebook share not yet
+            if AdvertiseCpdmLog.where('user_id = ? and ad_id = ? and act = 1 and facebook_id is not null', params[:user_id].to_i, @ad_id).size > 0
+              @history = 0 #facebook shared
             else
-              @history = 0
+              @history = 1
             end
           end
           @url  = ad.url
@@ -553,7 +553,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
       end
 
       # reward of point
-      if adInfo.reward.present? && adInfo.reward > 0
+      if adInfo.reward.present? && (adInfo.reward > 0) && params[:facebook_id].present?
         @token_user_id = params[:user_id].to_i
         @token_reward_type = 6000 + params[:ad_type].to_i
         @token_title = "CPD"
@@ -562,7 +562,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
         process_reward_general
       end
 
-      if adInfo.point.present? && adInfo.point  > 0
+      if adInfo.point.present? && (adInfo.point  > 0) && params[:facebook_id].present?
         @token_user_id = params[:user_id].to_i
         @token_point_type = 6000 +params[:ad_type].to_i
         @token_name = "CPD : 이미지공유 etc"
@@ -643,7 +643,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           adInfo.update_attributes(:remain => adInfo.remain-1)
 
           # reward or point
-          if adInfo.reward.present? && adInfo.reward > 0 && adLog.act.to_i == 2
+          if adInfo.reward.present? && (adInfo.reward > 0) && params[:facebook_id].present?
             @token_user_id = params[:user_id].to_i
             @token_reward_type = 5000 + params[:ad_type].to_i
             @token_title = "CPDM"
@@ -652,7 +652,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
             process_reward_general
           end
 
-          if adInfo.point.present? && adInfo.point  > 0 && adLog.act.to_i == 2
+          if adInfo.point.present? && (adInfo.point  > 0) && params[:facebook_id].present?
             @token_user_id = params[:user_id].to_i
             @token_point_type = 5000 +params[:ad_type].to_i
             @token_name = "CPDM : 동영상공유 etc"
