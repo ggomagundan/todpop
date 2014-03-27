@@ -424,8 +424,8 @@ class Api::EtcController < ApplicationController
           @status=false
           @msg="not exist qpcon"
         else
-          @category_id = product.qpcon_category_id
-          @product_id = product.product_id
+          @category_id = nil
+          @product_id = nil
 
           @name = coupon.product_name
           @maker = coupon.market_name
