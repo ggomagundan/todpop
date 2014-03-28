@@ -2,7 +2,7 @@ class QpconManager
   PRODUCT_END_POINT = {
     :pin_issue                => "http://211.233.60.195/qpcon/api/pin/pinIssue.do",
     :pin_issue_confirm        => "http://211.233.60.195/qpcon/api/pin/pinIssueConfirm.do",
-    :pin_cancle               => "http://211.233.60.195/qpcon/api/pin/pinCancel.do",
+    :pin_cancel               => "http://211.233.60.195/qpcon/api/pin/pinCancel.do",
     :pin_issue_result         => "http://211.233.60.195/qpcon/api/pin/pinIssueResult.do",
     :pin_info                 => "http://211.233.60.195/qpcon/api/pin/pinInfo.do"
   }
@@ -10,7 +10,7 @@ class QpconManager
   TEST_END_POINT = {
     :pin_issue                => "http://211.245.169.201/qpcon/api/pin/pinIssue.do",
     :pin_issue_confirm        => "http://211.245.169.201/qpcon/api/pin/pinIssueConfirm.do",
-    :pin_cancle               => "http://211.245.169.201/qpcon/api/pin/pinCancel.do",
+    :pin_cancel               => "http://211.245.169.201/qpcon/api/pin/pinCancel.do",
     :pin_issue_result         => "http://211.245.169.201/qpcon/api/pin/pinIssueResult.do",
     :pin_info                 => "http://211.245.169.201/qpcon/api/pin/pinInfo.do"
   }
