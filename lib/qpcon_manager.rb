@@ -16,7 +16,7 @@ class QpconManager
   }
 
   AUTH_KEY = {
-    :product_key              => "aaaaaaa",
+    :product_key              => "1abc8aa2b65611e38f83001517d148e2",
     :test_key                 => "0f8f5a7024dd11e3b5ae00304860c864"
   }
 
@@ -28,7 +28,7 @@ class QpconManager
   # mode == 1 : 운영 모드
 
 
-  def initialize(mode = 0)
+  def initialize(mode = 1)
     if mode == 1
       @key = AUTH_KEY[:product_key]
       @end_point = PRODUCT_END_POINT
