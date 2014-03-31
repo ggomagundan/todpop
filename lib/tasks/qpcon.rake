@@ -8,8 +8,8 @@ require 'net/http'
 KEY = "1abc8aa2b65611e38f83001517d148e2"        # operation key
 SERVER_IP = "211.233.60.195"			# operation server
 
-PRODUCT_PATH = "/home/cystein/qpcon" # test for cys local com
-#PRODUCT_PATH = "/todpop/todpop_data/qpcon" # link : /todpop/current/public/uploads
+#PRODUCT_PATH = "/home/cystein/qpcon" # test for cys local com
+PRODUCT_PATH = "/todpop/todpop_data/qpcon" # link : /todpop/current/public/uploads
 WEB_PATH = "http://www.todpop.co.kr/uploads/qpcon"
 
 namespace :qpcon do
