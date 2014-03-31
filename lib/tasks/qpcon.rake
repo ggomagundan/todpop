@@ -156,7 +156,8 @@ namespace :qpcon do
   task :pin_state => :environment do
     app_info = AppInfo.first
     fromDtm = app_info.pin_dtm.to_i
-    tmp = Time.now - 6.minute
+    #tmp = Time.now - 6.minute
+    tmp = Time.now
     toDtm = tmp.strftime("%Y%m%d%H%M%S").to_i
 
     fromDtm = (tmp-1.day).strftime("%Y%m%d%H%M%S").to_i if fromDtm == nil
