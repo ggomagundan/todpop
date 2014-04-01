@@ -24,13 +24,24 @@ class Api::QpconCouponsController < ApplicationController
     @msg =""
     @result = true
 
+    store = AppInfo.first.store_open
     user =  User.find_by_id(params[:user_id])
     
     #if !user.is_set_facebook_password && user.email.nil
-    if !user.is_set_facebook_password
+    if store == 0
       @status = false
       @result = false
-      @msg ="need to set password"
+      @msg = "closed"
+    elsif store == 1
+      if !user.is_set_facebook_password
+        @status = false
+        @result = false
+        @msg ="need to set password"
+      end
+    elsif store == 2 && params[:user_id].to_i != 1
+      @status = false
+      @result = false
+      @msg = "closed"
     end
   end
 
