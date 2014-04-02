@@ -133,6 +133,9 @@ class Api::UsersController < ApplicationController
           @msg = "join save error"
         end
       rescue Exception => e
+        logger.error e.message
+        e.backtrace.each { |line| logger.error line }
+
         @status = false
         @msg = "incorrect nickname"
       end
@@ -275,6 +278,9 @@ class Api::UsersController < ApplicationController
           @result = false
         end
       rescue Exception => e
+        logger.error e.message
+        e.backtrace.each { |line| logger.error line }
+
         @status = false
         @msg = "incorrect nickname"
       end
