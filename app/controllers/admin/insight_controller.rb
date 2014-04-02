@@ -197,7 +197,7 @@ class Admin::InsightController < Admin::ApplicationController
           @r = 3
           @tmp_reward = RewardLog.where('reward > 0')
           @tmp_minus = RewardLog.where('reward < 0')
-          sd = @tmp_reward[0].created_at.to_date
+          sd = RewardLog.first.created_at.to_date
           ed = Date.today
         end
 
