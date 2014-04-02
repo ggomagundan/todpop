@@ -312,7 +312,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           end
           @url  = ad.url
           @length = ad.length
-          @version = ad.video_ver
+          @video_ver = ad.video_ver
 
           @reward = ad.reward
           @point = ad.point
