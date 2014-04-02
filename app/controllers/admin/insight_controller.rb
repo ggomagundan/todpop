@@ -164,16 +164,24 @@ class Admin::InsightController < Admin::ApplicationController
     @logs = []
       if params[:start_date].present?
         sd = Date.parse(params[:start_date])
+        @tmp_reward = RewardLog.where('created_at >= ? and reward > 0', sd)
+        @tmp_minus = RewardLog.where('created_at >= ? and reward < 0', sd)
       elsif params[:recent].present? && params[:recent] == 'month'
         sd = 30.day.ago.to_date
         @r = 2
+        @tmp_reward = RewardLog.where('created_at >= ? and reward > 0', sd)
+        @tmp_minus = RewardLog.where('created_at >= ? and reward < 0', sd)
       else
         sd = 7.day.ago.to_date
         @r = 1
+        @tmp_reward = RewardLog.where('created_at >= ? and reward > 0', sd)
+        @tmp_minus = RewardLog.where('created_at >= ? and reward < 0', sd)
       end
 
       if params[:end_date].present?
         ed = Date.parse(params[:end_date])
+        @tmp_reward = @tmp_reward.where('created_at <= ? and reward > 0', ed)
+        @tmp_minus = @tmp_minus.where('created_at <= ? and reward < 0', ed)
       else
         ed = Date.today
       end
@@ -181,25 +189,30 @@ class Admin::InsightController < Admin::ApplicationController
       if sd > ed
         sd = 7.day.ago.to_date
         ed = Date.today
+        @tmp_reward = RewardLog.where('created_at >= ? and created_at <= ? and reward > 0', sd, ed)
+        @tmp_minus = RewardLog.where('created_at >= ? and created_at <= ? and reward < 0', sd, ed)
       end
       
-        @tmp_reward = RewardLog.all
-        if !@tmp_reward.present?
-          render :file => "#{Rails.root}/public/404"
-        else
-          if params[:recent].present? && params[:recent] == 'all'
-            sd = @tmp_reward[0].created_at.to_date
-            ed = Date.today
-            @r = 3
-          end
+        if params[:recent].present? && params[:recent] == 'all'
+          @r = 3
+          @tmp_reward = RewardLog.where('reward > 0')
+          @tmp_minus = RewardLog.where('reward < 0')
+          sd = @tmp_reward[0].created_at.to_date
+          ed = Date.today
+        end
+
+        #@tmp_reward = RewardLog.all
+        #if !@tmp_reward.present?
+          #render :file => "#{Rails.root}/public/404"
+        #else
           
           period_reward = 0
           period_minus_reward = 0
           sd.upto(ed).each do |d|
             row = {}
-            day_reward = @tmp_reward.where("created_at >= ? and created_at < ? and reward > 0 ", d, d+1).sum(:reward)
+            day_reward = @tmp_reward.where("created_at >= ? and created_at < ?", d, d+1).sum(:reward)
             period_reward += day_reward
-            day_minus_reward = @tmp_reward.where("created_at >= ? and created_at < ? and reward < 0 ", d, d+1).sum(:reward)
+            day_minus_reward = @tmp_minus.where("created_at >= ? and created_at < ?", d, d+1).sum(:reward)
             period_minus_reward += day_minus_reward
 
             row[:day] = d
@@ -210,7 +223,7 @@ class Admin::InsightController < Admin::ApplicationController
 
             @logs.push(row)
           end
-        end
+        #end
   end
 
   def user_analysis
