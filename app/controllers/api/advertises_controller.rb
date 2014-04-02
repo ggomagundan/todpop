@@ -186,6 +186,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
         @status = false
         @msg = "not exist params"
       else
+        @list = params[:list]
         @ad_list = CpdmAdvertisement.where('remain > 0 and priority < 6 and start_date <= ? and end_date >= ?', Date.today, Date.today).pluck(:id, :url, :length, :video_ver)
       end
     else
