@@ -181,9 +181,13 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
     @status = true
     @msg = ""
 
-    if !params[:user_id].present? 
-      @status = false
-      @msg = "not exist params"
+    if !params[:user_id].present?
+      if !params[:list].present?
+        @status = false
+        @msg = "not exist params"
+      else
+        @ad_list = CpdmAdvertisement.where('remain > 0 and priority < 6 and start_date <= ? and end_date >= ?', Date.today, Date.today).pluck(:id, :url, :length, :video_ver)
+      end
     else
       @user = User.find_by_id(params[:user_id])
 
@@ -308,6 +312,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           end
           @url  = ad.url
           @length = ad.length
+          @version = ad.video_ver
 
           @reward = ad.reward
           @point = ad.point
@@ -640,8 +645,11 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
         if adLog.save
           @msg = "success"
           @result = true
-          adInfo.update_attributes(:remain => adInfo.remain-1)
-
+          if adLog.ad_type.to_i == 201
+            adInfo.update_attributes(:remain => adInfo.remain-1)
+          elsif adLog.ad_type.to_i == 202 && params[:facebook_id].present?
+            adInfo.update_attributes(:remain => adInfo.remain-1)
+          end
           # reward or point
           if adInfo.reward.present? && (adInfo.reward > 0) && params[:facebook_id].present?
             @token_user_id = params[:user_id].to_i
