@@ -35,6 +35,7 @@ class Admin::CpdmAdvertisementsController < Admin::ApplicationController
       end
     end
     if @cpdm_advertisement.save
+      @cpdm_advertisement.update_attribute(:video_ver => 1) if params[:video].present?
       redirect_to admin_cpdm_advertisements_path, :notice => "Successfully created cpdm advertisement."
     else
       render :action => 'new'
@@ -66,13 +67,14 @@ class Admin::CpdmAdvertisementsController < Admin::ApplicationController
       if params[:f_link].present?
         @cpdm_advertisement.link = params[:f_link].to_s
       end
+      @cpdm_advertisement.save
     end
-    @cpdm_advertisement.save
     if params[:video].present?
       params[:video].delete("@headers")
       params[:video].delete("@tempfile")
       params[:video].delete("@content_type")
       logger.debug "#{params[:video]}"
+      params[:video_ver] = (@cpdm_advertisement.video_ver + 1)
     end
     if @cpdm_advertisement.update_attributes(cpdm_advertisement_params)
       redirect_to admin_cpdm_advertisements_path, :notice  => "Successfully updated cpdm advertisement."
@@ -91,6 +93,6 @@ class Admin::CpdmAdvertisementsController < Admin::ApplicationController
   private
  
   def cpdm_advertisement_params
-    params.require(:cpdm_advertisement).permit(:ad_type, :cli_id, :contract, :remain, :basic_show_price, :pay_type, :start_date, :end_date, :url, :priority, :ad_name, :length, :video)
+    params.require(:cpdm_advertisement).permit(:video_ver, :ad_type, :cli_id, :contract, :remain, :basic_show_price, :pay_type, :start_date, :end_date, :url, :priority, :ad_name, :length, :video)
   end
 end
