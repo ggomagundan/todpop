@@ -52,6 +52,34 @@ class Api::QpconCouponsController < ApplicationController
     @category = QpconCategory.all
   end 
 
+  def product_list
+    @status = true
+    @msg  = ""
+    #type = 1:Food  2:Drink 3:Beauty  4:Mart  5:ETC
+    if !params[:type].present?
+      @status = false
+      @msg = "need parmas"
+    else
+      type = params[:type].to_i
+      if type == 1
+        id = ["KFC001", "M10226", "FDIK", "M10234", "M10249", "M10355"]
+      elsif type == 2
+        id = ["M10192", "M10157", "M10300", "M10371"]
+      elsif type == 3
+        id = ["M10188"]
+      elsif type == 4
+        id = ["M10255", "RC0024", "M10370"]
+      elsif type == 5
+        id = ["M10001", "M10305", "M10354"]
+      end
+      @coupons = []
+      tmp = QpconProduct.where('qpcon_category_id in (?)', id)
+      tmp.each do |i|
+        @coupons.push(:product_id => i.product_id, :img_url_70 => i.img_url_70, :product_name => i.product_name, 
+                      :market_name => i.market_name, :stock_count => i.stock_count, :market_cost => i.market_cost)
+      end
+    end
+  end
 
   # --------------------------------------------------------------------------------------------------------------------
   def purchase

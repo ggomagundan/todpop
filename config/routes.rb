@@ -6,6 +6,7 @@ Todpop::Application.routes.draw do
       get 'can_shopping', :on => :collection
       get 'get_categories', :on => :collection
       post 'purchase', :on => :collection
+      get 'product_list', :on => :collection
   
   end
  
