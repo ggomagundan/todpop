@@ -21,8 +21,14 @@ class Api::QpconCouponsController < ApplicationController
 
   def can_shopping
     @status = true
-    @msg =""
+    @msg ="open"
     @result = true
+
+    if !params[:user_id].present?
+      @status = false
+      @msg = "need params"
+      @result = false
+    else
 
     store = AppInfo.first.store_open
     user =  User.find_by_id(params[:user_id])
@@ -38,10 +44,11 @@ class Api::QpconCouponsController < ApplicationController
         @result = false
         @msg ="need to set password"
       end
-    elsif store == 2 && params[:user_id].to_i != 1
+    elsif store == 2 && user.is_admin.to_i != 1
       @status = false
       @result = false
       @msg = "closed"
+    end
     end
   end
 
