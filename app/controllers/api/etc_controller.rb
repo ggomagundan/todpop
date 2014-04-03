@@ -570,7 +570,8 @@ class Api::EtcController < ApplicationController
     #  @status = false
     #  @msg = "not exist notice"
     else
-      @version = AppInfo.pluck(:android_version, :store_open).first
+      @android_version = AppInfo.first.android_version
+      @store_state = AppInfo.first.store_open
       if MentList.find_by_kind("notice").present?
         mentlist = MentList.where(:kind => "notice")
         @ment = []
