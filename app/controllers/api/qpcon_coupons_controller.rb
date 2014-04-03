@@ -72,10 +72,10 @@ class Api::QpconCouponsController < ApplicationController
       elsif type == 5
         id = ["M10001", "M10305", "M10354"]
       end
-      @coupons = []
+      @list = []
       tmp = QpconProduct.where('qpcon_category_id in (?)', id)
       tmp.each do |i|
-        @coupons.push(:product_id => i.product_id, :img_url_70 => i.img_url_70, :product_name => i.product_name, 
+        @list.push(:product_id => i.product_id, :img_url_70 => i.img_url_70, :product_name => i.product_name, 
                       :market_name => i.market_name, :stock_count => i.stock_count, :market_cost => i.market_cost)
       end
     end
