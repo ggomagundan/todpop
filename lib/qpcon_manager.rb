@@ -340,6 +340,154 @@ class QpconManager
     return respCode
   end
 
+  # ------------------------------------------------------------------------------------------------------
+
+  # Test purchase and cancel
+
+  #user = User.find_by_id(1)
+  #coupon = QpconProduct.find_by_product_id("P622")
+
+  PRODUCT_END_POINT = {
+    :pin_issue                => "http://211.233.60.195/qpcon/api/pin/pinIssue.do",
+    :pin_issue_confirm        => "http://211.233.60.195/qpcon/api/pin/pinIssueConfirm.do",
+    :pin_cancel               => "http://211.233.60.195/qpcon/api/pin/pinCancel.do",
+    :pin_issue_result         => "http://211.233.60.195/qpcon/api/pin/pinIssueResult.do",
+  }
+
+  AUTH_KEY = {
+    :product_key              => "1abc8aa2b65611e38f83001517d148e2",
+    :test_key                 => "0f8f5a7024dd11e3b5ae00304860c864"
+  }
+
+  @key = AUTH_KEY[:product_key]
+  @end_point = PRODUCT_END_POINT
+
+  @params = {}
+
+  @params[:key] = @key
+  timenow = Time.now.to_datetime
+  @params[:reqOrdId]  = user.id.to_s + '_' + timenow.strftime('%Y%m%d') + '_' + timenow.strftime('%H%M%S') + '_' + timenow.strftime('%N')
+  @params[:prodId]    = coupon.product_id
+  @params[:pinCnt]    = 1
+  @params[:payGb]     = nil
+  @params[:reserved1] = nil
+  @params[:reserved2] = nil
+
+  params = {}
+  params[:key]          = @params[:key]
+  params[:reqOrdId]     = @params[:reqOrdId]
+  params[:prodId]       = @params[:prodId]
+  params[:pinCnt]       = @params[:pinCnt]
+  params[:payGb]        = @params[:payGb]
+  params[:reserved1]    = @params[:reserved1]
+  params[:reserved2]    = @params[:reserved2]
+
+  url = @end_point[:pin_issue]
+
+  @params[:respCode]=nil     # for the safety
+  uri = URI.parse(url)
+  http = Net::HTTP.new(uri.host, uri.port)
+  request = Net::HTTP::Post.new(uri.request_uri)
+  request.set_form_data( params ? params : @params)
+  response_string = http.request(request)
+  response = response_string.body
+
+  response_split = response.split("|")
+  @params[:respCode]   = response_split[0]
+  @params[:respMsg]    = response_split[1]
+  @params[:reqOrdId]   = response_split[2]
+  @params[:pinNum]     = response_split[3]
+  @params[:validDate]  = response_split[4]
+  @params[:admitId]    = response_split[5]
+  @params[:issueDate]  = response_split[6]
+
+  # -- issue end , issue_result start
+
+  params = {}
+  params[:key]          = @params[:key]
+  params[:reqOrdId]     = @params[:reqOrdId]
+  params[:prodId]       = @params[:prodId]
+  params[:reserved1]    = @params[:reserved1]
+  params[:reserved2]    = @params[:reserved2]
+
+  url = @end_point[:pin_issue_result]
+
+  @params[:respCode]=nil     # for the safety
+  uri = URI.parse(url)
+  http = Net::HTTP.new(uri.host, uri.port)
+  request = Net::HTTP::Post.new(uri.request_uri)
+  request.set_form_data( params ? params : @params)
+  response_string = http.request(request)
+  response = response_string.body
+
+  response_split = response.split("|")
+  @params[:respCode]   = response_split[0]
+  @params[:respMsg]    = response_split[1]
+  @params[:reqOrdId]   = response_split[2]
+  @params[:pinNum]     = response_split[3]
+  @params[:validDate]  = response_split[4]
+  @params[:admitId]    = response_split[5]
+  @params[:issueDate]  = response_split[6]
+
+
+  # -- issue_result end , confirm start
+
+  params = {}
+  params[:key] = @key
+  params[:admitId] = @params[:admitId]
+
+  url = @end_point[:pin_issue_confirm]
+
+  @params[:respCode]=nil     # for the safety
+  uri = URI.parse(url)
+  http = Net::HTTP.new(uri.host, uri.port)
+  request = Net::HTTP::Post.new(uri.request_uri)
+  request.set_form_data( params ? params : @params)
+  response_string = http.request(request)
+  response =  response_string.body
+
+  response_split = response.split("|")
+  @params[:respCode] = response_split[0]
+  @params[:respMsg]  = response_split[1]
+
+  # -- confirm end , cancel start
+
+  params = {}
+  params[:key]       = @params[:key]
+  params[:admitId]   = @params[:admitId]
+  params[:pinNum]    = @params[:pinNum]
+  params[:reserved1] = @params[:reserved1]
+  params[:reserved2] = @params[:reserved2]
+
+  url = @end_point[:pin_cancel]
+
+  @params[:respCode]=nil     # for the safety
+  uri = URI.parse(url)
+  http = Net::HTTP.new(uri.host, uri.port)
+  request = Net::HTTP::Post.new(uri.request_uri)
+  request.set_form_data( params ? params : @params)
+  response_string = http.request(request)
+  response =  response_string.body
+
+  response_split = response.split("|")
+  @params[:respCode]   = response_split[0]
+  @params[:respMsg]    = response_split[1]
+  @params[:cancelDate] = response_split[2]
+
+
+
+
+
+
+
+
+  # ------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
 
 end
 

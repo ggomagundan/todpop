@@ -165,13 +165,14 @@ namespace :qpcon do
     response = connect("sendList.do",{:cmd => "sendList", :fromDtm => fromDtm, :toDtm => toDtm})
     
     response = response.split("\n")
-    order = Order.where('is_used != 1 and is_expired != 1')
+    order = Order.where('is_used != 1 and is_expired != 1 and is_canceled != 1')
 
     response.each do |i|
       content = i.split('|')
       if (state = order.find_by_approval_number(content[0])).present?
-        state.is_used = 1 if content[4]==400
-        state.is_expired = 1 if content[4]==000
+        state.is_used = 1     if content[4]=="400"
+        state.is_expired = 1  if content[4]=="000"
+        state.is_canceled = 1 if content[4]=="800"
         state.save
       end
     end
