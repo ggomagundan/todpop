@@ -566,15 +566,17 @@ class Api::EtcController < ApplicationController
     if !AppInfo.last.android_version.present?
       @status = false
       @msg = "not exist android_version"
-    elsif !MentList.find_by_kind("notice").present?
-      @status = false
-      @msg = "not exist notice"
+    #elsif !MentList.find_by_kind("notice").present?
+    #  @status = false
+    #  @msg = "not exist notice"
     else
-      @android_version = AppInfo.last.android_version
-      mentlist = MentList.where(:kind => "notice")
-      @ment = []
-      (0..mentlist.count-1).each do |m|
-        @ment[m] = mentlist[m].content
+      @version = AppInfo.pluck(:android_version, :store_open).first
+      if MentList.find_by_kind("notice").present?
+        mentlist = MentList.where(:kind => "notice")
+        @ment = []
+        (0..mentlist.count-1).each do |m|
+          @ment[m] = mentlist[m].content
+        end
       end
     end
   end
