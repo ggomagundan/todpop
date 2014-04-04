@@ -74,6 +74,8 @@ class Admin::CpdmAdvertisementsController < Admin::ApplicationController
       params[:video].delete("@tempfile")
       params[:video].delete("@content_type")
       logger.debug "#{params[:video]}"
+    end
+    if params[:url].present?
       @cpdm_advertisement.video_ver += 1
     end
       @cpdm_advertisement.save
