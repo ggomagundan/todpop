@@ -342,10 +342,11 @@ class QpconManager
 
   # ------------------------------------------------------------------------------------------------------
 
+=begin
   # Test purchase and cancel
 
-  #user = User.find_by_id(1)
-  #coupon = QpconProduct.find_by_product_id("P622")
+  user = User.find_by_id(1)
+  coupon = QpconProduct.find_by_product_id("P622")
 
   PRODUCT_END_POINT = {
     :pin_issue                => "http://211.233.60.195/qpcon/api/pin/pinIssue.do",
@@ -475,7 +476,7 @@ class QpconManager
   @params[:cancelDate] = response_split[2]
 
 
-
+=end
 
 
 
