@@ -94,6 +94,6 @@ class Admin::CpdmAdvertisementsController < Admin::ApplicationController
   private
  
   def cpdm_advertisement_params
-    params.require(:cpdm_advertisement).permit(:video_ver, :ad_type, :cli_id, :contract, :remain, :basic_show_price, :pay_type, :start_date, :end_date, :url, :priority, :ad_name, :length, :video)
+    params.require(:cpdm_advertisement).permit(:ad_type, :cli_id, :contract, :remain, :basic_show_price, :pay_type, :start_date, :end_date, :url, :priority, :ad_name, :length, :video)
   end
 end
