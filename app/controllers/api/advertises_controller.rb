@@ -730,7 +730,14 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
     @status = true
     @msg = ""
 
-    if !params[:aid].present? || !params[:mid].present?
+    if !params[:aid].present?
+      @status = false
+      @msg = "not exist params"
+      err_log = TempMin.new
+      err_log.english = @msg.to_s
+      err_log.koean = Time.now.to_s
+      err_log.save
+    elsif !params[:mid].present?
       @status = false
       @msg = "not exist params"
       err_log = TempMin.new
