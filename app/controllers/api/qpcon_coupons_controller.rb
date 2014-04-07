@@ -35,17 +35,14 @@ class Api::QpconCouponsController < ApplicationController
     
     #if !user.is_set_facebook_password && user.email.nil
     if store == 0
-      @status = false
       @result = false
       @msg = "closed"
     elsif store == 1
       if !user.is_set_facebook_password
-        @status = false
         @result = false
         @msg ="need to set password"
       end
     elsif store == 2 && user.is_admin.to_i != 1
-      @status = false
       @result = false
       @msg = "closed"
     end
