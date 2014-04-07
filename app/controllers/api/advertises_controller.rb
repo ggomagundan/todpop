@@ -733,10 +733,18 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
     if !params[:aid].present? || !params[:mid].present?
       @status = false
       @msg = "not exist params"
+      err_log = TempMin.new
+      err_log.english = @msg.to_s
+      err_log.koean = Time.now.to_s
+      err_log.save
     else
       if !(adInfo = CpxAdvertisement.find_by_id(params[:aid])).present? || !User.find_by_id(params[:mid]).present?
         @status = false
         @msg = "not exist cpx or user"
+        err_log = TempMin.new
+        err_log.english = @msg.to_s
+        err_log.koean = Time.now.to_s
+        err_log.save
       else
         adLog = AdvertiseCpxLog.new
         adLog.ad_id = params[:aid].to_i
@@ -767,6 +775,10 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
         else
           @status = false
           @msg = "failed to save"
+          err_log = TempMin.new
+          err_log.english = @msg.to_s
+          err_log.koean = Time.now.to_s
+          err_log.save
         end
       end
 
