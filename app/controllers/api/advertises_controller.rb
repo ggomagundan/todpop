@@ -149,7 +149,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           @ad_id = ad.id
           @ad_type = ad.ad_type
           if @ad_type.to_i == 103
-            if AdvertiseCpdLog.where('user_id = ? and ad_id = ? and act = 1 and facebook_id is not null', params[:user_id].to_i, @ad_id).size > 0
+            if AdvertiseCpdLog.where('user_id = ? and ad_id = ? and act = 2 and facebook_id is not null', params[:user_id].to_i, @ad_id).size > 0
               @history = 0 #facebook shared
             else
               @history = 1
