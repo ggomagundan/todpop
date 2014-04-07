@@ -156,11 +156,11 @@ namespace :qpcon do
   task :pin_state => :environment do
     app_info = AppInfo.first
     fromDtm = app_info.pin_dtm.to_i
-    #tmp = Time.now - 6.minute
-    tmp = Time.now
+    tmp = Time.now - 1.minute
+    #tmp = Time.now
     toDtm = tmp.strftime("%Y%m%d%H%M%S").to_i
 
-    fromDtm = (tmp-1.day).strftime("%Y%m%d%H%M%S").to_i if fromDtm == nil
+    fromDtm = (tmp-1.day).strftime("%Y%m%d%H%M%S").to_i if fromDtm == nil || fromDtm == 0
 
     response = connect("sendList.do",{:cmd => "sendList", :fromDtm => fromDtm, :toDtm => toDtm})
     
@@ -177,7 +177,7 @@ namespace :qpcon do
       end
     end
 
-    app_info.pin_dtm = (tmp-1).strftime("%Y%m%d%H%M%S").to_s
+    app_info.pin_dtm = (tmp-1.minute).strftime("%Y%m%d%H%M%S").to_s
     app_info.save
   end
 
