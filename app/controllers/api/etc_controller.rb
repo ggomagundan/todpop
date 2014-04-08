@@ -117,9 +117,11 @@ class Api::EtcController < ApplicationController
             if p.availability == 1
               tmp_hash[:is_used] = false
               tmp_hash[:is_expired] = false
+              tmp_hash[:is_canceled] = false
             else
               tmp_hash[:is_used] = true
               tmp_hash[:is_expired] = true
+            tmp_hash[:is_canceled] = true
             end
             tmp_hash[:created_at] = p.created_at
             tmp_hash[:name] = nil                                # for hash format preserve
@@ -159,6 +161,7 @@ class Api::EtcController < ApplicationController
             tmp_hash[:order_id]  = p.order_id
             tmp_hash[:is_used]    = p.is_used
             tmp_hash[:is_expired] = p.is_expired
+            tmp_hash[:is_canceled] = p.is_canceled
             tmp_hash[:created_at] = p.created_at
             tmp_hash[:name] = nil
             tmp_hash[:price] = nil
