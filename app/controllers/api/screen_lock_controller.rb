@@ -13,7 +13,8 @@ class Api::ScreenLockController < ApplicationController
       else
         rnd = rand(0..history.size-1)
         lv = history[rnd].level
-        stg = history[rnd].stage
+        stg = 9
+        stg = history[rnd].stage if history[rnd].stage != 10
         idx = WordLevel.where('level = ? and stage = ?', lv, stg)
         word_id = idx[rand(0..idx.length-1)].word_id
       end
