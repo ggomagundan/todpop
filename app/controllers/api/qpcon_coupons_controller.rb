@@ -21,31 +21,31 @@ class Api::QpconCouponsController < ApplicationController
 
   def can_shopping
     @status = true
-    @msg ="open"
-    @result = true
+    @msg = "open"
+    @result = 1
 
     if !params[:user_id].present?
       @status = false
       @msg = "need params"
-      @result = false
+      @result = 0
     else
 
-    store = AppInfo.first.store_open
-    user =  User.find_by_id(params[:user_id])
+      store = AppInfo.first.store_open
+      user =  User.find_by_id(params[:user_id])
     
-    #if !user.is_set_facebook_password && user.email.nil
-    if store == 0
-      @result = false
-      @msg = "closed"
-    elsif store == 1
-      if !user.is_set_facebook_password
-        @result = false
-        @msg ="need to set password"
+      #if !user.is_set_facebook_password && user.email.nil
+      if store == 0
+        @result = 0
+        @msg = "closed"
+      elsif store == 1
+        if !user.is_set_facebook_password
+          @result = 2
+          @msg ="need to set password"
+        end
+      elsif store == 2 && user.is_admin.to_i != 1
+        @result = 0
+        @msg = "closed"
       end
-    elsif store == 2 && user.is_admin.to_i != 1
-      @result = false
-      @msg = "closed"
-    end
     end
   end
 
@@ -99,6 +99,16 @@ class Api::QpconCouponsController < ApplicationController
     elsif !user.present?
       @status = false
       @msg = "wrong user_id"
+    elsif
+      store = AppInfo.first.store_open
+      if store == 0
+        @status = false
+        @msg = "store closed"
+      elsif store == 1
+      elsif store == 2 && user.is_admin.to_i != 1
+        @status = false
+        @msg = "store closed"
+      end
     elsif !user.authenticate(params[:password]).present?
       @status = false
       @msg = "wrong password"
