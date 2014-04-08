@@ -158,6 +158,10 @@ Todpop::Application.routes.draw do
       get 'show_service_stat', :on => :collection
     end
 
+    resources :screen_lock do
+      get 'word', :on => :collection
+    end
+
   
   }
   
