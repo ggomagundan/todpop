@@ -732,13 +732,13 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
 
     if !params[:aid].present?
       @status = false
-      @msg = "not exist params"
+      @msg = "not exist params ad_id"
       err_log = LogCrosswalk.new
       err_log.campaign_title = "ERROR : " + @msg.to_s + " Time : " + Time.now.to_s
       err_log.save
     elsif !params[:mid].present?
       @status = false
-      @msg = "not exist params"
+      @msg = "not exist params user_id"
       err_log = LogCrosswalk.new
       err_log.campaign_title = "ERROR : " + @msg.to_s + " Time : " + Time.now.to_s
       err_log.save
