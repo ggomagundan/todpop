@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 json.status @status
 json.msg @msg
+json.code @code
 
 if @status == true
   json.data do |json|

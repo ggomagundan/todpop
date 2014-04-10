@@ -15,6 +15,7 @@ class Api::UsersController < ApplicationController
   def sign_up
     @status = true
     @msg = ""
+    @code=0
 
     #inter = 1,2,3,4
     #@value.split(",").map { |s| s.to_i }
@@ -64,9 +65,11 @@ class Api::UsersController < ApplicationController
       elsif !params[:mobile].present?
         @status = false
         @msg = "not exist mobile"
+        @code=71
       elsif User.where(:mobile => params[:mobile]).present?
         @status = false
         @msg = "mobile duplicate"
+        @code=72
       end
     end
 
