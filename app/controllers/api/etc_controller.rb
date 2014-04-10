@@ -201,6 +201,7 @@ class Api::EtcController < ApplicationController
         @msg="not exist log"
       else
         @cpx_list=[]
+        my_cpx_ad_ids.reverse
         my_cpx_ad_ids.each do |i|
 =begin
         (0..my_cpx_ad_ids.count-1).each do |i|
