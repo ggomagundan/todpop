@@ -19,6 +19,24 @@ class Api::UsersController < ApplicationController
     #inter = 1,2,3,4
     #@value.split(",").map { |s| s.to_i }
 
+    # Log start
+    invalue = "start" 
+    log = LogSignUp.new
+    invalue = invalue + " / " + "address="   + params[:address]   if params[:address].present?
+    invalue = invalue + " / " + "birth="     + params[:birth]     if params[:birth].present?
+    invalue = invalue + " / " + "email="     + params[:email]     if params[:email].present?
+    invalue = invalue + " / " + "facebook="  + params[:facebook]  if params[:facebook].present?
+    invalue = invalue + " / " + "interest="  + params[:interest]  if params[:interest].present?
+    invalue = invalue + " / " + "mem_no="    + params[:mem_no]    if params[:mem_no].present?
+    invalue = invalue + " / " + "mobile="    + params[:mobile]    if params[:mobile].present?
+    invalue = invalue + " / " + "nickname="  + params[:nickname]  if params[:nickname].present?
+    invalue = invalue + " / " + "password="  + params[:password]  if params[:password].present?
+    invalue = invalue + " / " + "recommend=" + params[:recommend] if params[:recommend].present?
+    invalue = invalue + " / " + "sex="       + params[:sex]       if params[:sex].present?
+    log.invalue = invalue
+    log.save 
+    # --------
+
 
     if params[:mem_no].present?
       if !params[:email].present? && !params[:facebook].present?
@@ -34,6 +52,9 @@ class Api::UsersController < ApplicationController
       if !params[:email].present? && !params[:facebook].present?
         @status = false
         @msg = "not exist email or facebook"
+      elsif params[:email].present? && !params[:password].present?
+        @status = false
+        @msg = "not exist password"
       elsif !params[:nickname].present?
         @status = false
         @msg = "not exist nickname"
@@ -99,46 +120,49 @@ class Api::UsersController < ApplicationController
       end
 
       if @status == true
-      begin
-        if @user.save
-          @msg = "complete"
-          if !params[:mem_no].present?
-            a = RankingCurrent.new
-            a.id = @user.id
-            b = RankingCurrent.first
-            if b.present?
-              a.week_start = b.week_start
-              a.week_end   = b.week_end
-              a.mon_start  = b.mon_start
-              a.mon_end    = b.mon_end
-            else
-              a.week_start = Date.today.beginning_of_week
-              a.week_end   = Date.today.end_of_week
-              a.mon_start  = Date.today.beginning_of_month
-              a.mon_end    = Date.today.end_of_month
+        begin
+          if @user.save
+            @msg = "complete"
+            if !params[:mem_no].present?
+              a = RankingCurrent.new
+              a.id = @user.id
+              b = RankingCurrent.first
+              if b.present?
+                a.week_start = b.week_start
+                a.week_end   = b.week_end
+                a.mon_start  = b.mon_start
+                a.mon_end    = b.mon_end
+              else
+                a.week_start = Date.today.beginning_of_week
+                a.week_end   = Date.today.end_of_week
+                a.mon_start  = Date.today.beginning_of_month
+                a.mon_end    = Date.today.end_of_month
+              end
+              a.save
+              ##################### Create user stage info table ##########################
+              u = UserStageInfo.new
+              info = "Y"
+              (1..1799).each do
+                info += "x"
+              end
+              u.user_id = @user.id
+              u.stage_info = info
+              u.save
             end
-            a.save
-            ##################### Create user stage info table ##########################
-            u = UserStageInfo.new
-            info = "Y"
-            (1..1799).each do
-              info += "x"
-            end
-            u.user_id = @user.id
-            u.stage_info = info
-            u.save
+          else
+            @status = false
+            @msg = "join save error"
           end
-        else
-          @status = false
-          @msg = "join save error"
-        end
-      rescue Exception => e
-        logger.error e.message
-        e.backtrace.each { |line| logger.error line }
+        rescue Exception => e
+          #logger.error e.message
+          #e.backtrace.each { |line| logger.error line }
 
-        @status = false
-        @msg = "incorrect nickname"
-      end
+          log.elog = e.message
+          log.save
+
+          @status = false
+          @msg = "incorrect nickname"
+        end
       end
     end
 
@@ -195,6 +219,13 @@ class Api::UsersController < ApplicationController
       end
     end
 
+
+
+    # log close --------------
+    log.status = @status
+    log.msg = @msg
+    log.save
+    # -----------------------
   end
 
   def re_sign_up
