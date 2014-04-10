@@ -194,11 +194,16 @@ class Api::EtcController < ApplicationController
       @status=false
       @msg="not exist user"
     else
-      my_cpx_ad_ids=AdvertiseCpxLog.where(:user_id => params[:id]).pluck(:ad_id).uniq
+      my_cpx_ad_ids=AdvertiseCpxLog.where('user_id = ?', params[:id]).pluck(:ad_id).uniq
+      trash = CpxAdvertisement.where('end_date < ? and id in (?)', Date.today, my_cpx_ad_ids).pluck(:id).uniq
+      my_cpx_ad_ids = my_cpx_ad_ids - trash
       if my_cpx_ad_ids.count==0
         @msg="not exist log"
       else
         @cpx_list=[]
+        my_cpx_ad_ids.reverse
+        my_cpx_ad_ids.each do |i|
+=begin
         (0..my_cpx_ad_ids.count-1).each do |i|
           ad_id=my_cpx_ad_ids[i]
           my_cpx_recent=AdvertiseCpxLog.where('user_id = ? and ad_id = ?',params[:id], ad_id).order("id DESC").order("created_at DESC").first
@@ -226,10 +231,17 @@ class Api::EtcController < ApplicationController
           else
             act = 0
           end
-          tmp_hash={:id => my_cpx_recent.id, :ad_id => ad_id, :ad_type => my_cpx_recent.ad_type, :act => act, :created_at => my_cpx_recent.created_at, :name => ad_info.ad_name, :image => ad_info.ad_image.url, :reward => ad_info.reward, :point => ad_info.point}
+=end
+          act = 2
+
+          act = 3 if AdvertiseCpxLog.where('user_id = ? and ad_id = ? and act = 3', params[:id], i).present?
+
+          ad_info = CpxAdvertisement.find_by_id(i)
+          act = 9 if ad_info.remain <= 0
+
+          tmp_hash={:ad_id => i, :ad_type => ad_info.ad_type, :act => act, :name => ad_info.ad_name, :image => ad_info.ad_image.url, :reward => ad_info.reward, :point => ad_info.point}
           @cpx_list.push(tmp_hash)
         end
-        @cpx_list.sort!{|a,b| b[:created_at] <=> a[:created_at]}
       end
     end
   end
