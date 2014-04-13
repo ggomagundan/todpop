@@ -456,8 +456,15 @@ class Api::StudiesController < ApplicationController
           end
         end
 
-        dtc_point = 2*update_daily_test_count + 3;
-        dtc_point = dtc_point > 31 ? 31 : dtc_point
+        #dtc_point = 2*update_daily_test_count + 3;
+        #dtc_point = dtc_point > 31 ? 31 : dtc_point
+        if update_daily_test_count == 1
+          dtc_point = 3
+        elsif update_daily_test_count == 2
+          dtc_point = 6
+        elsif update_daily_test_count >= 3
+          dtc_point = 10
+        end
 
         # reward process
         if dtc_reward > 0
