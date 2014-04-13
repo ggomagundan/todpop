@@ -99,7 +99,12 @@ class Api::QpconCouponsController < ApplicationController
     elsif !user.present?
       @status = false
       @msg = "wrong user_id"
-    elsif
+    elsif !coupon.present?
+      @status = false
+      @msg = "no coupon found (by product id)"
+    end
+
+    if @status == true
       store = AppInfo.first.store_open
       if store == 0
         @status = false
@@ -109,12 +114,11 @@ class Api::QpconCouponsController < ApplicationController
         @status = false
         @msg = "store closed"
       end
-    elsif !user.authenticate(params[:password]).present?
+    end
+
+    if @status == true && !user.authenticate(params[:password]).present?
       @status = false
       @msg = "wrong password"
-    elsif !coupon.present?
-      @status = false
-      @msg = "no coupon found (by product id)"
     end
 
     if @status == true
