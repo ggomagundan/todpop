@@ -247,7 +247,7 @@ class Api::StudiesController < ApplicationController
 
       elsif stage==10
         @score = (result.to_f / exam_count *100).to_i
-        @rank_point = result.to_f / exam_count * 64
+        @rank_point = result.to_f / exam_count * 24
 
       elsif stage >= 1 && stage < 10
 
@@ -304,7 +304,10 @@ class Api::StudiesController < ApplicationController
       end
 
       if stage == 3 || stage == 6 || stage == 9
-        @rank_point = @rank_point*2
+        @rank_point = @rank_point*1.25
+        if (@rank_point - @rank_point.to_i) >= 0.5
+          @rank_point = @rank_point.to_i + 1
+        end
       end
       
       record = UserStageBest.where(:stage => stage, :level => level, :user_id => user_id).first
@@ -314,17 +317,17 @@ class Api::StudiesController < ApplicationController
         if test_log.size > 6  #Stage10 => Maximum64 point,  Stage9 => Maximum33 point,  Stage8 => Maximum16 point
           @rank_point = 0
         elsif test_log.size == 6
-          @rank_point = @rank_point / 60
+          @rank_point = @rank_point / 60  #0/0/0
         elsif test_log.size == 5 
-          @rank_point = @rank_point / 30
+          @rank_point = @rank_point / 24  #0/0/1
         elsif test_log.size == 4
-          @rank_point = @rank_point / 21
+          @rank_point = @rank_point / 20  #0/1/1
         elsif test_log.size == 3
-          @rank_point = @rank_point / 16
+          @rank_point = @rank_point / 16  #1/1/1
         elsif test_log.size == 2
-          @rank_point = @rank_point / 8
+          @rank_point = @rank_point / 8   #2/2/3
         elsif test_log.size == 1
-          @rank_point = @rank_point / 5
+          @rank_point = @rank_point / 4   #4/5/6
         end
         #@rank_point = @rank_point / 5
            
