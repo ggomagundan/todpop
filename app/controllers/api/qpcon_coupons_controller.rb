@@ -13,10 +13,22 @@ class Api::QpconCouponsController < ApplicationController
     else
       tmp = QpconProduct.all
     end
-    tmp.each do |i|
+
+    dead_product = dead_product()
+    alive = tmp.where('product_id not in (?)', dead_product)
+
+    alive.each do |i|
       @coupons.push(:product_id => i.product_id, :img_url_70 => i.img_url_70, :product_name => i.product_name, 
                     :market_name => i.market_name, :stock_count => i.stock_count, :market_cost => i.market_cost)
     end
+  end
+
+  def dead_product
+    dead=[]
+    dead=dead+["P000005138","P000005889","P000006190"]		# 2014-04-02 GS25
+    dead=dead+["P000004992"]	# 2014-04-07 BR31
+    dead=dead+["P000003142","P000003143","P000004240","P000004239","P000004242","P000004252","P000004236","P000004231","P000004232"]		# 2014-04-00 ETUDE
+    return dead
   end
 
   def can_shopping
@@ -78,7 +90,11 @@ class Api::QpconCouponsController < ApplicationController
       end
       @list = []
       tmp = QpconProduct.where('qpcon_category_id in (?)', id)
-      tmp.each do |i|
+
+      dead_product = dead_product()
+      alive = tmp.where('product_id not in (?)', dead_product)
+
+      alive.each do |i|
         @list.push(:product_id => i.product_id, :img_url_70 => i.img_url_70, :product_name => i.product_name, 
                       :market_name => i.market_name, :stock_count => i.stock_count, :market_cost => i.market_cost)
       end
