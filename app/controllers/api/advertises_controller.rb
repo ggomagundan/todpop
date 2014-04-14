@@ -562,8 +562,8 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
       if adInfo.reward.present? && (adInfo.reward > 0) && params[:facebook_id].present?
         @token_user_id = params[:user_id].to_i
         @token_reward_type = 6000 + params[:ad_type].to_i
-        @token_title = "CPD"
-        @token_sub_title = "이미지공유 etc"
+        @token_title = "CPD Sharing"
+        @token_sub_title = params[:ad_id].to_s
         @token_reward = adInfo.reward
         process_reward_general
       end
@@ -571,7 +571,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
       if adInfo.point.present? && (adInfo.point  > 0) && params[:facebook_id].present?
         @token_user_id = params[:user_id].to_i
         @token_point_type = 6000 +params[:ad_type].to_i
-        @token_name = "CPD : 이미지공유 etc"
+        @token_name = "CPD : 이미지공유 => AD ID : " + params[:ad_id].to_s
         @token_point = adInfo.point
         process_point_general
       end
@@ -655,8 +655,8 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           if adInfo.reward.present? && (adInfo.reward > 0) && params[:facebook_id].present?
             @token_user_id = params[:user_id].to_i
             @token_reward_type = 5000 + params[:ad_type].to_i
-            @token_title = "CPDM"
-            @token_sub_title = "동영상공유 etc"
+            @token_title = "CPDM Sharing"
+            @token_sub_title = params[:ad_id].to_s
             @token_reward = adInfo.reward
             process_reward_general
           end
@@ -664,7 +664,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           if adInfo.point.present? && (adInfo.point  > 0) && params[:facebook_id].present?
             @token_user_id = params[:user_id].to_i
             @token_point_type = 5000 +params[:ad_type].to_i
-            @token_name = "CPDM : 동영상공유 etc"
+            @token_name = "CPDM : 동영상공유 etc => AD ID : " + params[:ad_id].to_s
             @token_point = adInfo.point
             process_point_general
           end
