@@ -94,6 +94,7 @@ class Api::StudiesController < ApplicationController
           stage_setting.stage_info[150] = "Y"
           stage_setting.stage_info[600] = "Y"
           stage_setting.stage_info[1200] = "Y"
+          @level=121
 
           #stage_setting.update_attributes(:stage_info => stage_setting.stage_info)
           stage_setting.update_column(:stage_info, stage_setting.stage_info)
