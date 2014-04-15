@@ -61,12 +61,16 @@ class Api::StudiesController < ApplicationController
         
           user_stage = UserHighestLevel.where(:user_id => user_id).first
           if !user_stage.present?
-            UserHighestLevel.create(:user_id => user_id, :category => category, :level => @level, :stage => 1)
+            #UserHighestLevel.create(:user_id => user_id, :category => category, :level => @level, :stage => 1)
+            UserHighestLevel.create(:user_id => user_id, :category => 1, :level => 1, :stage => 1)			# no level test
           else
-            user_stage.update_attributes(:category => category, :level => @level, :stage => 1)
+            #user_stage.update_attributes(:category => category, :level => @level, :stage => 1)
+            user_stage.update_attributes(:category => 1, :level => 1, :stage => 1)
           end
           #Update level_test column
-          user.update_attributes(:level_test => @level)
+          #user.update_attributes(:level_test => @level)
+          user.update_attributes(:level_test => 1)
+
           #Update User_Stage_Info
           if !UserStageInfo.find_by_user_id(user_id).present?
             usi = UserStageInfo.new
@@ -77,14 +81,20 @@ class Api::StudiesController < ApplicationController
             end
             usi.save
           end
+
           stage_setting = UserStageInfo.find_by_user_id(user_id)
           stage_setting.stage_info = ""
           (1..1800).each do
             stage_setting.stage_info += "x"
           end
-          (1..@level).each do |i|
-            stage_setting.stage_info[(i-1)*10] = "Y"
-          end
+          #(1..@level).each do |i|
+          #  stage_setting.stage_info[(i-1)*10] = "Y"
+          #end
+          stage_setting.stage_info[0] = "Y"
+          stage_setting.stage_info[150] = "Y"
+          stage_setting.stage_info[600] = "Y"
+          stage_setting.stage_info[1200] = "Y"
+
           #stage_setting.update_attributes(:stage_info => stage_setting.stage_info)
           stage_setting.update_column(:stage_info, stage_setting.stage_info)
           @stage_info = UserStageInfo.find_by_user_id(user_id).stage_info
