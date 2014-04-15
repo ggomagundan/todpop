@@ -110,12 +110,13 @@ class Admin::WordsController < Admin::ApplicationController
   def get_img_url
     @status = true
     @msg = ''
-=begin
+=begin 
     query = URI::encode(params[:word])
     start = params[:start]
     @data_url = []
     #url = "https://www.google.co.kr/search?q=#{query}&newwindow=1&as_st=y&hl=ko&tbs=sur:fc&biw=1051&bih=573&sei=QAdcUujIPOWXiQecuICwAg&tbm=isch&ijn=1&ei=QAdcUujIPOWXiQecuICwAg&start=#{start}&csl=1"
-    url = "https://www.google.co.kr/search?newwindow=1&hl=ko&site=imghp&tbm=isch&source=hp&biw=1075&bih=596&q=apple&oq=apple&gs_l=img.3..0l10.2431.5677.0.5811.7.6.1.0.0.0.338.903.1j3j0j1.5.0....0...1ac.1.37.img..1.6.913.kj8aLe7hRd8#hl=ko&newwindow=1&q=#{start}&tbm=isch&tbs=sur:fc"
+    #url = "https://www.google.co.kr/search?newwindow=1&hl=ko&site=imghp&tbm=isch&source=hp&biw=1075&bih=596&q=apple&oq=apple&gs_l=img.3..0l10.2431.5677.0.5811.7.6.1.0.0.0.338.903.1j3j0j1.5.0....0...1ac.1.37.img..1.6.913.kj8aLe7hRd8#hl=ko&newwindow=1&q=#{start}&tbm=isch&tbs=sur:fc"
+    url = "https://www.google.co.kr/search?newwindow=1&hl=ko&site=imghp&tbm=isch&source=hp&biw=925&bih=475&q=#{params[:word]}&oq=#{params[:word]}&gs_l=img.3..0i24.7002.10017.0.10213.14.8.0.5.5.0.140.933.1j7.8.0....0...1ac..41.img..5.9.784.hdVYKrl427g#hl=ko&newwindow=1&q=#{params[:word]}&tbm=isch&tbs=sur:fc"
     doc = Nokogiri::HTML(open(url))
     html = doc.xpath("//div[contains(@class,'rg_di')]")
     @length = html.length

@@ -109,8 +109,11 @@ namespace :db do
         open(tmp_url)
         i.update_attributes(:voice => 1)
         @success_cnt += 1
+        puts "complete : #{i.name}"
       rescue Exception => e
         @fail_cnt += 1
+        sh("rm #{file_name}")
+        puts "err : #{i.name}"
       end
     end
 
@@ -119,5 +122,34 @@ namespace :db do
 
   end
 
+  task :image => :environment do
+    url = "http://www.todpop.co.kr"
+
+    word = Word.where('picture = 0')
+
+    word.each do |i|
+      begin
+        origin = Word.where('name = ?', i.name)
+        if origin.count > 1 && origin[0].picture == 1
+        tmp_url = url + origin[0].image_url
+        file_name = File.basename(tmp_url)
+        open("#{file_name}", 'wb') do |file|
+          file << open(tmp_url).read
+          i.image = file
+        end
+        sh("mkdir /todpop/todpop_data/word/image/#{i.id}/")
+        sh("mv #{file_name} /todpop/todpop_data/word/image/#{i.id}/#{file_name}")
+        
+        i.update_attributes(:picture => 1)
+        i.save
+
+        puts "complete : #{i.name}"
+        end
+      rescue Exception => e
+        sh("rm #{file_name}")
+        puts "err : #{i.name}"
+      end
+    end
+  end
 end
 
