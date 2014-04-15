@@ -145,9 +145,12 @@ class Api::UsersController < ApplicationController
               ##################### Create user stage info table ##########################
               u = UserStageInfo.new
               info = "Y"
-              (1..1799).each do
+              (2..1800).each do
                 info += "x"
               end
+              info[150]="Y"		# middle 1st stage open
+              info[600]="Y"
+              info[1200]="Y"
               u.user_id = @user.id
               u.stage_info = info
               u.save
