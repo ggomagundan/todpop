@@ -61,6 +61,7 @@ class Api::ScreenLockController < ApplicationController
       if ad_log.save
         ad_remain = LockAdvertisement.find(params[:ad_id])
         ad_remain.update_attributes(:remain => ad_remain.remain-1)
+        @result = true
       else
         @status = false
         @msg = "failed to save"
