@@ -163,6 +163,8 @@ Todpop::Application.routes.draw do
 
     resources :screen_lock do
       get 'word', :on => :collection
+      get 'get_ad', :on => :collection
+      get 'set_ad_log', :on => :collection
     end
 
   
