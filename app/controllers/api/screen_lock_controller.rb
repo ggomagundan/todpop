@@ -54,6 +54,7 @@ class Api::ScreenLockController < ApplicationController
       @msg = "not exist parameter"
     else
       ad_log = AdvertiseLockLog.new
+      ad_log.user_id = params[:user_id]
       ad_log.ad_id = params[:ad_id]
       ad_log.ad_type = params[:ad_type]
       ad_log.act = params[:act]
