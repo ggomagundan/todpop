@@ -11,10 +11,8 @@
     <th>Date</th>
     <th>Priority</th>
     <th>TargetUrl</th>
-    <th>ConfirmUrl</th>
     <th>Reward</th>
     <th>Point</th>
-    <th>n_question</th>
     <th>Cor Name</th>
     <th> </th>
   </tr>
@@ -30,7 +28,6 @@
       <td><%= lock_advertisement.start_date.to_date %> ~ <%= lock_advertisement.end_date.to_date %></td>
       <td><%= lock_advertisement.priority %></td>
       <td><%= lock_advertisement.target_url %></td>
-      <td><%= lock_advertisement.confirm_url %></td>
       <td><%= if lock_advertisement.reward !=nil
                 lock_advertisement.reward
               else
@@ -41,7 +38,6 @@
               else
                 0
               end%></td>
-      <td><%= lock_advertisement.n_question %></td>
       <td><%= @lock_cor_name.find_by_id(lock_advertisement.cli_id).cor_name %></td>
       <td><%= link_to "Edit", edit_admin_screen_lock_path(lock_advertisement), :class => "btn btn-warning" %></td>
       <%#= link_to "Destroy", [:admin, cpx_advertisement], :confirm => 'Are you sure?', :method => :delete %>

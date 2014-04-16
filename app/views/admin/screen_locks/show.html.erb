@@ -1,4 +1,39 @@
-<p id="notice"><%= notice %></p>
+<% title "Admin/Screen Lock Advertisement" %>
+
+<p>
+  <strong>ad_type:</strong>
+  <%= @lock_advertisement.ad_type %>
+</p>
+<p>
+  <strong>Start Date:</strong>
+  <%= @lock_advertisement.start_date %>
+</p>
+<p>
+  <strong>End Date:</strong>
+  <%= @lock_advertisement.end_date %>
+</p>
+<p>
+  <strong>Contract:</strong>
+  <%= @lock_advertisement.contract %>
+</p>
+<p>
+  <strong>Remain:</strong>
+  <%= @lock_advertisement.remain %>
+</p>
+<p>
+  <strong>Priority:</strong>
+  <%= @lock_advertisement.priority %>
+</p>
+<p>
+  <strong>Url:</strong>
+  <%= @lock_advertisement.target_url %>
+</p>
+<p>
+  <strong>Name:</strong>
+  <%= @cpx_advertisement.ad_name %>
+</p>
+
+<p>
 
 <%= link_to 'Edit', edit_admin_screen_lock_path(@admin_screen_lock) %> |
 <%= link_to 'Back', admin_screen_locks_path %>

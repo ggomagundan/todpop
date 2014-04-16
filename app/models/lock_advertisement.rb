@@ -3,9 +3,7 @@ class LockAdvertisement < ActiveRecord::Base
   has_many :advertise_lock_logs
 
   AD_TYPE={
-    :IMAGE => 101,
-    :COUPON => 102,
-    :CPFS_img => 103
+    :CPC => 101,
   }
   PAY_TYPE = {
     :PAY_ADVANCE => 1,
