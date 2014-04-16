@@ -12,6 +12,8 @@ Todpop::Application.routes.draw do
  
   }
 
+  #get "admin/screen_lock/ad_management" => "admin/screen_lock#ad_management"
+
   get "insight/index"
   get "admin/insight/ad_analysis" => "admin/insight#ad_analysis", :as => "admin_insight_ad_analysis"
   get "admin/insight/ad_analysis_detail" => "admin/insight#ad_analysis_detail"
@@ -43,6 +45,7 @@ Todpop::Application.routes.draw do
   namespace(:admin){ resources :cpx_advertisements }
   namespace(:admin){ resources :cpdm_advertisements }
   namespace(:admin){ resources :cpd_advertisements }
+  namespace(:admin){ resources :screen_locks }
 
   namespace(:admin){ resources :app_infos }
   namespace(:admin){ resources :board_notices }
