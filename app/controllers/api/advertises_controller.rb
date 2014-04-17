@@ -121,6 +121,11 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           end
 
         end
+       
+        if @user.is_admin == 1
+         check = CpdAdvertisement.where('priority = 0')
+         r_id = check[0].id if check.present?
+       end 
 
         if r_id == 0 || !r_id.present?
           @status = false
@@ -294,6 +299,10 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
 
         end
 
+       if @user.is_admin == 1
+         check = CpdmAdvertisement.where('priority = 0')
+         r_id = check[0].id if check.present?
+       end 
 
         if r_id == 0 || !r_id.present?
           @status = false
@@ -386,7 +395,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           @ad_list_5 = CpxAdvertisement.where('priority = 5 and remain > 0 and start_date <= ? and 
                                               end_date >= ? and ad_type not in (300)', Date.today, Date.today)
         end
-        
+       
         if(@ad_list.length != 0)
           r = 0
           r_id = 0     
@@ -458,7 +467,11 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
         #    r_id = 0
         #  end
         #end
- 
+
+       if @user.is_admin == 1
+         check = CpxAdvertisement.where('priority = 0')
+         r_id = check[0].id if check.present?
+       end 
 
 
 
