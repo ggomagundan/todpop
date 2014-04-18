@@ -1,6 +1,7 @@
 <%#<h1>Editing admin_screen_lock</h1>%>
 
-<%= render 'form' %>
+<%= form_for @screen_lock, url: admin_screen_locks_path(@screen_lock), html: {method: :post }  do |f| %>
+<%= render 'form', f: f %>
+<% end %>
 
-<%=# link_to 'Show', @admin_screen_lock %> |
-<%=# link_to 'Back', admin_screen_locks_path %>
+<%= link_to 'Back', admin_screen_locks_path %>

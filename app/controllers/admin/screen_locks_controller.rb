@@ -1,5 +1,5 @@
 class Admin::ScreenLocksController < Admin::ApplicationController
-  before_action :set_admin_screen_lock, only: [:show, :edit, :update, :destroy]
+  #before_action :set_admin_screen_lock, only: [:show, :edit, :update, :destroy]
 
   # GET /admin/screen_locks
   # GET /admin/screen_locks.json
@@ -16,7 +16,7 @@ class Admin::ScreenLocksController < Admin::ApplicationController
 
   # GET /admin/screen_locks/new
   def new
-    @lock_advertisement = LockAdvertisement.new
+    @screen_lock = LockAdvertisement.new
     @client_arr = []
     client_all = Client.all
     for i in 1..client_all.size
@@ -27,7 +27,7 @@ class Admin::ScreenLocksController < Admin::ApplicationController
 
   # GET /admin/screen_locks/1/edit
   def edit
-    @lock_advertisement = LockAdvertisement.find(params[:id])
+    @screen_lock = LockAdvertisement.find(params[:id])
     @client_arr = []
     client_all = Client.all
     for i in 1..client_all.size
@@ -41,7 +41,7 @@ class Admin::ScreenLocksController < Admin::ApplicationController
   def create
     @lock_advertisement = LockAdvertisement.new(lock_params)
     if @lock_advertisement.save
-      redirect_to admin_screen_lock_path, :notice => "Successfully created screen lock advertisement."
+      redirect_to admin_screen_locks_path, :notice => "Successfully created screen lock advertisement."
     else
       render :action => 'new'
     end
@@ -52,7 +52,7 @@ class Admin::ScreenLocksController < Admin::ApplicationController
   def update
     @lock_advertisement = LockAdvertisement.find(params[:id])
     if @lock_advertisement.update_attributes(lock_params)
-      redirect_to admin_screen_lock_path, :notice => "Successfully created screen lock advertisement."
+      redirect_to admin_screen_locks_path, :notice => "Successfully created screen lock advertisement."
     else
       render :action => 'edit'
     end
@@ -63,7 +63,7 @@ class Admin::ScreenLocksController < Admin::ApplicationController
   def destroy
     @lock_advertisement = LockAdvertisement.find(params[:id])
     @lock_advertisement.destroy
-    redirect_to admin_screen_lock_path, :notice => "Successfully destroyed screen lock advertisement."
+    redirect_to admin_screen_locks_path, :notice => "Successfully destroyed screen lock advertisement."
   end
 
   private

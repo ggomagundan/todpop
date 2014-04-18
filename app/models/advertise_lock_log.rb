@@ -1,4 +1,4 @@
 class AdvertiseLockLog < ActiveRecord::Base
 	belongs_to :user
-	belongs_to :cpd_advertisement
+	belongs_to :lock_advertisement
 end

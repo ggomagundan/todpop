@@ -1,10 +1,9 @@
-<%= form_for(@lock_advertisement) do |f| %>
-  <% if @lock_advertisement.errors.any? %>
+  <% if @screen_lock.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@lock_advertisement.errors.count, "error") %> prohibited this admin_screen_lock from being saved:</h2>
+      <h2><%= pluralize(@screen_lock.errors.count, "error") %> prohibited this admin_screen_lock from being saved:</h2>
 
       <ul>
-      <% @lock_advertisement.errors.full_messages.each do |msg| %>
+      <% @screen_lock.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
       </ul>
@@ -69,8 +68,8 @@
   <div class="control-group">
     <label class="control-label">Date</label>
     <div class="controls">
-        <%= f.text_field :start_date, :value => "#{@cpx_advertisement.start_date}", :class => "calendar" %> ~
-        <%= f.text_field :end_date, :value => "#{@cpx_advertisement.end_date}", :class=> "calendar" %>
+        <%= f.text_field :start_date, :value => "#{@screen_lock.start_date}", :class => "calendar" %> ~
+        <%= f.text_field :end_date, :value => "#{@screen_lock.end_date}", :class=> "calendar" %>
     </div>
   </div>
   <div class="control-group">
@@ -121,4 +120,3 @@
   <div class="actions">
     <%= f.submit %>
   </div>
-<% end %>
