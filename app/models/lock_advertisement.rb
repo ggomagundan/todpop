@@ -3,7 +3,7 @@ class LockAdvertisement < ActiveRecord::Base
   has_many :advertise_lock_logs
 
   AD_TYPE={
-    :CPC => 101,
+    :CPC => 401,
   }
   PAY_TYPE = {
     :PAY_ADVANCE => 1,
@@ -13,10 +13,10 @@ class LockAdvertisement < ActiveRecord::Base
   mount_uploader :ad_image, ImageUploader
   
   def kind
-   return CpdAdvertisement::AD_TYPE.key(self.ad_type)
+   return LockAdvertisement::AD_TYPE.key(self.ad_type)
   end
 
   def pay_kind
-    return CpdAdvertisement::PAY_TYPE.key(self.pay_type)
+    return LockAdvertisement::PAY_TYPE.key(self.pay_type)
   end
 end

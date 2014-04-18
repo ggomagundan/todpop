@@ -40,9 +40,9 @@
               end%></td>
       <td><%= @lock_cor_name.find_by_id(lock_advertisement.cli_id).cor_name %></td>
       <td><%= link_to "Edit", edit_admin_screen_lock_path(lock_advertisement), :class => "btn btn-warning" %></td>
-      <%#= link_to "Destroy", [:admin, cpx_advertisement], :confirm => 'Are you sure?', :method => :delete %>
     </tr>
   <% end %>
 </table>
 
+<%#= link_to "Destroy", admin_screen_lock_path, :confirm => 'Are you sure?', :method => :delete %>
 <p><%= link_to "New Admin/Lock Advertisement", new_admin_screen_lock_path %></p>
