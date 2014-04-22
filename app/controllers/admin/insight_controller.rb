@@ -421,7 +421,7 @@ class Admin::InsightController < Admin::ApplicationController
       row = {}
       date_new = new_user.where('created_at >= ? and created_at < ?', d, d+1)
       (0..12).each do |i|
-        temp = test_history.where('created_at >= ? and created_at < ? and user_id in (?)', d-i, d-i+1, date_new.pluck(:id).uniq).pluck(:user_id)
+        temp = test_history.where('created_at >= ? and created_at < ? and user_id in (?)', d+i, d+i+1, date_new.pluck(:id).uniq).pluck(:user_id)
         dup[i] = temp.uniq
         cnt[i] = temp.count
       end
