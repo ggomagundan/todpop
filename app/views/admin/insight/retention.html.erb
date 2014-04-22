@@ -8,6 +8,8 @@
 <input type='text' name='date1' class='date' style='width:80px;margin:0;'/> ~ <input type='text' name='date2' class='date' style='width:80px;margin:0;'/>&nbsp;&nbsp;
 <button id='date_btn' class='btn'>선택완료</button>
 <br/><br/><br/>
+<h3>신규 유저 분석</h3>
+<br/><br/><br/>
 <table class='table table-hover' style='text-align:center;'>
   <tr>
     <th style='text-align:center;'>가입 날짜</th>
@@ -35,6 +37,8 @@
   <% end %>
 </table>
 <br/><br/><br/>
+<h3>유저 재학습 분석</h3>
+<br/><br/><br/>
 <table class='table table-hover' style='text-align:center;'>
   <tr>
     <th style='text-align:center;'>가입 날짜</th>
@@ -53,7 +57,7 @@
   </tr>
   <% for row in @logs %>
   <tr>
-    <td style='text-align:center;'><%=row[:day]%><br/>재학습인원<br/>재학습횟수<br/>재학습비율<br/>평균학습량</td>
+    <th style='text-align:center;'><%=row[:day]%><br/>재학습인원<br/>재학습횟수<br/>재학습비율<br/>평균학습량</th>
     <td style='text-align:center;'><br/><%=row[:day_1]%>명 학습<br/><%=row[:cnt_1]%>회 학습<br/><%=row[:day_1]*100/row[:user]%>%<br/><%=(row[:cnt_1].to_f/row[:day_1]).round(1) if row[:day_1]!=0%>회</td>
     <td style='text-align:center;'><br/><%=row[:day_2]%>명 학습<br/><%=row[:cnt_2]%>회 학습<br/><%=row[:day_2]*100/row[:user]%>%<br/><%=(row[:cnt_2].to_f/row[:day_2]).round(1) if row[:day_2]!=0%>회</td>
     <td style='text-align:center;'><br/><%=row[:day_3]%>명 학습<br/><%=row[:cnt_3]%>회 학습<br/><%=row[:day_3]*100/row[:user]%>%<br/><%=(row[:cnt_3].to_f/row[:day_3]).round(1) if row[:day_3]!=0%>회</td>
