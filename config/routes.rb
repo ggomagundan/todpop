@@ -12,8 +12,6 @@ Todpop::Application.routes.draw do
  
   }
 
-  #get "admin/screen_lock/ad_management" => "admin/screen_lock#ad_management"
-
   get "insight/index"
   get "admin/insight/ad_analysis" => "admin/insight#ad_analysis", :as => "admin_insight_ad_analysis"
   get "admin/insight/ad_analysis_detail" => "admin/insight#ad_analysis_detail"
@@ -21,7 +19,7 @@ Todpop::Application.routes.draw do
   get "admin/insight/user_analysis" => "admin/insight#user_analysis"
   get "admin/insight/ranker" => "admin/insight#ranker"
   get "admin/insight/dau_analysis" => "admin/insight#dau_analysis"
-  
+  get "admin/insight/retention" => "admin/insight#retention"
 
   get 'downloads' => "downloads#index" 
 

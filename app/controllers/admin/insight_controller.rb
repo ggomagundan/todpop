@@ -380,4 +380,88 @@ class Admin::InsightController < Admin::ApplicationController
 
   end
 
+  def retention
+    @logs = []
+
+    if params[:start_date].present?
+      sd = Date.parse(params[:start_date])
+    elsif params[:recent].present? && params[:recent] == 'month'
+      sd = 30.day.ago.to_date
+      @r = 2
+    else
+      sd = 7.day.ago.to_date
+      @r = 1
+    end
+
+    if params[:end_date].present?
+      ed = Date.parse(params[:end_date])
+    else
+      ed = Date.today
+    end
+
+    if sd > ed
+      sd = 7.day.ago.to_date
+      ed = Date.today
+    end
+
+    if params[:recent].present? && params[:recent] == 'all'
+      sd = UserTestHistory.first.created_at.to_date
+      ed = Date.today
+      @r = 3
+    end
+
+    new_user = User.where('created_at >= ? and created_at <= ?', sd, ed)
+    new_user_id = new_user.pluck(:id).uniq
+    test_history = UserTestHistory.where('created_at >= ? and created_at <= ? and user_id in (?)', sd, ed, new_user_id)
+
+    dup = []
+    cnt = []
+
+    sd.upto(ed).each do |d|
+      row = {}
+      date_new = new_user.where('created_at >= ? and created_at < ?', d, d+1)
+      (0..12).each do |i|
+        temp = test_history.where('created_at >= ? and created_at < ? and user_id in (?)', d-i, d-i+1, date_new.pluck(:id).uniq).pluck(:user_id)
+        dup[i] = temp.uniq
+        cnt[i] = temp.count
+      end
+      row[:day] = d
+      row[:user] = date_new.count
+      row[:user] = 1 if date_new.count==0
+      row[:day_1] = (dup[0] & dup[1]).count
+      row[:cnt_1] = cnt[1]
+      row[:day_2] = (dup[0] & dup[1] & dup[2]).count
+      row[:cnt_2] = cnt[2]
+      row[:day_3] = (dup[0] & dup[1] & dup[2] & dup[3]).count
+      row[:cnt_3] = cnt[3]
+      row[:day_4] = (dup[0]&dup[1]&dup[2]&dup[3]&dup[4]).count
+      row[:cnt_4] = cnt[4]
+      row[:day_5] = (dup[0]&dup[1]&dup[2]&dup[3]&dup[4]&dup[5]).count
+      row[:cnt_5] = cnt[5]
+      row[:day_6] = (dup[0]&dup[1]&dup[2]&dup[3]&dup[4]&dup[5]&dup[6]).count
+      row[:cnt_6] = cnt[6]
+      row[:day_7] = (dup[0]&dup[1]&dup[2]&dup[3]&dup[4]&dup[5]&dup[6]&dup[7]).count
+      row[:cnt_7] = cnt[7]
+      row[:day_8] = (dup[0]&dup[1]&dup[2]&dup[3]&dup[4]&dup[5]&dup[6]&dup[7]&dup[8]).count
+      row[:cnt_8] = cnt[8]
+      row[:day_9] = (dup[0]&dup[1]&dup[2]&dup[3]&dup[4]&dup[5]&dup[6]&dup[7]&dup[8]&dup[9]).count
+      row[:cnt_9] = cnt[9]
+      row[:day_10] = (dup[0]&dup[1]&dup[2]&dup[3]&dup[4]&dup[5]&dup[6]&dup[7]&dup[8]&dup[9]&dup[10]).count
+      row[:cnt_10] = cnt[10]
+      row[:day_11] = (dup[0]&dup[1]&dup[2]&dup[3]&dup[4]&dup[5]&dup[6]&dup[7]&dup[8]&dup[9]&dup[10]&dup[11]).count
+      row[:cnt_11] = cnt[11]
+      row[:day_12] = (dup[0]&dup[1]&dup[2]&dup[3]&dup[4]&dup[5]&dup[6]&dup[7]&dup[8]&dup[9]&dup[10]&dup[11]&dup[12]).count
+      row[:cnt_12] = cnt[12]
+=begin
+      day_history = test_history.where('created_at >= ? and created_at < ?', d, d+1)
+      app_info = AppInfo.last
+      row[:day] = d
+      row[:daily_user] = day_history.distinct.count('user_id')
+      row[:test_count] = day_history.count
+      row[:review_count] = day_history.where('(score >= ? and reward < ?) or (score >= ? and reward < ?)', app_info.two_medal, app_info.test_reward_max, app_info.one_medal, app_info.test_reward_max.to_i/2).count
+      row[:daily_test] = row[:test_count] - row[:review_count]
+=end
+      @logs.push(row)
+    end
+  end
 end
