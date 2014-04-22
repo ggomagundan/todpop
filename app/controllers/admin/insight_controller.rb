@@ -426,6 +426,9 @@ class Admin::InsightController < Admin::ApplicationController
         cnt[i] = temp.count
       end
       row[:day] = d
+      row[:lt] = date_new.where('level_test > 0').count
+      row[:day_0] = dup[0].count
+      row[:cnt_0] = cnt[0]
       row[:user] = date_new.count
       row[:user] = 1 if date_new.count==0
       row[:day_1] = dup[1].count

@@ -8,7 +8,33 @@
 <input type='text' name='date1' class='date' style='width:80px;margin:0;'/> ~ <input type='text' name='date2' class='date' style='width:80px;margin:0;'/>&nbsp;&nbsp;
 <button id='date_btn' class='btn'>선택완료</button>
 <br/><br/><br/>
-
+<table class='table table-hover' style='text-align:center;'>
+  <tr>
+    <th style='text-align:center;'>가입 날짜</th>
+    <th style='text-align:center;'>회원가입</th>
+    <th style='text-align:center;'>레벨테스트</th>
+    <th style='text-align:center;'>회원가입률</th>
+    <th style='text-align:center;'>LT 비율</th>
+    <th style='text-align:center;'>학습하기(명)</th>
+    <th style='text-align:center;'>학습횟수(번)</th>
+    <th style='text-align:center;'>학습비율</th>
+    <th style='text-align:center;'>1인평균</th>
+  </tr>
+  <% for row in @logs %>
+  <tr>
+    <th style='text-align:center;'><%=row[:day]%></th>
+    <th style='text-align:center;'><%=row[:user]%>명</th>
+    <th style='text-align:center;'><%=row[:lt]%>명</th>
+    <th style='text-align:center;'>99.9%</th>
+    <th style='text-align:center;'><%=row[:lt]*100/row[:user]%>%</th>
+    <th style='text-align:center;'><%=row[:day_0]%>명</th>
+    <th style='text-align:center;'><%=row[:cnt_0]%>번</th>
+    <th style='text-align:center;'><%=row[:day_0]*100/row[:user]%>%</th>
+    <th style='text-align:center;'><%=(row[:cnt_0].to_f/row[:day_0]).round(1)%></th>
+  </tr>
+  <% end %>
+</table>
+<br/><br/><br/>
 <table class='table table-hover' style='text-align:center;'>
   <tr>
     <th style='text-align:center;'>가입 날짜</th>
@@ -28,18 +54,18 @@
   <% for row in @logs %>
   <tr>
     <td style='text-align:center;'><%=row[:day]%><br/>재학습인원<br/>재학습횟수<br/>재학습비율<br/>평균학습량</td>
-    <td style='text-align:center;'><br/><%=row[:day_1]%>명 학습<br/><%=row[:cnt_1]%>회 학습<br/><%=row[:day_1]*100/row[:user]%>%<br/><%=row[:cnt_1].to_f/row[:day_1] if row[:day_1]!=0%>회</td>
-    <td style='text-align:center;'><%=row[:day_2]%>명 학습<br/><%=row[:cnt_2]%>회 학습<br/><%=row[:day_2]*100/row[:user]%>%<br/><%=row[:cnt_2].to_f/row[:day_2] if row[:day_2]!=0%>회</td>
-    <td style='text-align:center;'><%=row[:day_3]%>명 학습<br/><%=row[:cnt_3]%>회 학습<br/><%=row[:day_3]*100/row[:user]%>%<br/><%=row[:cnt_3].to_f/row[:day_3] if row[:day_3]!=0%>회</td>
-    <td style='text-align:center;'><%=row[:day_4]%>명 학습<br/><%=row[:cnt_4]%>회 학습<br/><%=row[:day_4]*100/row[:user]%>%<br/><%=row[:cnt_4].to_f/row[:day_4] if row[:day_4]!=0%>회</td>
-    <td style='text-align:center;'><%=row[:day_5]%>명 학습<br/><%=row[:cnt_5]%>회 학습<br/><%=row[:day_5]*100/row[:user]%>%<br/><%=row[:cnt_5].to_f/row[:day_5] if row[:day_5]!=0%>회</td>
-    <td style='text-align:center;'><%=row[:day_6]%>명 학습<br/><%=row[:cnt_6]%>회 학습<br/><%=row[:day_6]*100/row[:user]%>%<br/><%=row[:cnt_6].to_f/row[:day_6] if row[:day_6]!=0%>회</td>
-    <td style='text-align:center;'><%=row[:day_7]%>명 학습<br/><%=row[:cnt_7]%>회 학습<br/><%=row[:day_7]*100/row[:user]%>%<br/><%=row[:cnt_7].to_f/row[:day_7] if row[:day_7]!=0%>회</td>
-    <td style='text-align:center;'><%=row[:day_8]%>명 학습<br/><%=row[:cnt_8]%>회 학습<br/><%=row[:day_8]*100/row[:user]%>%<br/><%=row[:cnt_8].to_f/row[:day_8] if row[:day_8]!=0%>회</td>
-    <td style='text-align:center;'><%=row[:day_9]%>명 학습<br/><%=row[:cnt_9]%>회 학습<br/><%=row[:day_9]*100/row[:user]%>%<br/><%=row[:cnt_9].to_f/row[:day_9] if row[:day_9]!=0%>회</td>
-    <td style='text-align:center;'><%=row[:day_10]%>명 학습<br/><%=row[:cnt_10]%>회 학습<br/><%=row[:day_10]*100/row[:user]%>%<br/><%=row[:cnt_10].to_f/row[:day_10] if row[:day_10]!=0%>회</td>
-    <td style='text-align:center;'><%=row[:day_11]%>명 학습<br/><%=row[:cnt_11]%>회 학습<br/><%=row[:day_11]*100/row[:user]%>%<br/><%=row[:cnt_11].to_f/row[:day_11] if row[:day_11]!=0%>회</td>
-    <td style='text-align:center;'><%=row[:day_12]%>명 학습<br/><%=row[:cnt_12]%>회 학습<br/><%=row[:day_12]*100/row[:user]%>%<br/><%=row[:cnt_12].to_f/row[:day_12] if row[:day_12]!=0%>회</td>
+    <td style='text-align:center;'><br/><%=row[:day_1]%>명 학습<br/><%=row[:cnt_1]%>회 학습<br/><%=row[:day_1]*100/row[:user]%>%<br/><%=(row[:cnt_1].to_f/row[:day_1]).round(1) if row[:day_1]!=0%>회</td>
+    <td style='text-align:center;'><br/><%=row[:day_2]%>명 학습<br/><%=row[:cnt_2]%>회 학습<br/><%=row[:day_2]*100/row[:user]%>%<br/><%=(row[:cnt_2].to_f/row[:day_2]).round(1) if row[:day_2]!=0%>회</td>
+    <td style='text-align:center;'><br/><%=row[:day_3]%>명 학습<br/><%=row[:cnt_3]%>회 학습<br/><%=row[:day_3]*100/row[:user]%>%<br/><%=(row[:cnt_3].to_f/row[:day_3]).round(1) if row[:day_3]!=0%>회</td>
+    <td style='text-align:center;'><br/><%=row[:day_4]%>명 학습<br/><%=row[:cnt_4]%>회 학습<br/><%=row[:day_4]*100/row[:user]%>%<br/><%=(row[:cnt_4].to_f/row[:day_4]).round(1) if row[:day_4]!=0%>회</td>
+    <td style='text-align:center;'><br/><%=row[:day_5]%>명 학습<br/><%=row[:cnt_5]%>회 학습<br/><%=row[:day_5]*100/row[:user]%>%<br/><%=(row[:cnt_5].to_f/row[:day_5]).round(1) if row[:day_5]!=0%>회</td>
+    <td style='text-align:center;'><br/><%=row[:day_6]%>명 학습<br/><%=row[:cnt_6]%>회 학습<br/><%=row[:day_6]*100/row[:user]%>%<br/><%=(row[:cnt_6].to_f/row[:day_6]).round(1) if row[:day_6]!=0%>회</td>
+    <td style='text-align:center;'><br/><%=row[:day_7]%>명 학습<br/><%=row[:cnt_7]%>회 학습<br/><%=row[:day_7]*100/row[:user]%>%<br/><%=(row[:cnt_7].to_f/row[:day_7]).round(1) if row[:day_7]!=0%>회</td>
+    <td style='text-align:center;'><br/><%=row[:day_8]%>명 학습<br/><%=row[:cnt_8]%>회 학습<br/><%=row[:day_8]*100/row[:user]%>%<br/><%=(row[:cnt_8].to_f/row[:day_8]).round(1) if row[:day_8]!=0%>회</td>
+    <td style='text-align:center;'><br/><%=row[:day_9]%>명 학습<br/><%=row[:cnt_9]%>회 학습<br/><%=row[:day_9]*100/row[:user]%>%<br/><%=(row[:cnt_9].to_f/row[:day_9]).round(1) if row[:day_9]!=0%>회</td>
+    <td style='text-align:center;'><br/><%=row[:day_10]%>명 학습<br/><%=row[:cnt_10]%>회 학습<br/><%=row[:day_10]*100/row[:user]%>%<br/><%=(row[:cnt_10].to_f/row[:day_10]).round(1) if row[:day_10]!=0%>회</td>
+    <td style='text-align:center;'><br/><%=row[:day_11]%>명 학습<br/><%=row[:cnt_11]%>회 학습<br/><%=row[:day_11]*100/row[:user]%>%<br/><%=(row[:cnt_11].to_f/row[:day_11]).round(1) if row[:day_11]!=0%>회</td>
+    <td style='text-align:center;'><br/><%=row[:day_12]%>명 학습<br/><%=row[:cnt_12]%>회 학습<br/><%=row[:day_12]*100/row[:user]%>%<br/><%=(row[:cnt_12].to_f/row[:day_12]).round(1) if row[:day_12]!=0%>회</td>
   </tr>
   <% end %>
 </table>
