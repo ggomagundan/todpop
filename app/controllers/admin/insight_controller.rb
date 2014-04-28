@@ -410,7 +410,7 @@ class Admin::InsightController < Admin::ApplicationController
       @r = 3
     end
 
-    new_user = User.where('created_at >= ? and created_at <= ?', sd.hour, ed.hour)
+    new_user = User.where('created_at >= ? and created_at <= ?', sd, ed)
     new_user_id = new_user.pluck(:id).uniq
     test_history = UserTestHistory.where('created_at >= ? and created_at <= ? and user_id in (?)', sd, ed, new_user_id)
 
