@@ -5,20 +5,22 @@ class Api::ScreenLockController < ApplicationController
 
     if !params[:user_id].present?
       @status = false
-      @msg = "User_ID"
+      @msg = "Need User_ID"
     else
-      history = UserTestHistory.where('user_id = ? and stage not in (10)', params[:user_id].to_i).last(3)
-      if history.size == 0
-        word_id = WordLevel.where('id = ?', rand(3961..7920))[0].word_id
+      dup_check = AppInfo.first.test_reward_max
+      history = UserTestHistory.where('user_id = ? and stage not in (10) and reward = ?', params[:user_id].to_i, dup_check).last(3)
+      if history.size < 2
+        word_id = WordLevel.where('id >= 3961 and id <= 7920').order("rand()").pluck(:word_id).uniq[0..9]
       else
-        rnd = rand(0..history.size-1)
-        lv = history[rnd].level
-        stg = history[rnd].stage
-        idx = WordLevel.where('level = ? and stage = ?', lv, stg)
-        word_id = idx[rand(0..idx.length-1)].word_id
+        lv = []
+        stg = []
+        history.each do |i|
+          lv.push(i.level)
+          stg.push(i.stage)
+        end
+        word_id = WordLevel.where('level in (?) and stage in (?)', lv, stg).order("rand()").pluck(:word_id).uniq[0..9]
       end
-      @word = Word.find_by_id(word_id).name
-      @mean = Word.find_by_id(word_id).mean
+      @word = Word.where('id in (?)', word_id).pluck(:name, :mean)
     end
   end
 
