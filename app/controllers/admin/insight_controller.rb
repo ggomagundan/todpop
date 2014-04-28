@@ -410,21 +410,18 @@ class Admin::InsightController < Admin::ApplicationController
       @r = 3
     end
 
-    #new_user = User.where('created_at >= ? and created_at <= ?', sd, ed)
-    #new_user_id = new_user.pluck(:id).uniq
-    #test_history = UserTestHistory.where('created_at >= ? and created_at <= ? and user_id in (?)', sd, ed, new_user_id)
+    new_user = User.where('created_at >= ? and created_at <= ?', sd, ed)
+    new_user_id = new_user.pluck(:id).uniq
+    test_history = UserTestHistory.where('created_at >= ? and created_at <= ? and user_id in (?)', sd, ed, new_user_id)
 
     dup = []
     cnt = []
 
     sd.upto(ed).each do |d|
       row = {}
-      date_new = User.where('created_at >= ? and created_act < ?', d, d+1)
-      new_id = date_new.pluck(:id).uniq
-      #date_new = new_user.where('created_at >= ? and created_at < ?', d, d+1)
+      date_new = new_user.where('created_at >= ? and created_at < ?', d, d+1)
       (0..12).each do |i|
-        temp = UserTestHistory.where('created_at >= ? and created_at < ? and user_id in (?)', d+i, d+i+1, new_id).pluck(:user_id)
-        #temp = test_history.where('created_at >= ? and created_at < ? and user_id in (?)', d+i, d+i+1, date_new.pluck(:id).uniq).pluck(:user_id)
+        temp = test_history.where('created_at >= ? and created_at < ? and user_id in (?)', d+i, d+i+1, date_new.pluck(:id).uniq).pluck(:user_id)
         dup[i] = temp.uniq
         cnt[i] = temp.count
       end
