@@ -6,8 +6,7 @@
 <button class='btn <% if @r == 3 %> btn-success <% end %>' onclick="location.href='/admin/insight/retention?recent=all'">전체기간</button>
 직접입력&nbsp;&nbsp;
 <input type='text' name='date1' class='date' style='width:80px;margin:0;'/> ~ <input type='text' name='date2' class='date' style='width:80px;margin:0;'/>&nbsp;&nbsp;
-<button id='date_btn' class='btn'>선택완료</button>
-<br/><br/><br/>
+<button id='date_btn' class='btn'>선택완료</button><br/><br/><br/>
 <h3>신규 유저 분석</h3>
 <br/>
 <table class='table table-hover' style='text-align:center;'>
@@ -98,7 +97,7 @@ $(document).ready(function() {
       return false;
     }
 
-    location.href="/admin/insight?start_date="+$("input[name=date1]").val()+"&end_date="+$("input[name=date2]").val();
+    location.href="/admin/insightretention?start_date="+$("input[name=date1]").val()+"&end_date="+$("input[name=date2]").val();
   });
 });
 </script>
