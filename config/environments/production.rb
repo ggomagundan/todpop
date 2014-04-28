@@ -78,7 +78,7 @@ Todpop::Application.configure do
     domain: "todpop.co.kr",
     authentication: "plain",
     enable_starttls_auto: true,
-    user_name: "todpop.test@gmail.com",
+    user_name: "smile@todpop.co.kr",
     password: "Xhemvkq4321"
   }
 
