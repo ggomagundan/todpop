@@ -7,4 +7,4 @@ stdout_path "#{root}/log/unicorn_access.log"
 
 listen "/tmp/unicorn.sock"
 worker_processes 5
-timeout 30
+timeout 60
