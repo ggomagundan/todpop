@@ -760,6 +760,9 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
       err_log.save
     else
       if params[:ids].present?
+        log = LogCrosswalk.new
+        log.campaign_title = "PARAMS : " + params[:ids] + " Time : " + Time.now.to_s
+        log.save
         tmp = params[:ids].split("_")
         (1..tmp.count).each do |i|
           aid = tmp[i] if tmp[i-1]=="a"
