@@ -743,20 +743,31 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
     @status = true
     @msg = ""
 
-    if !params[:aid].present?
+    if !params[:aid].present? && !params[:ids].present?
       @status = false
       @msg = "not exist params ad_id"
       err_log = LogCrosswalk.new
       err_log.campaign_title = "ERROR : " + @msg.to_s + " Time : " + Time.now.to_s
       err_log.save
-    elsif !params[:mid].present?
+    elsif !params[:mid].present? && !params[:ids].present?
       @status = false
       @msg = "not exist params user_id"
       err_log = LogCrosswalk.new
       err_log.campaign_title = "ERROR : " + @msg.to_s + " Time : " + Time.now.to_s
       err_log.save
     else
-      if !(adInfo = CpxAdvertisement.find_by_id(params[:aid])).present? || !User.find_by_id(params[:mid]).present?
+      if params[:ids].present?
+        tmp = params[:ids].split("%")
+        (1..tmp.count).each do |i|
+          aid = tmp[i] if tmp[i-1]=="a"
+          mid = tmp[i] if tmp[i-1]=="m"
+        end
+      else
+        aid=params[:aid]
+        mid=params[:mid]
+      end
+
+      if !(adInfo = CpxAdvertisement.find_by_id(aid).present? || !User.find_by_id(mid).present?
         @status = false
         @msg = "not exist cpx or user"
         err_log = LogCrosswalk.new
@@ -764,9 +775,9 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
         err_log.save
       else
         adLog = AdvertiseCpxLog.new
-        adLog.ad_id = params[:aid].to_i
+        adLog.ad_id = aid.to_i
         adLog.ad_type = 303 #only cpa
-        adLog.user_id = params[:mid]
+        adLog.user_id = mid.to_i
         adLog.act = 3 #only_cpa_return
         
         if adLog.save
@@ -776,7 +787,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           adInfo.update_attributes(:remain => adInfo.remain - 1)
 
             # reward / point process .......
-            @token_user_id = params[:mid].to_i
+            @token_user_id = mid.to_i
             @token_reward = adInfo.reward
             @token_point = adInfo.point
             if @token_reward.present? && @token_reward > 0 
