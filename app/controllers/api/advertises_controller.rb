@@ -767,7 +767,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
         mid=params[:mid]
       end
 
-      if !(adInfo = CpxAdvertisement.find_by_id(aid).present? || !User.find_by_id(mid).present?
+      if !(adInfo = CpxAdvertisement.find_by_id(aid)).present? || !User.find_by_id(mid).present?
         @status = false
         @msg = "not exist cpx or user"
         err_log = LogCrosswalk.new
