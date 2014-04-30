@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 Todpop::Application.routes.draw do
+  get "private" => "admin/private#index"
   namespace(:api){ 
     resources :qpcon_coupons do 
   
