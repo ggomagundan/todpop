@@ -743,6 +743,9 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
     @status = true
     @msg = ""
 
+    aid=""
+    mid=""
+
     if !params[:aid].present? && !params[:ids].present?
       @status = false
       @msg = "not exist params ad_id"
