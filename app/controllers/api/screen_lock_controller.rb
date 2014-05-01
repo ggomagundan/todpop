@@ -27,6 +27,7 @@ class Api::ScreenLockController < ApplicationController
   def get_ad
     @status = true
     @msg = true
+    @list = []
 
     if !params[:user_id].present?
       @status = false
@@ -34,12 +35,21 @@ class Api::ScreenLockController < ApplicationController
     else
       ad = LockAdvertisement.first
       if ad.present?
-        @ad_id = ad.id
-        @ad_type = ad.ad_type
-        @ad_image = ad.ad_image_url
-        @target_url = ad.target_url
-        @reward = ad.reward
-        @point = ad.point
+        (201..202).each do |i|
+          @list.push(:group => i, :ad_id => ad.id, :ad_type => ad.ad_type, :ad_image => ad.ad_image_url, :target_url => ad.target_url,
+                    :reward => ad.reward, :point => ad.point)
+        end
+        @list.push(:group => 301, :ad_id => ad.id, :ad_type => ad.ad_type, :ad_image => ad.ad_image_url, :target_url => ad.target_url,
+                   :reward => ad.reward, :point => ad.point)
+        (301..304).each do |i|
+          @list.push(:group => i, :ad_id => ad.id, :ad_type => ad.ad_type, :ad_image => ad.ad_image_url, :target_url => ad.target_url,
+                    :reward => ad.reward, :point => ad.point)
+        end
+        (401..402).each do |i|
+          @list.push(:group => i, :ad_id => ad.id, :ad_type => ad.ad_type, :ad_image => ad.ad_image_url, :target_url => ad.target_url,
+                    :reward => ad.reward, :point => ad.point)
+        end
+
         @msg = "success"
       else
         @msg = "not exist advertisement"
