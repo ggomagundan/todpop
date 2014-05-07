@@ -23,14 +23,14 @@ json.n_period_log_wp	@n_period_log_wp
 json.n_period_log_wop	@n_period_log_wop
 json.point_string	@point_string
 
-json.n_period_1_log_wp	@n_periiod_1_log_wp
-json.n_period_1_log_wop @n_periiod_1_log_wop
-json.n_period_2_log_wp  @n_periiod_2_log_wp
-json.n_period_2_log_wop @n_periiod_2_log_wop
-json.n_period_3_log_wp  @n_periiod_3_log_wp
-json.n_period_3_log_wop @n_periiod_3_log_wop
-json.n_period_4_log_wp  @n_periiod_4_log_wp
-json.n_period_4_log_wop @n_periiod_4_log_wop
+json.n_period_1_log_wp	@n_period_1_log_wp
+json.n_period_1_log_wop @n_period_1_log_wop
+json.n_period_2_log_wp  @n_period_2_log_wp
+json.n_period_2_log_wop @n_period_2_log_wop
+json.n_period_3_log_wp  @n_period_3_log_wp
+json.n_period_3_log_wop @n_period_3_log_wop
+json.n_period_4_log_wp  @n_period_4_log_wp
+json.n_period_4_log_wop @n_period_4_log_wop
 
 json.n_period_x_log	@n_period_x_log
 json.period_x_log	@period_x_log
