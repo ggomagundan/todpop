@@ -478,6 +478,7 @@ class Api::StudiesController < ApplicationController
         end
 
         # reward process
+        @attend_reward = dtc_reward
         if dtc_reward > 0
           @token_user_id = user_id
           @token_reward_type = 2000
@@ -488,6 +489,7 @@ class Api::StudiesController < ApplicationController
         end
 
         # rank_point process
+        @attend_point = dtc_point
         if dtc_point > 0
           @token_user_id = user_id
           @token_point_type = 2000

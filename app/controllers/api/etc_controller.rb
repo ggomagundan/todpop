@@ -318,7 +318,7 @@ class Api::EtcController < ApplicationController
         temp = Prize.where('category = ? and period = ? and rank = ? and date_start <= ? and date_end >= ?',
                            params[:category].to_i, params[:period], i+1, Date.today, Date.today)
         if temp.present?
-          tmp_hash = {:id => temp[0].id, :image => temp[0].image, :nickname => nickname}
+          tmp_hash = {:id => temp[0].id, :image => temp[0].image, :nickname => nickname, :content1 => temp[0].content1, :content2 => temp[0].content2, :content3 => temp[0].content3}
           @prize.push(tmp_hash)
         end
       end
@@ -590,7 +590,9 @@ class Api::EtcController < ApplicationController
       if MentList.find_by_kind("notice").present?
         mentlist = MentList.where(:kind => "notice")
         @ment = []
+        @ment_arr = []
         (0..mentlist.count-1).each do |m|
+          @ment_arr.push(:title=>mentlist[m].title, :content=>mentlist[m].content)
           @ment[m] = mentlist[m].content
         end
       end

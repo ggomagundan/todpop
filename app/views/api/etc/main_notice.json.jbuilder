@@ -5,4 +5,5 @@ json.data do |json|
   json.android_version  @android_version
   json.store_state  @store_state
   json.ment  @ment
+  json.ment_arr @ment_arr
 end
