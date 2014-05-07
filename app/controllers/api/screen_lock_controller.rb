@@ -36,13 +36,13 @@ class Api::ScreenLockController < ApplicationController
       ad = LockAdvertisement.first
       if ad.present?
         (201..202).each do |i|
-          @list.push(:group => i, :ad_id => ad.id, :ad_type => ad.ad_type, :ad_image => ad.ad_image_url, :target_url => ad.target_url,
+          @list.push(:group => i, :ad_id => ad.id, :ad_type => ad.ad_type, :ad_image => "/uploads/lock_advertisement/ad_image/1/#{i}.png", :target_url => ad.target_url,
                     :reward => ad.reward, :point => ad.point)
         end
-        @list.push(:group => 301, :ad_id => ad.id, :ad_type => ad.ad_type, :ad_image => ad.ad_image_url, :target_url => ad.target_url,
+        @list.push(:group => 301, :ad_id => ad.id, :ad_type => ad.ad_type, :ad_image => "/uploads/lock_advertisement/ad_image/1/300.png", :target_url => ad.target_url,
                    :reward => ad.reward, :point => ad.point)
         (301..304).each do |i|
-          @list.push(:group => i, :ad_id => ad.id, :ad_type => ad.ad_type, :ad_image => ad.ad_image_url, :target_url => ad.target_url,
+          @list.push(:group => i, :ad_id => ad.id, :ad_type => ad.ad_type, :ad_image => "/uploads/lock_advertisement/ad_image/1/#{i}.png", :target_url => ad.target_url,
                     :reward => ad.reward, :point => ad.point)
         end
         (401..402).each do |i|
