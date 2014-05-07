@@ -1,4 +1,5 @@
 class Admin::ScreenLocksController < Admin::ApplicationController
+  #before_action :admin_screen_locks_path, only: [:show, :edit, :update, :destroy]
   #before_action :set_admin_screen_lock, only: [:show, :edit, :update, :destroy]
 
   # GET /admin/screen_locks

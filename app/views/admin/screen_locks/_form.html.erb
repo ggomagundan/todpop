@@ -26,7 +26,31 @@
     <label class="control-label">ad_type</label>
     <div class="controls">
       <label>
-        <%= f.radio_button :ad_type, 401, :checked=>f.object.ad_type ==401 || f.object.kind == nil  %> Screen Lock CPC
+        <%= f.radio_button :ad_type, 412, :checked=>f.object.ad_type ==412 || f.object.kind == nil  %> 짭영제출문제(G1-2)
+      </label>
+      <label>
+        <%= f.radio_button :ad_type, 421, :checked=>f.object.ad_type ==421 %> 오늘의 인강(G2-1)
+      </label>
+      <label>
+        <%= f.radio_button :ad_type, 422, :checked=>f.object.ad_type ==422 %> 짤강(G2-2)
+      </label>
+      <label>
+        <%= f.radio_button :ad_type, 431, :checked=>f.object.ad_type ==431 %> 헤럴드 뉴스(G3-1)
+      </label>
+      <label>
+        <%= f.radio_button :ad_type, 432, :checked=>f.object.ad_type ==432 %> 데일리 뉴스(G3-2)
+      </label>
+      <label>
+        <%= f.radio_button :ad_type, 433, :checked=>f.object.ad_type ==433 %> 수능정보(G3-3)
+      </label>
+      <label>
+        <%= f.radio_button :ad_type, 434, :checked=>f.object.ad_type ==434 %> 웹툰(G3-4)
+      </label>
+      <label>
+        <%= f.radio_button :ad_type, 441, :checked=>f.object.ad_type ==441 %> 짭영 캠페인(G4-1)
+      </label>
+      <label>
+        <%= f.radio_button :ad_type, 442, :checked=>f.object.ad_type ==442 %> 광고(G4-2)
       </label>
     </div>
   </div>
