@@ -158,6 +158,7 @@ Todpop::Application.routes.draw do
       get 'launching', :on => :collection
       get 'show_user_stat', :on => :collection
       get 'show_service_stat', :on => :collection
+      get 'user_anal', :on => :collection
     end
 
     resources :screen_lock do

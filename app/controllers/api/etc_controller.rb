@@ -952,6 +952,119 @@ class Api::EtcController < ApplicationController
 
   end
 
+  # ----------------------------------------------------------------------------------------------------------
+
+  # cys user_analytics
+
+  def user_anal
+    @status = true
+    @msg = ""
+
+    @date_start = (Date.today - 7.day).beginning_of_week
+    @date_end   = (Date.today - 7.day).end_of_week
+    @now = Time.now
+    @time_start = @date_start.to_time
+    @time_end = (@date_end+1.day).to_time
+
+    user = User.find_by_id(params[:user_id])
+    category = params[:category].to_i
+
+    #@date_start = (Date.today - 42.day).beginning_of_week
+    #@date_end   = (Date.today - 42.day).end_of_week
+    #@time_start = @date_start.to_time
+    #@time_end = (@date_end+1.day).to_time
+    #user = User.find_by_id('2749')
+    #category = 2
+
+
+
+    @user_id = user.id
+    @nickname = user.nickname
+    @sex = user.sex
+    @birth = user.birth
+    @level = user.level_test
+
+    @reg_date = user.created_at
+    @last_test_date = user.last_test
+    @daily_test_count = user.daily_test_count
+
+    @total_reward = user.total_reward
+    @daily_test_reward = user.daily_test_reward
+
+    @days = (Date.today - @reg_date.to_date + 1).to_i
+    @n_total_log_wp = PointLog.where('user_id=?',@user_id).count
+    @n_total_log_wop = UserTestHistory.where('user_id=? and rank_point=0',@user_id).count
+    @n_period_log_wp = PointLog.where('user_id=? and created_at>=? and created_at<?',@user_id,@time_start,@time_end).count
+    @n_period_log_wop = UserTestHistory.where('user_id=? and rank_point=0 and created_at>=? and created_at<?',@user_id,@time_start,@time_end).count
+    @point_string = ((700.0/@days).round(1)).to_s + '% days, ' + ((@n_period_log_wp.to_f*100/@n_total_log_wp).round(1)).to_s + ' % point logs, ' + (((@n_period_log_wp+@n_period_log_wop).to_f*100/(@n_total_log_wp+@n_total_log_wop)).round(1)).to_s + ' % point logs (including 0s)'
+
+    @n_period_1_log_wp  =        PointLog.where('user_id=? and point_type=1001 and created_at>=? and created_at<?',@user_id,@time_start,@time_end).count
+    @n_period_1_log_wop = UserTestHistory.where('user_id=? and      category=1 and rank_point=0 and created_at>=? and created_at<?',@user_id,@time_start,@time_end).count
+    @n_period_2_log_wp  =        PointLog.where('user_id=? and point_type=1002 and created_at>=? and created_at<?',@user_id,@time_start,@time_end).count
+    @n_period_2_log_wop = UserTestHistory.where('user_id=? and      category=2 and rank_point=0 and created_at>=? and created_at<?',@user_id,@time_start,@time_end).count
+    @n_period_3_log_wp  =        PointLog.where('user_id=? and point_type=1003 and created_at>=? and created_at<?',@user_id,@time_start,@time_end).count
+    @n_period_3_log_wop = UserTestHistory.where('user_id=? and      category=3 and rank_point=0 and created_at>=? and created_at<?',@user_id,@time_start,@time_end).count
+    @n_period_4_log_wp  =        PointLog.where('user_id=? and point_type=1004 and created_at>=? and created_at<?',@user_id,@time_start,@time_end).count
+    @n_period_4_log_wop = UserTestHistory.where('user_id=? and      category=4 and rank_point=0 and created_at>=? and created_at<?',@user_id,@time_start,@time_end).count
+
+    @n_period_x_log = PointLog.where('user_id=? and point_type!=1001 and point_type!=1002 and point_type!=1003 and point_type!=1004 and point_type!=2000 and point_type!=2500 and created_at>=? and created_at<?',@user_id,@time_start,@time_end).count
+    @period_x_log = PointLog.where('user_id=? and point_type!=1001 and point_type!=1002 and point_type!=1003 and point_type!=1004 and point_type!=2000 and point_type!=2500 and created_at>=? and created_at<?',@user_id,@time_start,@time_end)
+
+    @point_period = PointLog.where('user_id=? and created_at>=? and created_at<?',@user_id,@time_start,@time_end).pluck(:point).sum
+    @point_1_period = PointLog.where('user_id=? and point_type!=1002  and point_type!=1003 and point_type!=1004 and created_at>=? and created_at<?',@user_id,@time_start,@time_end).pluck(:point).sum
+    @point_2_period = PointLog.where('user_id=? and point_type!=1001  and point_type!=1003 and point_type!=1004 and created_at>=? and created_at<?',@user_id,@time_start,@time_end).pluck(:point).sum
+    @point_3_period = PointLog.where('user_id=? and point_type!=1001  and point_type!=1002 and point_type!=1004 and created_at>=? and created_at<?',@user_id,@time_start,@time_end).pluck(:point).sum
+    @point_4_period = PointLog.where('user_id=? and point_type!=1001  and point_type!=1002 and point_type!=1003 and created_at>=? and created_at<?',@user_id,@time_start,@time_end).pluck(:point).sum
+
+    if category==1
+      @win_point=@point_1_period
+    elsif category==2
+      @win_point=@point_2_period
+    elsif category==3
+      @win_point=@point_3_period
+    elsif category==4
+      @win_point=@point_4_period
+    end
+
+    #cnt=0
+    @n_new_study=0
+    @new_study_point=0
+    @n_re_study=0
+    @re_study_point=0
+    study_all = UserTestHistory.where('user_id=? and category=? and created_at>=? and created_at<?',@user_id,category,@time_start,@time_end)
+    study_all.each do |s|
+      #cnt+=1
+      #puts(cnt)
+      past = UserTestHistory.where('user_id=? and category=? and level=? and stage=? and created_at<?',@user_id,category,s.level,s.stage,s.created_at)
+      if !past.present?
+        @n_new_study += 1
+        @new_study_point += s.rank_point
+      else
+        @n_re_study += 1
+        @re_study_point += s.rank_point
+      end
+    end
+    @study_point = @new_study_point + @re_study_point
+    @new_study_point_string = @new_study_point.to_s + '(' + (@new_study_point.to_f*100/@win_point).round(1).to_s    + ' %)'
+    @re_study_point_string = @re_study_point.to_s + '(' + (@re_study_point.to_f*100/@win_point).round(1).to_s    + ' %)'
+    @study_point_string = @study_point.to_s + '(' + (@study_point.to_f*100/@win_point).round(1).to_s    + ' %)'
+
+    @daily_test_point = PointLog.where('user_id=? and point_type=2000 and created_at>=? and created_at<?',@user_id,@time_start,@time_end).pluck(:point).sum
+    @daily_test_point_string = @daily_test_point.to_s + '(' + (@daily_test_point.to_f*100/@win_point).round(1).to_s    + ' %)'
+
+    @cp_point = @period_x_log.pluck(:point).sum
+    @cp_point_string = @cp_point.to_s + '(' + (@cp_point.to_f*100/@win_point).round(1).to_s    + ' %)'
+
+    @non_study_point = @daily_test_point + @cp_point
+    @non_study_point_string = @non_study_point.to_s + '(' + (@non_study_point.to_f*100/@win_point).round(1).to_s    + ' %)'
+
+  end
+
+
+
+
+
+  # ----------------------------------------------------------------------------------------------------------
 
 
 
