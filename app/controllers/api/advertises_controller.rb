@@ -745,8 +745,17 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
 
     aid=""
     mid=""
-
-    if !params[:aid].present? && !params[:ids].present?
+    if params[:test]
+      @msg = "testing 1"
+    elsif params[:ids].present? &&  params[:reward].present?
+      adLog = AdvertiseCpxLog.new
+      adLog.ad_id = 9999
+      adLog.ad_type = 303 #only cpa
+      adLog.user_id = 1
+      adLog.act = 3 #only_cpa_return
+      adLog.save
+      @msg = "testing 2"
+    elsif !params[:aid].present? && !params[:ids].present?
       @status = false
       @msg = "not exist params ad_id"
       err_log = LogCrosswalk.new
