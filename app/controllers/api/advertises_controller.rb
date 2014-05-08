@@ -747,9 +747,9 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
     mid=""
     if params[:ids].present? &&  params[:reward].present?
       adLog = AdvertiseCpxLog.new
-      adLog.ad_id = reward
+      adLog.ad_id = reward.to_i
       adLog.ad_type = 303 #only cpa
-      adLog.user_id = ids
+      adLog.user_id = ids.to_i
       adLog.act = 3 #only_cpa_return
       adLog.save
       @msg = "testing 2"
