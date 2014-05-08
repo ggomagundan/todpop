@@ -502,7 +502,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           @target_url = ad.target_url
           #for linkprice 
           if @target_url.include?("linkprice")
-            @target_url += "&u_id="+params[:user_id]
+            @target_url += params[:user_id]
           end
           @package_name = ad.package_name
           @confirm_url = ad.confirm_url
