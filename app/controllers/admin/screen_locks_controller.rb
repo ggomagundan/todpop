@@ -5,8 +5,27 @@ class Admin::ScreenLocksController < Admin::ApplicationController
   # GET /admin/screen_locks
   # GET /admin/screen_locks.json
   def index
-    @lock_advertisements = LockAdvertisement.all
+    if !params[:type].present?
+      @lock_advertisements = LockAdvertisement.all
+      @r=1
+    else
+      @lock_advertisements = LockAdvertisement.where('ad_type = ?', params[:type])
+      @r=2 if params[:type]=="412"
+      @r=3 if params[:type]=="421"
+      @r=4 if params[:type]=="422"
+      @r=5 if params[:type]=="431"
+      @r=6 if params[:type]=="432"
+      @r=7 if params[:type]=="433"
+      @r=8 if params[:type]=="434"
+      @r=9 if params[:type]=="441"
+      @r=10 if params[:type]=="442"
+    end
     @lock_cor_name = Client.all
+    type = [421, 422, 431, 432, 433, 434, 441, 442]
+    @today = LockAdvertisement.where('start_date <= ? and end_date >= ?', Date.today, Date.today).pluck(:ad_type).uniq
+    @tomorrow = LockAdvertisement.where('start_date <= ? and end_date >= ?', Date.today+1.day, Date.today+1.day).pluck(:ad_type).uniq
+    @today = ((type-@today).count==0) ? 0 : type-@today
+    @tomorrow = ((type-@tomorrow).count==0) ? 0 : type-@tomorrow
   end
 
   # GET /admin/screen_locks/1

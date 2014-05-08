@@ -1,4 +1,16 @@
-
+<div class='noset'>
+  <xmp>오늘 빈 페이지 : <%=@today%>   내일의 빈 페이지 : <%=@tomorrow%></xmp>
+  <button class="btn <% if @r == 1 %> btn-success <% end %>" onclick="location.href='/admin/screen_locks'">전체보기</button>&nbsp;&nbsp;
+  <button class='btn <% if @r == 2 %> btn-success <% end %>' onclick="location.href='/admin/screen_locks?type=412'">짭영제출문제(412)</button>&nbsp;&nbsp;
+  <button class='btn <% if @r == 3 %> btn-success <% end %>' onclick="location.href='/admin/screen_locks?type=421'">오늘의인강(421)</button>&nbsp;&nbsp;
+  <button class='btn <% if @r == 4 %> btn-success <% end %>' onclick="location.href='/admin/screen_locks?type=422'">짤강(422)</button>&nbsp;&nbsp;
+  <button class='btn <% if @r == 5 %> btn-success <% end %>' onclick="location.href='/admin/screen_locks?type=431'">헤럴드뉴스(431)</button>&nbsp;&nbsp;
+  <button class='btn <% if @r == 6 %> btn-success <% end %>' onclick="location.href='/admin/screen_locks?type=432'">데일리뉴스(432)</button>&nbsp;&nbsp;
+  <button class='btn <% if @r == 7 %> btn-success <% end %>' onclick="location.href='/admin/screen_locks?type=433'">수능정보(433)</button>&nbsp;&nbsp;
+  <button class='btn <% if @r == 8 %> btn-success <% end %>' onclick="location.href='/admin/screen_locks?type=434'">웹툰(434)</button>&nbsp;&nbsp;
+  <button class='btn <% if @r == 9 %> btn-success <% end %>' onclick="location.href='/admin/screen_locks?type=441'">짭영캠페인(441)</button>&nbsp;&nbsp;
+  <button class='btn <% if @r == 10 %> btn-success <% end %>' onclick="location.href='/admin/screen_locks?type=442'">광고(442)</button><br/><br/>
+</div>
 <table class="table table-hover">
   <tr>
     <th>ID</th>
