@@ -500,6 +500,10 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           @ad_image = ad.ad_image_url
           @ad_text = ad.ad_text
           @target_url = ad.target_url
+          #for linkprice 
+          if @target_url.include?("linkprice")
+            @target_url += "&u_id="+params[:user_id]
+          end
           @package_name = ad.package_name
           @confirm_url = ad.confirm_url
           @reward = ad.reward
