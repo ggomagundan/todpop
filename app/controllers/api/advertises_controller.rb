@@ -747,39 +747,44 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
     mid=""
     
     # for linkprice  u_id = user_id , reward = reward, m = merchandise_name(stored in package_name column)
-    if params[:u_id].present? &&  params[:reward].present? && params[:m].present?
+    if params[:u_id].present? &&  params[:reward].present? && params[:m].present? 
       adLog = AdvertiseCpxLog.new
       adInfo = CpxAdvertisement.where(:package_name => params[:m]).first
-      adLog.ad_id = adInfo.id #params[:reward].to_i
-      adLog.ad_type = adInfo.ad_type #only cpa
-      adLog.user_id = params[:u_id].to_i
-      adLog.act = 3 #only_cpa_return
-      if adLog.save
-        @result = true
-        @msg = "success"
-        
-        adInfo.update_attributes(:remain => adInfo.remain - 1)
-
-          # reward / point process .......
-          @token_user_id = params[:u_id].to_i
-          @token_reward = adInfo.reward
-          @token_point = adInfo.point
-          if @token_reward.present? && @token_reward > 0 
-            @token_sub_title = adInfo.ad_type.to_s + " : " + adInfo.ad_name
-            @token_reward_type = 4000 + adInfo.ad_type              # reward_type : CPX = 4000 + ad_type
-            @token_title = "CPX"
-            process_reward_general
-          elsif @token_point.present? && @token_point > 0
-            @token_name = "CPX : " + adInfo.ad_type.to_s + " : " + adInfo.ad_name
-            @token_point_type = 4000 + adInfo.ad_type               # point_type : CPX = 4000 + ad_type
-            process_point_general
-          end
+      if adInfo.present?
+        adLog.ad_id = adInfo.id #params[:reward].to_i
+        adLog.ad_type = adInfo.ad_type #only cpa
+        adLog.user_id = params[:u_id].to_i
+        adLog.act = 3 #only_cpa_return
+        if adLog.save
+          @result = true
+          @msg = "success"
+          
+          adInfo.update_attributes(:remain => adInfo.remain - 1)
+  
+            # reward / point process .......
+            @token_user_id = params[:u_id].to_i
+            @token_reward = adInfo.reward
+            @token_point = adInfo.point
+            if @token_reward.present? && @token_reward > 0 
+              @token_sub_title = adInfo.ad_type.to_s + " : " + adInfo.ad_name
+              @token_reward_type = 4000 + adInfo.ad_type              # reward_type : CPX = 4000 + ad_type
+              @token_title = "CPX"
+              process_reward_general
+            elsif @token_point.present? && @token_point > 0
+              @token_name = "CPX : " + adInfo.ad_type.to_s + " : " + adInfo.ad_name
+              @token_point_type = 4000 + adInfo.ad_type               # point_type : CPX = 4000 + ad_type
+              process_point_general
+            end
+        else
+          @status = false
+          @msg = "failed to save"
+          err_log = LogCrosswalk.new
+          err_log.campaign_title = "ERROR : " + @msg.to_s + " Time : " + Time.now.to_s
+          err_log.save
+        end
       else
-        @status = false
-        @msg = "failed to save"
-        err_log = LogCrosswalk.new
-        err_log.campaign_title = "ERROR : " + @msg.to_s + " Time : " + Time.now.to_s
-        err_log.save
+        @result=false
+        @msg = "failed to find advertisement"
       end
     elsif !params[:aid].present? && !params[:ids].present?
       @status = false
