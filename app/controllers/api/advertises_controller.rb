@@ -747,7 +747,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
     mid=""
     
     # for linkprice  u_id = user_id , reward = reward, m = merchandise_name(stored in package_name column)
-    if params[:u_id].present? &&  params[:reward].present? && prams[:m].present?
+    if params[:u_id].present? &&  params[:reward].present? && params[:m].present?
       adLog = AdvertiseCpxLog.new
       adInfo = CpxAdvertisement.where(:package_name => params[:m]).first
       adLog.ad_id = adInfo.id #params[:reward].to_i
