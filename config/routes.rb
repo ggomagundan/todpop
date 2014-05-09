@@ -181,6 +181,8 @@ Todpop::Application.routes.draw do
     post '/words/dummy/confirm' => 'words#confirm'
     patch '/words/dummy/:id/confirm' => 'words#confirm'
 
+    patch '/screen_locks.:id' => 'screen_locks#update'
+
   }
 
   # The priority is based upon order of creation: first created -> highest priority.
