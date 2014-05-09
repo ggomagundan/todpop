@@ -567,7 +567,7 @@ class Api::StudiesController < ApplicationController
     else
 
       if params[:category].to_i == 0
-        @list = Word.where("voice is not null").pluck(:name, :voice)
+        @list = Word.where("voice is not null and voice = 1").pluck(:name, :voice)
       else
         if params[:category].to_i == 1
           level = WordLevel.where("level < 16").pluck(:word_id)
