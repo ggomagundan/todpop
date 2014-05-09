@@ -94,11 +94,29 @@ class Api::ScreenLockController < ApplicationController
       ad_log.user_id = params[:user_id]
       ad_log.ad_id = params[:ad_id]
       ad_log.ad_type = params[:ad_type]
-      ad_log.act = params[:act]
+      ad_log.act = 2
+      ad_log.act=1 if AdvertiseLockLog.where('user_id = ? and ad_id = ? and act = 1', params[:user_id], params[:ad_id]).count==0
+      
       if ad_log.save
         ad_remain = LockAdvertisement.find(params[:ad_id])
         ad_remain.update_attributes(:remain => ad_remain.remain-1)
         @result = true
+        
+        if ad_log.act == 1
+          @token_user_id = params[:user_id]
+          @token_reward = ad_remain.reward
+          @token_point = ad_remain.point
+          if @token_reward.present? && @token_reward > 0 
+            @token_sub_title = ad_remain.id.to_s + " : " + ad_remain.ad_name
+            @token_reward_type = 6000 + ad_remain.ad_type              # reward_type : LockScreen = 6000 + ad_type
+            @token_title = "Lock Screen"
+            process_reward_general
+          elsif @token_point.present? && @token_point > 0
+            @token_name = "LockScreen : " + ad_remain.id.to_s + " : " + adInfo.ad_name
+            @token_point_type = 6000 + ad_remain.ad_type               # point_type : LockScreen = 6000 + ad_type
+            process_point_general
+          end
+        end
       else
         @status = false
         @msg = "failed to save"
