@@ -1,6 +1,15 @@
 class Admin::CpdAdvertisementsController < Admin::ApplicationController
   def index
-    @cpd_advertisements = CpdAdvertisement.all
+    if !params[:type].present?
+      @cpd_advertisements = CpdAdvertisement.all.order("id desc")
+      @r=1
+    elsif params[:type]=="1"
+      @cpd_advertisements = CpdAdvertisement.where('remain > 0 and start_date <= ? and end_date >= ? and priority > 0 and priority < 6', Date.today, Date.today).order("id desc")
+      @r=2
+    elsif params[:type]=="0"
+      @cpd_advertisements = CpdAdvertisement.where('remain < 0 or start_date > ? or end_date < ? or priority = 0 or priority > 5', Date.today, Date.today).order("id desc")
+      @r=3
+    end
     @cpd_cor_name = Client.all
   end
 
