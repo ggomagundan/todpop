@@ -49,7 +49,10 @@ class ApplicationController < ActionController::Base
     current_reward = user.current_reward
     total_reward = user.total_reward
     user.update_attributes(:current_reward => current_reward + @token_reward)
-    user.update_attributes(:total_reward => total_reward + @token_reward)
+    
+    if @token_reward_type != 8100 && @token_reward_type != 8200
+      user.update_attributes(:total_reward => total_reward + @token_reward)
+    end
 
     # refund to RefundRequest (all refund history)
     if @token_reward_type == 7000
