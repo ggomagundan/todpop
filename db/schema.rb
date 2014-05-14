@@ -11,15 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(version: 20140117015049) do
-=======
-ActiveRecord::Schema.define(version: 20140119055831) do
->>>>>>> 8edf516b5a21da8fa81f51cd5f8ef3b5f6420b13
+ActiveRecord::Schema.define(version: 20140507074027) do
 
   create_table "addresses", force: true do |t|
     t.string   "depth1"
     t.string   "depth2"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "admin_cplock_advertisements", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -54,6 +55,15 @@ ActiveRecord::Schema.define(version: 20140119055831) do
     t.datetime "updated_at"
   end
 
+  create_table "advertise_lock_logs", force: true do |t|
+    t.integer  "ad_id"
+    t.integer  "ad_type"
+    t.integer  "user_id"
+    t.integer  "act"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "app_infos", force: true do |t|
     t.string   "time_quick_ans"
     t.string   "one_medal"
@@ -68,12 +78,13 @@ ActiveRecord::Schema.define(version: 20140119055831) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "new_stage_day_limit"
-    t.string   "android_package"
-    t.string   "ios_package"
     t.string   "android_package_name"
     t.string   "ios_package_name"
     t.string   "market_url"
     t.string   "appstore_url"
+    t.integer  "voice_ver"
+    t.string   "pin_dtm"
+    t.integer  "store_open",           default: 0
   end
 
   create_table "app_introduce_videos", force: true do |t|
@@ -138,7 +149,7 @@ ActiveRecord::Schema.define(version: 20140119055831) do
     t.integer  "contract"
     t.integer  "remain"
     t.integer  "basic_show_price", default: 0
-    t.integer  "action_price"
+    t.integer  "action_price",     default: 0
     t.integer  "pay_type",         default: 1
     t.date     "start_date"
     t.date     "end_date"
@@ -155,6 +166,7 @@ ActiveRecord::Schema.define(version: 20140119055831) do
     t.string   "description"
     t.string   "link"
     t.string   "picture"
+    t.integer  "target",           default: 0
   end
 
   create_table "cpdm_advertisements", force: true do |t|
@@ -169,16 +181,12 @@ ActiveRecord::Schema.define(version: 20140119055831) do
     t.date     "end_date"
     t.string   "url"
     t.string   "length"
-<<<<<<< HEAD
     t.integer  "priority",               default: 4
-=======
-    t.integer  "priority"
->>>>>>> 8edf516b5a21da8fa81f51cd5f8ef3b5f6420b13
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "video"
-    t.integer  "full_show_price"
-    t.integer  "additional_share_price"
+    t.integer  "full_show_price",        default: 0
+    t.integer  "additional_share_price", default: 0
     t.integer  "reward"
     t.integer  "point"
     t.string   "name"
@@ -186,6 +194,8 @@ ActiveRecord::Schema.define(version: 20140119055831) do
     t.string   "description"
     t.string   "link"
     t.string   "picture"
+    t.integer  "video_ver",              default: 0
+    t.integer  "target",                 default: 0
   end
 
   create_table "cpx_advertisements", force: true do |t|
@@ -209,7 +219,7 @@ ActiveRecord::Schema.define(version: 20140119055831) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "priority",         default: 5
-<<<<<<< HEAD
+    t.integer  "target",           default: 0
   end
 
   create_table "create_user_stage_infos", force: true do |t|
@@ -217,8 +227,6 @@ ActiveRecord::Schema.define(version: 20140119055831) do
     t.string   "stage_info"
     t.datetime "created_at"
     t.datetime "updated_at"
-=======
->>>>>>> 8edf516b5a21da8fa81f51cd5f8ef3b5f6420b13
   end
 
   create_table "inactive_users", force: true do |t|
@@ -243,6 +251,26 @@ ActiveRecord::Schema.define(version: 20140119055831) do
     t.datetime "updated_at"
   end
 
+  create_table "lock_advertisements", force: true do |t|
+    t.string   "ad_name"
+    t.integer  "cli_id",           default: 1
+    t.integer  "ad_type"
+    t.integer  "contract",         default: 0
+    t.integer  "remain",           default: 0
+    t.integer  "basic_show_price", default: 0
+    t.integer  "action_price",     default: 0
+    t.integer  "reward",           default: 0
+    t.integer  "point",            default: 0
+    t.integer  "pay_type",         default: 1
+    t.string   "target_url"
+    t.string   "ad_image"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.integer  "priority",         default: 4
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "log_crosswalks", force: true do |t|
     t.integer  "uid"
     t.integer  "campaign_idx"
@@ -251,8 +279,18 @@ ActiveRecord::Schema.define(version: 20140119055831) do
     t.datetime "updated_at"
   end
 
+  create_table "log_sign_ups", force: true do |t|
+    t.text     "invalue"
+    t.boolean  "status"
+    t.string   "msg"
+    t.text     "elog"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "ment_lists", force: true do |t|
     t.string   "kind"
+    t.string   "title"
     t.text     "content"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -272,11 +310,15 @@ ActiveRecord::Schema.define(version: 20140119055831) do
     t.string   "order_id"
     t.string   "barcode"
     t.string   "product_id"
-    t.string   "qpcon_order_id"
-    t.boolean  "is_used",        default: false
+    t.string   "approval_number"
+    t.boolean  "is_used",         default: false
     t.date     "limit_date"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "coupon_company"
+    t.string   "issue_date"
+    t.boolean  "is_expired",      default: false
+    t.boolean  "is_canceled",     default: false
   end
 
   create_table "point_logs", force: true do |t|
@@ -312,7 +354,7 @@ ActiveRecord::Schema.define(version: 20140119055831) do
 
   create_table "qpcon_products", force: true do |t|
     t.string   "product_id"
-    t.integer  "qpcon_category_id"
+    t.string   "qpcon_category_id"
     t.string   "product_name"
     t.string   "change_market_name"
     t.integer  "stock_count"
@@ -326,18 +368,15 @@ ActiveRecord::Schema.define(version: 20140119055831) do
     t.text     "use_info"
     t.integer  "valid_type"
     t.string   "valid_date"
-    t.integer  "max_sale"
-    t.integer  "min_sale"
-    t.integer  "max_month_sale"
-    t.integer  "is_sale"
+    t.integer  "max_sale_cnt"
+    t.integer  "min_sale_cnt"
+    t.integer  "mon_max_sale_cnt"
+    t.integer  "sale_gb"
     t.integer  "pin_type"
-    t.integer  "product_type"
+    t.integer  "prod_gb"
     t.datetime "created_at"
     t.datetime "updated_at"
-<<<<<<< HEAD
-=======
-    t.string   "info"
->>>>>>> 8edf516b5a21da8fa81f51cd5f8ef3b5f6420b13
+    t.string   "reg_dtm"
   end
 
   create_table "ranking_currents", force: true do |t|
@@ -351,14 +390,14 @@ ActiveRecord::Schema.define(version: 20140119055831) do
     t.integer  "mon_2",      default: 0
     t.integer  "mon_3",      default: 0
     t.integer  "mon_4",      default: 0
-    t.date     "mon_start",  default: '2013-11-01'
-    t.date     "mon_end",    default: '2013-11-30'
+    t.date     "mon_start",  default: '2013-10-01'
+    t.date     "mon_end",    default: '2013-10-31'
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "ranking_histories", force: true do |t|
-    t.string   "type"
+    t.string   "rank_type"
     t.date     "start"
     t.date     "end"
     t.integer  "rank"
@@ -367,6 +406,78 @@ ActiveRecord::Schema.define(version: 20140119055831) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "ranking_temp_mon_as", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "score"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ranking_temp_mon_as", ["score"], name: "index_ranking_temp_mon_as_on_score", using: :btree
+
+  create_table "ranking_temp_mon_bs", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "score"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ranking_temp_mon_bs", ["score"], name: "index_ranking_temp_mon_bs_on_score", using: :btree
+
+  create_table "ranking_temp_mon_cs", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "score"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ranking_temp_mon_cs", ["score"], name: "index_ranking_temp_mon_cs_on_score", using: :btree
+
+  create_table "ranking_temp_mon_ds", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "score"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ranking_temp_mon_ds", ["score"], name: "index_ranking_temp_mon_ds_on_score", using: :btree
+
+  create_table "ranking_temp_week_as", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "score"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ranking_temp_week_as", ["score"], name: "index_ranking_temp_week_as_on_score", using: :btree
+
+  create_table "ranking_temp_week_bs", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "score"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ranking_temp_week_bs", ["score"], name: "index_ranking_temp_week_bs_on_score", using: :btree
+
+  create_table "ranking_temp_week_cs", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "score"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ranking_temp_week_cs", ["score"], name: "index_ranking_temp_week_cs_on_score", using: :btree
+
+  create_table "ranking_temp_week_ds", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "score"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ranking_temp_week_ds", ["score"], name: "index_ranking_temp_week_ds_on_score", using: :btree
 
   create_table "refund_requests", force: true do |t|
     t.integer  "user_id"
@@ -475,7 +586,7 @@ ActiveRecord::Schema.define(version: 20140119055831) do
     t.string   "mobile",                                 null: false
     t.integer  "interest"
     t.string   "character",                default: "8"
-    t.integer  "level_test"
+    t.integer  "level_test",               default: 0
     t.integer  "is_set_facebook_password", default: 0
     t.integer  "daily_test_count",         default: 0
     t.integer  "daily_test_reward",        default: 0
@@ -496,6 +607,13 @@ ActiveRecord::Schema.define(version: 20140119055831) do
     t.datetime "updated_at"
   end
 
+  create_table "word_sounds", force: true do |t|
+    t.integer  "word_id"
+    t.binary   "sound"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "words", force: true do |t|
     t.string   "name",                   null: false
     t.string   "mean",                   null: false
@@ -507,6 +625,7 @@ ActiveRecord::Schema.define(version: 20140119055831) do
     t.datetime "updated_at"
     t.string   "image"
     t.integer  "confirm",    default: 0
+    t.integer  "voice"
   end
 
 end

@@ -501,9 +501,9 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           @ad_text = ad.ad_text
           @target_url = ad.target_url
           #for linkprice 
-          if @target_url.include?("linkprice")
-            @target_url += params[:user_id]
-          end
+          # if @target_url.include?("linkprice")
+          #  @target_url += params[:user_id]
+          #end
           @package_name = ad.package_name
           @confirm_url = ad.confirm_url
           @reward = ad.reward
@@ -957,6 +957,9 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
         @ad_image = cpx_data.ad_image
         @ad_text = cpx_data.ad_text
         @target_url = cpx_data.target_url
+        if @target_url.include?("linkprice")
+          @target_url += params[:user_id]
+        end
         @package_name = cpx_data.package_name
         @confirm_url = cpx_data.confirm_url
         @reward = cpx_data.reward

@@ -69,3 +69,4 @@ gem 'certified'
 gem 'bootstrap-datepicker-rails'
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+#
