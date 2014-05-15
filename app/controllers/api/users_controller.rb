@@ -34,6 +34,10 @@ class Api::UsersController < ApplicationController
     invalue = invalue + " / " + "password="  + params[:password]  if params[:password].present?
     invalue = invalue + " / " + "recommend=" + params[:recommend] if params[:recommend].present?
     invalue = invalue + " / " + "sex="       + params[:sex]       if params[:sex].present?
+    invalue = invalue + " / " + "device="       + params[:device]       if params[:device].present?
+    invalue = invalue + " / " + "android_ver="       + params[:android_version]       if params[:android_version].present?
+    invalue = invalue + " / " + "operator="       + params[:operator]       if params[:operator].present?
+    invalue = invalue + " / " + "region="       + params[:operator_region]       if params[:operator_region].present?
     log.invalue = invalue
     log.save 
     # --------
@@ -117,6 +121,9 @@ class Api::UsersController < ApplicationController
           @user.password_confirmation = "dummypassword"
           @user.is_set_facebook_password = 0
         end
+
+        @user.android_ver=params[:android_version] if params[:android_version].present?
+        @user.region=params[:operator_region] if params[:operator_region].present?
 
         # Create User's Database
         
@@ -821,7 +828,7 @@ class Api::UsersController < ApplicationController
 
   private
     def user_params
-      params.permit(:email, :facebook, :nickname, :recommend, :sex, :birth, :address, :f_address, :mobile, :interest)
+      params.permit(:email, :facebook, :nickname, :recommend, :sex, :birth, :address, :f_address, :mobile, :interest, :device, :operator)
     end
 
 end
