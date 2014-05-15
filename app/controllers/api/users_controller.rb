@@ -122,6 +122,7 @@ class Api::UsersController < ApplicationController
           @user.is_set_facebook_password = 0
         end
 
+        @user.screen_lock=1
         @user.android_ver=params[:android_version] if params[:android_version].present?
         @user.region=params[:operator_region] if params[:operator_region].present?
 

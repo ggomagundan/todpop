@@ -93,6 +93,7 @@ class Api::ScreenLockController < ApplicationController
       ad_log = AdvertiseLockLog.new
       ad_log.user_id = params[:user_id]
       ad_log.ad_id = params[:ad_id]
+      ad_log.group = params[:group]
       ad_log.ad_type = params[:ad_type]
       ad_log.act = 2
       ad_log.act=1 if AdvertiseLockLog.where('user_id = ? and ad_id = ? and act = 1', params[:user_id], params[:ad_id]).count==0
@@ -123,4 +124,24 @@ class Api::ScreenLockController < ApplicationController
       end
     end
   end
+
+  def lock_state
+    @status = true
+    @msg = ""
+
+    if !params[:user_id].present?
+      @status = false
+      @msg = "not exist user id"
+    elsif !params[:state].present?
+      @status = false
+      @msg = "not exist state"
+    end
+    
+    if @status == true
+      @state = User.find(params[:user_id])
+      @state.update_attributes(:screen_lock => params[:state])
+      @msg = params[:state]=="1" ? "on":"off"
+    end
+  end
+
 end
