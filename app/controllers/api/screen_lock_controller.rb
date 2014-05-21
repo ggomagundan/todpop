@@ -30,7 +30,7 @@ class Api::ScreenLockController < ApplicationController
     @status = true
     @msg = true
     @list = []
-    type = [421, 422, 431, 432, 433, 434, 441, 442]
+    type = [413, 421, 422, 431, 432, 433, 434, 441, 442]
 
     if !params[:user_id].present?
       @status = false

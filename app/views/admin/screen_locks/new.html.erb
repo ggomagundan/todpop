@@ -3,4 +3,31 @@
   <%= render 'form', f: f %>
 <% end %>
 
+<script>
+$(document).ready(function() {
+  $("input[name='lock_advertisement[link]']").change(function() {
+    if($(this).val() == '0') {
+      $('.link').show();
+      $('.cpd').hide();
+      $('.cpdm').hide();
+      $('.cpx').hide();
+    } else {
+      $('.link').hide();
+    }
+    if($(this).val() == '1') {
+      $('.cpd').show();
+      $('.cpdm').hide();
+      $('.cpx').hide();
+    } else if($(this).val() == '2') {
+      $('.cpdm').show();
+      $('.cpd').hide();
+      $('.cpx').hide();
+    } else if($(this).val() == '3') {
+      $('.cpx').show();
+      $('.cpdm').hide();
+      $('.cpd').hide();
+    }
+  })
+});
+</script>
 <%= link_to 'Back', admin_screen_locks_path %>
