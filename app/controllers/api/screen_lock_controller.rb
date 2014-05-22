@@ -21,7 +21,7 @@ class Api::ScreenLockController < ApplicationController
         word_id = WordLevel.where('level in (?) and stage in (?)', lv, stg).order("rand()").pluck(:word_id).uniq[0..9]
       end
       @word = Word.where('id in (?)', word_id).pluck(:name, :mean)
-      tmp_q=LockAdvertisement.where('group = 412').order("rand()").first
+      tmp_q=LockAdvertisement.where(:group => 412).order("rand()").first
       @quiz={:id => tmp_q.id, :image => tmp_q.ad_image_url, :target_url => tmp_q.target_url, :reward => tmp_q.reward, :point => tmp_q.point} if tmp_q.present?
     end
   end
