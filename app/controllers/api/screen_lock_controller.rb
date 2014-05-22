@@ -21,7 +21,7 @@ class Api::ScreenLockController < ApplicationController
         word_id = WordLevel.where('level in (?) and stage in (?)', lv, stg).order("rand()").pluck(:word_id).uniq[0..9]
       end
       @word = Word.where('id in (?)', word_id).pluck(:name, :mean)
-      tmp_q=LockAdvertisement.where('ad_type = 412').order("rand()").first
+      tmp_q=LockAdvertisement.where('group = 412').order("rand()").first
       @quiz={:id => tmp_q.id, :image => tmp_q.ad_image_url, :target_url => tmp_q.target_url, :reward => tmp_q.reward, :point => tmp_q.point} if tmp_q.present?
     end
   end
@@ -38,14 +38,14 @@ class Api::ScreenLockController < ApplicationController
     else
       (0..type.count-1).each do |i|
         
-        ad = LockAdvertisement.where('ad_type = ? and start_date <= ? and end_date >= ?', type[i], Date.today, Date.today).order("priority").first
+        ad = LockAdvertisement.where('group = ? and start_date <= ? and end_date >= ?', type[i], Date.today, Date.today).order("priority").first
         if ad.present?
           @list.push(:group => type[i], :ad_id => ad.id, :ad_type => ad.ad_type, :ad_image => ad.ad_image_url, :target_url => ad.target_url,
                      :reward => ad.reward, :point => ad.point)
         end
 
         if type[i]==431
-          ad = LockAdvertisement.where('ad_type = ? and start_date <= ? and end_date >= ?', type[i], Date.today, Date.today).order("priority").second
+          ad = LockAdvertisement.where('group = ? and start_date <= ? and end_date >= ?', type[i], Date.today, Date.today).order("priority").second
           if ad.present?
             @list.push(:group => type[i], :ad_id => ad.id, :ad_type => ad.ad_type, :ad_image => ad.ad_image_url, :target_url => ad.target_url,
                        :reward => ad.reward, :point => ad.point)
