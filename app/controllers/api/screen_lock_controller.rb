@@ -30,7 +30,7 @@ class Api::ScreenLockController < ApplicationController
     @status = true
     @msg = true
     @list = []
-    type = [413, 421, 422, 431, 432, 433, 434, 441, 442]
+    type = [421, 422, 431, 432, 433, 434, 441, 442]
 
     if !params[:user_id].present?
       @status = false
@@ -144,4 +144,15 @@ class Api::ScreenLockController < ApplicationController
     end
   end
 
+  def get_test
+    @status = true
+    @msg = ""
+    @list = []
+
+    ad = LockAdvertisement.where(:group => 413).last
+        if ad.present?
+          @list.push(:group => 413, :ad_id => ad.id, :ad_type => ad.ad_type, :ad_image => ad.ad_image_url, :target_url => ad.target_url,
+                     :reward => ad.reward, :point => ad.point)
+        end
+  end
 end

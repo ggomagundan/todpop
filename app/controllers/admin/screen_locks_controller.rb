@@ -134,8 +134,8 @@ class Admin::ScreenLocksController < Admin::ApplicationController
       @lock_advertisement.action_price=params[:action_price].to_i if params[:action_price].present?
       @lock_advertisement.target_url=params[:target_url].to_s if params[:target_url].present?
       @lock_advertisement.pay_type=params[:pay_type] if params[:pay_type].present?
-    else
-      @lock_advertisement.linked_id=params[:lock_advertisement][:linked_id].to_i if params[:lock_advertisement][:linked_id].present?
+    #else
+      #@lock_advertisement.linked_id=params[:lock_advertisement][:linked_id].to_i if params[:lock_advertisement][:linked_id].present?
     end
     #@lock_advertisement.update_attributes(:linked_id => params[:linked_id]) if params[:link]!=0
     #if params[:lock_advertisement][:link] != 0
@@ -161,6 +161,6 @@ class Admin::ScreenLocksController < Admin::ApplicationController
   private
     # Never trust parameters from the scary internet, only allow the white list through.
     def lock_params
-      params.require(:lock_advertisement).permit(:ad_name, :link, :cli_id, :group, :reward, :point, :ad_image, :start_date, :end_date, :priority)
+      params.require(:lock_advertisement).permit(:ad_name, :link, :linked_id, :cli_id, :group, :reward, :point, :ad_image, :start_date, :end_date, :priority)
     end
 end

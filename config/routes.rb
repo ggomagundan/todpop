@@ -166,6 +166,7 @@ Todpop::Application.routes.draw do
       get 'get_ad', :on => :collection
       get 'set_ad_log', :on => :collection
       get 'lock_state', :on => :collection
+      get 'get_test', :on => :collection
     end
 
   
