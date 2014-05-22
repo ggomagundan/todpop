@@ -38,14 +38,16 @@ class Api::ScreenLockController < ApplicationController
     else
       (0..type.count-1).each do |i|
         
-        ad = LockAdvertisement.where('group = ? and start_date <= ? and end_date >= ?', type[i], Date.today, Date.today).order("priority").first
+        tmp = LockAdvertisement.where(:group => type[i])
+        ad = tmp.where('start_date <= ? and end_date >= ?', Date.today, Date.today).order("priority").first
         if ad.present?
           @list.push(:group => type[i], :ad_id => ad.id, :ad_type => ad.ad_type, :ad_image => ad.ad_image_url, :target_url => ad.target_url,
                      :reward => ad.reward, :point => ad.point)
         end
 
         if type[i]==431
-          ad = LockAdvertisement.where('group = ? and start_date <= ? and end_date >= ?', type[i], Date.today, Date.today).order("priority").second
+          tmp_1 = LockAdvertisement.where(:group => type[i])
+          ad = tmp_1.where('start_date <= ? and end_date >= ?', Date.today, Date.today).order("priority").second
           if ad.present?
             @list.push(:group => type[i], :ad_id => ad.id, :ad_type => ad.ad_type, :ad_image => ad.ad_image_url, :target_url => ad.target_url,
                        :reward => ad.reward, :point => ad.point)
