@@ -180,12 +180,17 @@ class Api::ScreenLockController < ApplicationController
         @list.push(:word => w[0], :mean => w[1])
       end
 
+      @count = words.count
+
       if words.present?
         log = ExamWordsLog.new
         log.exam_no = ExamWords.where('title = ? and part = ?', params[:title], params[:part]).first.exam_no
         log.user_id = params[:user_id].to_i
         log.part = params[:part].to_i
         log.save
+      else
+        @msg = "not exist words"
+        @status = false
       end
     end
   end
