@@ -291,7 +291,7 @@ class Admin::InsightController < Admin::ApplicationController
     last_week_record = RankingHistory.where(:end => week_end_day).where(:rank => [1,2,3,4,5])
     last_week_record.each do |i|
       w_row = {}
-      week_tmp = User.find_by_id(i.user_id)
+      week_tmp = User.where(:id => i.user_id).first
       w_row[:rank] = i.rank
       case i.rank_type
       when "week_1"
