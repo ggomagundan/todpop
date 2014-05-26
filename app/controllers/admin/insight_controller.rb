@@ -303,9 +303,9 @@ class Admin::InsightController < Admin::ApplicationController
       else
         w_row[:category] = "토익"
       end
-      w_row[:nickname] = week_tmp.nickname
-      w_row[:mobile] = week_tmp.mobile
-      w_row[:email] = if week_tmp.email.present? then week_tmp.email else week_tmp.facebook end
+      w_row[:nickname] = if week_tmp.nickname.present? then week_tmp.nickname else "**계정삭제**" end
+      w_row[:mobile] = if week_tmp.mobile.present? then week_tmp.mobile else "**계정삭제**" end
+      w_row[:email] = if week_tmp.email.present? then week_tmp.email else "**계정삭제**" end
       @w_logs.push(w_row)
     end
 
