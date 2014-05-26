@@ -157,4 +157,36 @@ class Api::ScreenLockController < ApplicationController
                      :reward => ad.reward, :point => ad.point)
         end
   end
+
+  def exam_words
+    @status = true
+    @msg = ""
+    @list = []
+
+    if !params[:title].present?
+      @status = false
+      @msg = "not exsit title"
+    elsif !params[:part].present?
+      @status = false
+      @msg = "not exist part"
+    elsif !params[:user_id].present?
+      @status = false
+      @msg = "not exist user_id"
+    else
+      @msg = "part-#{params[:part]} of #{params[:title]}"
+      words = ExamWords.where('title = ? and part = ?', params[:title], params[:part]).order("rand()").pluck(:word, :mean)
+
+      words.each do |w|
+        @list.push(:word => w[0], :mean => w[1])
+      end
+
+      if words.present?
+        log = ExamWordsLog.new
+        log.exam_no = ExamWords.where('title = ? and part = ?', params[:title], params[:part]).first.exam_no
+        log.user_id = params[:user_id].to_i
+        log.part = params[:part].to_i
+        log.save
+      end
+    end
+  end
 end
