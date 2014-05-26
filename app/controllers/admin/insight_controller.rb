@@ -286,8 +286,6 @@ class Admin::InsightController < Admin::ApplicationController
 
   def ranker
     @w_logs = []
-    @m_logs = []
-    @logs = []
 
     week_end_day = Date.today.beginning_of_week-1
     last_week_record = RankingHistory.where(:end => week_end_day).where(:rank => [1,2,3,4,5])
@@ -311,27 +309,6 @@ class Admin::InsightController < Admin::ApplicationController
       @w_logs.push(w_row)
     end
 
-    month_end_day = Date.today.beginning_of_month-1
-    last_month_record = RankingHistory.where(:end => month_end_day).where(:rank => [1,2,3,4,5])
-    last_month_record.each do |j|
-      m_row = {}
-      month_tmp = User.find_by_id(j.user_id)
-      m_row[:rank] = j.rank
-      case j.rank_type
-      when "month_1"
-        m_row[:category] = "기초"
-      when "month_2"
-        m_row[:category] = "중학"
-      when "month_3"
-        m_row[:category] = "수능"
-      else
-        m_row[:category] = "토익"
-      end
-      m_row[:nickname] = month_tmp.nickname
-      m_row[:mobile] = month_tmp.mobile
-      m_row[:email] = if month_tmp.email.present? then month_tmp.email else month_tmp.facebook end
-      @m_logs.push(m_row)
-    end
   end
 
   def dau_analysis
