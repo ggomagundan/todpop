@@ -584,4 +584,18 @@ class Api::StudiesController < ApplicationController
     end
   end
 
+  def weekly_challenge
+    @status = true
+    @msg = ""
+    @test = []
+    word = Word.order("rand()").limit(100).pluck(:name, :mean).uniq
+    (0..99).each do |i|
+      begin
+        ex1 = word[rand(0..99)][1]
+        ex2 = word[rand(0..99)][1]
+        ex3 = word[rand(0..99)][1]
+      end while word[i][1] == ex1 or word[i][1] == ex2 or word[i][1] == ex3 or ex1 == ex2 or ex1 == ex3 or ex2 == ex3
+      @test.push(:word => word[i][0], :mean => word[i][1], :incorrect1 => ex1, :incorrect2 => ex2, :incorrect3 => ex3)
+    end
+  end
 end
