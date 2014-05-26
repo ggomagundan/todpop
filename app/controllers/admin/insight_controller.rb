@@ -305,7 +305,7 @@ class Admin::InsightController < Admin::ApplicationController
       week_tmp = User.where(:id => i.user_id).first
       if week_tmp.present?
         w_row[:nickname] = week_tmp.nickname
-        w_row[:mobile] = week_tmp.mobile.present
+        w_row[:mobile] = week_tmp.mobile
         w_row[:email] = if week_tmp.email.present? then week_tmp.email else week_tmp.facebook end
       else
         w_row[:nickname] = "계정삭제"
