@@ -163,34 +163,37 @@ class Api::ScreenLockController < ApplicationController
     @msg = ""
     @list = []
 
-    if !params[:title].present?
+    if !params[:ad_id].present?
       @status = false
-      @msg = "not exsit title"
-    elsif !params[:part].present?
-      @status = false
-      @msg = "not exist part"
+      @msg = "not exsit ad_id"
     elsif !params[:user_id].present?
       @status = false
       @msg = "not exist user_id"
     else
-      @msg = "part-#{params[:part]} of #{params[:title]}"
-      words = ExamWords.where('title = ? and part = ?', params[:title], params[:part]).order("rand()").pluck(:word, :mean)
+      ad = LockAdvertisement.where('id = ?', params[:ad_id]).first
+      if ad.present?
+        @msg = "part-#{ad.target_url} of #{ad.ad_name}"
+        words = ExamWords.where('title = ? and part = ?', ad.ad_name, ad.target_url).order("rand()").pluck(:word, :mean)
 
-      words.each do |w|
-        @list.push(:word => w[0], :mean => w[1])
-      end
+        words.each do |w|
+          @list.push(:word => w[0], :mean => w[1])
+        end
 
-      @count = words.count
+        @count = words.count
 
-      if words.present?
-        log = ExamWordsLog.new
-        log.exam_no = ExamWords.where('title = ? and part = ?', params[:title], params[:part]).first.exam_no
-        log.user_id = params[:user_id].to_i
-        log.part = params[:part].to_i
-        log.save
+        if words.present?
+          log = ExamWordsLog.new
+          log.exam_no = ExamWords.where('title = ? and part = ?', ad.ad_name, ad.target_url).first.exam_no
+          log.user_id = params[:user_id].to_i
+          log.part = ad.target_url.to_i
+          log.save
+        else
+          @msg = "not exist words"
+          @status = false
+        end
       else
-        @msg = "not exist words"
         @status = false
+        @msg = "invalid ad_id"
       end
     end
   end
