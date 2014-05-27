@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-  default from: "todpop.test@gmail.com"
+  default from: "smile@todpop.co.kr"
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
