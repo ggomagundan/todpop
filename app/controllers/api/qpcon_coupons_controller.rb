@@ -34,6 +34,7 @@ class Api::QpconCouponsController < ApplicationController
     dead=dead+["P000005535"]  # 2014-04-29 18:00  CU
     dead=dead+["P000005145"]  # 2014-05-14 18:00  KFC
     dead=dead+["P000005775","P000005776"]  # 2014-05-26 18:00  CU
+    dead=dead+["P000003896","P000005328","P000005403","G120633","P000004463","P000005339","P000005384","P000004469","P000005346","P000005378"]  # 2014-05-27 18:00  angelinus
     return dead
   end
 

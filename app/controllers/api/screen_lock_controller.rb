@@ -169,6 +169,19 @@ class Api::ScreenLockController < ApplicationController
     elsif !params[:user_id].present?
       @status = false
       @msg = "not exist user_id"
+    elsif params[:score].present?
+      ad = LockAdvertisement.where('id = ?', params[:ad_id]).first
+      log = ExamWordsLog.where('exam_no = ? and part = ? and user_id = ? and score is null', ad.exam_no, ad.part, params[:user_id]).last
+      if log.present?
+        log.update_attributes(:score => params[:score])
+      else
+        log = ExamWordsLog.new
+        log.exam_no = ad.exam_no
+        log.part = ad.part
+        log.user_id = params[:user_id]
+        log.score = params[:score]
+        log.save
+      end
     else
       ad = LockAdvertisement.where('id = ?', params[:ad_id]).first
       if ad.present?
