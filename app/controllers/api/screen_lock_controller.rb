@@ -171,7 +171,9 @@ class Api::ScreenLockController < ApplicationController
       @msg = "not exist user_id"
     elsif params[:score].present?
       ad = LockAdvertisement.where('id = ?', params[:ad_id]).first
-      log = ExamWordsLog.where('exam_no = ? and part = ? and user_id = ? and score is null', ad.exam_no, ad.part, params[:user_id]).last
+      word = ExamWords.where('title = ? and part = ?', ad.ad_name, ad.target_url).first
+      log = ExamWordsLog.where('exam_no = ? and part = ? and user_id = ? and score is null', word.exam_no, word.part, params[:user_id]).last
+      @msg = "part-#{word.part} of #{word.title} score : #{params[:score]}"
       if log.present?
         log.update_attributes(:score => params[:score])
       else
