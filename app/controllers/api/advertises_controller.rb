@@ -449,8 +449,9 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           end
         elsif params[:type].present?
           ad_tmp = CpxAdvertisement.where('remain > 0 and end_date >= ? and start_date <= ?', Date.today, Date.today).pluck(:id) - AdvertiseCpxLog.where('user_id = ? and act = 3', params[:user_id].to_i).pluck(:ad_id).uniq
-          #cpc_tmp = CpxAdvertisement.where('remain > 0 and end_date >= ? and start_date <= ? and ad_type = 306 and id not in (?)', Date.today, Date.today, ad_tmp).pluck(:id) - AdvertiseCpxLog.where('user_id = ? and ad_type=306 and act = 1 and created_at >= ? and created_at < ?', params[:user_id], Date.today, Date.today+1).pluck(:ad_id).uniq
-          #ad_tmp += cpc_tmp
+          cpc_tmp = CpxAdvertisement.where('remain > 0 and end_date >= ? and start_date <= ? and ad_type = 306 and id not in (?)', Date.today, Date.today, ad_tmp).pluck(:id) - AdvertiseCpxLog.where('user_id = ? and ad_type=306 and act = 1 and created_at >= ? and created_at < ?', params[:user_id], Date.today, Date.today+1).pluck(:ad_id).uniq
+          ad_tmp += cpc_tmp
+          ad_tmp.sort
           if ad_tmp.length == 1
             r_id = CpxAdvertisement.where('ad_type = 300').pluck(:id).first
           else
