@@ -509,8 +509,8 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           #end
           @package_name = ad.package_name
           @confirm_url = ad.confirm_url
-          @reward = ad.reward
-          @point = ad.point
+          @reward = if cpc_tmp.include?(ad.id) then 0 else ad.reward end
+          @point = if cpc_tmp.include?(ad.id) then 0 else ad.point end
           @n_question = ad.n_question
           @msg = "success"
         end 
