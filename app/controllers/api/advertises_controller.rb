@@ -710,7 +710,6 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
         @status = false
         @msg = "not exist cpx or user"
       else
-          if !AdvertiseCpxLog.where('user_id = ? and ad_id = ? and act = 3', params[:user_id].to_i, params[:ad_id].to_i).present?
         adLog = AdvertiseCpxLog.new
         adLog.ad_id = params[:ad_id]
         adLog.ad_type = params[:ad_type]
@@ -719,6 +718,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
         if adLog.save
           @result = true
           @msg = "success"
+          if !AdvertiseCpxLog.where('user_id = ? and ad_id = ? and act = 3', params[:user_id].to_i, params[:ad_id].to_i).present?
           if params[:act].to_i==3
             adInfo.update_attributes(:remain => adInfo.remain - 1)
 
@@ -737,11 +737,11 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
               process_point_general
             end #reward/point process
           end #if act=3
-          end #if log save success
         else
           @status = false
           @msg = "failed to save"
         end #exist act=3 log
+          end #if log save success
       end #check ad and user
     end #parameter check
   end
