@@ -588,7 +588,7 @@ class Api::StudiesController < ApplicationController
     @status = true
     @msg = ""
     @test = []
-    word = Word.order("rand()").limit(100).pluck(:name, :mean).uniq
+    word = Word.order("rand()").pluck(:name, :mean).uniq.last(100)
     (0..99).each do |i|
       begin
         ex1 = word[rand(0..99)][1]
