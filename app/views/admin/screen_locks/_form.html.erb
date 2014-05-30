@@ -33,27 +33,12 @@
       </label>
     </div>
   </div>
-  <div class="control-group cpd" style="<% if f.object.link != 1 %> display:none; <% end %>">
-    <label class="control-label">CPD List</label>
+  <div class="control-group ad_list" style="<% if f.object.link == 0 %> display:none; <% end %>">
+    <label class="control-label">AD List</label>
     <div class="controls">
-      <label><%= f.select :linked_id, @cpd_arr %></label>
+      <label><%= f.select :linked_id, if f.object.link == 1 then @cpd_arr elsif f.object.link == 2 then @cpdm_arr else @cpx_arr end %></label>
     </div>
   </div>
-    <% @tmp=f.object.linked_id if f.object.link==1%>
-  <div class="control-group cpdm" style="<% if f.object.link != 2 %> display:none; <% end %>">
-    <label class="control-label">CPDM List</label>
-    <div class="controls">
-      <label><%= f.select :linked_id, @cpdm_arr %></label>
-    </div>
-  </div>
-    <% @tmp=f.object.linked_id if f.object.link==2%>
-  <div class="control-group cpx" style="<% if f.object.link != 3 %> display:none; <% end %>">
-    <label class="control-label">CPX List</label>
-    <div class="controls">
-      <label><%= f.select :linked_id, @cpx_arr %></label>
-    </div>
-  </div>
-  <% f.object.linked_id = @tmp %>
   <div class="control-group">
     <label class="control-label">client</label>
     <div class="controls">
@@ -100,13 +85,13 @@
     <div class="controls">
       <table>
         <tr>
-          ad_type&nbsp;<select name='ad_type' <% if @screen_lock.present? && @screen_lock.ad_type.present? %> value='<%=@screen_lock.ad_type%>'<%end%>>
-            <option value=306>CPC</option>
-            <option value=305>CPS</option>
-            <option value=304>CPE</option>
-            <option value=303>CPA</option>
-            <option value=302>CPL</option>
-            <option value=301>CPI</option>
+          ad_type&nbsp;<select name='ad_type' >
+            <option value=306 <% if @screen_lock.present? && @screen_lock.ad_type.present? && @screen_lock.ad_type==306 %> selected="selected" <% end %>>CPC</option>
+            <option value=305 <% if @screen_lock.present? && @screen_lock.ad_type.present? && @screen_lock.ad_type==305 %> selected="selected" <% end %>>CPS</option>
+            <option value=304 <% if @screen_lock.present? && @screen_lock.ad_type.present? && @screen_lock.ad_type==304 %> selected="selected" <% end %>>CPE</option>
+            <option value=303 <% if @screen_lock.present? && @screen_lock.ad_type.present? && @screen_lock.ad_type==303 %> selected="selected" <% end %>>CPA</option>
+            <option value=302 <% if @screen_lock.present? && @screen_lock.ad_type.present? && @screen_lock.ad_type==302 %> selected="selected" <% end %>>CPL</option>
+            <option value=301 <% if @screen_lock.present? && @screen_lock.ad_type.present? && @screen_lock.ad_type==301 %> selected="selected" <% end %>>CPI</option>
             <option value=400 <% if @screen_lock.present? && @screen_lock.ad_type.present? && @screen_lock.ad_type==400 %> selected="selected" <% end %>>WORD TEST</option>
           </select>
         </tr>

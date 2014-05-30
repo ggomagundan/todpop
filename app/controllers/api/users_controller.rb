@@ -38,6 +38,7 @@ class Api::UsersController < ApplicationController
     invalue = invalue + " / " + "android_ver="       + params[:android_version]       if params[:android_version].present?
     invalue = invalue + " / " + "operator="       + params[:operator]       if params[:operator].present?
     invalue = invalue + " / " + "region="       + params[:operator_region]       if params[:operator_region].present?
+    invalue = invalue + " / " + "device_id="       + params[:device_id]       if params[:device_id].present?
     log.invalue = invalue
     log.save 
     # --------
@@ -125,6 +126,7 @@ class Api::UsersController < ApplicationController
         @user.screen_lock=1
         @user.android_ver=params[:android_version] if params[:android_version].present?
         @user.region=params[:operator_region] if params[:operator_region].present?
+        @user.device_id=params[:device_id] if params[:device_id].present?
 
         # Create User's Database
         
