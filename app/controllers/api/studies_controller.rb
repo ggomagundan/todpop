@@ -508,12 +508,15 @@ class Api::StudiesController < ApplicationController
       #end
 
       # user_test_history log
+=begin
       cnt = UserTestHistory.where(:user_id => user_id, :category => category, :level => level, :stage => stage).last.test_count
       if cnt == nil
         cnt = UserTestHistory.where(:user_id => user_id, :category => category, :level => level, :stage => stage).count
       else
         cnt += 1
       end
+=end
+      cnt=0
       UserTestHistory.create(:user_id => user_id, :category => category, :level => level, :stage => stage, :n_medals => @medal, :score => @score, :reward => @reward, :rank_point => @rank_point, :test_count => cnt)
 
       # INPUT => User_Stage_Info
