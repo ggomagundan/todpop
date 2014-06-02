@@ -108,7 +108,7 @@ class Api::EtcController < ApplicationController
 
       if params[:coupon_type].to_i == 0
 
-        @coupons=MyCoupon.where('user_id = ? and coupon_type = ?', params[:id] ,params[:coupon_type]).order("created_at DESC")
+        @coupons=MyCoupon.where('user_id = ? and coupon_type = ?', params[:id] ,params[:coupon_type]).order("coupon_id")
         if @coupons.present?
           @product=[]
           chk=1
