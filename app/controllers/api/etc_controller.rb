@@ -146,7 +146,7 @@ class Api::EtcController < ApplicationController
 
             end
 
-            @product.push(tmp_hash)
+            @product.push(tmp_hash) if q.valid_start <= Date.today && q.valid_end >= Date.today
           end
         end
 
