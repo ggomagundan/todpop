@@ -514,7 +514,7 @@ class Api::StudiesController < ApplicationController
       if !cnt_log.present?
         cnt = 1
       elsif cnt_log.present? and cnt_log.test_count == nil
-        cnt = UserTestHistory.where(:user_id => user_id, :category => category, :level => level, :stage => stage).count
+        cnt = UserTestHistory.where(:user_id => user_id, :category => category, :level => level, :stage => stage).count + 1
       elsif cnt_log.present? and cnt_log.test_count != nil
         cnt = cnt_log.test_count + 1
       end
