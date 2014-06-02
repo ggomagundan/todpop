@@ -148,7 +148,7 @@ class Api::EtcController < ApplicationController
             end
 
             @product.push(tmp_hash) if q.valid_start <= Date.today && q.valid_end >= Date.today && chk==1
-            if p.coupon_id == 1 || p.coupon_id == 2 || p.coupon_id == 3 || p.coupon_id ==4 then chk = 0 end
+            #if p.coupon_id == 1 || p.coupon_id == 2 || p.coupon_id == 3 || p.coupon_id ==4 then chk = 0 end
           end
         end
 
