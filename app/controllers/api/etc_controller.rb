@@ -111,6 +111,7 @@ class Api::EtcController < ApplicationController
         @coupons=MyCoupon.where('user_id = ? and coupon_type = ?', params[:id] ,params[:coupon_type]).order("created_at DESC")
         if @coupons.present?
           @product=[]
+          chk=1
           @coupons.each do |p|
             tmp_hash = {}
             tmp_hash[:order_id] = p.coupon_id
@@ -146,7 +147,8 @@ class Api::EtcController < ApplicationController
 
             end
 
-            @product.push(tmp_hash) if q.valid_start <= Date.today && q.valid_end >= Date.today
+            @product.push(tmp_hash) if q.valid_start <= Date.today && q.valid_end >= Date.today && chk==1
+            if p.coupon_id == 1 || p.coupon_id == 2 || p.coupon_id == 3 || p.coupon_id ==4 then chk = 0 end
           end
         end
 
