@@ -99,13 +99,14 @@ class Api::ScreenLockController < ApplicationController
       ad_log.ad_type = params[:ad_type]
       ad_log.act = 2
       ad_log.act=1 if AdvertiseLockLog.where('user_id = ? and ad_id = ? and act = 1', params[:user_id], params[:ad_id]).count==0
-      
+      act = ad_log.act
+
       if ad_log.save
         ad_remain = LockAdvertisement.find(params[:ad_id])
         ad_remain.update_attributes(:remain => ad_remain.remain-1)
         @result = true
         
-        if ad_log.act == 1
+        if act == 1
           @token_user_id = params[:user_id]
           @token_reward = ad_remain.reward
           @token_point = ad_remain.point
