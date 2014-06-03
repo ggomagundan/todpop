@@ -151,7 +151,8 @@ class Api::ScreenLockController < ApplicationController
     @msg = ""
     @list = []
 
-    ad = LockAdvertisement.where(:group => 413).last
+    tmp = LockAdvertisement.where(:group => 413)
+        ad = tmp.where('start_date <= ? and end_date >= ?', Date.today, Date.today).order("priority").first
         if ad.present?
           @list.push(:group => 413, :ad_id => ad.id, :ad_type => ad.ad_type, :ad_image => ad.ad_image_url, :target_url => ad.target_url,
                      :reward => ad.reward, :point => ad.point)
