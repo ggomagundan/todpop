@@ -38,14 +38,14 @@ namespace :db do
     #ActiveRecord::Base.connection.execute("TRUNCATE ranking_temp_mon_ds")
 
     #current_rank = RankingCurrent.all
-    (0..1).each do |k|
-      if k==0
+    #(0..1).each do |k|
+    #  if k==0
         period_ = "week_"
         period = "Week"
-      elsif k==1
-        period_ = "mon_"
-        period = "Mon"
-      end
+    #  elsif k==1
+    #    period_ = "mon_"
+    #    period = "Mon"
+    #  end
     
       (1..4).each do |j|
         category = period_ + j.to_s + " DESC"
@@ -88,7 +88,7 @@ namespace :db do
           #end
         end
       end
-    end
+    #end
   end
 
   task :mp3 => :environment do
