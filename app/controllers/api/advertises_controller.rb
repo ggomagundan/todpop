@@ -718,7 +718,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
         if adLog.save
           @result = true
           @msg = "success"
-          if !AdvertiseCpxLog.where('user_id = ? and ad_id = ? and act = 3', params[:user_id].to_i, params[:ad_id].to_i).present?
+          if AdvertiseCpxLog.where('user_id = ? and ad_id = ? and act = 3', params[:user_id].to_i, params[:ad_id].to_i).count==1
           if params[:act].to_i==3
             adInfo.update_attributes(:remain => adInfo.remain - 1)
 
