@@ -115,7 +115,7 @@ class Api::ScreenLockController < ApplicationController
             @token_title = "Lock Screen"
             process_reward_general
           elsif @token_point.present? && @token_point > 0
-            @token_name = "LockScreen : " + ad_remain.id.to_s + " : " + adInfo.ad_name
+            @token_name = "LockScreen : " + ad_remain.id.to_s + " : " + ad_remain.ad_name
             @token_point_type = 6000 + ad_remain.ad_type               # point_type : LockScreen = 6000 + ad_type
             process_point_general
           end
