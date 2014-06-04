@@ -641,8 +641,10 @@ class Api::StudiesController < ApplicationController
           @score += (c.to_f)*(1.1)**(c.to_f)/8
         end
       end
-      @last_point = params[:high_score].to_i
-      @current_point = @score.to_i
+      #@last_point = params[:high_score].to_i
+      #@current_point = @score.to_i
+      @last_point = 0
+      @current_point = 0
 
       log = WeeklyChallengeLog.new
       log.user_id = params[:user_id]
