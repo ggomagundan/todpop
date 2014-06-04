@@ -124,6 +124,7 @@ Todpop::Application.routes.draw do
       get 'get_stage_info', :on => :collection
       get 'voice', :on => :collection
       get 'weekly_challenge', :on => :collection
+      get 'weekly_challenge_result', :on => :collection
     end
     
     resources :prizes do

@@ -608,5 +608,58 @@ class Api::StudiesController < ApplicationController
       end while word[i][1] == ex1 or word[i][1] == ex2 or word[i][1] == ex3 or ex1 == ex2 or ex1 == ex3 or ex2 == ex3
       @test.push(:word => word[i][0], :mean => word[i][1], :incorrect1 => ex1, :incorrect2 => ex2, :incorrect3 => ex3)
     end
+    if !params[:user_id].present?
+      @status = false
+      @msg = "not exist user_id"
+    else
+      @high_score = WeeklyChallengeLog.where('user_id = ? and created_at >= ?', params[:user_id], Date.today.beginning_of_week).pluck(:score).max
+      @high_score = 0 if !@high_score.present?
+    end
+  end
+
+  def weekly_challenge_result
+    @status = true
+    @msg = ""
+
+    if !params[:user_id].present?
+      @msg = "not exist user_id"
+      @status = false
+    elsif !params[:result].present?
+      @msg = "not exist mobile"
+      @status = false
+    elsif !params[:combo].present?
+      @msg = "not exist combo"
+      @status = false
+    elsif !params[:high_score].present?
+      @msg = "not exist high score"
+      @status = false
+    else
+      @score = params[:result].to_f
+      combo_arr = params[:combo].split("-")
+      if combo_arr.present?
+        combo_arr.each do |c|
+          @score += (c.to_f)*(1.1)**(c.to_f)/8
+        end
+      end
+
+      log = WeeklyChallengeLog.new
+      log.user_id = params[:user_id]
+      log.combo = params[:combo]
+      log.result = params[:result]
+      log.score = @score.to_i*10  #cause score type is integer
+      if log.save
+        @msg = "Success"
+        if params[:high_score].to_f < @score
+          @token_user_id = params[:user_id]
+          @token_point = @score.to_i
+          @token_name = "#{Date.today.beginning_of_week}'s weekly challenge"
+          @token_point_type = 7000  # weekly challenge = 7000
+          #process_point_general
+        end
+      else
+        @msg = "log save failed"
+        @status = false
+      end
+    end
   end
 end
