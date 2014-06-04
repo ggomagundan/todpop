@@ -621,7 +621,9 @@ class Api::UsersController < ApplicationController
                            :is_set_facebook_password => @user.is_set_facebook_password,
                            :daily_test_count => @user.daily_test_count, :current_reward => @user.current_reward,
                            :total_reward => @user.total_reward, :is_admin => @user.is_admin,
-                           :last_test => @user.last_test).save
+                           :last_test => @user.last_test, :screen_lock => @user.screen_lock, :region => @user.region,
+                                 :device => @user.device, :android_ver => @user.android_ver, :operator => @user.operator,
+                                 :device_id => @user.device_id).save
                            # skipped : password_digest, created_at, updated_at
 
       if job_copy
