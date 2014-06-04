@@ -641,6 +641,8 @@ class Api::StudiesController < ApplicationController
           @score += (c.to_f)*(1.1)**(c.to_f)/8
         end
       end
+      @last_point = params[:high_score].to_i
+      @current_point = @score.to_i
 
       log = WeeklyChallengeLog.new
       log.user_id = params[:user_id]
@@ -651,7 +653,7 @@ class Api::StudiesController < ApplicationController
         @msg = "Success"
         if params[:high_score].to_f < @score
           @token_user_id = params[:user_id]
-          @token_point = @score.to_i
+          @token_point = @current_point
           @token_name = "#{Date.today.beginning_of_week}'s weekly challenge"
           @token_point_type = 7000  # weekly challenge = 7000
           #process_point_general
