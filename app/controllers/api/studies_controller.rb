@@ -655,7 +655,7 @@ class Api::StudiesController < ApplicationController
         @msg = "Success"
           @last_point = params[:high_score].to_i/10
         if params[:high_score].to_i < @score
-          @current_point = @score.to_i
+          @current_point = @score.to_i/10
 
           @token_user_id = params[:user_id]
           @token_point = @current_point - @last_point
