@@ -643,22 +643,27 @@ class Api::StudiesController < ApplicationController
       end
       #@last_point = params[:high_score].to_i
       #@current_point = @score.to_i
-      @last_point = 0
-      @current_point = 0
 
+      @score = (@score*10).to_i
+      
       log = WeeklyChallengeLog.new
       log.user_id = params[:user_id]
       log.combo = params[:combo]
       log.result = params[:result]
-      log.score = @score.to_i*10  #cause score type is integer
+      log.score = @score
       if log.save
         @msg = "Success"
-        if params[:high_score].to_f < @score
+          @last_point = params[:high_score]/10
+        if params[:high_score].to_i < @score
+          @current_point = @score.to_i
+
           @token_user_id = params[:user_id]
-          @token_point = @current_point
+          @token_point = @current_point - @last_point
           @token_name = "#{Date.today.beginning_of_week}'s weekly challenge"
           @token_point_type = 7000  # weekly challenge = 7000
           #process_point_general
+        else
+          @current_point = @last_point
         end
       else
         @msg = "log save failed"
