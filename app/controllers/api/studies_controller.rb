@@ -260,6 +260,19 @@ class Api::StudiesController < ApplicationController
         @score = (result.to_f / exam_count *100).to_i
         @rank_point = result.to_f / exam_count * 24
 
+      elsif (stage == 3 || stage == 6 || stage == 9) && params[:combo].present?
+        @score = result.to_f
+        combo = params[:combo].split("-")
+        combo.each do |c|
+          @score += (1.1)**(c.to_i-1) if c.to_i>0
+        end
+        if @score > 32
+          @rank_point = 16
+        else
+          @rank_point = (@score/2).to_i
+        end
+        @score = (@score/32*100).to_i
+
       elsif stage >= 1 && stage < 10
 
         fast = 0
