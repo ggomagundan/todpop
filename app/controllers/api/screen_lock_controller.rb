@@ -206,10 +206,10 @@ class Api::ScreenLockController < ApplicationController
       ad = LockAdvertisement.where('id = ?', params[:ad_id]).first
       if ad.present?
         @msg = "part-#{ad.target_url} of #{ad.ad_name}"
-        words = ExamWords.where('title = ? and part = ?', ad.ad_name, ad.target_url).order("rand()").pluck(:word, :mean)
+        words = ExamWords.where('title = ? and part = ?', ad.ad_name, ad.target_url).order("rand()").limit(50).pluck(:word, :mean, :q_no)
 
         words.each do |w|
-          @list.push(:word => w[0], :mean => w[1])
+          @list.push(:word => w[0], :mean => w[1], :q_no => w[2])
         end
 
         @count = words.count
