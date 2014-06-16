@@ -625,7 +625,7 @@ class Api::StudiesController < ApplicationController
       @status = false
       @msg = "not exist user_id"
     else
-      @high_score = WeeklyChallengeLog.where('user_id = ? and created_at >= ?', params[:user_id], Date.today.beginning_of_week).pluck(:score).max
+      @high_score = WeeklyChallengeLog.where('user_id = ? and created_at >= ?', params[:user_id], Date.today.beginning_of_week - 9.hour).pluck(:score).max
       @high_score = 0 if !@high_score.present?
     end
   end
