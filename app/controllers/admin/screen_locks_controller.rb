@@ -42,6 +42,7 @@ class Admin::ScreenLocksController < Admin::ApplicationController
     @cpd_arr = []
     @cpdm_arr = []
     @cpx_arr = []
+    @tmp = 0
     client_all = Client.all
     for i in 1..client_all.size
       client_str = "Cor Name : " + client_all[i-1].cor_name.to_s + " | Name : " + client_all[i-1].name.to_s
@@ -80,10 +81,10 @@ class Admin::ScreenLocksController < Admin::ApplicationController
       @client_arr.push([].push(client_str, client_all[i-1].id))
     end
 
-    ad_all = CpdAdvertisement.all.pluck(:ad_name, :ad_type, :id)
+    ad_all = CpdAdvertisement.all
     for i in 1..ad_all.size
-      ad_str = "Name : " + ad_all[i-1][0].to_s + " | Type : " + ad_all[i-1][1].to_s
-      @cpd_arr.push([].push(ad_str, ad_all[i-1][2]))
+      ad_str = "Name : " + ad_all[i-1].ad_name.to_s + " | Type : " + ad_all[i-1].ad_type.to_s
+      @cpd_arr.push([].push(ad_str, ad_all[i-1].id))
     end
 
     ad_all = CpdmAdvertisement.all.pluck(:ad_name, :ad_type, :id)
@@ -161,6 +162,6 @@ class Admin::ScreenLocksController < Admin::ApplicationController
   private
     # Never trust parameters from the scary internet, only allow the white list through.
     def lock_params
-      params.require(:lock_advertisement).permit(:ad_name, :link, :linked_id, :cli_id, :group, :reward, :point, :ad_image, :start_date, :end_date, :priority)
+      params.require(:lock_advertisement).permit(:ad_name, :link, :linked_id, :cli_id, :group, :reward, :point, :ad_image, :reserve_image, :start_date, :end_date, :priority)
     end
 end

@@ -33,6 +33,7 @@ class LockAdvertisement < ActiveRecord::Base
   }
   
   mount_uploader :ad_image, ImageUploader
+  mount_uploader :reserve_image, ImageUploader
   
   def ad_kind
     return LockAdvertisement::AD_TYPE.key(self.ad_type)
