@@ -693,10 +693,16 @@ class Api::StudiesController < ApplicationController
       @status = false
       @msg = "not exist word parameter"
     else
-      tmp = Word.all.uniq(:name).order(:name).pluck(:id,:name,:mean)
+      if params[:word].ord>=65 and params[:word].ord<=122
+        tmp = Word.all.uniq(:name).order(:name).pluck(:id,:name,:mean)
+        j=1 #ENG
+      else
+        tmp = Word.all.uniq(:mean).order(:mean).pluck(:id,:name,:mean)
+        j=2 #KOR
+      end
       @words=[]
       (0..tmp.count-1).each do |i|
-        if tmp[i][1].include?(params[:word])
+        if tmp[i][j].include?(params[:word])
           @words.push(:id=>tmp[i][0], :name=>tmp[i][1], :mean=>tmp[i][2])
         end
       end
