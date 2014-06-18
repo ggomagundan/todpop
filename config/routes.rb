@@ -125,6 +125,7 @@ Todpop::Application.routes.draw do
       get 'voice', :on => :collection
       get 'weekly_challenge', :on => :collection
       get 'weekly_challenge_result', :on => :collection
+      get 'search_word', :on => :collection
     end
     
     resources :prizes do

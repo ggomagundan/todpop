@@ -684,4 +684,22 @@ class Api::StudiesController < ApplicationController
       end
     end
   end
+
+  def search_word
+    @status = true
+    @msg = ""
+
+    if !params[:word].present?
+      @status = false
+      @msg = "not exist word parameter"
+    else
+      tmp = Word.all.uniq(:name).order(:name).pluck(:id,:name,:mean)
+      @words=[]
+      (0..tmp.count-1).each do |i|
+        if tmp[i][1].include?(params[:word])
+          @words.push(:id=>tmp[i][0], :name=>tmp[i][1], :mean=>tmp[i][2])
+        end
+      end
+    end
+  end
 end
