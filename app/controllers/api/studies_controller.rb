@@ -271,7 +271,7 @@ class Api::StudiesController < ApplicationController
         else
           @rank_point = (@score/2).to_i
         end
-        @score = (@score/32*100).to_i
+        @score = (@score/22*100).to_i
 
       elsif stage >= 1 && stage < 10
 
