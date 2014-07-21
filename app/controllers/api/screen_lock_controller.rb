@@ -3,7 +3,20 @@ class Api::ScreenLockController < ApplicationController
     @status = true
     @msg = true
 
-    if !params[:user_id].present?
+    if params[:pro].present? && params[:pro].to_i == 1
+      if params[:category].to_i == 0
+        word_id = WordLevel.order("rand()").pluck(:word_id).uniq[0..9]
+      elsif params[:category].to_i == 1
+        word_id = WordLevel.where('level < ?', 16).order("rand()").pluck(:word_id).uniq[0..9]
+      elsif params[:category].to_i == 2
+        word_id = WordLevel.where('level > ? and level < ?', 15, 61).order("rand()").pluck(:word_id).uniq[0..9]
+      elsif params[:category].to_i == 3
+        word_id = WordLevel.where('level > ? and level < ?', 60, 121).order("rand()").pluck(:word_id).uniq[0..9]
+      elsif params[:category].to_i == 4
+        word_id = WordLevel.where('level > ?', 120).order("rand()").pluck(:word_id).uniq[0..9]
+      end
+      @word = Word.where('id in (?)', word_id).order("rand()").pluck(:name, :mean)
+    elsif !params[:user_id].present?
       @status = false
       @msg = "Need User_ID"
     else
