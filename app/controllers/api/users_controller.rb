@@ -67,6 +67,7 @@ class Api::UsersController < ApplicationController
       elsif User.where(:nickname => params[:nickname]).present?
         @status = false
         @msg = "nickname duplicate"
+=begin
       elsif !params[:mobile].present?
         @status = false
         @msg = "not exist mobile"
@@ -75,6 +76,7 @@ class Api::UsersController < ApplicationController
         @status = false
         @msg = "mobile duplicate"
         @code=72
+=end
       end
     end
 
@@ -188,8 +190,8 @@ class Api::UsersController < ApplicationController
       # Reward & Point DEFINITIOM !!!! --------------------  <-- Change here !!!!
       old_user_reward = 0;
       new_user_reward = 0;
-      old_user_point = 0;			# temporary 2014/01/16
-      new_user_point = 0;			# temporary 2014/01/16
+      old_user_point = 10;			# temporary 2014/01/16
+      new_user_point = 20;			# temporary 2014/01/16
  
       # reward process
       if old_user_reward > 0
@@ -219,7 +221,23 @@ class Api::UsersController < ApplicationController
         old_user = User.find_by_nickname(params[:recommend])
         if old_user.present?
           @token_user_id = old_user.id
-          @token_point_type = 3100
+          r = RankingCurrent.where('id = ?', old_user.id).pluck(:week_1,:week_2,:week_3,:week_4)
+          rank=0
+          cate=1
+          tmp = 0
+          r[0].each do |i|
+            if tmp != 0 && i > tmp
+              rank = cate
+            else
+              tmp=i
+            end
+            cate += 1
+          end
+          if rank != 0
+            @token_point_type = (1000 + rank)
+          else
+            @token_point_type = 3100
+          end
           @token_name = "추천인 보너스 : 기존유저"
           @token_point = old_user_point
           process_point_general
@@ -356,7 +374,6 @@ class Api::UsersController < ApplicationController
         @msg = "not exist mobile"
       end
     end
-    
 
   end
   
