@@ -14,6 +14,7 @@ class Api::AppInfosController < ApplicationController
       @img_url = ""
       @img_width = ""
       @img_height = ""
+      @btn_text = CacaoMent.last.btn_text
       @market_url = AppInfoPro.last.market_url
       @apk = AppInfoPro.last.android_package_name
       @android_version = AppInfoPro.last.android_version
