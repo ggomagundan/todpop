@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 Todpop::Application.routes.draw do
+  get "admin/lovecroatia/reservation" => "admin/lovecroatia#reservation"
   get "private" => "admin/private#index"
   namespace(:api){ 
     resources :qpcon_coupons do 

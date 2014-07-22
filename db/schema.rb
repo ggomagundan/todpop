@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140507074027) do
+ActiveRecord::Schema.define(version: 20140721091926) do
 
   create_table "addresses", force: true do |t|
     t.string   "depth1"
@@ -57,9 +57,18 @@ ActiveRecord::Schema.define(version: 20140507074027) do
 
   create_table "advertise_lock_logs", force: true do |t|
     t.integer  "ad_id"
+    t.integer  "group"
     t.integer  "ad_type"
     t.integer  "user_id"
     t.integer  "act"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "app_info_pros", force: true do |t|
+    t.string   "android_version"
+    t.string   "android_package_name"
+    t.string   "market_url"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -100,7 +109,21 @@ ActiveRecord::Schema.define(version: 20140507074027) do
     t.datetime "updated_at"
   end
 
+  create_table "board_help_pros", force: true do |t|
+    t.string   "title"
+    t.text     "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "board_helps", force: true do |t|
+    t.string   "title"
+    t.text     "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "board_notice_pros", force: true do |t|
     t.string   "title"
     t.text     "content"
     t.datetime "created_at"
@@ -229,6 +252,26 @@ ActiveRecord::Schema.define(version: 20140507074027) do
     t.datetime "updated_at"
   end
 
+  create_table "exam_words", force: true do |t|
+    t.integer  "exam_no"
+    t.string   "title"
+    t.integer  "part"
+    t.string   "word"
+    t.string   "mean"
+    t.string   "q_no"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "exam_words_logs", force: true do |t|
+    t.integer  "exam_no"
+    t.integer  "part"
+    t.integer  "user_id"
+    t.integer  "score"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "inactive_users", force: true do |t|
     t.string   "email"
     t.string   "facebook"
@@ -249,11 +292,20 @@ ActiveRecord::Schema.define(version: 20140507074027) do
     t.datetime "last_test"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "screen_lock"
+    t.string   "region"
+    t.string   "device"
+    t.string   "android_ver"
+    t.string   "operator"
+    t.string   "device_id"
   end
 
   create_table "lock_advertisements", force: true do |t|
     t.string   "ad_name"
+    t.integer  "link",             default: 0
+    t.integer  "linked_id"
     t.integer  "cli_id",           default: 1
+    t.integer  "group"
     t.integer  "ad_type"
     t.integer  "contract",         default: 0
     t.integer  "remain",           default: 0
@@ -264,6 +316,7 @@ ActiveRecord::Schema.define(version: 20140507074027) do
     t.integer  "pay_type",         default: 1
     t.string   "target_url"
     t.string   "ad_image"
+    t.string   "reserve_image"
     t.date     "start_date"
     t.date     "end_date"
     t.integer  "priority",         default: 4
@@ -569,6 +622,7 @@ ActiveRecord::Schema.define(version: 20140507074027) do
     t.integer  "score"
     t.integer  "reward"
     t.integer  "rank_point"
+    t.integer  "test_count"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -594,6 +648,21 @@ ActiveRecord::Schema.define(version: 20140507074027) do
     t.integer  "total_reward",             default: 0
     t.integer  "is_admin",                 default: 0
     t.datetime "last_test"
+    t.boolean  "screen_lock"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "region"
+    t.string   "device"
+    t.string   "android_ver"
+    t.string   "operator"
+    t.string   "device_id"
+  end
+
+  create_table "weekly_challenge_logs", force: true do |t|
+    t.integer  "user_id"
+    t.string   "combo"
+    t.integer  "result"
+    t.integer  "score"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
