@@ -619,7 +619,11 @@ class Api::StudiesController < ApplicationController
         ex2 = word[rand(0..99)][1]
         ex3 = word[rand(0..99)][1]
       end while word[i][1] == ex1 or word[i][1] == ex2 or word[i][1] == ex3 or ex1 == ex2 or ex1 == ex3 or ex2 == ex3
-      @test.push(:word => word[i][0], :mean => word[i][1], :incorrect1 => ex1, :incorrect2 => ex2, :incorrect3 => ex3)
+      if !params[:pro].present?
+        @test.push(:word => word[i][0], :mean => word[i][1], :incorrect1 => ex1, :incorrect2 => ex2, :incorrect3 => ex3)
+      else
+        @test.push(:word => word[i][0], :mean => word[i][1], :incorrect1 => ex1)
+      end
     end
     if !params[:user_id].present? && !params[:pro].present?
       @status = false
