@@ -621,10 +621,10 @@ class Api::StudiesController < ApplicationController
       end while word[i][1] == ex1 or word[i][1] == ex2 or word[i][1] == ex3 or ex1 == ex2 or ex1 == ex3 or ex2 == ex3
       @test.push(:word => word[i][0], :mean => word[i][1], :incorrect1 => ex1, :incorrect2 => ex2, :incorrect3 => ex3)
     end
-    if !params[:user_id].present?
+    if !params[:user_id].present? && !params[:pro].present?
       @status = false
       @msg = "not exist user_id"
-    else
+    elsif params[:user_id].present?
       @high_score = WeeklyChallengeLog.where('user_id = ? and created_at >= ?', params[:user_id], Date.today.beginning_of_week-0.hour).pluck(:score).max
       @high_score = 0 if !@high_score.present?
     end
