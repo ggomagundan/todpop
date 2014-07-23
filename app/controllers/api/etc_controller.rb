@@ -581,7 +581,10 @@ class Api::EtcController < ApplicationController
     @status = true
     @msg = ""
 
-    if !AppInfo.last.android_version.present?
+    if params[:pro].present?
+      @android_version = AppInfoPro.last.android_version
+      @major_version = AppInfoPro.last.major_version
+    elsif !AppInfo.last.android_version.present?
       @status = false
       @msg = "not exist android_version"
     #elsif !MentList.find_by_kind("notice").present?
