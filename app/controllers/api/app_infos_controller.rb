@@ -11,9 +11,9 @@ class Api::AppInfosController < ApplicationController
   def get_cacao_msg
     if params[:pro].present? && params[:pro].to_i == 1
       @ment = CacaoMent.last.ment
-      @img_url = ""
-      @img_width = ""
-      @img_height = ""
+      @img_url = "http://www.todpop.co.kr/uploads/images/cacao_launching_event.png"
+      @img_width = "540"
+      @img_height = "470"
       @btn_text = CacaoMent.last.btn_text
       @market_url = AppInfoPro.last.market_url
       @apk = AppInfoPro.last.android_package_name
