@@ -332,6 +332,7 @@ class Api::AdvertisesController < ApplicationController#< Api::ApplicationContro
           @description = ad.description
           @link = ad.link
           @picture = ad.picture
+          @skip = ad.skip
         end
 
       

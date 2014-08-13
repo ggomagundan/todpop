@@ -19,6 +19,7 @@ if @status == true
     json.description  @description
     json.link         @link
     json.picture      @picture
+    json.skip         @skip
   end
   else
     json.ad_list  @ad_list
