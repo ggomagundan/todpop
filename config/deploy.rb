@@ -11,6 +11,7 @@ set :repository, "https://github.com/ggomagundan/todpop.git"
 #set :repository,  "git://198.211.117.25/projects/salty.git"
 set :user, "deployer"
 set :password, "Xhemvkq4321"
+set :keep_releases, 5
 set :deploy_to, "/todpop/todpop_app"
 set :scm, "git"
 set :branch, "master"
